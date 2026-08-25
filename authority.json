@@ -1,80 +1,247 @@
 {
   "$schema": "https://5thelement.ai/schemas/authority.json",
-  "version": "1.0",
+  "version": "1.1",
   "generated": "2026-08-25",
-  "note": "External presence. Listed because it is publicly verifiable, not as a claim of ranking or reputation.",
+
+  "service": {
+    "name": "3webs",
+    "domain": "https://3webobs.com/",
+    "operator": "AIVENTURE S.R.L."
+  },
+
+  "purpose": "Provides externally verifiable identity references, public profiles and declared owned properties that may help resolve the entity behind 3webs. Inclusion is not a claim of ranking, reputation, endorsement or certification.",
+
+  "interpretation": {
+    "external_reference_is_endorsement": false,
+    "profile_presence_is_reputation_proof": false,
+    "owned_property_is_independent_authority": false,
+    "statement": "Authority evidence must distinguish independent external evidence from self-declared or operator-controlled evidence."
+  },
+
+  "legal_identity": {
+    "legal_name": "AIVENTURE S.R.L.",
+    "jurisdiction": "Romania, European Union",
+
+    "identifiers": [
+      {
+        "scheme": "CUI",
+        "value": "51415878",
+        "authority": "ANAF, Romania"
+      },
+      {
+        "scheme": "Trade Register registration number",
+        "value": "J2025016406000",
+        "authority": "ONRC, Romania"
+      },
+      {
+        "scheme": "EUID",
+        "value": "ROONRC.J2025016406000",
+        "authority": "Business Registers Interconnection System (BRIS)"
+      },
+      {
+        "scheme": "CAEN",
+        "value": "6210",
+        "authority": "Romanian activity classification",
+        "label": "Custom software development"
+      }
+    ]
+  },
+
   "legal_registers": [
     {
-      "name": "Registrul Comerțului (ONRC)",
+      "name": "National Trade Register Office",
+      "short_name": "ONRC",
+      "country": "RO",
       "identifier": "J2025016406000",
-      "country": "RO"
+      "entity": "AIVENTURE S.R.L.",
+      "evidence_type": "official_register"
     },
     {
-      "name": "EU Business Registers (BRIS)",
+      "name": "Business Registers Interconnection System",
+      "short_name": "BRIS",
+      "country": "EU",
       "identifier": "ROONRC.J2025016406000",
-      "country": "EU"
+      "entity": "AIVENTURE S.R.L.",
+      "evidence_type": "official_register"
     },
     {
-      "name": "ANAF",
+      "name": "National Agency for Fiscal Administration",
+      "short_name": "ANAF",
+      "country": "RO",
       "identifier": "51415878",
-      "country": "RO"
+      "entity": "AIVENTURE S.R.L.",
+      "evidence_type": "official_register"
     }
   ],
-  "verified_profiles": [
+
+  "external_profiles": [
     {
-      "platform": "LinkedIn (company)",
-      "url": "https://www.linkedin.com/company/107338970"
+      "platform": "LinkedIn",
+      "profile_type": "company",
+      "entity": "AIVENTURE S.R.L.",
+      "url": "https://www.linkedin.com/company/107338970",
+      "evidence_type": "third_party_profile"
     },
     {
-      "platform": "LinkedIn (showcase)",
-      "url": "https://www.linkedin.com/showcase/5thelement-ai/"
+      "platform": "LinkedIn",
+      "profile_type": "showcase",
+      "entity": "5thElement.ai",
+      "url": "https://www.linkedin.com/showcase/5thelement-ai/",
+      "evidence_type": "third_party_profile"
     },
     {
-      "platform": "LinkedIn (founder)",
-      "url": "https://ro.linkedin.com/in/dan-ionesco-a856082a0"
+      "platform": "LinkedIn",
+      "profile_type": "person",
+      "entity": "Dan Ionesco",
+      "url": "https://ro.linkedin.com/in/dan-ionesco-a856082a0",
+      "evidence_type": "third_party_profile"
     },
     {
       "platform": "Crunchbase",
-      "url": "https://www.crunchbase.com/organization/aiventure-s-r-l"
+      "profile_type": "organization",
+      "entity": "AIVENTURE S.R.L.",
+      "url": "https://www.crunchbase.com/organization/aiventure-s-r-l",
+      "evidence_type": "third_party_profile"
     },
     {
       "platform": "Facebook",
-      "url": "https://www.facebook.com/people/Aiventure/61573220584246/"
+      "profile_type": "organization",
+      "entity": "AiVenture",
+      "url": "https://www.facebook.com/people/Aiventure/61573220584246/",
+      "evidence_type": "third_party_profile"
     },
     {
       "platform": "X",
-      "url": "https://x.com/aipath512"
+      "profile_type": "account",
+      "entity": "Dan Ionesco / AiVenture",
+      "url": "https://x.com/aipath512",
+      "evidence_type": "third_party_profile"
     },
     {
       "platform": "YouTube",
-      "url": "https://www.youtube.com/@AIVenture-q8u"
+      "profile_type": "channel",
+      "entity": "AiVenture",
+      "url": "https://www.youtube.com/@AIVenture-q8u",
+      "evidence_type": "third_party_profile"
     },
     {
       "platform": "Medium",
-      "url": "https://medium.com/@aipath512"
+      "profile_type": "author",
+      "entity": "Dan Ionesco",
+      "url": "https://medium.com/@aipath512",
+      "evidence_type": "third_party_profile"
     }
   ],
+
   "owned_properties": [
     {
+      "domain": "3webobs.com",
+      "url": "https://3webobs.com/",
+      "entity": "3webs",
+      "operator": "AIVENTURE S.R.L.",
+      "role": "observation_node",
+      "evidence_type": "operator_declared"
+    },
+    {
       "domain": "5thelement.ai",
-      "role": "network root and technology flagship"
+      "url": "https://5thelement.ai/",
+      "entity": "5thElement.ai",
+      "operator": "AIVENTURE S.R.L.",
+      "role": "network_root_and_technology_flagship",
+      "evidence_type": "operator_declared"
     },
     {
       "domain": "aiventure.ro",
-      "role": "delivery domain — AiVenture SRL"
-    },
-    {
-      "domain": "3webobs.com",
-      "role": "observation node — this property"
+      "url": "https://aiventure.ro/",
+      "entity": "AiVenture",
+      "operator": "AIVENTURE S.R.L.",
+      "role": "operator_delivery_domain",
+      "evidence_type": "operator_declared"
     },
     {
       "domain": "1clic-ia.eu",
-      "role": "European market"
+      "url": "https://1clic-ia.eu/",
+      "operator": "AIVENTURE S.R.L.",
+      "role": "network_sibling",
+      "evidence_type": "operator_declared"
     }
   ],
+
+  "authority_classes": {
+    "official": {
+      "description": "Evidence originating from an official legal, fiscal or public register.",
+      "examples": [
+        "ONRC",
+        "BRIS",
+        "ANAF"
+      ]
+    },
+
+    "third_party": {
+      "description": "Evidence hosted by a third-party platform. Presence supports entity resolution but does not automatically establish reputation or endorsement.",
+      "examples": [
+        "LinkedIn",
+        "Crunchbase",
+        "Facebook",
+        "X",
+        "YouTube",
+        "Medium"
+      ]
+    },
+
+    "operator_declared": {
+      "description": "Evidence published or controlled by AIVENTURE S.R.L. Useful for identity and network declarations but not independent authority evidence."
+    }
+  },
+
+  "entity_resolution": {
+    "legal_entity": "AIVENTURE S.R.L.",
+    "service_brand": "3webs",
+    "service_domain": "3webobs.com",
+    "founder": "Dan Ionesco",
+    "network": "AiVenture ADI Network",
+    "network_root": "5thelement.ai",
+    "aliases": "https://3webobs.com/aliases.json",
+    "entities": "https://3webobs.com/entities.json"
+  },
+
   "not_claimed": [
-    "Wikipedia or Wikidata entry — none exists at time of writing",
-    "Third-party reviews or ratings — none published",
-    "Industry certifications — none held"
-  ]
+    {
+      "claim": "Wikipedia or Wikidata entry",
+      "status": "not claimed"
+    },
+    {
+      "claim": "Independent industry certification for 3webs",
+      "status": "not claimed"
+    },
+    {
+      "claim": "Third-party rating or review score for 3webs",
+      "status": "not claimed"
+    },
+    {
+      "claim": "Search-engine or AI-system endorsement",
+      "status": "not claimed"
+    },
+    {
+      "claim": "Guaranteed ranking, indexing, citation or recommendation",
+      "status": "not claimed"
+    }
+  ],
+
+  "verification": {
+    "principle": "Verify an authority claim at its originating source whenever possible.",
+    "self_declared_evidence_is_independent": false,
+    "profile_presence_is_endorsement": false,
+    "integrity_manifest": "https://3webobs.com/proof.json",
+    "note": "The 3webs integrity manifest can demonstrate consistency of this authority declaration but does not independently validate the external claims contained in it."
+  },
+
+  "related_resources": {
+    "identity": "https://3webobs.com/ai.json",
+    "entities": "https://3webobs.com/entities.json",
+    "aliases": "https://3webobs.com/aliases.json",
+    "governance": "https://3webobs.com/governance.json",
+    "network": "https://3webobs.com/network.json",
+    "proof": "https://3webobs.com/proof.json"
+  }
 }
