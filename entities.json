@@ -1,7 +1,8 @@
 {
   "$schema": "https://5thelement.ai/schemas/entities.json",
-  "version": "1.0",
+  "version": "1.1",
   "generated": "2026-08-25",
+
   "primary_entity": {
     "id": "https://3webobs.com/#organization",
     "type": [
@@ -9,15 +10,19 @@
       "Corporation"
     ],
     "name": "AIVENTURE S.R.L.",
-    "brand": "3webs",
-    "alternate_names": [
-      "AiVenture",
-      "5thElement.ai"
-    ],
-    "url": "https://3webobs.com/",
+    "url": "https://aiventure.ro/",
+    "jurisdiction": "Romania, European Union",
     "email": "contact@5thelement.ai",
-    "address": "Drumul Pădurea Pustnicu, Nr. 141C, Corp A, Etaj 2, Ap. 5, București, Sectorul 1, Romania",
-    "country": "RO",
+
+    "address": {
+      "type": "PostalAddress",
+      "street_address": "Drumul Pădurea Pustnicu, Nr. 141C, Corp A, Etaj 2, Ap. 5",
+      "address_locality": "București",
+      "address_region": "București",
+      "postal_code": null,
+      "address_country": "RO"
+    },
+
     "identifiers": [
       {
         "scheme": "CUI",
@@ -32,7 +37,7 @@
       {
         "scheme": "EUID",
         "value": "ROONRC.J2025016406000",
-        "authority": "EU Business Registers Interconnection System"
+        "authority": "Business Registers Interconnection System (BRIS)"
       },
       {
         "scheme": "CAEN",
@@ -40,19 +45,33 @@
         "label": "Custom software development"
       }
     ],
+
     "same_as": [
-      "https://5thelement.ai",
-      "https://aiventure.ro",
-      "https://1clic-ia.eu",
+      "https://aiventure.ro/",
       "https://www.linkedin.com/company/107338970",
-      "https://www.linkedin.com/showcase/5thelement-ai/",
       "https://www.crunchbase.com/organization/aiventure-s-r-l",
-      "https://www.facebook.com/people/Aiventure/61573220584246/",
-      "https://x.com/aipath512",
-      "https://www.youtube.com/@AIVenture-q8u",
-      "https://medium.com/@aipath512"
+      "https://www.facebook.com/people/Aiventure/61573220584246/"
     ]
   },
+
+  "brands": [
+    {
+      "id": "https://3webobs.com/#brand",
+      "type": "Brand",
+      "name": "3webs",
+      "alternate_names": [
+        "3 webs",
+        "3webobs",
+        "3web obs",
+        "3webobs.com",
+        "3webs Visibility Engine"
+      ],
+      "url": "https://3webobs.com/",
+      "owner": "https://3webobs.com/#organization",
+      "description": "3webs observes how a public domain appears across the Human Web, AI Web and Machine Web and reports observable evidence."
+    }
+  ],
+
   "people": [
     {
       "id": "https://3webobs.com/#founder",
@@ -70,59 +89,124 @@
       ]
     }
   ],
-  "products": [
+
+  "services": [
     {
       "id": "https://3webobs.com/#service",
       "type": "Service",
-      "name": "AI Visibility Observation",
-      "provider": "https://3webobs.com/#organization"
-    },
-    {
-      "id": "https://3webobs.com/#app",
-      "type": "SoftwareApplication",
-      "name": "3webs Engine",
-      "version": "3.0",
-      "author": "https://3webobs.com/#organization"
+      "name": "3webs Visibility Observation",
+      "alternate_names": [
+        "AI Visibility Observation"
+      ],
+      "url": "https://3webobs.com/",
+      "provider": "https://3webobs.com/#organization",
+      "brand": "https://3webobs.com/#brand",
+      "description": "Point-in-time and longitudinal observation of publicly accessible web evidence across the Human Web, AI Web and Machine Web."
     }
   ],
+
+  "software": [
+    {
+      "id": "https://3webobs.com/#software",
+      "type": "SoftwareApplication",
+      "name": "3webs Visibility Engine",
+      "version": "3.0.0",
+      "url": "https://3webobs.com/",
+      "author": "https://3webobs.com/#organization",
+      "publisher": "https://3webobs.com/#organization",
+      "application_category": "WebApplication",
+      "description": "Evidence-based observation engine evaluating 167 signals across AI Signals, AEO, GEO, AIO and SEO."
+    }
+  ],
+
   "concepts": [
     {
       "id": "https://3webobs.com/#term-human-web",
       "type": "DefinedTerm",
-      "name": "The human web",
-      "definition": "What a person sees: HTML, headings, links, page speed, crawlability."
+      "name": "Human Web",
+      "definition": "The browser-facing web consumed primarily by people, including HTML, semantic structure, links, metadata, crawlability and observable delivery characteristics."
     },
     {
       "id": "https://3webobs.com/#term-ai-web",
       "type": "DefinedTerm",
-      "name": "The AI web",
-      "definition": "What an answer engine sees: schema, entity graph, answer-first structure, citability."
+      "name": "AI Web",
+      "definition": "The information surface consumed by AI search systems, answer engines, retrieval systems and language-model-assisted discovery."
     },
     {
       "id": "https://3webobs.com/#term-machine-web",
       "type": "DefinedTerm",
-      "name": "The machine web",
-      "definition": "What an agent sees: agent cards, declared capabilities, callable endpoints, verifiable evidence."
+      "name": "Machine Web",
+      "definition": "The machine-facing surface through which software agents discover, interpret and, where explicitly supported, invoke capabilities."
+    },
+    {
+      "id": "https://3webobs.com/#term-three-webs",
+      "type": "DefinedTerm",
+      "name": "Three Webs",
+      "definition": "The 3webs observation model separating a domain's public delivery surface into Human Web, AI Web and Machine Web."
     },
     {
       "id": "https://3webobs.com/#term-adi",
       "type": "DefinedTerm",
       "name": "ADI",
-      "definition": "AI Delivery Infrastructure — the machine-readable layer through which a company is discovered, understood and verified."
+      "alternate_name": "AI Delivery Infrastructure",
+      "definition": "A machine-readable delivery layer through which an organization can expose identity, intent, capabilities, governance and verifiable evidence to AI systems and software agents."
     }
   ],
+
+  "relationships": [
+    {
+      "subject": "https://3webobs.com/#organization",
+      "predicate": "owns",
+      "object": "https://3webobs.com/#brand"
+    },
+    {
+      "subject": "https://3webobs.com/#organization",
+      "predicate": "operates",
+      "object": "https://3webobs.com/#service"
+    },
+    {
+      "subject": "https://3webobs.com/#organization",
+      "predicate": "develops",
+      "object": "https://3webobs.com/#software"
+    },
+    {
+      "subject": "https://3webobs.com/#service",
+      "predicate": "implemented_by",
+      "object": "https://3webobs.com/#software"
+    }
+  ],
+
+  "network": {
+    "name": "AiVenture ADI Network",
+    "role": "observation_node",
+    "root": "https://5thelement.ai/",
+    "descriptor": "https://3webobs.com/adn.json",
+    "membership": "https://3webobs.com/network.json"
+  },
+
   "network_peers": [
     {
       "domain": "5thelement.ai",
-      "relation": "network_root_and_flagship"
+      "url": "https://5thelement.ai/",
+      "relation": "network_root_and_technology_flagship"
     },
     {
       "domain": "aiventure.ro",
-      "relation": "delivery_domain"
+      "url": "https://aiventure.ro/",
+      "relation": "operator_delivery_domain"
     },
     {
       "domain": "1clic-ia.eu",
-      "relation": "sibling"
+      "url": "https://1clic-ia.eu/",
+      "relation": "network_sibling"
     }
-  ]
+  ],
+
+  "resolution": {
+    "canonical_brand": "3webs",
+    "canonical_service_url": "https://3webobs.com/",
+    "legal_operator": "AIVENTURE S.R.L.",
+    "aliases": "https://3webobs.com/aliases.json",
+    "authority": "https://3webobs.com/authority.json"
+  }
 }
