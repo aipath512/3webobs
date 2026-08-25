@@ -1,0 +1,63 @@
+name: Generate proof.json
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - "proof.json"
+      - "ai-proof.json"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: generate-proof
+  cancel-in-progress: true
+
+jobs:
+  generate-proof:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Wait until 3webobs.com is reachable
+        shell: bash
+        run: |
+          for i in {1..30}; do
+            if curl -fsS https://3webobs.com/ >/dev/null; then
+              exit 0
+            fi
+            sleep 10
+          done
+          echo "3webobs.com did not become reachable."
+          exit 1
+
+      - name: Generate proof.json from live public files
+        run: node scripts/generate-proof.mjs
+
+      - name: Copy proof.json to ai-proof.json
+        run: cp proof.json ai-proof.json
+
+      - name: Commit proof manifests if changed
+        shell: bash
+        run: |
+          if git diff --quiet -- proof.json ai-proof.json; then
+            echo "No proof changes."
+            exit 0
+          fi
+
+          git config user.name "3webs-proof-bot"
+          git config user.email "actions@users.noreply.github.com"
+
+          git add proof.json ai-proof.json
+          git commit -m "chore: regenerate integrity proof"
+          git push
