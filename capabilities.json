@@ -133,7 +133,9 @@
       "pricing": {
         "model": "subscription",
         "cancellable": "any time"
-      }
+      },
+      "status": "declared_not_operational",
+      "status_note": "Scheduled execution infrastructure is not currently active."
     },
     {
       "id": "obs.diff",

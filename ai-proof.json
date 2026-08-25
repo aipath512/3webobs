@@ -1,21 +1,15 @@
 {
   "$schema": "https://5thelement.ai/schemas/proof.json",
   "version": "1.1",
-  "generated_at": "...",
+  "generated_at": null,
+  "status": "pending_generation",
   "issuer": {
     "legal_name": "AIVENTURE S.R.L.",
-    "cui": "51415878",
-    "euid": "ROONRC.J2025016406000",
     "service": "3webs",
-    "domain": "3webobs.com",
-    "contact": "contact@5thelement.ai"
+    "domain": "3webobs.com"
   },
-  "integrity_method": {
-    "...": "..."
-  },
-  "aggregate_sha256": "...",
-  "file_count": 31,
-  "files": [
-    "..."
-  ]
+  "aggregate_sha256": null,
+  "file_count": 0,
+  "files": [],
+  "note": "This bootstrap manifest is replaced automatically by GitHub Actions after the current site version is live."
 }

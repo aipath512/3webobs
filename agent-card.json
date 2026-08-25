@@ -13,7 +13,7 @@
   },
   "capabilities": {
     "streaming": false,
-    "pushNotifications": true,
+    "pushNotifications": false,
     "stateTransitionHistory": true
   },
   "defaultInputModes": [
@@ -25,10 +25,11 @@
     "text/plain"
   ],
   "securitySchemes": {
-    "none": {
-      "type": "http",
-      "scheme": "bearer",
-      "description": "Anonymous access permitted for the first observation. Sustained or scheduled use requires a token agreed in writing."
+    "anonymous": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "Authorization",
+      "description": "Public discovery and supported anonymous operations may not require credentials. Sustained or privileged use may require credentials under a separate integration agreement."
     }
   },
   "skills": [
@@ -62,13 +63,14 @@
     {
       "id": "obs_permanent",
       "name": "Observe a domain permanently",
-      "description": "Register a domain for continuous observation. It is re-observed on the chosen interval, and the caller is notified when a signal changes state or the global score moves beyond a threshold. Each notification carries the before and after evidence, not just the numbers.",
+      "description": "Declared continuous-observation capability. Scheduled execution is not currently operational; activation requires configured scheduling infrastructure.",
       "tags": [
         "monitoring",
         "observation",
         "regression",
         "continuous",
-        "subscription"
+        "subscription",
+        "declared-not-operational"
       ],
       "examples": [
         "Watch example.com weekly and tell me if anything breaks",
