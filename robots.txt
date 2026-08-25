@@ -1,7 +1,18 @@
 # robots.txt — 3webobs.com
-# AI-FIRST policy: all AI crawlers, AI assistants and search engines explicitly allowed.
+# 3webs Visibility Engine
+# Operator: AIVENTURE S.R.L.
+#
+# Public crawling and indexing are allowed.
+# AI crawlers and user-directed AI agents are explicitly permitted.
+#
+# Machine-readable service information:
+# https://3webobs.com/llms.txt
+# https://3webobs.com/ai.txt
+# https://3webobs.com/ai.json
+# https://3webobs.com/.well-known/agent-card.json
 
-# ---------- AI CRAWLERS / TRAINING ----------
+# ---------- OPENAI ----------
+
 User-agent: GPTBot
 Allow: /
 
@@ -10,6 +21,8 @@ Allow: /
 
 User-agent: OAI-SearchBot
 Allow: /
+
+# ---------- ANTHROPIC ----------
 
 User-agent: ClaudeBot
 Allow: /
@@ -23,8 +36,15 @@ Allow: /
 User-agent: anthropic-ai
 Allow: /
 
+# ---------- GOOGLE ----------
+
+User-agent: Googlebot
+Allow: /
+
 User-agent: Google-Extended
 Allow: /
+
+# ---------- PERPLEXITY ----------
 
 User-agent: PerplexityBot
 Allow: /
@@ -32,14 +52,20 @@ Allow: /
 User-agent: Perplexity-User
 Allow: /
 
-User-agent: DeepSeekBot
+# ---------- APPLE ----------
+
+User-agent: Applebot
 Allow: /
 
-User-agent: DeepSeek-User
+User-agent: Applebot-Extended
 Allow: /
 
-User-agent: Deepseek
+# ---------- MICROSOFT / BING ----------
+
+User-agent: Bingbot
 Allow: /
+
+# ---------- OTHER AI / DATA CRAWLERS ----------
 
 User-agent: CCBot
 Allow: /
@@ -48,12 +74,6 @@ User-agent: Bytespider
 Allow: /
 
 User-agent: Amazonbot
-Allow: /
-
-User-agent: Applebot
-Allow: /
-
-User-agent: Applebot-Extended
 Allow: /
 
 User-agent: meta-externalagent
@@ -80,12 +100,7 @@ Allow: /
 User-agent: omgili
 Allow: /
 
-# ---------- SEARCH ENGINES ----------
-User-agent: Googlebot
-Allow: /
-
-User-agent: Bingbot
-Allow: /
+# ---------- OTHER SEARCH ENGINES ----------
 
 User-agent: DuckDuckBot
 Allow: /
@@ -97,46 +112,57 @@ User-agent: YandexBot
 Allow: /
 
 # ---------- ARCHIVERS ----------
+
 User-agent: archive.org_bot
 Allow: /
 
 User-agent: ia_archiver
 Allow: /
 
-# ---------- EVERYONE ELSE ----------
+# ---------- ALL OTHER COMPLIANT CRAWLERS ----------
+
 User-agent: *
 Allow: /
 
-# ---------- MACHINE-READABLE SIGNALS ----------
+# ---------- DISCOVERY ----------
+
 Sitemap: https://3webobs.com/sitemap.xml
 
-# Human web
-# /humans.txt              authorship and stack
-# /.well-known/security.txt vulnerability contact
-# /site.webmanifest        application manifest
+# ---------- HUMAN WEB ----------
 
-# AI web
-# /llms.txt                AI-readable description of this service
-# /ai.txt                  AI directives — training, indexing, citation
-# /ai.json                 identity, purpose, permissions
-# /entities.json           entity graph
-# /intents.json            what this service can be asked to do
-# /governance.json         accountability and applicable law
-# /authority.json          verifiable external presence
-# /policy.json             machine-readable usage policy
-# /aliases.json            every name this entity is known by
-# /session.json            state handling — stateless, no auth
-# /actions.json            concrete actions and their contracts
-# /changelog.json          versioned record of material changes
+# /humans.txt
+# /.well-known/security.txt
+# /site.webmanifest
 
-# Machine web (A2A)
-# /.well-known/agent-card.json  A2A v1.0 agent card
-# /a2a                     JSON-RPC 2.0 endpoint (message/send)
-# /capabilities.json       OBS capabilities — one-shot and permanent
-# /allow-lane-matrix.json  what each class of automated visitor may do
-# /signals                 the 167-signal catalogue
+# ---------- AI WEB ----------
 
-# Network
-# /adn.json                ADN descriptor — observation node of the AiVenture ADI Network
-# /network.json            network membership detail
-# /proof.json              SHA-256 integrity manifest (also at /ai-proof.json)
+# /llms.txt
+# /ai.txt
+# /ai.json
+# /entities.json
+# /intents.json
+# /governance.json
+# /authority.json
+# /policy.json
+# /aliases.json
+# /session.json
+# /actions.json
+# /changelog.json
+
+# ---------- MACHINE WEB / A2A ----------
+
+# /.well-known/agent-card.json
+# /a2a
+# /capabilities.json
+# /allow-lane-matrix.json
+# /signals
+
+# ---------- ADI NETWORK ----------
+
+# /adn.json
+# /network.json
+
+# ---------- VERIFIABLE EVIDENCE ----------
+
+# /proof.json
+# /ai-proof.json
