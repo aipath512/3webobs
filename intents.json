@@ -1,6 +1,6 @@
 {
   "$schema": "https://5thelement.ai/schemas/intents.json",
-  "version": "1.1",
+  "version": "1.2",
   "generated": "2026-08-25",
 
   "service": {
@@ -9,11 +9,12 @@
     "operator": "AIVENTURE S.R.L."
   },
 
-  "purpose": "Declares the tasks that 3webs can be asked to perform and maps natural-language requests to machine-readable capabilities.",
+  "purpose": "Declares the tasks that 3webs can perform and the Machine Web / A2A intent vocabulary that 3webs can observe, classify and evaluate on public machine-facing interfaces.",
 
   "interpretation": {
     "intent_is_capability_proof": false,
-    "statement": "An intent declaration describes what the service is designed to accept. It does not by itself prove that the corresponding capability is currently reachable or operational.",
+    "intent_vocabulary_is_service_capability": false,
+    "statement": "A declared intent describes a requested or advertised machine action. Its presence does not by itself prove that the corresponding capability is reachable, invocable or operational.",
     "capability_states": [
       "declared",
       "valid",
@@ -23,12 +24,11 @@
     ]
   },
 
-  "intents": [
+  "service_intents": [
     {
       "id": "observe_once",
       "name": "Observe a domain once",
       "description": "Perform a point-in-time observation of publicly accessible evidence for a domain.",
-
       "utterances": [
         "audit this website",
         "observe this website",
@@ -40,21 +40,17 @@
         "what does a crawler see on this website",
         "check the human web, AI web and machine web for this domain"
       ],
-
       "capability": "obs.one_shot",
-
       "input": {
         "required": [
           "url"
         ],
         "optional": []
       },
-
       "output": {
         "type": "observation",
         "description": "Point-in-time evidence and signal results for the submitted public domain."
       },
-
       "commercial": {
         "pricing": "See current service terms.",
         "terms": "https://3webobs.com/terms.html"
@@ -65,7 +61,6 @@
       "id": "observe_permanent",
       "name": "Observe a domain continuously",
       "description": "Re-observe a public domain over time and detect material changes in observable signals.",
-
       "utterances": [
         "monitor this domain",
         "monitor this website",
@@ -77,9 +72,7 @@
         "track changes in AI visibility",
         "monitor the human web, AI web and machine web"
       ],
-
       "capability": "obs.permanent",
-
       "input": {
         "required": [
           "url",
@@ -89,12 +82,10 @@
           "change_threshold"
         ]
       },
-
       "output": {
         "type": "observation_series",
         "description": "A sequence of observations and detected changes over time."
       },
-
       "commercial": {
         "pricing": "See current service terms.",
         "terms": "https://3webobs.com/terms.html"
@@ -105,7 +96,6 @@
       "id": "compare_before_after",
       "name": "Compare two observations",
       "description": "Compare a current observation with an identified baseline observation and report the observable delta.",
-
       "utterances": [
         "did my changes work",
         "compare before and after",
@@ -115,9 +105,7 @@
         "did my AI visibility improve",
         "which signals changed"
       ],
-
       "capability": "obs.diff",
-
       "input": {
         "required": [
           "url",
@@ -125,7 +113,6 @@
         ],
         "optional": []
       },
-
       "output": {
         "type": "observation_diff",
         "description": "Signal-level differences between the baseline and current observation."
@@ -136,7 +123,6 @@
       "id": "explain_signal",
       "name": "Explain a signal result",
       "description": "Return the observable evidence and evaluation rationale for a specific signal.",
-
       "utterances": [
         "why did this signal fail",
         "why did this signal pass",
@@ -147,9 +133,7 @@
         "explain the llms.txt result",
         "explain this score"
       ],
-
       "capability": "obs.explain",
-
       "input": {
         "required": [
           "url",
@@ -159,7 +143,6 @@
           "observation_id"
         ]
       },
-
       "output": {
         "type": "signal_explanation",
         "description": "Signal state, test method, observable evidence and explanation."
@@ -170,7 +153,6 @@
       "id": "list_signals",
       "name": "List the signal catalogue",
       "description": "Return the current 3webs observation signal catalogue and associated metadata.",
-
       "utterances": [
         "what do you measure",
         "show me the 167 signals",
@@ -180,9 +162,7 @@
         "what does 3webs test",
         "which SEO AEO GEO AIO and AI signals do you measure"
       ],
-
       "capability": "obs.catalogue",
-
       "input": {
         "required": [],
         "optional": [
@@ -190,7 +170,6 @@
           "web_layer"
         ]
       },
-
       "output": {
         "type": "signal_catalogue",
         "description": "Current signal definitions and available methodological metadata."
@@ -198,11 +177,185 @@
     }
   ],
 
+  "machine_web_intent_vocabulary": {
+    "namespace": "agent",
+    "range": "36-50",
+    "count": 15,
+
+    "purpose": "Machine Web and A2A intent vocabulary used by 3webs to identify, classify and describe agent capabilities observed on public machine-facing interfaces.",
+
+    "important": "These intents describe capabilities that 3webs may observe on another domain or agent. Their inclusion does not mean that 3webs itself performs these actions.",
+
+    "intents": [
+      {
+        "number": 36,
+        "id": "agent.discover",
+        "name": "Discover agent",
+        "human_request": "Find an agent that can compare flights.",
+        "expected_machine_behavior": "Discover one or more agents whose declared or verified capabilities match the requested task.",
+        "example_response": "Found FlightSearch, an agent declaring flight search and comparison capabilities."
+      },
+
+      {
+        "number": 37,
+        "id": "agent.capability_check",
+        "name": "Check agent capability",
+        "human_request": "Can this agent make reservations?",
+        "expected_machine_behavior": "Inspect the agent's declared capability, applicable policy, constraints, reachability and confirmation requirements.",
+        "example_response": "The agent declares reservation capability and requires human confirmation before execution."
+      },
+
+      {
+        "number": 38,
+        "id": "agent.delegate",
+        "name": "Delegate task",
+        "human_request": "Send the hotel search to the specialized agent.",
+        "expected_machine_behavior": "Delegate a defined task to another compatible agent and return a task identifier or execution state.",
+        "example_response": "Task delegated. Status: working."
+      },
+
+      {
+        "number": 39,
+        "id": "agent.orchestrate",
+        "name": "Orchestrate agents",
+        "human_request": "Organize a complete trip.",
+        "expected_machine_behavior": "Coordinate multiple agents or capabilities toward a shared higher-level objective.",
+        "example_response": "Coordinating flight, accommodation and local transport capabilities."
+      },
+
+      {
+        "number": 40,
+        "id": "agent.parallelize",
+        "name": "Parallelize tasks",
+        "human_request": "Search for the flight, hotel and transfer simultaneously.",
+        "expected_machine_behavior": "Create independent subtasks that may execute concurrently.",
+        "example_response": "Three independent subtasks were created for parallel execution."
+      },
+
+      {
+        "number": 41,
+        "id": "agent.plan_execute",
+        "name": "Plan and execute",
+        "human_request": "Plan and execute the equipment purchase.",
+        "expected_machine_behavior": "Create an execution plan, identify approval boundaries and execute only actions permitted by policy.",
+        "example_response": "The plan is prepared. Purchase execution requires human approval."
+      },
+
+      {
+        "number": 42,
+        "id": "agent.request_quote",
+        "name": "Request quote",
+        "human_request": "Request quotes from three agents.",
+        "expected_machine_behavior": "Request structured commercial proposals from compatible providers or agents.",
+        "example_response": "Three quote requests were submitted; two responses have been received."
+      },
+
+      {
+        "number": 43,
+        "id": "agent.negotiate",
+        "name": "Negotiate",
+        "human_request": "Try to obtain a better price.",
+        "expected_machine_behavior": "Conduct negotiation within explicitly declared authority, policy and economic boundaries.",
+        "example_response": "A 10% discount was requested; the provider countered with 5%."
+      },
+
+      {
+        "number": 44,
+        "id": "agent.validate_result",
+        "name": "Validate result",
+        "human_request": "Verify the result received from the agent.",
+        "expected_machine_behavior": "Evaluate the returned result against available evidence, provenance, constraints or independent sources.",
+        "example_response": "The result was validated against available evidence; two independent sources support the principal claims."
+      },
+
+      {
+        "number": 45,
+        "id": "agent.request_human",
+        "name": "Request human intervention",
+        "human_request": "Ask for my approval before payment.",
+        "expected_machine_behavior": "Pause execution at a defined human-oversight boundary and request explicit authorization.",
+        "example_response": "Human approval is required before the payment can proceed."
+      },
+
+      {
+        "number": 46,
+        "id": "agent.resume_task",
+        "name": "Resume task",
+        "human_request": "Continue the interrupted task.",
+        "expected_machine_behavior": "Resume an existing task from a recoverable execution state.",
+        "example_response": "The task resumed from the last confirmed execution state."
+      },
+
+      {
+        "number": 47,
+        "id": "agent.cancel_task",
+        "name": "Cancel task",
+        "human_request": "Cancel the search.",
+        "expected_machine_behavior": "Request cancellation of an active task and propagate cancellation to delegated agents where supported.",
+        "example_response": "Cancellation requested. Delegated agents will stop where cancellation is supported."
+      },
+
+      {
+        "number": 48,
+        "id": "agent.get_status",
+        "name": "Get task status",
+        "human_request": "What is the status of the task?",
+        "expected_machine_behavior": "Return the current machine-readable execution state of a task.",
+        "example_response": "Status: working. The accommodation capability is checking availability."
+      },
+
+      {
+        "number": 49,
+        "id": "agent.share_artifact",
+        "name": "Share artifact",
+        "human_request": "Send the report to the financial agent.",
+        "expected_machine_behavior": "Transfer or reference a task artifact to another authorized agent while preserving applicable metadata and provenance.",
+        "example_response": "The report artifact was made available to the authorized financial agent."
+      },
+
+      {
+        "number": 50,
+        "id": "agent.audit",
+        "name": "Audit agent activity",
+        "human_request": "Show me which agents were used and what they did.",
+        "expected_machine_behavior": "Return available execution history, participating agents, actions, artifacts, evidence and provenance information.",
+        "example_response": "Three agents participated. Available task history identifies their actions, artifacts and evidence."
+      }
+    ]
+  },
+
   "intent_resolution": {
-    "strategy": "Match the caller's requested outcome to the most specific supported intent.",
+    "strategy": "Match the caller's requested outcome to the most specific supported service intent or recognized Machine Web intent.",
     "ambiguity": "If required parameters cannot be inferred reliably, request the missing parameter rather than inventing it.",
-    "unknown_intent": "Return unsupported_intent and, where possible, list the closest supported intents.",
+    "unknown_intent": "Return unsupported_intent and, where possible, identify the closest recognized intents.",
     "do_not_infer_private_access": true
+  },
+
+  "machine_web_evaluation": {
+    "principle": "Declaration is not proof of operational capability.",
+
+    "states": [
+      {
+        "id": "declared",
+        "description": "The intent or capability is publicly declared."
+      },
+      {
+        "id": "valid",
+        "description": "The declaration is syntactically and structurally valid."
+      },
+      {
+        "id": "reachable",
+        "description": "The declared machine interface can be reached."
+      },
+      {
+        "id": "invocable",
+        "description": "The capability exposes an interface that can be invoked under its declared contract."
+      },
+      {
+        "id": "verified",
+        "description": "Observed execution evidence supports the claimed capability."
+      }
+    ]
   },
 
   "not_supported": [
@@ -239,6 +392,12 @@
     "a2a_endpoint": "https://3webobs.com/a2a"
   },
 
-  "governance": "https://3webobs.com/governance.json",
-  "policy": "https://3webobs.com/policy.json"
+  "related_resources": {
+    "identity": "https://3webobs.com/ai.json",
+    "entities": "https://3webobs.com/entities.json",
+    "governance": "https://3webobs.com/governance.json",
+    "policy": "https://3webobs.com/policy.json",
+    "allow_lane_matrix": "https://3webobs.com/allow-lane-matrix.json",
+    "proof": "https://3webobs.com/proof.json"
+  }
 }
