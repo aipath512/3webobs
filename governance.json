@@ -1,73 +1,235 @@
 {
   "$schema": "https://5thelement.ai/schemas/governance.json",
-  "version": "1.0",
+  "version": "1.1",
   "generated": "2026-08-25",
+
+  "service": {
+    "name": "3webs",
+    "domain": "https://3webobs.com/",
+    "operator": "AIVENTURE S.R.L.",
+    "service_type": "AI visibility observation service"
+  },
+
   "accountable_entity": {
     "legal_name": "AIVENTURE S.R.L.",
     "cui": "51415878",
+    "registration": "J2025016406000",
     "euid": "ROONRC.J2025016406000",
     "jurisdiction": "Romania, European Union",
-    "address": "Drumul Pădurea Pustnicu, Nr. 141C, Corp A, Etaj 2, Ap. 5, București, Sectorul 1, Romania",
+
+    "address": {
+      "street_address": "Drumul Pădurea Pustnicu, Nr. 141C, Corp A, Etaj 2, Ap. 5",
+      "address_locality": "București",
+      "address_region": "București",
+      "address_country": "RO"
+    },
+
     "contact": "contact@5thelement.ai",
     "representative": "Dan Ionesco"
   },
-  "applicable_law": [
+
+  "governance_principles": [
+    "Evidence before assertion",
+    "Declared capability is not treated as proof of operational capability",
+    "Deterministic evaluation where an objective test is available",
+    "No invented values for evidence that cannot be reliably observed",
+    "Human oversight at consequential action boundaries",
+    "Public observation without bypassing access controls",
+    "Traceability of material machine-readable changes"
+  ],
+
+  "applicable_frameworks": [
     {
       "instrument": "Regulation (EU) 2024/1689",
-      "short": "EU AI Act",
-      "role": "deployer",
+      "short_name": "EU AI Act",
+      "jurisdiction": "European Union",
+      "relevance": "AI transparency and governance obligations may apply depending on the AI systems, role and use case involved.",
+      "declared_service_role": "deployer",
       "disclosure": "https://3webobs.com/ai-act.html"
     },
     {
       "instrument": "Regulation (EU) 2016/679",
-      "short": "GDPR",
-      "role": "controller",
-      "notice": "https://3webobs.com/gdpr.html",
+      "short_name": "GDPR",
+      "jurisdiction": "European Union",
+      "relevance": "Processing of personal data where applicable.",
+      "privacy_notice": "https://3webobs.com/gdpr.html",
       "supervisory_authority": "ANSPDCP, Romania"
     },
     {
-      "instrument": "Directive 2011/83/EU",
-      "short": "Consumer Rights",
-      "note": "Right of withdrawal addressed in Terms",
-      "terms": "https://3webobs.com/terms.html"
+      "instrument": "Directive 2002/58/EC",
+      "short_name": "ePrivacy Directive",
+      "jurisdiction": "European Union",
+      "relevance": "Electronic communications and storage/access technologies where applicable.",
+      "notice": "https://3webobs.com/cookies.html"
     },
     {
-      "instrument": "Directive 2002/58/EC",
-      "short": "ePrivacy",
-      "notice": "https://3webobs.com/cookies.html"
+      "instrument": "Directive 2011/83/EU",
+      "short_name": "Consumer Rights Directive",
+      "jurisdiction": "European Union",
+      "relevance": "Consumer-facing contractual obligations where applicable.",
+      "terms": "https://3webobs.com/terms.html"
     }
   ],
+
+  "ai_usage": {
+    "signal_evaluation": {
+      "method": "deterministic rules where objectively testable",
+      "language_model_required": false,
+      "evidence_based": true
+    },
+
+    "narrative_summary": {
+      "language_model_may_be_used": true,
+      "purpose": "Synthesis and explanation of already-observed evidence.",
+      "affects_deterministic_signal_score": false,
+      "disclosure": "https://3webobs.com/ai-act.html"
+    },
+
+    "unobservable_evidence": {
+      "invented_value": false,
+      "supported_states": [
+        "unverified",
+        "not_applicable"
+      ]
+    },
+
+    "training_on_submitted_private_data": false
+  },
+
   "human_oversight": {
-    "automated_decisions_affecting_persons": false,
-    "subject_of_evaluation": "websites, not natural persons",
-    "explanation_on_request": true,
+    "subject_of_observation": "Publicly accessible web properties and their observable machine-readable interfaces.",
+
+    "natural_person_scoring": false,
+
+    "automated_decisions_with_legal_or_similarly_significant_effect_on_natural_persons": false,
+
+    "consequential_agent_actions": {
+      "human_confirmation_supported": true,
+      "principle": "Actions involving payment, contractual commitment, irreversible external effects or other consequential operations should require explicit authorization where the applicable capability supports such actions."
+    },
+
+    "explanation_available": true,
     "contact_for_explanation": "contact@5thelement.ai"
   },
-  "ai_usage": {
-    "scoring": "deterministic rules on observed evidence",
-    "narrative_summary": "general-purpose language model, disclosed at point of display",
-    "training_on_user_data": false,
-    "unverifiable_signals": "reported as not applicable, never assigned a value"
-  },
-  "data_handling": {
-    "personal_data_collected": [
-      "email address if provided",
-      "technical request logs"
-    ],
-    "sold_to_third_parties": false,
-    "processors": [
-      "Cloudflare, Inc.",
-      "AI model provider (synthesis only)",
-      "payment provider",
-      "email delivery provider"
-    ],
-    "transfers_outside_eea": "covered by adequacy decision or Standard Contractual Clauses"
-  },
-  "crawler_conduct": {
-    "identifies_itself": true,
+
+  "observation_governance": {
+    "public_resources_only": true,
     "honours_robots_txt": true,
-    "attempts_authentication": false,
+    "attempts_authentication_without_authorization": false,
+    "bypasses_access_controls": false,
     "probes_vulnerabilities": false,
-    "exclusion_request": "contact@5thelement.ai"
+
+    "evidence_states": [
+      "pass",
+      "partial",
+      "fail",
+      "unverified",
+      "not_applicable"
+    ],
+
+    "capability_states": [
+      "declared",
+      "valid",
+      "reachable",
+      "invocable",
+      "verified"
+    ],
+
+    "principle": "The presence of a declaration, file, endpoint or agent card is not by itself evidence that the associated capability is operational."
+  },
+
+  "machine_web_governance": {
+    "agent_discovery": "Observation may identify publicly declared agents and capabilities.",
+
+    "delegation": "Delegation should occur only where an agent exposes an appropriate machine contract and applicable policy permits the action.",
+
+    "orchestration": "Multi-agent orchestration should preserve task identity, participating-agent identity, execution state and available provenance.",
+
+    "human_approval": "Human approval boundaries should be preserved when declared by the participating capability or required by applicable policy.",
+
+    "artifact_provenance": "Transferred artifacts should preserve available provenance and integrity metadata.",
+
+    "auditability": "Where available, agent participation, actions, state transitions and artifacts should be traceable."
+  },
+
+  "data_handling": {
+    "categories": [
+      {
+        "category": "Submitted public domain or URL",
+        "condition": "When a user initiates an observation."
+      },
+      {
+        "category": "Email address",
+        "condition": "Only when voluntarily provided or required for a requested service."
+      },
+      {
+        "category": "Technical request and security logs",
+        "condition": "As generated by the service infrastructure."
+      }
+    ],
+
+    "personal_data_sold": false,
+
+    "processor_categories": [
+      "Infrastructure and security provider",
+      "AI model provider where narrative synthesis is used",
+      "Payment provider where payment functionality is used",
+      "Email delivery provider where email functionality is used"
+    ],
+
+    "international_transfers": "Handled under applicable GDPR transfer mechanisms where required.",
+
+    "privacy_notice": "https://3webobs.com/gdpr.html"
+  },
+
+  "crawler_conduct": {
+    "public_identification": true,
+    "robots_txt_respected": true,
+    "authentication_attempted_without_authorization": false,
+    "access_controls_bypassed": false,
+    "vulnerability_testing": false,
+    "reasonable_rate_behavior": true,
+    "exclusion_contact": "contact@5thelement.ai",
+    "acceptable_use": "https://3webobs.com/policy.html"
+  },
+
+  "transparency": {
+    "reports_are_certifications": false,
+    "reports_are_legal_opinions": false,
+    "reports_are_compliance_verdicts": false,
+    "ranking_guaranteed": false,
+    "ai_indexing_guaranteed": false,
+    "ai_citation_guaranteed": false,
+    "agent_capability_guaranteed_by_declaration": false
+  },
+
+  "change_control": {
+    "changelog": "https://3webobs.com/changelog.json",
+    "integrity_manifest": "https://3webobs.com/proof.json",
+    "algorithm": "SHA-256",
+
+    "integrity_scope": "Byte-level consistency of designated public artifacts.",
+
+    "integrity_does_not_by_itself_prove": [
+      "truthfulness",
+      "authorship",
+      "legal validity",
+      "regulatory compliance",
+      "independent publication time",
+      "third-party endorsement"
+    ]
+  },
+
+  "related_resources": {
+    "ai_identity": "https://3webobs.com/ai.json",
+    "entities": "https://3webobs.com/entities.json",
+    "intents": "https://3webobs.com/intents.json",
+    "capabilities": "https://3webobs.com/capabilities.json",
+    "actions": "https://3webobs.com/actions.json",
+    "policy": "https://3webobs.com/policy.json",
+    "session": "https://3webobs.com/session.json",
+    "allow_lane_matrix": "https://3webobs.com/allow-lane-matrix.json",
+    "agent_card": "https://3webobs.com/.well-known/agent-card.json",
+    "proof": "https://3webobs.com/proof.json"
   }
 }
