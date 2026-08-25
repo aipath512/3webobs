@@ -1,0 +1,184 @@
+{
+  "$schema": "https://5thelement.ai/schemas/proof.json",
+  "version": "1.0",
+  "generated": "2026-08-25",
+  "issuer": {
+    "legal_name": "AIVENTURE S.R.L.",
+    "cui": "51415878",
+    "euid": "ROONRC.J2025016406000",
+    "domain": "3webobs.com",
+    "contact": "contact@5thelement.ai"
+  },
+  "method": {
+    "algorithm": "SHA-256",
+    "encoding": "hex, lowercase",
+    "scope": "raw bytes of each file as served",
+    "aggregate": "SHA-256 over the newline-joined list of 'path:sha256' entries, sorted by path",
+    "verify": "Fetch a file, compute its SHA-256, compare against the entry below. Recompute the aggregate to confirm the manifest itself is intact."
+  },
+  "aggregate_sha256": "6f4ab9a9ae3a6ef854b8410a92edf32f4d68620c1df02f09d47e12c44116527c",
+  "file_count": 26,
+  "files": [
+    {
+      "path": "/.well-known/agent-card.json",
+      "url": "https://3webobs.com/.well-known/agent-card.json",
+      "bytes": 6159,
+      "sha256": "e591bbb68e4ad91b57a9da55e3334bd3f70adfaee4c79d0672f8387d0158cf0d"
+    },
+    {
+      "path": "/.well-known/security.txt",
+      "url": "https://3webobs.com/.well-known/security.txt",
+      "bytes": 362,
+      "sha256": "355fe58370fabaf6b5b318402784997a3988fb17e8612b625729ddbdce624497"
+    },
+    {
+      "path": "/_worker.js",
+      "url": "https://3webobs.com/_worker.js",
+      "bytes": 40680,
+      "sha256": "3a380b33be5f6d9990ce040aecb4ce044caf5e0d6d819ec820800ceb59563c66"
+    },
+    {
+      "path": "/adn.json",
+      "url": "https://3webobs.com/adn.json",
+      "bytes": 5238,
+      "sha256": "df2d8c719051f6b7344b93c8fab96266f4f63fa0cd8f6f1fb754b77b789c1daf"
+    },
+    {
+      "path": "/ai-act.html",
+      "url": "https://3webobs.com/ai-act.html",
+      "bytes": 59428,
+      "sha256": "a43872e9eeb0f0d8f7d4c486a6807477a1ca08c0393f34131bce5b6e91b9e682"
+    },
+    {
+      "path": "/ai.json",
+      "url": "https://3webobs.com/ai.json",
+      "bytes": 3164,
+      "sha256": "f3fd9bb3ed74f62084a97dcca16b4eedec03c440291d36dcea14d207249987e5"
+    },
+    {
+      "path": "/ai.txt",
+      "url": "https://3webobs.com/ai.txt",
+      "bytes": 1027,
+      "sha256": "d53b131153b80a4d79ceb987778f8799a5ea2895563dbec53c3f6037a272a3c0"
+    },
+    {
+      "path": "/assets/og-cover.png",
+      "url": "https://3webobs.com/assets/og-cover.png",
+      "bytes": 43476,
+      "sha256": "0a782cee9c3152775858bc64ac08bfc23107477355681ae20095b3e68aa32a3c"
+    },
+    {
+      "path": "/authority.json",
+      "url": "https://3webobs.com/authority.json",
+      "bytes": 2040,
+      "sha256": "1d17cebc49766fccb895d397f9391087188608df9392244f93c2a993f07d8c46"
+    },
+    {
+      "path": "/capabilities.json",
+      "url": "https://3webobs.com/capabilities.json",
+      "bytes": 5487,
+      "sha256": "03406c732da65ce19d4781581bf0a2a7ba488f9eb15070d4718e81ded6c7efc0"
+    },
+    {
+      "path": "/contact.html",
+      "url": "https://3webobs.com/contact.html",
+      "bytes": 57123,
+      "sha256": "f3405372a04c01baa84413c9261563480a77f077f037ae7b183e575ec8007372"
+    },
+    {
+      "path": "/cookies.html",
+      "url": "https://3webobs.com/cookies.html",
+      "bytes": 56982,
+      "sha256": "70b23e70889c6393daccb8e1a739648d9989f8d7f6ca59fc5baa631a44bedfa7"
+    },
+    {
+      "path": "/entities.json",
+      "url": "https://3webobs.com/entities.json",
+      "bytes": 3647,
+      "sha256": "3f1f76092f870257151867f6ad38f6a2d94cd85900aaa9bb7f75219e6c56c169"
+    },
+    {
+      "path": "/gdpr.html",
+      "url": "https://3webobs.com/gdpr.html",
+      "bytes": 61330,
+      "sha256": "ddee86fd7e3a2966164486c43dfb1fed3426f74bcb4bcc986e0b985774c22cd0"
+    },
+    {
+      "path": "/governance.json",
+      "url": "https://3webobs.com/governance.json",
+      "bytes": 2361,
+      "sha256": "a32d8db2bdcb28c48e05aece7de4f5c61bcb8488c544f2ccf6c44d56ab93490a"
+    },
+    {
+      "path": "/humans.txt",
+      "url": "https://3webobs.com/humans.txt",
+      "bytes": 748,
+      "sha256": "a0a41743029aa992dc4052693e5a4316e58ef055c0b84afc64ae091a2625a06c"
+    },
+    {
+      "path": "/index.html",
+      "url": "https://3webobs.com/index.html",
+      "bytes": 166668,
+      "sha256": "6b34209185ded36ee3181aad4369de6119facf15a5333ac429e7921630655cac"
+    },
+    {
+      "path": "/intents.json",
+      "url": "https://3webobs.com/intents.json",
+      "bytes": 2221,
+      "sha256": "41165ca666aa8c44290bfcc9de928eba66c467610fd10b931289a0d2c5dc4b5b"
+    },
+    {
+      "path": "/llms.txt",
+      "url": "https://3webobs.com/llms.txt",
+      "bytes": 3610,
+      "sha256": "dd86ef503a222913ca6254c8c2b179f70a45b942b6c5342040c2ef59948f341a"
+    },
+    {
+      "path": "/network.json",
+      "url": "https://3webobs.com/network.json",
+      "bytes": 3104,
+      "sha256": "82b67e5da604e407d97835158616438febc0349b95424fc023c01a5a049038da"
+    },
+    {
+      "path": "/policy.html",
+      "url": "https://3webobs.com/policy.html",
+      "bytes": 58265,
+      "sha256": "908599082d8bea79f6e5cc653cb6a6b29013f26ad19f0c0db79e838ea360d1fa"
+    },
+    {
+      "path": "/policy.json",
+      "url": "https://3webobs.com/policy.json",
+      "bytes": 1311,
+      "sha256": "0ce1cdff6264f611f9636ee35622ccc14e333123b823c75d74a80c9417f65a70"
+    },
+    {
+      "path": "/robots.txt",
+      "url": "https://3webobs.com/robots.txt",
+      "bytes": 2621,
+      "sha256": "34452c911f086f1af50d6ad8689dbd6dfb5d54829c581e79b8c1d7e4a143c205"
+    },
+    {
+      "path": "/site.webmanifest",
+      "url": "https://3webobs.com/site.webmanifest",
+      "bytes": 560,
+      "sha256": "fa5dc897988473d80916e1cbd27c2ae0e20fd241ac6822e49c9d00ed65c5ea5d"
+    },
+    {
+      "path": "/sitemap.xml",
+      "url": "https://3webobs.com/sitemap.xml",
+      "bytes": 2350,
+      "sha256": "52902de3582516152b19a0eae918bbbac9640cfcf6598751e6651d72c5ebca2f"
+    },
+    {
+      "path": "/terms.html",
+      "url": "https://3webobs.com/terms.html",
+      "bytes": 63191,
+      "sha256": "8feec3fae150f6ca8d220432aea4ac8222f3d5ebee3d81fbd4b8a6f0421bc183"
+    }
+  ],
+  "notes": [
+    "These digests prove file integrity, not truthfulness of content.",
+    "They are recomputed on each publication; a changed digest means the file changed, nothing more.",
+    "No blockchain anchoring is claimed. No timestamping authority has countersigned this manifest."
+  ]
+}

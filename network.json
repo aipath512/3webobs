@@ -1,0 +1,81 @@
+{
+  "$schema": "https://5thelement.ai/schemas/network.json",
+  "version": "1.0",
+  "generated": "2026-08-25",
+  "network": {
+    "name": "AiVenture ADI Network",
+    "root": "https://5thelement.ai",
+    "operator": {
+      "legal_name": "AIVENTURE S.R.L.",
+      "cui": "51415878",
+      "euid": "ROONRC.J2025016406000",
+      "jurisdiction": "Romania, European Union",
+      "contact": "contact@5thelement.ai"
+    },
+    "purpose": "A federation of properties operated by a single accountable entity, each declaring the same identity, governance and evidence layer, so that AI systems and agents resolve them to one verifiable organisation rather than to unrelated strings.",
+    "canonical_descriptor": "https://5thelement.ai/adn.json",
+    "schema": "https://5thelement.ai/schemas/adn.v1.json",
+    "flagship": "https://5thelement.ai",
+    "delivery_domain": "https://aiventure.ro"
+  },
+  "this_property": {
+    "domain": "3webobs.com",
+    "brand": "3webs",
+    "role": "observation_node",
+    "role_description": "The measurement instrument of the network. Delivery nodes build the ADI layer; this node observes and quantifies it — on the network's own domains and on third-party domains. The network flagship is 5thelement.ai; this node is not the flagship.",
+    "function": "observation",
+    "serves": "the three webs — human, AI, machine",
+    "joined": "2026-08-25",
+    "canonical": "https://3webobs.com/",
+    "adn_descriptor": "https://3webobs.com/adn.json"
+  },
+  "members": [
+    {
+      "domain": "5thelement.ai",
+      "role": "root / technology flagship",
+      "function": "AI Delivery Infrastructure — the architecture and the doctrine"
+    },
+    {
+      "domain": "aiventure.ro",
+      "role": "delivery domain",
+      "function": "Technology partner delivery — AiVenture SRL"
+    },
+    {
+      "domain": "3webobs.com",
+      "role": "observation node",
+      "self": true,
+      "function": "Observation of the three webs — measurement and evidence"
+    },
+    {
+      "domain": "1clic-ia.eu",
+      "role": "member",
+      "function": "European market — delivery and local presence"
+    }
+  ],
+  "shared_layer": {
+    "identity": "identical organisation identifiers across all members (CUI, EUID, registration)",
+    "governance": "single accountable entity, one jurisdiction, one contact",
+    "signal_format": [
+      "adn.json",
+      "ai.json",
+      "entities.json",
+      "intents.json",
+      "capabilities.json",
+      "governance.json",
+      "authority.json",
+      "policy.json",
+      "network.json",
+      "proof.json",
+      "llms.txt",
+      ".well-known/agent-card.json"
+    ],
+    "verification": "SHA-256 digests published in proof.json on each member"
+  },
+  "node_obligations": [
+    "Declare every signal it measures on others.",
+    "Publish evidence, not claims — each signal traceable to a fetched resource.",
+    "Never mark a signal as passing where the evidence was not observed.",
+    "Expose the observation capability to agents, not only to humans.",
+    "Remain observable by the network under the same methodology it applies."
+  ]
+}

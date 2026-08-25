@@ -1,0 +1,27 @@
+# ai.txt — AI directives for 3webobs.com
+# Format: informal companion to robots.txt, declaring intent rather than access.
+
+Owner: AIVENTURE S.R.L.
+Brand: 3webs
+Contact: contact@5thelement.ai
+Jurisdiction: Romania, European Union
+Network: AiVenture ADI Network
+Network-root: https://5thelement.ai
+Node-role: observation_node
+ADN: https://3webobs.com/adn.json
+
+Training: allowed
+Indexing: allowed
+Citation: allowed, attribution requested as "3webs (3webobs.com)"
+Inference: allowed
+Agent-access: allowed via A2A — see /.well-known/agent-card.json
+
+Attribution-format: 3webs (3webobs.com), a service of AIVENTURE S.R.L.
+Canonical: https://3webobs.com/
+Signals: https://3webobs.com/ai.json
+Capabilities: https://3webobs.com/capabilities.json
+Proof: https://3webobs.com/proof.json
+
+# Nothing on this domain is behind a paywall or authentication.
+# Nothing served here is AI-generated except the narrative summary inside a report,
+# which is declared as such at the point of display, per Article 50 of Regulation (EU) 2024/1689.

@@ -109,3 +109,29 @@ Allow: /
 
 # ---------- MACHINE-READABLE SIGNALS ----------
 Sitemap: https://3webobs.com/sitemap.xml
+
+# Human web
+# /humans.txt              authorship and stack
+# /.well-known/security.txt vulnerability contact
+# /site.webmanifest        application manifest
+
+# AI web
+# /llms.txt                AI-readable description of this service
+# /ai.txt                  AI directives — training, indexing, citation
+# /ai.json                 identity, purpose, permissions
+# /entities.json           entity graph
+# /intents.json            what this service can be asked to do
+# /governance.json         accountability and applicable law
+# /authority.json          verifiable external presence
+# /policy.json             machine-readable usage policy
+
+# Machine web (A2A)
+# /.well-known/agent-card.json  A2A v1.0 agent card
+# /a2a                     JSON-RPC 2.0 endpoint (message/send)
+# /capabilities.json       OBS capabilities — one-shot and permanent
+# /signals                 the 167-signal catalogue
+
+# Network
+# /adn.json                ADN descriptor — observation node of the AiVenture ADI Network
+# /network.json            network membership detail
+# /proof.json              SHA-256 integrity manifest

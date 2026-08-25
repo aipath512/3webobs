@@ -1,0 +1,80 @@
+{
+  "$schema": "https://5thelement.ai/schemas/authority.json",
+  "version": "1.0",
+  "generated": "2026-08-25",
+  "note": "External presence. Listed because it is publicly verifiable, not as a claim of ranking or reputation.",
+  "legal_registers": [
+    {
+      "name": "Registrul Comerțului (ONRC)",
+      "identifier": "J2025016406000",
+      "country": "RO"
+    },
+    {
+      "name": "EU Business Registers (BRIS)",
+      "identifier": "ROONRC.J2025016406000",
+      "country": "EU"
+    },
+    {
+      "name": "ANAF",
+      "identifier": "51415878",
+      "country": "RO"
+    }
+  ],
+  "verified_profiles": [
+    {
+      "platform": "LinkedIn (company)",
+      "url": "https://www.linkedin.com/company/107338970"
+    },
+    {
+      "platform": "LinkedIn (showcase)",
+      "url": "https://www.linkedin.com/showcase/5thelement-ai/"
+    },
+    {
+      "platform": "LinkedIn (founder)",
+      "url": "https://ro.linkedin.com/in/dan-ionesco-a856082a0"
+    },
+    {
+      "platform": "Crunchbase",
+      "url": "https://www.crunchbase.com/organization/aiventure-s-r-l"
+    },
+    {
+      "platform": "Facebook",
+      "url": "https://www.facebook.com/people/Aiventure/61573220584246/"
+    },
+    {
+      "platform": "X",
+      "url": "https://x.com/aipath512"
+    },
+    {
+      "platform": "YouTube",
+      "url": "https://www.youtube.com/@AIVenture-q8u"
+    },
+    {
+      "platform": "Medium",
+      "url": "https://medium.com/@aipath512"
+    }
+  ],
+  "owned_properties": [
+    {
+      "domain": "5thelement.ai",
+      "role": "network root and technology flagship"
+    },
+    {
+      "domain": "aiventure.ro",
+      "role": "delivery domain — AiVenture SRL"
+    },
+    {
+      "domain": "3webobs.com",
+      "role": "observation node — this property"
+    },
+    {
+      "domain": "1clic-ia.eu",
+      "role": "European market"
+    }
+  ],
+  "not_claimed": [
+    "Wikipedia or Wikidata entry — none exists at time of writing",
+    "Third-party reviews or ratings — none published",
+    "Industry certifications — none held"
+  ]
+}

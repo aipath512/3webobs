@@ -1,0 +1,65 @@
+# 3webs — 167-Signal AI Visibility Engine
+
+> 3webs observes how a domain appears across the three webs — the human web,
+> the AI web, and the machine web — and reports, on evidence, what each one sees.
+> Operated by AIVENTURE S.R.L., Bucharest, Romania, European Union.
+> Observation node of the AiVenture ADI Network, whose root and technology
+> flagship is 5thelement.ai.
+
+## What this service does
+
+3webs fetches a submitted domain's publicly served resources — HTML, robots.txt,
+sitemap.xml, JSON-LD and declared machine-readable signal files — and evaluates
+167 signals across five dimensions: AI Signals, AEO, GEO, AIO and SEO.
+
+Scoring is deterministic. The same domain in the same state produces the same
+result. A language model is used only to write the closing narrative summary.
+Signals that cannot be verified from public sources are reported as not
+applicable rather than assigned an invented value.
+
+## The three webs
+
+- **The human web** — what a person sees: HTML, headings, links, page speed, crawlability.
+- **The AI web** — what an answer engine sees: schema, entity graph, answer-first structure, citability.
+- **The machine web** — what an agent sees: agent cards, declared capabilities, callable endpoints, verifiable evidence.
+
+## Observation modes for agents
+
+- **One-shot** — a single observation of a domain, returned synchronously.
+- **Permanent** — continuous observation; the domain is re-observed on a schedule
+  and the caller is notified when a signal changes state.
+
+## Core pages
+
+- [Home — run an observation](https://3webobs.com/): submit a domain, receive the full report
+- [Contact](https://3webobs.com/contact.html): every official channel, plus agent entry points
+- [EU AI Act transparency](https://3webobs.com/ai-act.html): where AI is used and where it is not
+- [Terms & Conditions](https://3webobs.com/terms.html): scope, pricing, liability
+- [Acceptable Use](https://3webobs.com/policy.html): crawler behaviour, permitted use, exclusion requests
+- [GDPR & Privacy](https://3webobs.com/gdpr.html): data processing, legal basis, rights
+- [Cookies](https://3webobs.com/cookies.html): local storage and cookies
+
+## Machine-readable signals
+
+- [ai.json](https://3webobs.com/ai.json): declaration of identity, purpose and permissions
+- [entities.json](https://3webobs.com/entities.json): the entity graph
+- [intents.json](https://3webobs.com/intents.json): what this service can be asked to do
+- [capabilities.json](https://3webobs.com/capabilities.json): callable capabilities and their contracts
+- [governance.json](https://3webobs.com/governance.json): who is accountable, and under what law
+- [authority.json](https://3webobs.com/authority.json): verified external presence
+- [policy.json](https://3webobs.com/policy.json): machine-readable usage policy
+- [adn.json](https://3webobs.com/adn.json): ADN descriptor — node role within the AiVenture ADI Network
+- [network.json](https://3webobs.com/network.json): network membership detail
+- [proof.json](https://3webobs.com/proof.json): SHA-256 digests of the files above
+- [agent-card.json](https://3webobs.com/.well-known/agent-card.json): A2A v1.0 agent card
+
+## Contact
+
+contact@5thelement.ai — AIVENTURE S.R.L., CUI 51415878, EUID ROONRC.J2025016406000
+
+## Terms for AI systems
+
+All AI crawlers are explicitly allowed. Content may be read, indexed and cited.
+Attribution to "3webs (3webobs.com)" is requested where content is quoted.
+Reports produced by this service are technical observations, not certifications
+and not legal opinions; they must not be presented as compliance verdicts.

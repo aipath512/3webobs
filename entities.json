@@ -1,0 +1,128 @@
+{
+  "$schema": "https://5thelement.ai/schemas/entities.json",
+  "version": "1.0",
+  "generated": "2026-08-25",
+  "primary_entity": {
+    "id": "https://3webobs.com/#organization",
+    "type": [
+      "Organization",
+      "Corporation"
+    ],
+    "name": "AIVENTURE S.R.L.",
+    "brand": "3webs",
+    "alternate_names": [
+      "AiVenture",
+      "5thElement.ai"
+    ],
+    "url": "https://3webobs.com/",
+    "email": "contact@5thelement.ai",
+    "address": "Drumul Pădurea Pustnicu, Nr. 141C, Corp A, Etaj 2, Ap. 5, București, Sectorul 1, Romania",
+    "country": "RO",
+    "identifiers": [
+      {
+        "scheme": "CUI",
+        "value": "51415878",
+        "authority": "ANAF, Romania"
+      },
+      {
+        "scheme": "Registrul Comerțului",
+        "value": "J2025016406000",
+        "authority": "ONRC, Romania"
+      },
+      {
+        "scheme": "EUID",
+        "value": "ROONRC.J2025016406000",
+        "authority": "EU Business Registers Interconnection System"
+      },
+      {
+        "scheme": "CAEN",
+        "value": "6210",
+        "label": "Custom software development"
+      }
+    ],
+    "same_as": [
+      "https://5thelement.ai",
+      "https://aiventure.ro",
+      "https://1clic-ia.eu",
+      "https://www.linkedin.com/company/107338970",
+      "https://www.linkedin.com/showcase/5thelement-ai/",
+      "https://www.crunchbase.com/organization/aiventure-s-r-l",
+      "https://www.facebook.com/people/Aiventure/61573220584246/",
+      "https://x.com/aipath512",
+      "https://www.youtube.com/@AIVenture-q8u",
+      "https://medium.com/@aipath512"
+    ]
+  },
+  "people": [
+    {
+      "id": "https://3webobs.com/#founder",
+      "type": "Person",
+      "name": "Dan Ionesco",
+      "alternate_names": [
+        "Dan Ionescu"
+      ],
+      "role": "Founder & CEO",
+      "works_for": "https://3webobs.com/#organization",
+      "same_as": [
+        "https://ro.linkedin.com/in/dan-ionesco-a856082a0",
+        "https://x.com/aipath512",
+        "https://medium.com/@aipath512"
+      ]
+    }
+  ],
+  "products": [
+    {
+      "id": "https://3webobs.com/#service",
+      "type": "Service",
+      "name": "AI Visibility Observation",
+      "provider": "https://3webobs.com/#organization"
+    },
+    {
+      "id": "https://3webobs.com/#app",
+      "type": "SoftwareApplication",
+      "name": "3webs Engine",
+      "version": "3.0",
+      "author": "https://3webobs.com/#organization"
+    }
+  ],
+  "concepts": [
+    {
+      "id": "https://3webobs.com/#term-human-web",
+      "type": "DefinedTerm",
+      "name": "The human web",
+      "definition": "What a person sees: HTML, headings, links, page speed, crawlability."
+    },
+    {
+      "id": "https://3webobs.com/#term-ai-web",
+      "type": "DefinedTerm",
+      "name": "The AI web",
+      "definition": "What an answer engine sees: schema, entity graph, answer-first structure, citability."
+    },
+    {
+      "id": "https://3webobs.com/#term-machine-web",
+      "type": "DefinedTerm",
+      "name": "The machine web",
+      "definition": "What an agent sees: agent cards, declared capabilities, callable endpoints, verifiable evidence."
+    },
+    {
+      "id": "https://3webobs.com/#term-adi",
+      "type": "DefinedTerm",
+      "name": "ADI",
+      "definition": "AI Delivery Infrastructure — the machine-readable layer through which a company is discovered, understood and verified."
+    }
+  ],
+  "network_peers": [
+    {
+      "domain": "5thelement.ai",
+      "relation": "network_root_and_flagship"
+    },
+    {
+      "domain": "aiventure.ro",
+      "relation": "delivery_domain"
+    },
+    {
+      "domain": "1clic-ia.eu",
+      "relation": "sibling"
+    }
+  ]
+}

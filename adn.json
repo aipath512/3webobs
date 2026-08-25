@@ -1,0 +1,159 @@
+{
+  "$schema": "https://5thelement.ai/schemas/adn.v1.json",
+  "version": "1.0",
+  "domain": "https://3webobs.com",
+  "node_role": "observation_node",
+  "network_name": "AiVenture ADI Network",
+  "belongs_to_network": "https://5thelement.ai/adn.json",
+  "root_domain": "https://5thelement.ai",
+  "technology_partner": {
+    "name": "AiVenture SRL",
+    "delivery_domain": "https://aiventure.ro",
+    "technology_flagship": "https://5thelement.ai",
+    "legal_id": "CUI 51415878",
+    "contact": "contact@5thelement.ai",
+    "technology_category": "AI Delivery Infrastructure",
+    "technology_acronym": "ADI"
+  },
+  "platform_identity": {
+    "name": "3webs",
+    "category": "Three-Web Observation Infrastructure",
+    "domain": "https://3webobs.com",
+    "purpose": "Observă cum apare un domeniu în cele trei webs — webul oamenilor, webul AI și webul mașinilor — și raportează pe dovezi, prin 167 de semnale grupate pe cinci dimensiuni: AI Signals, AEO, GEO, AIO și SEO. Scorurile sunt deterministe, calculate din resurse public servite; semnalele neverificabile sunt marcate ca inaplicabile, niciodată ca eșecuri."
+  },
+  "node_function": {
+    "role_in_network": "measurement",
+    "description": "Instrumentul de măsură al rețelei. Nodurile de livrare construiesc infrastructura ADI; acest nod o observă și o cuantifică — pe domenii proprii și pe domenii terțe.",
+    "observed_webs": [
+      {
+        "id": "human_web",
+        "name": "Webul oamenilor",
+        "dimensions": [
+          "SEO"
+        ],
+        "signals": 42
+      },
+      {
+        "id": "ai_web",
+        "name": "Webul AI",
+        "dimensions": [
+          "AEO",
+          "GEO",
+          "AIO"
+        ],
+        "signals": 93
+      },
+      {
+        "id": "machine_web",
+        "name": "Webul mașinilor",
+        "dimensions": [
+          "AI Signals"
+        ],
+        "signals": 32
+      }
+    ],
+    "total_signals": 167,
+    "serves_network": "Fiecare nod ADN poate fi observat cu aceeași metodologie, ceea ce face ca declarațiile rețelei să fie verificabile din exterior, nu doar afirmate."
+  },
+  "relationship_model": {
+    "platform": "3webs (3webobs.com)",
+    "technology_provider": "AiVenture SRL",
+    "network": "AiVenture ADI Network",
+    "owned_by_network": true,
+    "note": "Nod propriu al rețelei, nu nod de client. Nu există client_identity."
+  },
+  "a2a_interface": {
+    "protocol": "A2A v1.0 (JSON-RPC 2.0)",
+    "agent_card": "https://3webobs.com/.well-known/agent-card.json",
+    "endpoint": "https://3webobs.com/a2a",
+    "service": "OBS — Three-Web Observation",
+    "modes": [
+      {
+        "id": "obs_one_shot",
+        "name": "Observație unică",
+        "description": "O singură observație a unui domeniu, întoarsă sincron, cu dovada pentru fiecare semnal."
+      },
+      {
+        "id": "obs_permanent",
+        "name": "Observație permanentă",
+        "description": "Re-observare pe interval, cu notificare la schimbarea stării unui semnal sau la depășirea unui prag de scor."
+      }
+    ],
+    "additional_skills": [
+      "obs_diff",
+      "obs_explain",
+      "obs_catalogue"
+    ],
+    "capabilities_descriptor": "https://3webobs.com/capabilities.json"
+  },
+  "signal_layer": {
+    "human_web": [
+      "/robots.txt",
+      "/sitemap.xml",
+      "/humans.txt",
+      "/.well-known/security.txt",
+      "/site.webmanifest"
+    ],
+    "ai_web": [
+      "/llms.txt",
+      "/ai.txt",
+      "/ai.json",
+      "/entities.json",
+      "/intents.json",
+      "/governance.json",
+      "/authority.json",
+      "/policy.json"
+    ],
+    "machine_web": [
+      "/.well-known/agent-card.json",
+      "/capabilities.json",
+      "/a2a",
+      "/signals"
+    ],
+    "network": [
+      "/adn.json",
+      "/network.json"
+    ],
+    "integrity": [
+      "/proof.json"
+    ]
+  },
+  "governance": {
+    "accountable_entity": "AIVENTURE S.R.L.",
+    "legal_id": "CUI 51415878",
+    "registration": "J2025016406000",
+    "euid": "ROONRC.J2025016406000",
+    "jurisdiction": "România, Uniunea Europeană",
+    "eu_ai_act": {
+      "regulation": "Regulamentul (UE) 2024/1689",
+      "role": "deployer",
+      "disclosure": "https://3webobs.com/ai-act.html"
+    },
+    "gdpr_notice": "https://3webobs.com/gdpr.html",
+    "terms": "https://3webobs.com/terms.html"
+  },
+  "trust_signals": [
+    "Entity Identity",
+    "Technology Attribution",
+    "Version Control",
+    "Knowledge Infrastructure",
+    "Traceability",
+    "Cryptographic Integrity",
+    "Agent Interoperability",
+    "Deterministic Measurement",
+    "Declared Limitations"
+  ],
+  "self_declaration": {
+    "principle": "Nodul care măsoară trebuie să declare tot ce măsoară la alții.",
+    "measured_by": "https://3webobs.com/a2a",
+    "own_signal_files_published": true,
+    "integrity_manifest": "https://3webobs.com/proof.json",
+    "not_claimed": [
+      "Intrare Wikipedia sau Wikidata — nu există la data publicării",
+      "Recenzii sau evaluări terțe — nu există publicate",
+      "Certificări de industrie — niciuna deținută",
+      "Observația permanentă este înregistrată, dar execuția programată necesită Cron Trigger neconfigurat încă"
+    ]
+  },
+  "last_updated": "2026-08-25"
+}

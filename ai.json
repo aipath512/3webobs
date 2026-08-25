@@ -1,0 +1,97 @@
+{
+  "$schema": "https://5thelement.ai/schemas/ai.json",
+  "version": "1.0",
+  "generated": "2026-08-25",
+  "identity": {
+    "name": "3webs",
+    "legal_name": "AIVENTURE S.R.L.",
+    "domain": "3webobs.com",
+    "canonical": "https://3webobs.com/",
+    "type": "AI visibility observation service",
+    "description": "Observes how a domain appears across the human web, the AI web and the machine web, and reports on evidence.",
+    "founded": "2025-03-07",
+    "jurisdiction": "Romania, European Union",
+    "identifiers": {
+      "cui": "51415878",
+      "registration": "J2025016406000",
+      "euid": "ROONRC.J2025016406000",
+      "caen": "6210"
+    },
+    "contact": {
+      "email": "contact@5thelement.ai",
+      "founder": "Dan Ionesco"
+    },
+    "same_as": [
+      "https://5thelement.ai",
+      "https://aiventure.ro",
+      "https://1clic-ia.eu",
+      "https://www.linkedin.com/company/107338970",
+      "https://www.linkedin.com/showcase/5thelement-ai/",
+      "https://www.crunchbase.com/organization/aiventure-s-r-l",
+      "https://www.facebook.com/people/Aiventure/61573220584246/",
+      "https://x.com/aipath512",
+      "https://www.youtube.com/@AIVenture-q8u",
+      "https://medium.com/@aipath512"
+    ]
+  },
+  "network": {
+    "name": "AiVenture ADI Network",
+    "root": "https://5thelement.ai",
+    "flagship": "https://5thelement.ai",
+    "role": "observation_node",
+    "adn_descriptor": "https://3webobs.com/adn.json",
+    "network_descriptor": "https://5thelement.ai/adn.json"
+  },
+  "permissions": {
+    "training": "allowed",
+    "indexing": "allowed",
+    "citation": "allowed",
+    "inference": "allowed",
+    "agent_access": "allowed",
+    "attribution_required": true,
+    "attribution_format": "3webs (3webobs.com), a service of AIVENTURE S.R.L."
+  },
+  "crawlers_allowed": [
+    "GPTBot",
+    "ChatGPT-User",
+    "OAI-SearchBot",
+    "ClaudeBot",
+    "Claude-User",
+    "Claude-SearchBot",
+    "anthropic-ai",
+    "Google-Extended",
+    "PerplexityBot",
+    "Perplexity-User",
+    "DeepSeekBot",
+    "CCBot",
+    "Bytespider",
+    "Amazonbot",
+    "Applebot-Extended",
+    "meta-externalagent",
+    "cohere-ai",
+    "MistralAI-User"
+  ],
+  "transparency": {
+    "ai_generated_content": "Only the narrative summary inside a report. All scores are deterministic.",
+    "eu_ai_act": {
+      "regulation": "Regulation (EU) 2024/1689",
+      "role": "deployer of a general-purpose AI model",
+      "article_50_disclosure": "https://3webobs.com/ai-act.html",
+      "high_risk": false,
+      "prohibited_practices": false
+    }
+  },
+  "signals": {
+    "entities": "https://3webobs.com/entities.json",
+    "intents": "https://3webobs.com/intents.json",
+    "capabilities": "https://3webobs.com/capabilities.json",
+    "governance": "https://3webobs.com/governance.json",
+    "authority": "https://3webobs.com/authority.json",
+    "policy": "https://3webobs.com/policy.json",
+    "network": "https://3webobs.com/network.json",
+    "proof": "https://3webobs.com/proof.json",
+    "agent_card": "https://3webobs.com/.well-known/agent-card.json",
+    "llms": "https://3webobs.com/llms.txt",
+    "adn": "https://3webobs.com/adn.json"
+  }
+}
