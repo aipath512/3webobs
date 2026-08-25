@@ -210,5 +210,7 @@
     "These digests prove file integrity, not truthfulness of content.",
     "They are recomputed on each publication; a changed digest means the file changed, nothing more.",
     "No blockchain anchoring is claimed. No timestamping authority has countersigned this manifest."
-  ]
+  ],
+  "alias_of": "https://3webobs.com/proof.json",
+  "note_alias": "Identical content to proof.json. Published under both names because different crawlers look for different filenames."
 }
