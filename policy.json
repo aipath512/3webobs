@@ -1,0 +1,39 @@
+{
+  "$schema": "https://5thelement.ai/schemas/policy.json",
+  "version": "1.0",
+  "generated": "2026-08-25",
+  "human_readable": {
+    "terms": "https://3webobs.com/terms.html",
+    "acceptable_use": "https://3webobs.com/policy.html",
+    "privacy": "https://3webobs.com/gdpr.html",
+    "cookies": "https://3webobs.com/cookies.html",
+    "ai_act": "https://3webobs.com/ai-act.html"
+  },
+  "access": {
+    "authentication_required": false,
+    "paywall": false,
+    "rate_limit": {
+      "anonymous": "reasonable use, throttled on abuse",
+      "agent": "agreed in writing per integration"
+    }
+  },
+  "usage": {
+    "read": "allowed",
+    "index": "allowed",
+    "cite": "allowed with attribution",
+    "train": "allowed",
+    "resell_output": "requires written licence",
+    "reconstruct_methodology": "prohibited"
+  },
+  "output_constraints": [
+    "A report is a technical observation, not a certification.",
+    "A report must not be presented as a legal compliance verdict.",
+    "Signals marked not_applicable must not be reported as failures.",
+    "Scores are point-in-time and lose accuracy as the observed site changes."
+  ],
+  "exclusion": {
+    "method": "email with proof of domain control, or block the user agent in robots.txt",
+    "contact": "contact@5thelement.ai",
+    "honoured": true
+  }
+}

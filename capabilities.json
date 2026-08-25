@@ -1,0 +1,201 @@
+{
+  "$schema": "https://5thelement.ai/schemas/capabilities.json",
+  "version": "1.0",
+  "generated": "2026-08-25",
+  "service": {
+    "name": "OBS — Three-Web Observation",
+    "provider": "AIVENTURE S.R.L.",
+    "brand": "3webs",
+    "endpoint_base": "https://3webobs.com",
+    "protocol": [
+      "HTTPS/JSON",
+      "A2A v1.0 (JSON-RPC 2.0)"
+    ],
+    "agent_card": "https://3webobs.com/.well-known/agent-card.json"
+  },
+  "observed_webs": [
+    {
+      "id": "human_web",
+      "name": "The human web",
+      "question_answered": "What does a person see?",
+      "signal_groups": [
+        "SEO"
+      ],
+      "signal_count": 42
+    },
+    {
+      "id": "ai_web",
+      "name": "The AI web",
+      "question_answered": "What does an answer engine see?",
+      "signal_groups": [
+        "AEO",
+        "GEO",
+        "AIO"
+      ],
+      "signal_count": 93
+    },
+    {
+      "id": "machine_web",
+      "name": "The machine web",
+      "question_answered": "What does an agent see?",
+      "signal_groups": [
+        "AI Signals"
+      ],
+      "signal_count": 32
+    }
+  ],
+  "capabilities": [
+    {
+      "id": "obs.one_shot",
+      "name": "One-shot observation",
+      "description": "Observe a domain once, across all three webs, and return the full report synchronously.",
+      "mode": "synchronous",
+      "input": {
+        "url": {
+          "type": "string",
+          "required": true,
+          "format": "uri"
+        },
+        "webs": {
+          "type": "array",
+          "required": false,
+          "enum": [
+            "human_web",
+            "ai_web",
+            "machine_web"
+          ],
+          "default": "all three"
+        }
+      },
+      "output": {
+        "format": "application/json",
+        "contains": [
+          "global score",
+          "per-dimension scores",
+          "per-signal verdict with evidence",
+          "action plan"
+        ]
+      },
+      "endpoint": {
+        "method": "POST",
+        "path": "/audit"
+      },
+      "determinism": "same input state produces same output",
+      "typical_latency": "5-20 seconds",
+      "pricing": {
+        "first": "free",
+        "subsequent": "per report, see terms"
+      }
+    },
+    {
+      "id": "obs.permanent",
+      "name": "Permanent observation",
+      "description": "Observe a domain continuously. The domain is re-observed on a schedule; the caller is notified when a signal changes state or the global score moves beyond a threshold.",
+      "mode": "subscription",
+      "input": {
+        "url": {
+          "type": "string",
+          "required": true,
+          "format": "uri"
+        },
+        "interval": {
+          "type": "string",
+          "required": true,
+          "enum": [
+            "daily",
+            "weekly",
+            "monthly"
+          ]
+        },
+        "notify": {
+          "type": "string",
+          "required": true,
+          "description": "callback URL or email"
+        },
+        "threshold": {
+          "type": "integer",
+          "required": false,
+          "description": "notify when global score moves by at least this many points"
+        }
+      },
+      "output": {
+        "format": "application/json",
+        "contains": [
+          "observation id",
+          "schedule",
+          "change events with before/after evidence"
+        ]
+      },
+      "endpoint": {
+        "method": "POST",
+        "path": "/observe"
+      },
+      "pricing": {
+        "model": "subscription",
+        "cancellable": "any time"
+      }
+    },
+    {
+      "id": "obs.diff",
+      "name": "Compare two observations",
+      "description": "Return the deterministic delta between a baseline observation and a current one — which signals changed, in which direction, with the evidence for each.",
+      "mode": "synchronous",
+      "input": {
+        "url": {
+          "type": "string",
+          "required": true
+        },
+        "baseline_id": {
+          "type": "string",
+          "required": true
+        }
+      },
+      "endpoint": {
+        "method": "POST",
+        "path": "/diff"
+      }
+    },
+    {
+      "id": "obs.explain",
+      "name": "Explain a signal",
+      "description": "Return the evidence behind a single signal verdict — what was fetched, what was found, and why the rule produced that result.",
+      "mode": "synchronous",
+      "input": {
+        "url": {
+          "type": "string",
+          "required": true
+        },
+        "signal_id": {
+          "type": "string",
+          "required": true
+        }
+      },
+      "endpoint": {
+        "method": "POST",
+        "path": "/explain"
+      }
+    },
+    {
+      "id": "obs.catalogue",
+      "name": "List the signal catalogue",
+      "description": "Return the full catalogue of signals, grouped by dimension and by web, with weights.",
+      "mode": "synchronous",
+      "input": {},
+      "endpoint": {
+        "method": "GET",
+        "path": "/signals"
+      }
+    }
+  ],
+  "guarantees": [
+    "Evidence-based: every verdict traces to a fetched resource.",
+    "Deterministic: no score is produced by a language model.",
+    "Honest gaps: unverifiable signals are returned as not_applicable, never as failures.",
+    "Non-invasive: only publicly served resources are fetched; no authentication is attempted."
+  ],
+  "not_guaranteed": [
+    "A ranking, citation or commercial outcome in any third-party AI system.",
+    "Legal compliance under any regulation.",
+    "Completeness where a target site blocks automated access."
+  ]
+}

@@ -1,0 +1,85 @@
+{
+  "$schema": "https://5thelement.ai/schemas/intents.json",
+  "version": "1.0",
+  "generated": "2026-08-25",
+  "description": "What this service can be asked to do, in the language a caller would use.",
+  "intents": [
+    {
+      "id": "observe_once",
+      "name": "Observe a domain once",
+      "utterances": [
+        "audit this website",
+        "how visible is this domain to AI",
+        "check my AI readiness",
+        "observe example.com",
+        "what do AI systems see on this site"
+      ],
+      "capability": "obs.one_shot",
+      "requires": [
+        "url"
+      ],
+      "cost": "first observation free"
+    },
+    {
+      "id": "observe_permanent",
+      "name": "Observe a domain continuously",
+      "utterances": [
+        "monitor this domain",
+        "watch for regressions",
+        "tell me when my score drops",
+        "keep observing example.com"
+      ],
+      "capability": "obs.permanent",
+      "requires": [
+        "url",
+        "interval"
+      ],
+      "cost": "subscription"
+    },
+    {
+      "id": "compare_before_after",
+      "name": "Compare two observations",
+      "utterances": [
+        "did my changes work",
+        "compare before and after",
+        "show the delta since last month"
+      ],
+      "capability": "obs.diff",
+      "requires": [
+        "url",
+        "baseline_id"
+      ]
+    },
+    {
+      "id": "explain_signal",
+      "name": "Explain a single signal",
+      "utterances": [
+        "why did this signal fail",
+        "what evidence did you find",
+        "explain llms.txt score"
+      ],
+      "capability": "obs.explain",
+      "requires": [
+        "url",
+        "signal_id"
+      ]
+    },
+    {
+      "id": "list_signals",
+      "name": "List the signal catalogue",
+      "utterances": [
+        "what do you measure",
+        "show me the 167 signals",
+        "what is in the methodology"
+      ],
+      "capability": "obs.catalogue",
+      "requires": []
+    }
+  ],
+  "not_supported": [
+    "Legal compliance certification",
+    "Guaranteeing a ranking or a citation in any AI system",
+    "Accessing authenticated or private areas of any website",
+    "Analysing a website in order to build a case against a private individual"
+  ]
+}

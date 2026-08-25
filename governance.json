@@ -1,0 +1,73 @@
+{
+  "$schema": "https://5thelement.ai/schemas/governance.json",
+  "version": "1.0",
+  "generated": "2026-08-25",
+  "accountable_entity": {
+    "legal_name": "AIVENTURE S.R.L.",
+    "cui": "51415878",
+    "euid": "ROONRC.J2025016406000",
+    "jurisdiction": "Romania, European Union",
+    "address": "Drumul Pădurea Pustnicu, Nr. 141C, Corp A, Etaj 2, Ap. 5, București, Sectorul 1, Romania",
+    "contact": "contact@5thelement.ai",
+    "representative": "Dan Ionesco"
+  },
+  "applicable_law": [
+    {
+      "instrument": "Regulation (EU) 2024/1689",
+      "short": "EU AI Act",
+      "role": "deployer",
+      "disclosure": "https://3webobs.com/ai-act.html"
+    },
+    {
+      "instrument": "Regulation (EU) 2016/679",
+      "short": "GDPR",
+      "role": "controller",
+      "notice": "https://3webobs.com/gdpr.html",
+      "supervisory_authority": "ANSPDCP, Romania"
+    },
+    {
+      "instrument": "Directive 2011/83/EU",
+      "short": "Consumer Rights",
+      "note": "Right of withdrawal addressed in Terms",
+      "terms": "https://3webobs.com/terms.html"
+    },
+    {
+      "instrument": "Directive 2002/58/EC",
+      "short": "ePrivacy",
+      "notice": "https://3webobs.com/cookies.html"
+    }
+  ],
+  "human_oversight": {
+    "automated_decisions_affecting_persons": false,
+    "subject_of_evaluation": "websites, not natural persons",
+    "explanation_on_request": true,
+    "contact_for_explanation": "contact@5thelement.ai"
+  },
+  "ai_usage": {
+    "scoring": "deterministic rules on observed evidence",
+    "narrative_summary": "general-purpose language model, disclosed at point of display",
+    "training_on_user_data": false,
+    "unverifiable_signals": "reported as not applicable, never assigned a value"
+  },
+  "data_handling": {
+    "personal_data_collected": [
+      "email address if provided",
+      "technical request logs"
+    ],
+    "sold_to_third_parties": false,
+    "processors": [
+      "Cloudflare, Inc.",
+      "AI model provider (synthesis only)",
+      "payment provider",
+      "email delivery provider"
+    ],
+    "transfers_outside_eea": "covered by adequacy decision or Standard Contractual Clauses"
+  },
+  "crawler_conduct": {
+    "identifies_itself": true,
+    "honours_robots_txt": true,
+    "attempts_authentication": false,
+    "probes_vulnerabilities": false,
+    "exclusion_request": "contact@5thelement.ai"
+  }
+}

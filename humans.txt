@@ -1,0 +1,24 @@
+/* TEAM */
+  Founder & Architect: Dan Ionesco
+  Site: 5thelement.ai
+  LinkedIn: ro.linkedin.com/in/dan-ionesco-a856082a0
+  Location: București, Romania
+
+/* COMPANY */
+  AIVENTURE S.R.L.
+  CUI: 51415878 · J2025016406000 · EUID: ROONRC.J2025016406000
+  CAEN 6210 — Custom software development
+  Incorporated: 07.03.2025
+  Contact: contact@5thelement.ai
+
+/* SITE */
+  Name: 3webs — 167-Signal AI Visibility Engine
+  Domain: 3webobs.com
+  Standards: HTML5, JSON-LD, A2A v1.0, llms.txt
+  Components: Cloudflare Pages, Cloudflare Workers
+  Language: English
+  Last update: 2026-08-25
+
+/* PURPOSE */
+  Observing the three webs — the human web, the AI web, and the machine web —
+  and reporting, on evidence, how a given domain appears in each.
