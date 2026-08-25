@@ -1,0 +1,2154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AUDIT-AI™ — 167-Signal Visibility Engine</title>
+<script>
+  // Runs before any CSS paint — forces white background immediately
+  document.documentElement.style.backgroundColor = '#ffffff';
+  document.documentElement.style.color = '#000000';
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#ffffff; --bg2:#f5f5f7; --bg3:#e8e8ed;
+  --text:#000000; --mid:#3a3a3c; --light:#6e6e73; --xlight:#aeaeb2;
+  --border:rgba(0,0,0,0.08); --border-md:rgba(0,0,0,0.14);
+  --blue:#0051a8; --blue-bg:#e8f0fb;
+  --red:#c0392b; --red-bg:#fdecea;
+  --green:#1a7f40; --green-bg:#e6f5ed;
+  --gold:#7a4f00; --gold-bg:#fff3cd;
+  --purple:#5e2ca5; --purple-bg:#f0ebff;
+  --sh1:0 1px 4px rgba(0,0,0,0.06),0 1px 2px rgba(0,0,0,0.04);
+  --sh2:0 4px 20px rgba(0,0,0,0.08),0 2px 8px rgba(0,0,0,0.04);
+  --sh3:0 12px 48px rgba(0,0,0,0.10),0 4px 14px rgba(0,0,0,0.05);
+  --r:12px; --rs:8px; --rxs:5px;
+}
+html.dark {
+  --bg:#000000; --bg2:#111111; --bg3:#1c1c1e;
+  --text:#f5f5f7; --mid:#c7c7cc; --light:#8e8e93; --xlight:#48484a;
+  --border:rgba(255,255,255,0.08); --border-md:rgba(255,255,255,0.14);
+  --blue:#5eb4ff; --blue-bg:#0a1829;
+  --red:#ff6b6b; --red-bg:#1a0808;
+  --green:#32d74b; --green-bg:#061509;
+  --gold:#ffd60a; --gold-bg:#1a1200;
+  --purple:#c09cff; --purple-bg:#1a0a2e;
+  --sh1:0 1px 4px rgba(0,0,0,0.5); --sh2:0 4px 20px rgba(0,0,0,0.5); --sh3:0 12px 48px rgba(0,0,0,0.6);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+
+/* ── THEME FOUNDATION ───────────────────────────────────────────
+   WHITE is default. Dark only when html has class "dark".
+   Use !important on html+body to override any iframe/parent styles.
+──────────────────────────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+  background-color: #ffffff !important;
+  transition: background-color .35s ease;
+}
+html.dark {
+  background-color: #000000 !important;
+}
+body {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400; font-size: 16px; line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  min-height: 100vh;
+  transition: background-color .35s ease, color .35s ease;
+}
+html.dark body {
+  background-color: #000000 !important;
+  color: #f5f5f7 !important;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   21:1 CONTRAST — ABSOLUTE RULE — NO GRAY TEXT ANYWHERE
+══════════════════════════════════════════════════════════════ */
+
+/* LIGHT: everything is pure black */
+body, body * { color: #000000; }
+
+/* DARK: everything is pure white */
+html.dark body, html.dark body * { color: #f5f5f7 !important; }
+
+/* Accent colors — only on elements where bg contrast is guaranteed */
+.eyebrow, .synth-tag, .ld-tag { color: var(--blue) !important; }
+html.dark .eyebrow, html.dark .synth-tag, html.dark .ld-tag { color: var(--blue) !important; }
+
+.d-aeo .dim-lbl, .d-aeo .dim-val { color: var(--blue) !important; }
+.d-geo .dim-lbl, .d-geo .dim-val { color: var(--gold) !important; }
+.d-aio .dim-lbl, .d-aio .dim-val { color: var(--green) !important; }
+.d-seo .dim-lbl, .d-seo .dim-val { color: var(--purple) !important; }
+
+.sh, .sl-ok  { color: var(--green)  !important; }
+.sm, .sl-warn{ color: var(--gold)   !important; }
+.sl_, .sl-fail { color: var(--red)  !important; }
+.sl-info     { color: var(--blue)   !important; }
+.sb-p        { color: var(--green)  !important; }
+.sb-w        { color: var(--gold)   !important; }
+.sb-f        { color: var(--red)    !important; }
+
+html.dark .d-aeo .dim-lbl, html.dark .d-aeo .dim-val { color: var(--blue) !important; }
+html.dark .d-geo .dim-lbl, html.dark .d-geo .dim-val { color: var(--gold) !important; }
+html.dark .d-aio .dim-lbl, html.dark .d-aio .dim-val { color: var(--green) !important; }
+html.dark .d-seo .dim-lbl, html.dark .d-seo .dim-val { color: var(--purple) !important; }
+html.dark .sh, html.dark .sl-ok   { color: var(--green)  !important; }
+html.dark .sm, html.dark .sl-warn { color: var(--gold)   !important; }
+html.dark .sl_, html.dark .sl-fail{ color: var(--red)    !important; }
+html.dark .sl-info                { color: var(--blue)   !important; }
+html.dark .sb-p                   { color: var(--green)  !important; }
+html.dark .sb-w                   { color: var(--gold)   !important; }
+html.dark .sb-f                   { color: var(--red)    !important; }
+
+/* TOGGLE — hardcoded inversion, immune to cascade */
+#toggle, #toggle span, #toggle #ti, #toggle #tl { color: #ffffff !important; }
+html.dark #toggle,
+html.dark #toggle span,
+html.dark #toggle #ti,
+html.dark #toggle #tl { color: #000000 !important; }
+
+/* CRAWLER tags */
+.ct-ok { color: var(--green) !important; }
+.ct-no { color: var(--red)   !important; }
+html.dark .ct-ok { border-color: rgba(50,215,75,.25) !important; }
+html.dark .ct-no { border-color: rgba(255,107,107,.25) !important; }
+
+/* WhatsApp button */
+.share-btn-wa { color: #0a6624 !important; }
+html.dark .share-btn-wa { color: #25d366 !important; }
+.share-btn-wa:hover, .share-btn-wa:hover * { color: #ffffff !important; }
+
+/* TOGGLE — inline under brand, not fixed */
+#toggle{display:inline-flex;align-items:center;gap:7px;background:var(--text);color:var(--bg);border:none;border-radius:100px;padding:6px 14px 6px 11px;font-family:'Inter',sans-serif;font-size:11px;font-weight:500;letter-spacing:.03em;cursor:pointer;transition:background .35s,color .35s,box-shadow .2s;box-shadow:var(--sh1);user-select:none;margin-top:10px;}
+#toggle:hover{box-shadow:var(--sh2);}
+
+/* PROGRESS */
+#bar{position:fixed;top:0;left:0;height:2px;background:var(--blue);z-index:9999;width:0%;transition:width .2s;box-shadow:0 0 6px rgba(0,81,168,.3);}
+
+/* LAYOUT */
+.wrap{max-width:1080px;margin:0 auto;padding:0 36px;}
+
+/* HEADER — compact, toggle lives below brand */
+header{padding:24px 0 20px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;}
+.brand h1{font-family:'Playfair Display',serif;font-weight:700;font-size:22px;letter-spacing:-.02em;line-height:1.2;}
+.brand h1 em{font-style:italic;color:var(--blue);}
+.brand p{font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--text);margin-top:3px;}
+.hd-meta{font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--text);text-align:right;line-height:1.7;padding-top:4px;}
+
+/* INPUT — tighter top, ensure CTA visible */
+#input-zone{padding:40px 0 28px;text-align:center;}
+.eyebrow{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--blue);margin-bottom:14px;}
+.hero-h{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(32px,5vw,56px);line-height:1.08;letter-spacing:-.03em;margin-bottom:14px;}
+.hero-h em{font-style:italic;color:var(--blue);}
+.hero-s{font-size:16px;font-weight:300;color:var(--text);max-width:520px;margin:0 auto 32px;line-height:1.65;}
+.url-wrap{max-width:620px;margin:0 auto 10px;position:relative;}
+.url-in{width:100%;padding:19px 148px 19px 22px;font-family:'Inter',sans-serif;font-size:15px;color:var(--text);background:var(--bg);border:1.5px solid var(--border-md);border-radius:100px;outline:none;box-shadow:var(--sh1);transition:border-color .2s,box-shadow .2s,background .35s;}
+.url-in::placeholder{color:var(--text);}
+.url-in:focus{border-color:var(--blue);box-shadow:0 0 0 4px rgba(0,81,168,.08),var(--sh1);}
+html.dark .url-in:focus{box-shadow:0 0 0 4px rgba(94,180,255,.1),var(--sh1);}
+.url-go{position:absolute;right:6px;top:50%;transform:translateY(-50%);padding:11px 26px;background:var(--text);color:var(--bg);border:none;border-radius:100px;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;letter-spacing:.04em;cursor:pointer;transition:background .2s,color .2s,transform .15s;}
+.url-go:hover{transform:translateY(-50%) scale(1.03);}
+.url-go:disabled{opacity:.35;cursor:not-allowed;transform:translateY(-50%);}
+
+/* ── DUAL CTA ROW ── */
+.cta-divider{
+  display:flex;align-items:center;gap:14px;
+  max-width:620px;margin:0 auto 10px;
+}
+.cta-divider-line{flex:1;height:1px;background:var(--border);}
+.cta-divider-text{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--text);white-space:nowrap;}
+
+.cta-action-row{
+  max-width:620px;margin:0 auto 12px;
+  display:flex;align-items:center;gap:12px;
+}
+.cta-action-label{
+  flex:1;text-align:left;
+  font-size:13px;font-weight:400;color:var(--text);line-height:1.4;
+}
+.cta-action-label strong{color:var(--text);font-weight:600;display:block;font-size:14px;margin-bottom:1px;}
+.cta-action-btn{
+  display:flex;align-items:center;gap:8px;flex-shrink:0;
+  padding:11px 22px;
+  background:transparent;
+  color:var(--blue);
+  border:1.5px solid var(--blue);
+  border-radius:100px;
+  font-family:'Inter',sans-serif;font-size:13px;font-weight:600;letter-spacing:.03em;
+  cursor:pointer;
+  text-decoration:none;
+  transition:background .2s,color .2s,transform .15s,box-shadow .2s;
+  position:relative;
+}
+.cta-action-btn:hover{
+  background:var(--blue);color:#ffffff;
+  box-shadow:0 4px 16px rgba(0,81,168,.18);
+  transform:scale(1.02);
+}
+html.dark .cta-action-btn:hover{box-shadow:0 4px 16px rgba(94,180,255,.2);}
+.cta-soon{
+  display:inline-block;
+  font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  padding:2px 7px;border-radius:100px;
+  background:var(--gold-bg);color:var(--gold);
+  border:1px solid currentColor;
+  margin-left:6px;
+  vertical-align:middle;
+  opacity:.85;
+}
+
+.pills{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;}
+.pill{font-size:11px;font-weight:500;letter-spacing:.05em;padding:5px 13px;border-radius:100px;background:var(--bg2);border:1px solid var(--border);color:var(--text);transition:background .35s,border .35s;}
+.pill b{color:var(--text);font-weight:600;}
+
+/* LOADING */
+#loading-zone{display:none;padding:80px 0;}
+.ld-head{text-align:center;margin-bottom:48px;}
+.ld-tag{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--blue);margin-bottom:14px;}
+.ld-title{font-family:'Playfair Display',serif;font-weight:700;font-size:30px;letter-spacing:-.02em;margin-bottom:8px;}
+.ld-url{font-size:13px;color:var(--text);font-family:'Inter',monospace;}
+.mod-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:28px;}
+.mod{background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:20px 18px 16px;box-shadow:var(--sh1);position:relative;overflow:hidden;transition:border-color .3s,box-shadow .3s;}
+.mod.active{border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,81,168,.07),var(--sh1);}
+html.dark .mod.active{box-shadow:0 0 0 3px rgba(94,180,255,.1);}
+.mod.done{border-color:var(--green);}
+.mod-lbl{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text);margin-bottom:8px;}
+.mod.active .mod-lbl{color:var(--blue);}
+.mod.done .mod-lbl{color:var(--green);}
+.mod-cnt{font-family:'Playfair Display',serif;font-weight:700;font-size:26px;color:var(--text);line-height:1;}
+.mod-bar{position:absolute;bottom:0;left:0;height:2px;background:var(--blue);width:0%;transition:width .4s ease;border-radius:0 2px 2px 0;}
+.mod.done .mod-bar{background:var(--green);width:100%;}
+.stream{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:18px 22px;font-size:12px;font-family:'Inter',monospace;line-height:1.9;height:172px;overflow-y:auto;color:var(--text);}
+.stream::-webkit-scrollbar{width:3px;} .stream::-webkit-scrollbar-thumb{background:var(--border-md);border-radius:3px;}
+.sl-ok{color:var(--green);} .sl-warn{color:var(--gold);} .sl-fail{color:var(--red);} .sl-info{color:var(--blue);}
+
+/* RESULTS */
+#results-zone{display:none;padding:64px 0;}
+
+/* SCORE HERO */
+.sh-grid{display:grid;grid-template-columns:240px 1fr;gap:52px;align-items:center;margin-bottom:60px;padding-bottom:60px;border-bottom:1px solid var(--border);}
+.ring-w{position:relative;display:flex;align-items:center;justify-content:center;}
+.ring-w svg{width:210px;height:210px;}
+.r-bg{fill:none;stroke:var(--bg3);stroke-width:10;}
+.r-fill{fill:none;stroke-width:10;stroke-linecap:round;transform:rotate(-90deg);transform-origin:center;transition:stroke-dashoffset 1.6s cubic-bezier(.4,0,.2,1);}
+.r-inner{position:absolute;text-align:center;}
+.r-num{font-family:'Playfair Display',serif;font-weight:700;font-size:54px;line-height:1;color:var(--text);display:block;}
+.r-lbl{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text);margin-top:4px;display:block;}
+.r-grade{display:inline-block;margin-top:9px;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:4px 12px;border-radius:100px;border:1.5px solid;}
+.sh-label{font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--text);margin-bottom:7px;}
+.sh-url{font-family:'Playfair Display',serif;font-weight:600;font-size:20px;letter-spacing:-.02em;margin-bottom:5px;word-break:break-all;}
+.sh-ts{font-size:11px;color:var(--text);margin-bottom:32px;}
+.dim-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+.dim{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rs);padding:16px 18px;}
+.dim-lbl{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;margin-bottom:2px;}
+.dim-name{font-size:11px;font-weight:400;color:var(--text);margin-bottom:10px;}
+.dim-val{font-family:'Playfair Display',serif;font-weight:700;font-size:34px;line-height:1;}
+.dim-bar{height:2px;background:var(--bg3);border-radius:2px;margin-top:9px;}
+.dim-bar-f{height:100%;border-radius:2px;transition:width 1.2s ease;}
+.dim-delta{display:inline-flex;align-items:center;gap:3px;font-size:10px;font-weight:600;letter-spacing:.03em;margin-top:5px;padding:2px 8px;border-radius:100px;}
+.d-aeo .dim-lbl,.d-aeo .dim-val{color:var(--blue);} .d-aeo .dim-bar-f{background:var(--blue);}
+.d-geo .dim-lbl,.d-geo .dim-val{color:var(--gold);} .d-geo .dim-bar-f{background:var(--gold);}
+.d-aio .dim-lbl,.d-aio .dim-val{color:var(--green);} .d-aio .dim-bar-f{background:var(--green);}
+.d-seo .dim-lbl,.d-seo .dim-val{color:var(--purple);} .d-seo .dim-bar-f{background:var(--purple);}
+
+/* AI BAND */
+.ai-band{display:flex;align-items:center;justify-content:space-between;gap:28px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:26px 32px;margin-bottom:36px;box-shadow:var(--sh1);}
+.aib-lbl{font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--text);margin-bottom:5px;}
+.aib-val{font-family:'Playfair Display',serif;font-weight:700;font-size:40px;line-height:1;}
+.aib-val span{font-size:17px;font-weight:400;color:var(--text);}
+.aib-bar{height:2px;background:var(--bg3);border-radius:2px;margin-top:9px;max-width:240px;}
+.aib-bar-f{height:100%;border-radius:2px;background:var(--blue);transition:width 1.2s ease;}
+.crawler-tags{display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end;}
+.ct{font-size:11px;font-weight:500;padding:4px 11px;border-radius:100px;}
+.ct-ok{background:var(--green-bg);color:var(--green);border:1px solid rgba(26,127,64,.2);}
+.ct-no{background:var(--red-bg);color:var(--red);border:1px solid rgba(192,57,43,.2);}
+
+/* SYNTHESIS */
+.synth{border:1px solid var(--border-md);border-radius:var(--r);padding:36px 40px;margin-bottom:44px;background:var(--bg);box-shadow:var(--sh2);position:relative;overflow:hidden;}
+.synth::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--blue),transparent 65%);}
+.synth-hd{display:flex;align-items:center;gap:10px;margin-bottom:18px;}
+.synth-ico{width:34px;height:34px;background:var(--blue-bg);color:var(--blue);border-radius:var(--rxs);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
+.synth-tag{font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--blue);}
+.synth-body{font-family:'Playfair Display',serif;font-size:18px;line-height:1.75;font-style:italic;color:var(--text);}
+.dot-anim span{animation:dp 1.2s infinite;display:inline-block;opacity:.3;}
+.dot-anim span:nth-child(2){animation-delay:.2s;} .dot-anim span:nth-child(3){animation-delay:.4s;}
+@keyframes dp{0%,100%{opacity:.3}50%{opacity:1}}
+
+/* CONTROLS */
+.ctrls{display:flex;align-items:center;gap:7px;margin-bottom:32px;flex-wrap:wrap;}
+.ctrl-lbl{font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--text);margin-right:3px;}
+.cb{font-size:12px;font-weight:500;padding:6px 15px;border-radius:100px;background:var(--bg2);color:var(--text);border:1px solid var(--border);cursor:pointer;transition:all .15s;white-space:nowrap;}
+.cb:hover{border-color:var(--border-md);color:var(--text);}
+.cb.on{background:var(--text);color:var(--bg);border-color:var(--text);}
+.c-div{width:1px;height:22px;background:var(--border-md);margin:0 6px;}
+.c-sp{flex:1;}
+
+/* SIGNAL SECTIONS */
+.ss{margin-bottom:52px;}
+.ss-head{display:flex;align-items:baseline;gap:12px;padding-bottom:14px;border-bottom:1px solid var(--border);margin-bottom:18px;}
+.ss-title{font-family:'Playfair Display',serif;font-weight:700;font-size:21px;letter-spacing:-.02em;}
+.ss-score{font-size:12px;font-weight:600;padding:3px 11px;border-radius:100px;}
+.ss-cnt{font-size:11px;color:var(--text);margin-left:auto;}
+.sg{display:grid;gap:7px;}
+.sg-compact{grid-template-columns:repeat(4,1fr);}
+.sg-normal{grid-template-columns:repeat(3,1fr);}
+.sg-expanded{grid-template-columns:1fr;}
+.sc{background:var(--bg);border:1px solid var(--border);border-radius:var(--rs);padding:13px 15px;display:flex;align-items:center;gap:11px;transition:border-color .15s,box-shadow .15s;}
+.sc:hover{border-color:var(--border-md);box-shadow:var(--sh1);}
+.sc-body{flex:1;min-width:0;}
+.sc-name{font-size:12px;font-weight:500;color:var(--text);line-height:1.4;}
+.sc-meta{font-size:10px;color:var(--text);margin-top:2px;display:none;}
+.sg-expanded .sc-meta{display:block;}
+.sc-score{font-family:'Playfair Display',serif;font-weight:700;font-size:19px;flex-shrink:0;}
+.sh{color:var(--green);} .sm{color:var(--gold);} .sl_{color:var(--red);}
+.sb{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:100px;flex-shrink:0;white-space:nowrap;}
+.sb-p{background:var(--green-bg);color:var(--green);}
+.sb-w{background:var(--gold-bg);color:var(--gold);}
+.sb-f{background:var(--red-bg);color:var(--red);}
+
+/* ACTION PLAN */
+.ap-title{font-family:'Playfair Display',serif;font-weight:700;font-size:26px;letter-spacing:-.02em;margin-bottom:22px;}
+.ap-title em{font-style:italic;color:var(--blue);}
+.ap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:52px;}
+.ac{background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:26px 26px 22px;box-shadow:var(--sh1);position:relative;overflow:hidden;}
+.ac::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+.ac-c::before{background:var(--red);} .ac-i::before{background:var(--gold);} .ac-o::before{background:var(--blue);}
+.ac-p{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:10px;}
+.ac-c .ac-p{color:var(--red);} .ac-i .ac-p{color:var(--gold);} .ac-o .ac-p{color:var(--blue);}
+.ac-title{font-family:'Playfair Display',serif;font-weight:700;font-size:16px;letter-spacing:-.01em;margin-bottom:16px;line-height:1.3;}
+.ac-items{list-style:none;}
+.ac-item{font-size:12px;color:var(--text);line-height:1.55;padding:5px 0 5px 14px;border-bottom:1px solid var(--border);position:relative;}
+.ac-item:last-child{border-bottom:none;}
+.ac-item::before{content:'→';position:absolute;left:0;color:var(--text);font-size:10px;top:7px;}
+.ac-ft{margin-top:16px;padding-top:12px;border-top:1px solid var(--border);font-size:11px;color:var(--text);}
+.ac-ft strong{color:var(--text);font-weight:600;}
+.ac-delta{display:inline-flex;align-items:center;gap:3px;font-size:11px;font-weight:600;margin-top:7px;padding:3px 9px;border-radius:100px;background:var(--green-bg);color:var(--green);}
+
+/* RESET */
+.rst{display:block;margin:0 auto 80px;padding:14px 48px;background:transparent;color:var(--text);border:1.5px solid var(--border-md);border-radius:100px;font-family:'Inter',sans-serif;font-size:14px;font-weight:500;letter-spacing:.04em;cursor:pointer;transition:all .2s;}
+.rst:hover{background:var(--text);color:var(--bg);border-color:var(--text);}
+
+/* GRADE CLASSES — always reference CSS vars, never hardcoded hex */
+.grade-s .r-grade,.grade-s-badge{color:var(--green)!important;border-color:var(--green)!important;}
+.grade-a .r-grade,.grade-a-badge{color:var(--blue)!important;border-color:var(--blue)!important;}
+.grade-b .r-grade,.grade-b-badge{color:var(--gold)!important;border-color:var(--gold)!important;}
+.grade-c .r-grade,.grade-c-badge{color:var(--red)!important;border-color:var(--red)!important;}
+.grade-d .r-grade,.grade-d-badge{color:var(--red)!important;border-color:var(--red)!important;}
+
+/* ANIMS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.fu{animation:fadeUp .5s ease forwards;}
+.fu1{animation:fadeUp .5s .04s ease both;} .fu2{animation:fadeUp .5s .10s ease both;}
+.fu3{animation:fadeUp .5s .18s ease both;} .fu4{animation:fadeUp .5s .28s ease both;}
+.fu5{animation:fadeUp .5s .38s ease both;}
+
+@keyframes pulse-a{0%,100%{box-shadow:0 0 0 0 rgba(0,81,168,.06)}50%{box-shadow:0 0 0 5px rgba(0,81,168,.06)}}
+.mod.active{animation:pulse-a 1.6s infinite;}
+html.dark .mod.active{animation:none;}
+
+/* ── SHARE BAR ── */
+.share-bar{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:16px;flex-wrap:wrap;
+  max-width:800px;margin:0 auto 48px;
+  padding:20px 28px;
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:var(--r);box-shadow:var(--sh1);
+}
+.share-label{
+  font-size:11px;font-weight:600;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--text);
+  white-space:nowrap;
+}
+.share-btns{display:flex;gap:10px;flex-wrap:wrap;}
+.share-btn{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:9px 18px;
+  background:var(--bg);color:var(--text);
+  border:1.5px solid var(--border-md);border-radius:100px;
+  font-family:'Inter',sans-serif;font-size:12px;font-weight:500;
+  letter-spacing:.02em;cursor:pointer;
+  transition:all .18s;box-shadow:var(--sh1);
+}
+.share-btn:hover{border-color:var(--text);box-shadow:var(--sh2);transform:translateY(-1px);}
+.share-btn-wa{border-color:rgba(37,211,102,.4);color:#128c3e;}
+html.dark .share-btn-wa{color:#25d366;border-color:rgba(37,211,102,.3);}
+.share-btn-wa:hover{background:#25d366;color:#fff !important;border-color:#25d366;}
+.share-ico{font-size:14px;line-height:1;}
+
+/* ── MODAL ── */
+#share-modal{
+  position:fixed;inset:0;z-index:9990;
+  display:flex;align-items:flex-end;justify-content:center;
+  padding:0 16px 24px;
+}
+@media(min-width:600px){#share-modal{align-items:center;}}
+.modal-backdrop{
+  position:absolute;inset:0;
+  background:rgba(0,0,0,0.45);backdrop-filter:blur(4px);
+}
+.modal-box{
+  position:relative;z-index:1;
+  width:100%;max-width:480px;
+  background:var(--bg);border:1px solid var(--border-md);
+  border-radius:20px;padding:28px 28px 24px;
+  box-shadow:var(--sh3);
+  transform:translateY(20px);opacity:0;
+  transition:transform .28s cubic-bezier(.34,1.36,.64,1),opacity .22s ease;
+}
+.modal-header{display:flex;align-items:flex-start;gap:12px;margin-bottom:20px;}
+.modal-icon{font-size:22px;line-height:1;flex-shrink:0;margin-top:2px;}
+.modal-title{font-family:'Playfair Display',serif;font-weight:700;font-size:18px;letter-spacing:-.01em;color:var(--text);}
+.modal-sub{font-size:11px;color:var(--text);margin-top:3px;word-break:break-all;}
+.modal-close{
+  margin-left:auto;flex-shrink:0;
+  width:28px;height:28px;border-radius:100px;
+  background:var(--bg2);border:1px solid var(--border);
+  color:var(--text);font-size:11px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .15s,color .15s;
+}
+.modal-close:hover{background:var(--text);color:var(--bg);}
+.modal-score-row{
+  display:flex;gap:10px;margin-bottom:20px;
+}
+.modal-score-card{
+  flex:1;background:var(--bg2);border:1px solid var(--border);
+  border-radius:var(--rs);padding:12px 14px;text-align:center;
+}
+.modal-score-lbl{font-size:9px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text);margin-bottom:4px;}
+.modal-score-val{font-family:'Playfair Display',serif;font-weight:700;font-size:22px;color:var(--text);line-height:1;}
+.modal-score-val span{font-size:12px;color:var(--text);font-family:'Inter',sans-serif;font-weight:400;}
+.modal-field-label{font-size:11px;font-weight:600;color:var(--text);margin-bottom:7px;letter-spacing:.02em;}
+.modal-input{
+  width:100%;padding:13px 16px;
+  background:var(--bg2);color:var(--text);
+  border:1.5px solid var(--border-md);border-radius:100px;
+  font-family:'Inter',sans-serif;font-size:14px;outline:none;
+  transition:border-color .2s,box-shadow .2s;
+  margin-bottom:12px;
+}
+.modal-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,81,168,.08);}
+.modal-btn{
+  width:100%;padding:13px;
+  background:var(--text);color:var(--bg);
+  border:none;border-radius:100px;
+  font-family:'Inter',sans-serif;font-size:14px;font-weight:600;
+  letter-spacing:.03em;cursor:pointer;
+  transition:opacity .18s,transform .15s;
+  margin-bottom:12px;
+}
+.modal-btn:hover{opacity:.85;transform:scale(1.01);}
+.modal-note{font-size:10px;color:var(--text);text-align:center;line-height:1.5;}
+
+/* ── ACCORDION — Apple Watch Premium ── */
+.acc-wrap{
+  margin-bottom:10px;
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  overflow:hidden;
+  background:var(--bg);
+  box-shadow:var(--sh1);
+  transition:box-shadow .2s;
+}
+.acc-wrap:hover{box-shadow:var(--sh2);}
+
+.acc-header{
+  width:100%;display:flex;align-items:center;
+  justify-content:space-between;
+  padding:18px 20px;
+  background:var(--bg);border:none;cursor:pointer;
+  transition:background .15s;
+  gap:12px;
+}
+.acc-header:hover{background:var(--bg2);}
+.acc-header.open{background:var(--bg2);}
+
+.acc-header-left{display:flex;align-items:center;gap:14px;flex:1;min-width:0;}
+.acc-icon{
+  width:36px;height:36px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;flex-shrink:0;
+  transition:transform .2s;
+}
+.acc-header.open .acc-icon{transform:scale(1.05);}
+.acc-header-text{display:flex;flex-direction:column;gap:2px;min-width:0;}
+.acc-tag{
+  font-size:10px;font-weight:700;letter-spacing:.12em;
+  text-transform:uppercase;line-height:1;
+}
+.acc-label{
+  font-family:'Playfair Display',serif;
+  font-weight:600;font-size:15px;letter-spacing:-.01em;
+  color:var(--text);line-height:1.3;
+}
+.acc-chevron{
+  font-size:10px;color:var(--text);
+  flex-shrink:0;transition:transform .25s ease;
+  opacity:.5;
+}
+.acc-header.open .acc-chevron{opacity:1;}
+
+.acc-body{overflow:hidden;}
+.acc-inner{
+  padding:20px;
+  border-top:1px solid var(--border);
+  animation:accSlide .22s ease;
+}
+@keyframes accSlide{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+
+/* SYNTH inside accordion */
+.acc-synth-body{
+  font-family:'Playfair Display',serif;
+  font-size:17px;line-height:1.75;font-style:italic;
+  color:var(--text);
+}
+
+/* ACTION PLAN inside accordion */
+.acc-ap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+@media(max-width:700px){.acc-ap-grid{grid-template-columns:1fr;}}
+.acc-ap-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rs);padding:20px;position:relative;overflow:hidden;}
+.acc-ap-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+.acc-ap-c::before{background:var(--red);}
+.acc-ap-i::before{background:var(--gold);}
+.acc-ap-o::before{background:var(--blue);}
+.acc-ap-p{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px;}
+.acc-ap-c .acc-ap-p{color:var(--red);}
+.acc-ap-i .acc-ap-p{color:var(--gold);}
+.acc-ap-o .acc-ap-p{color:var(--blue);}
+.acc-ap-title{font-family:'Playfair Display',serif;font-weight:700;font-size:14px;margin-bottom:12px;line-height:1.3;}
+
+/* Signal stats bar */
+.acc-sig-stats{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
+.acc-stat{font-size:11px;font-weight:600;padding:4px 12px;border-radius:100px;}
+.acc-stat-p{background:var(--green-bg);color:var(--green);}
+.acc-stat-w{background:var(--gold-bg);color:var(--gold);}
+.acc-stat-f{background:var(--red-bg);color:var(--red);}
+.acc-ctrls{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;}
+
+/* AI-READY CTA */
+.aiready-cta{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:20px;
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:var(--r);padding:22px 26px;
+  margin:20px 0;box-shadow:var(--sh1);
+}
+@media(max-width:600px){.aiready-cta{flex-direction:column;align-items:flex-start;}}
+.aiready-cta-tag{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--blue);margin-bottom:5px;}
+.aiready-cta-title{font-family:'Playfair Display',serif;font-weight:700;font-size:16px;margin-bottom:3px;}
+.aiready-cta-sub{font-size:12px;}
+.aiready-btn{
+  flex-shrink:0;display:inline-flex;align-items:center;gap:8px;
+  padding:11px 22px;background:var(--blue);color:#ffffff !important;
+  border:none;border-radius:100px;font-family:'Inter',sans-serif;
+  font-size:13px;font-weight:600;letter-spacing:.03em;cursor:pointer;
+  text-decoration:none;transition:opacity .2s;
+  box-shadow:0 4px 14px rgba(0,81,168,.2);
+}
+.aiready-btn:hover{opacity:.85;}
+.aiready-badge{
+  font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  padding:2px 7px;border-radius:100px;background:rgba(255,255,255,.2);
+  color:#ffffff !important;
+}
+
+/* CONTACT */
+.contact-section{margin:28px 0;}
+.contact-title{
+  font-family:'Playfair Display',serif;font-weight:700;
+  font-size:20px;letter-spacing:-.02em;
+  margin-bottom:16px;padding-bottom:14px;
+  border-bottom:1px solid var(--border);
+}
+.contact-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+@media(max-width:600px){.contact-grid{grid-template-columns:1fr;}}
+.contact-card{
+  display:flex;align-items:center;gap:14px;
+  padding:16px 18px;
+  background:var(--bg);border:1px solid var(--border);
+  border-radius:var(--rs);text-decoration:none;
+  transition:border-color .15s,box-shadow .15s,transform .15s;
+  box-shadow:var(--sh1);
+}
+.contact-card:hover{border-color:var(--blue);box-shadow:var(--sh2);transform:translateY(-1px);}
+.contact-card-wa:hover{border-color:#25d366;}
+.contact-ico{font-size:22px;flex-shrink:0;}
+.contact-name{font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px;}
+.contact-desc{font-size:11px;color:var(--text);opacity:.6;}
+.contact-arrow{margin-left:auto;font-size:14px;color:var(--text);opacity:.3;flex-shrink:0;}
+.contact-card:hover .contact-arrow{opacity:.8;}
+
+/* GLOSSARY */
+.glossary-section{margin:10px 0 28px;}
+.glossary-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;}
+@media(max-width:600px){.glossary-grid{grid-template-columns:1fr;}}
+.gls-item{
+  padding:12px 14px;
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:var(--rxs);
+}
+.gls-term{
+  font-size:11px;font-weight:700;letter-spacing:.06em;
+  text-transform:uppercase;margin-bottom:4px;
+}
+.gls-def{font-size:12px;line-height:1.5;color:var(--text);opacity:.75;}
+
+/* LEGAL ENTITY BLOCK */
+.legal-block{
+  margin-top:20px;
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:var(--r);padding:24px;
+  box-shadow:var(--sh1);
+}
+.legal-header{
+  display:flex;align-items:center;gap:14px;
+  margin-bottom:20px;padding-bottom:16px;
+  border-bottom:1px solid var(--border);
+}
+.legal-ico{font-size:24px;flex-shrink:0;}
+.legal-name{font-family:'Playfair Display',serif;font-weight:700;font-size:18px;letter-spacing:-.01em;}
+.legal-sub{font-size:11px;color:var(--text);opacity:.6;margin-top:2px;}
+.legal-badge{
+  margin-left:auto;flex-shrink:0;
+  font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  padding:4px 12px;border-radius:100px;
+  background:var(--green-bg);color:var(--green);
+  border:1px solid currentColor;
+}
+.legal-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:10px;
+}
+@media(max-width:600px){.legal-grid{grid-template-columns:1fr;}}
+.legal-item{
+  background:var(--bg);border:1px solid var(--border);
+  border-radius:var(--rs);padding:12px 14px;
+}
+.legal-lbl{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px;opacity:.6;}
+.legal-val{font-size:13px;font-weight:500;line-height:1.4;}
+
+/* ── PILL ACCORDIONS (input screen) ── */
+.pill-accordions{
+  max-width:620px;margin:0 auto;
+  display:flex;flex-direction:column;gap:6px;
+}
+.pill-acc{
+  border:1px solid var(--border);border-radius:var(--rs);
+  background:var(--bg);overflow:hidden;
+  transition:box-shadow .15s;
+}
+.pill-acc:hover{box-shadow:var(--sh1);}
+.pill-acc-header{
+  width:100%;display:flex;align-items:center;gap:10px;
+  padding:11px 16px;background:transparent;border:none;
+  cursor:pointer;text-align:left;
+  transition:background .15s;
+}
+.pill-acc-header:hover{background:var(--bg2);}
+.pill-acc-tag{
+  font-size:10px;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;flex-shrink:0;min-width:52px;
+}
+.pill-acc-name{
+  font-size:12px;font-weight:500;color:var(--text);flex:1;
+}
+.pill-acc-count{
+  font-size:10px;font-weight:600;
+  background:var(--bg2);border:1px solid var(--border);
+  padding:2px 8px;border-radius:100px;
+  color:var(--text);flex-shrink:0;white-space:nowrap;
+}
+.pill-acc-chev{font-size:9px;color:var(--text);opacity:.4;flex-shrink:0;}
+.pill-acc-body{
+  padding:0 16px 14px;
+  border-top:1px solid var(--border);
+  animation:accSlide .2s ease;
+}
+.pill-acc-def{
+  font-size:12px;line-height:1.6;
+  margin-top:10px;color:var(--text);
+}
+.pill-acc-eg{
+  font-size:11px;line-height:1.6;
+  margin-top:8px;color:var(--text);opacity:.75;
+}
+.pill-acc-link{
+  display:inline-block;margin-top:10px;
+  font-size:11px;font-weight:600;color:var(--blue);
+  text-decoration:none;letter-spacing:.02em;
+}
+.pill-acc-link:hover{text-decoration:underline;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:800px){
+  .sh-grid{grid-template-columns:1fr;gap:28px;text-align:center;}
+  .mod-grid{grid-template-columns:repeat(2,1fr);}
+  .ap-grid{grid-template-columns:1fr;}
+  .sg-compact,.sg-normal{grid-template-columns:repeat(2,1fr);}
+  .ai-band{flex-direction:column;align-items:flex-start;}
+  .crawler-tags{justify-content:flex-start;}
+  .share-bar{flex-direction:column;align-items:flex-start;}
+  .cta-action-row{flex-direction:column;align-items:flex-start;gap:14px;}
+}
+@media print{
+  #toggle,#bar,.ctrls,.share-bar,.rst,
+  .cta-divider,.cta-action-row,.pills,
+  #loading-zone,#input-zone,#share-modal{display:none!important;}
+  body{background:#fff!important;color:#000!important;}
+  .wrap{max-width:100%;padding:0 20px;}
+  header{padding:16px 0;border-bottom:2px solid #000;}
+  .sh-grid{grid-template-columns:180px 1fr;gap:24px;}
+  .sg-normal{grid-template-columns:repeat(3,1fr);}
+  .sg-compact{grid-template-columns:repeat(4,1fr);}
+  .sc,.dim,.mod,.synth,.ai-band,.ac{break-inside:avoid;}
+  .ap-grid{grid-template-columns:repeat(3,1fr);}
+  a{text-decoration:none!important;}
+  .synth{box-shadow:none;border:1px solid #ccc;}
+}
+
+</style>
+</head>
+<body>
+
+<div id="bar"></div>
+
+<div class="wrap">
+
+<!-- HEADER -->
+<header>
+  <div class="brand">
+    <h1>Audit<em>·AI™</em></h1>
+    <p>167-Signal AI Visibility Engine</p>
+    <button id="toggle" onclick="toggleTheme()"><span id="ti">☾</span><span id="tl">Dark</span></button>
+  </div>
+  <div class="hd-meta">V 2.0 · AI-FIRST<br><span style="opacity:.5;font-size:9px">AI Signals · AEO · GEO · SEO</span></div>
+</header>
+
+<!-- INPUT -->
+<div id="input-zone">
+  <p class="eyebrow">Complete Diagnostic · 167 Signals · On-Site + On/Off Page</p>
+  <h2 class="hero-h">Your AI Search Visibility,<br><em>Diagnosed.</em></h2>
+  <p class="hero-s">Enter any URL and receive a full-stack AI Signals — AEO, GEO, SEO audit with synthesis and action plan.</p>
+
+  <!-- CTA 1 — Run Audit -->
+  <div class="url-wrap">
+    <input type="text" id="url-input" class="url-in" placeholder="yoursite.com" autocomplete="off"/>
+    <button class="url-go" id="go-btn" onclick="startAudit()">Run Audit</button>
+  </div>
+
+  <!-- DIVIDER -->
+  <div class="cta-divider">
+    <div class="cta-divider-line"></div>
+    <span class="cta-divider-text">or go further</span>
+    <div class="cta-divider-line"></div>
+  </div>
+
+  <!-- CTA 2 — Action Plan → AI-READY -->
+  <div class="cta-action-row">
+    <div class="cta-action-label">
+      <strong>Run Action Plan</strong>
+      Deploy your AI visibility fix — step by step.
+    </div>
+    <a href="/ai-ready" class="cta-action-btn" onclick="handleActionPlan(event)">
+      Action Plan
+      <span style="font-size:15px;line-height:1">→</span>
+      <span class="cta-soon">AI-READY</span>
+    </a>
+  </div>
+
+  <!-- PRICING BAND -->
+  <div style="max-width:620px;margin:12px auto 20px;">
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh1);">
+
+      <!-- Two plans -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;">
+
+        <!-- Plan 1 -->
+        <div style="padding:20px 18px;border-right:1px solid var(--border);">
+          <div style="font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);margin-bottom:8px;">Setup</div>
+          <div style="font-family:'Playfair Display',serif;font-weight:700;font-size:32px;line-height:1;color:var(--text);">49<span style="font-size:16px;font-weight:400;color:var(--text);opacity:.6"> €</span></div>
+          <div style="font-size:11px;color:var(--text);opacity:.6;margin-top:4px;margin-bottom:14px;">One-time · Full audit</div>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:6px;">
+            <li style="font-size:11px;display:flex;gap:6px;"><span style="color:var(--green)">✓</span> 167 signals complete</li>
+            <li style="font-size:11px;display:flex;gap:6px;"><span style="color:var(--green)">✓</span> AI executive synthesis</li>
+            <li style="font-size:11px;display:flex;gap:6px;"><span style="color:var(--green)">✓</span> Priority action plan</li>
+            <li style="font-size:11px;display:flex;gap:6px;"><span style="color:var(--green)">✓</span> Printable PDF report</li>
+          </ul>
+        </div>
+
+        <!-- Plan 2 -->
+        <div style="padding:20px 18px;position:relative;">
+          <div style="position:absolute;top:12px;right:12px;font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:var(--green-bg);color:var(--green);padding:2px 8px;border-radius:100px;border:1px solid currentColor;">Recommandé</div>
+          <div style="font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--green);margin-bottom:8px;">Ongoing</div>
+          <div style="font-family:'Playfair Display',serif;font-weight:700;font-size:32px;line-height:1;color:var(--text);">19<span style="font-size:16px;font-weight:400;color:var(--text);opacity:.6"> €/mo</span></div>
+          <div style="font-size:11px;color:var(--text);opacity:.6;margin-top:4px;margin-bottom:14px;">Monthly or on demand</div>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:6px;">
+            <li style="font-size:11px;display:flex;gap:6px;"><span style="color:var(--green)">✓</span> Everything in Setup</li>
+            <li style="font-size:11px;display:flex;gap:6px;"><span style="color:var(--green)">✓</span> Monthly score tracking</li>
+            <li style="font-size:11px;display:flex;gap:6px;"><span style="color:var(--green)">✓</span> AI regression alerts</li>
+            <li style="font-size:11px;display:flex;gap:6px;"><span style="color:var(--green)">✓</span> History & trends</li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- CTA row -->
+      <div style="padding:14px 18px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+        <div style="font-size:11px;color:var(--text);opacity:.6;">
+          💳 Secure payment · Cancel anytime
+        </div>
+        <a href="https://api.whatsapp.com/send/?phone=40737123540&text=Hi%2C%20I%20want%20to%20order%20Audit-AI%2049€" target="_blank" style="display:inline-flex;align-items:center;gap:7px;padding:9px 20px;background:var(--text);color:var(--bg);border:none;border-radius:100px;font-family:'Inter',sans-serif;font-size:12px;font-weight:600;letter-spacing:.03em;cursor:pointer;text-decoration:none;white-space:nowrap;">
+          Order → WhatsApp
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 167 CRITERIA — parent accordion, folded by default -->
+  <div class="pill-acc" id="pacc-criteria" style="max-width:620px;margin:0 auto 8px;">
+    <button class="pill-acc-header" onclick="togglePill('criteria')" style="border-radius:var(--rs)">
+      <span class="pill-acc-tag" style="color:var(--blue)">◈</span>
+      <span class="pill-acc-name" style="font-weight:700;font-family:'Playfair Display',serif;font-size:15px;letter-spacing:-.01em;">167 Audit·AI Criteria</span>
+      <span class="pill-acc-count">9 categories</span>
+      <span class="pill-acc-chev" id="pc-criteria">▼</span>
+    </button>
+    <div class="pill-acc-body" id="pb-criteria" style="display:none;padding:0;">
+      <div style="padding:12px 12px 0;">
+        <div style="font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;opacity:.5;text-align:center;margin-bottom:12px;">↓ Tap any category for details</div>
+      </div>
+      <div class="pill-accordions" style="padding:0 12px 12px;gap:5px;">
+
+        <div class="pill-acc" id="pacc-ai">
+          <button class="pill-acc-header" onclick="togglePill('ai')">
+            <span class="pill-acc-tag" style="color:var(--red)">AI Signals</span>
+            <span class="pill-acc-name">Crawler & Trust Layer</span>
+            <span class="pill-acc-count">32 signals</span>
+            <span class="pill-acc-chev" id="pc-ai">▼</span>
+          </button>
+          <div class="pill-acc-body" id="pb-ai" style="display:none">
+            <p class="pill-acc-def"><strong>What it is:</strong> AI Signals are dedicated machine-readable files and permissions that explicitly declare your brand to AI crawlers — separate from SEO or schema work.</p>
+            <p class="pill-acc-def"><strong>Why it matters:</strong> Without explicit permissions, GPTBot and ClaudeBot are blocked by default. Without proof.json and entities.json, your brand identity cannot be verified by AI systems.</p>
+            <p class="pill-acc-eg"><strong>Examples:</strong> ClaudeBot Allow · GPTBot Allow · Google-Extended Allow · proof.json SHA-256 · Cryptographic IP proof · entities.json · intents.json · governance.json · allow-lane-matrix.json · EU AI Act tag · session.json</p>
+            <p class="pill-acc-eg"><strong>Real impact:</strong> 5thElement.ai is top 1% worldwide — scoring 88–96 on these 32 signals. Most sites score 0–5.</p>
+            <a class="pill-acc-link" href="#ai-signals-acc" onclick="scrollToAcc('ai-signals-acc')">→ See your AI Signals score in results</a>
+          </div>
+        </div>
+
+    <div class="pill-acc" id="pacc-aeo">
+      <button class="pill-acc-header" onclick="togglePill('aeo')">
+        <span class="pill-acc-tag" style="color:var(--blue)">AEO</span>
+        <span class="pill-acc-name">Answer Engine Optimization</span>
+      <button class="pill-acc-header" onclick="togglePill('aeo')">
+        <span class="pill-acc-tag" style="color:var(--blue)">AEO</span>
+        <span class="pill-acc-name">Answer Engine Optimization</span>
+        <span class="pill-acc-count">34 signals</span>
+        <span class="pill-acc-chev" id="pc-aeo">▼</span>
+      </button>
+      <div class="pill-acc-body" id="pb-aeo" style="display:none">
+        <p class="pill-acc-def"><strong>What it is:</strong> AEO structures your content so AI assistants — ChatGPT, Gemini, Perplexity, Siri — extract it as a direct answer without the user clicking a link.</p>
+        <p class="pill-acc-def"><strong>Why it matters:</strong> 60%+ of AI responses cite zero external links. If your content isn't AEO-optimised, you're invisible in the answer layer — even if you rank #1 on Google.</p>
+        <p class="pill-acc-eg"><strong>Examples of AEO signals:</strong> FAQ Schema · HowTo Schema · Answer-First paragraphs · Featured Snippet formatting · Question-intent URLs · Speakable Schema · Direct Definition Blocks</p>
+        <p class="pill-acc-eg"><strong>Real impact:</strong> A site with FAQ schema + answer-first structure is 4× more likely to be quoted in ChatGPT Browse responses than a site without.</p>
+        <a class="pill-acc-link" href="#aeo-acc" onclick="scrollToAcc('aeo-acc')">→ See your AEO score in results</a>
+      </div>
+    </div>
+
+    <div class="pill-acc" id="pacc-geo">
+      <button class="pill-acc-header" onclick="togglePill('geo')">
+        <span class="pill-acc-tag" style="color:var(--gold)">GEO</span>
+        <span class="pill-acc-name">Generative Engine Optimization</span>
+        <span class="pill-acc-count">28 signals</span>
+        <span class="pill-acc-chev" id="pc-geo">▼</span>
+      </button>
+      <div class="pill-acc-body" id="pb-geo" style="display:none">
+        <p class="pill-acc-def"><strong>What it is:</strong> GEO makes your brand entity discoverable, citable, and trustworthy to the generative AI layer — the infrastructure that LLMs use to decide WHO to mention.</p>
+        <p class="pill-acc-def"><strong>Why it matters:</strong> Google, Claude, Gemini and ChatGPT all resolve brand identity through entity graphs. Without a declared entity, you are a string of text — not a brand. You cannot be cited with confidence.</p>
+        <p class="pill-acc-eg"><strong>Examples of GEO signals:</strong> llms.txt · ai.json · entities.json · JSON-LD entity graph · Organization Schema · sameAs links to Wikipedia/Wikidata · Press mentions · LinkedIn entity verification · proof.json</p>
+        <p class="pill-acc-eg"><strong>Real impact:</strong> 5thElement.ai scores 96/100 on llms.txt — one of fewer than 2,000 domains globally with a fully declared AI entity stack.</p>
+        <a class="pill-acc-link" href="#geo-acc" onclick="scrollToAcc('geo-acc')">→ See your GEO score in results</a>
+      </div>
+    </div>
+
+    <div class="pill-acc" id="pacc-aio">
+      <button class="pill-acc-header" onclick="togglePill('aio')">
+        <span class="pill-acc-tag" style="color:var(--green)">AIO</span>
+        <span class="pill-acc-name">AI Optimization</span>
+        <span class="pill-acc-count">31 signals</span>
+        <span class="pill-acc-chev" id="pc-aio">▼</span>
+      </button>
+      <div class="pill-acc-body" id="pb-aio" style="display:none">
+        <p class="pill-acc-def"><strong>What it is:</strong> AIO covers the full stack of signals that determine how AI systems understand, rank, and reproduce your content — from crawler permissions to topical authority to RAG-readiness.</p>
+        <p class="pill-acc-def"><strong>Why it matters:</strong> LLMs don't just read your page — they decide whether your content deserves to be in their training corpus and retrieval layer. AIO is the difference between being a source and being invisible.</p>
+        <p class="pill-acc-eg"><strong>Examples of AIO signals:</strong> Topical Authority depth · Semantic keyword clusters · E-E-A-T score · RAG-ready content format · Corpus inclusion signals · ChatGPT Browse visibility · Gemini grounding eligibility · Claude source indexing</p>
+        <p class="pill-acc-eg"><strong>Real impact:</strong> Sites with RAG-ready structure (chunked, cited, dense paragraphs) are 6× more likely to appear in Perplexity cited sources.</p>
+        <a class="pill-acc-link" href="#aio-acc" onclick="scrollToAcc('aio-acc')">→ See your AIO score in results</a>
+      </div>
+    </div>
+
+    <div class="pill-acc" id="pacc-seo">
+      <button class="pill-acc-header" onclick="togglePill('seo')">
+        <span class="pill-acc-tag" style="color:var(--purple)">SEO</span>
+        <span class="pill-acc-name">Search Engine Optimization</span>
+        <span class="pill-acc-count">42 signals</span>
+        <span class="pill-acc-chev" id="pc-seo">▼</span>
+      </button>
+      <div class="pill-acc-body" id="pb-seo" style="display:none">
+        <p class="pill-acc-def"><strong>What it is:</strong> SEO remains the technical and content foundation. In the AI era, SEO signals are the substrate that AI crawlers use to assess domain authority, content freshness, and technical trustworthiness.</p>
+        <p class="pill-acc-def"><strong>Why it matters:</strong> A site with broken Core Web Vitals, missing meta tags, and toxic backlinks will score poorly on AI discovery too — because AI systems use SEO signals as trust proxies.</p>
+        <p class="pill-acc-eg"><strong>Examples of SEO signals:</strong> Title tags · Meta descriptions · H1–H6 hierarchy · Core Web Vitals (LCP, CLS, INP) · Mobile responsiveness · HTTPS · XML sitemap · Internal link architecture · Backlink authority · Duplicate content · Canonical tags</p>
+        <p class="pill-acc-eg"><strong>Real impact:</strong> Google's AI Overviews draw 73% of their cited sources from pages that also rank in the top 10 organic results.</p>
+        <a class="pill-acc-link" href="#seo-acc" onclick="scrollToAcc('seo-acc')">→ See your SEO score in results</a>
+      </div>
+    </div>
+
+
+    <div class="pill-acc" id="pacc-onpage">
+      <button class="pill-acc-header" onclick="togglePill('onpage')">
+        <span class="pill-acc-tag" style="color:var(--text)">On-Page</span>
+        <span class="pill-acc-name">Content & markup signals</span>
+        <span class="pill-acc-count">67 signals</span>
+        <span class="pill-acc-chev" id="pc-onpage">▼</span>
+      </button>
+      <div class="pill-acc-body" id="pb-onpage" style="display:none">
+        <p class="pill-acc-def"><strong>What it is:</strong> On-Page signals are everything visible and coded within a single page — title tags, schema markup, heading structure, content quality, and answer formatting.</p>
+        <p class="pill-acc-eg"><strong>Covers signals from:</strong> AEO (FAQ/HowTo schema, answer-first structure) · SEO (title, meta, H1-H6, word count) · AIO (topical depth, RAG format, E-E-A-T) · GEO (OG tags, entity density, named entities)</p>
+      </div>
+    </div>
+
+    <div class="pill-acc" id="pacc-offpage">
+      <button class="pill-acc-header" onclick="togglePill('offpage')">
+        <span class="pill-acc-tag" style="color:var(--text)">Off-Page</span>
+        <span class="pill-acc-name">Authority & citation signals</span>
+        <span class="pill-acc-count">54 signals</span>
+        <span class="pill-acc-chev" id="pc-offpage">▼</span>
+      </button>
+      <div class="pill-acc-body" id="pb-offpage" style="display:none">
+        <p class="pill-acc-def"><strong>What it is:</strong> Off-Page signals come from outside your domain — backlinks, press mentions, AI citations, social proof, and third-party entity verification.</p>
+        <p class="pill-acc-eg"><strong>Covers signals from:</strong> SEO (backlinks, DA, toxic ratio) · AEO (Knowledge Panel, PAA coverage) · GEO (Wikipedia entity, Crunchbase, LinkedIn verification, press AI-indexed) · AIO (Perplexity citations, ChatGPT visibility, Gemini grounding)</p>
+      </div>
+    </div>
+
+    <div class="pill-acc" id="pacc-onsite">
+      <button class="pill-acc-header" onclick="togglePill('onsite')">
+        <span class="pill-acc-tag" style="color:var(--text)">On-Site</span>
+        <span class="pill-acc-name">Technical infrastructure signals</span>
+        <span class="pill-acc-count">28 signals</span>
+        <span class="pill-acc-chev" id="pc-onsite">▼</span>
+      </button>
+      <div class="pill-acc-body" id="pb-onsite" style="display:none">
+        <p class="pill-acc-def"><strong>What it is:</strong> On-Site signals span your entire domain infrastructure — file architecture, crawl configuration, AI governance files, and technical health — not limited to a single page.</p>
+        <p class="pill-acc-eg"><strong>Covers signals from:</strong> GEO (llms.txt, ai.json, entities.json, robots.txt) · SEO (sitemap, canonicals, HTTPS, crawl budget) · AIO (AI crawl permissions, allow-lane-matrix) · AI Signals (proof.json, session.json, governance.json)</p>
+      </div>
+    </div>
+
+    <div class="pill-acc" id="pacc-offsite">
+      <button class="pill-acc-header" onclick="togglePill('offsite')">
+        <span class="pill-acc-tag" style="color:var(--text)">Off-Site</span>
+        <span class="pill-acc-name">External AI ecosystem signals</span>
+        <span class="pill-acc-count">18 signals</span>
+        <span class="pill-acc-chev" id="pc-offsite">▼</span>
+      </button>
+      <div class="pill-acc-body" id="pb-offsite" style="display:none">
+        <p class="pill-acc-def"><strong>What it is:</strong> Off-Site AI signals are your presence in external AI ecosystems — LLM knowledge graphs, vector databases, blockchain IP registries, and AI answer layers that exist independently of your website.</p>
+        <p class="pill-acc-eg"><strong>Covers signals from:</strong> AI Signals (IPFS/Blockchain registration, Gemini grounding verified, AI Knowledge Graph entry, LLM embedding proximity, Cross-AI consistency) · GEO (external entity links quality, Wikipedia/Wikidata anchor)</p>
+      </div>
+    </div>
+
+      </div><!-- /pill-accordions inner -->
+    </div><!-- /pb-criteria -->
+  </div><!-- /pacc-criteria -->
+
+  <!-- GLOSSARY — folded, bottom of input screen -->
+  <div class="pill-acc" id="pacc-glossary" style="margin-top:20px;max-width:620px;margin-left:auto;margin-right:auto;">
+    <button class="pill-acc-header" onclick="togglePill('glossary')" style="border-radius:var(--rs)">
+      <span class="pill-acc-tag" style="color:var(--text)">📖</span>
+      <span class="pill-acc-name" style="font-weight:600">Glossary of Terms</span>
+      <span class="pill-acc-count">35 definitions</span>
+      <span class="pill-acc-chev" id="pc-glossary">▼</span>
+    </button>
+    <div class="pill-acc-body" id="pb-glossary" style="display:none;border-top:1px solid var(--border);padding:16px;">
+      <div id="glossary-inline-grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:4px;"></div>
+    </div>
+  </div>
+
+  <!-- CONTACT US — bottom of screen 1 -->
+  <div style="max-width:620px;margin:20px auto 32px;">
+    <div style="font-family:'Playfair Display',serif;font-weight:700;font-size:17px;letter-spacing:-.01em;text-align:center;margin-bottom:4px;">Contact Us</div>
+    <div style="font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;opacity:.5;text-align:center;margin-bottom:16px;">AIVENTURE S.R.L. · 5thElement.ai</div>
+    <div style="display:flex;flex-direction:column;gap:7px;">
+      <a href="mailto:contact@5thelement.ai" style="display:flex;align-items:center;gap:12px;padding:13px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--rs);text-decoration:none;">
+        <span style="font-size:18px">✉</span>
+        <div><div style="font-size:13px;font-weight:600;">contact@5thelement.ai</div><div style="font-size:11px;opacity:.6">Email · Founder direct</div></div>
+        <span style="margin-left:auto;opacity:.3">→</span>
+      </a>
+      <a href="https://api.whatsapp.com/send/?phone=40737123540" target="_blank" style="display:flex;align-items:center;gap:12px;padding:13px 16px;background:var(--bg2);border:1px solid rgba(37,211,102,.25);border-radius:var(--rs);text-decoration:none;">
+        <span style="font-size:18px">💬</span>
+        <div><div style="font-size:13px;font-weight:600;">WhatsApp · +40 737 123 540</div><div style="font-size:11px;opacity:.6">Quick consultation</div></div>
+        <span style="margin-left:auto;opacity:.3">→</span>
+      </a>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;">
+        <a href="https://5thelement.ai" target="_blank" style="display:flex;align-items:center;gap:10px;padding:11px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--rs);text-decoration:none;"><span style="font-size:16px">🌐</span><div><div style="font-size:12px;font-weight:600;">5thElement.ai</div><div style="font-size:10px;opacity:.6">AI-FIRST</div></div></a>
+        <a href="https://aiventure.ro" target="_blank" style="display:flex;align-items:center;gap:10px;padding:11px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--rs);text-decoration:none;"><span style="font-size:16px">🇷🇴</span><div><div style="font-size:12px;font-weight:600;">AiVenture.ro</div><div style="font-size:10px;opacity:.6">Romanian market</div></div></a>
+        <a href="https://1clic-ia.eu" target="_blank" style="display:flex;align-items:center;gap:10px;padding:11px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--rs);text-decoration:none;"><span style="font-size:16px">⚡</span><div><div style="font-size:12px;font-weight:600;">1Clic-IA.eu</div><div style="font-size:10px;opacity:.6">Europe</div></div></a>
+        <a href="https://www.linkedin.com/in/dan-ionesco-a856082a0" target="_blank" style="display:flex;align-items:center;gap:10px;padding:11px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--rs);text-decoration:none;"><span style="font-size:16px">👤</span><div><div style="font-size:12px;font-weight:600;">Dan Ionesco</div><div style="font-size:10px;opacity:.6">LinkedIn</div></div></a>
+        <a href="https://www.linkedin.com/showcase/5thelement-ai/" target="_blank" style="display:flex;align-items:center;gap:10px;padding:11px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--rs);text-decoration:none;"><span style="font-size:16px">💼</span><div><div style="font-size:12px;font-weight:600;">LinkedIn</div><div style="font-size:10px;opacity:.6">5thElement</div></div></a>
+        <a href="https://x.com/aipath512" target="_blank" style="display:flex;align-items:center;gap:10px;padding:11px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--rs);text-decoration:none;"><span style="font-size:16px">𝕏</span><div><div style="font-size:12px;font-weight:600;">@aipath512</div><div style="font-size:10px;opacity:.6">X / Twitter</div></div></a>
+        <a href="https://www.youtube.com/@AIVenture-q8u" target="_blank" style="display:flex;align-items:center;gap:10px;padding:11px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--rs);text-decoration:none;"><span style="font-size:16px">▶</span><div><div style="font-size:12px;font-weight:600;">YouTube</div><div style="font-size:10px;opacity:.6">AIVenture</div></div></a>
+        <a href="https://medium.com/@aipath512" target="_blank" style="display:flex;align-items:center;gap:10px;padding:11px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--rs);text-decoration:none;"><span style="font-size:16px">✍</span><div><div style="font-size:12px;font-weight:600;">Medium</div><div style="font-size:10px;opacity:.6">@aipath512</div></div></a>
+        <a href="https://www.facebook.com/people/Aiventure/61573220584246/" target="_blank" style="display:flex;align-items:center;gap:10px;padding:11px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--rs);text-decoration:none;"><span style="font-size:16px">📘</span><div><div style="font-size:12px;font-weight:600;">Facebook</div><div style="font-size:10px;opacity:.6">AiVenture</div></div></a>
+        <a href="https://www.crunchbase.com/organization/aiventure-s-r-l" target="_blank" style="display:flex;align-items:center;gap:10px;padding:11px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--rs);text-decoration:none;"><span style="font-size:16px">📊</span><div><div style="font-size:12px;font-weight:600;">Crunchbase</div><div style="font-size:10px;opacity:.6">AiVenture</div></div></a>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--rs);padding:14px 16px;margin-top:2px;">
+        <div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;opacity:.5;margin-bottom:8px;">AIVENTURE S.R.L. · Legal Entity</div>
+        <div style="font-size:11px;line-height:1.9;">
+          📍 București, Sectorul 1 · Drumul Pădurea Pustnicu, Nr. 141C Corp A, Et. 2<br>
+          🧾 CUI: 51415878 · J2025016406000<br>
+          🌐 EUID: ROONRC.J2025016406000<br>
+          ⚙️ CAEN 6210 · Software la comandă<br>
+          📅 Înregistrată: 07.03.2025
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<div id="loading-zone">
+  <div class="ld-head fu">
+    <div class="ld-tag">Scanning</div>
+    <div class="ld-title">Analyzing AI Visibility</div>
+    <div class="ld-url" id="ld-url"></div>
+  </div>
+  <div class="mod-grid fu1">
+    <div class="mod" id="m-aeo"><div class="mod-lbl">AEO</div><div class="mod-cnt" id="c-aeo">0 / 34</div><div class="mod-bar" id="b-aeo"></div></div>
+    <div class="mod" id="m-geo"><div class="mod-lbl">GEO</div><div class="mod-cnt" id="c-geo">0 / 28</div><div class="mod-bar" id="b-geo"></div></div>
+    <div class="mod" id="m-aio"><div class="mod-lbl">AIO</div><div class="mod-cnt" id="c-aio">0 / 31</div><div class="mod-bar" id="b-aio"></div></div>
+    <div class="mod" id="m-seo"><div class="mod-lbl">SEO</div><div class="mod-cnt" id="c-seo">0 / 42</div><div class="mod-bar" id="b-seo"></div></div>
+    <div class="mod" id="m-ai"><div class="mod-lbl">AI Signals</div><div class="mod-cnt" id="c-ai">0 / 32</div><div class="mod-bar" id="b-ai"></div></div>
+    <div class="mod" id="m-tot"><div class="mod-lbl">Total</div><div class="mod-cnt" id="c-tot">0 / 167</div><div class="mod-bar" id="b-tot"></div></div>
+    <div class="mod" id="m-op"><div class="mod-lbl">On-Page</div><div class="mod-cnt" id="c-op">0 / 67</div><div class="mod-bar" id="b-op"></div></div>
+    <div class="mod" id="m-off"><div class="mod-lbl">Off-Page</div><div class="mod-cnt" id="c-off">0 / 54</div><div class="mod-bar" id="b-off"></div></div>
+  </div>
+  <div class="stream fu2" id="stream"></div>
+</div>
+
+<!-- RESULTS -->
+<div id="results-zone"></div>
+
+</div>
+
+<script>
+/* THEME */
+function toggleTheme(){
+  const isDark = document.documentElement.classList.toggle('dark');
+  document.documentElement.style.backgroundColor = isDark ? '#000000' : '#ffffff';
+  document.body.style.backgroundColor = isDark ? '#000000' : '#ffffff';
+  document.body.style.color = isDark ? '#f5f5f7' : '#000000';
+  document.getElementById('ti').textContent = isDark ? '☀' : '☾';
+  document.getElementById('tl').textContent = isDark ? 'Light' : 'Dark';
+}
+
+/* ACTION PLAN CTA — redirects to /ai-ready (coming soon: show toast) */
+function handleActionPlan(e){
+  e.preventDefault();
+  // When AI-READY is live, replace this block with: window.location.href = '/ai-ready';
+  showComingToast();
+}
+function showComingToast(){
+  showToast('🚀','AI-READY — Coming Soon','The AI-READY deployment engine is on its way.');
+}
+document.getElementById('url-input').addEventListener('keypress',e=>{if(e.key==='Enter')startAudit();});
+function setP(p){document.getElementById('bar').style.width=p+'%';}
+
+/* ── SIGNAL LIBRARY 167 signals ── */
+const SIG={
+AEO:[
+  {id:'aeo1',n:'FAQ Schema Markup',c:'ON-PAGE',w:9},
+  {id:'aeo2',n:'HowTo Schema Markup',c:'ON-PAGE',w:8},
+  {id:'aeo3',n:'Q&A Format Content Blocks',c:'ON-PAGE',w:9},
+  {id:'aeo4',n:'Structured Answer Snippets',c:'ON-PAGE',w:10},
+  {id:'aeo5',n:'Speakable Schema (Voice)',c:'ON-PAGE',w:7},
+  {id:'aeo6',n:'Article Schema Presence',c:'ON-PAGE',w:8},
+  {id:'aeo7',n:'Breadcrumb Schema',c:'ON-PAGE',w:7},
+  {id:'aeo8',n:'Table of Contents Anchors',c:'ON-PAGE',w:6},
+  {id:'aeo9',n:'Entity Disambiguation (Wikidata)',c:'OFF-PAGE',w:9},
+  {id:'aeo10',n:'Knowledge Panel Presence',c:'OFF-PAGE',w:10},
+  {id:'aeo11',n:'Direct Answer Formatting',c:'ON-PAGE',w:9},
+  {id:'aeo12',n:'Question-Intent URL Structure',c:'ON-SITE',w:7},
+  {id:'aeo13',n:'PAA Coverage',c:'OFF-PAGE',w:8},
+  {id:'aeo14',n:'Featured Snippet Optimization',c:'ON-PAGE',w:10},
+  {id:'aeo15',n:'Definition Blocks',c:'ON-PAGE',w:7},
+  {id:'aeo16',n:'Step-by-Step Schema',c:'ON-PAGE',w:7},
+  {id:'aeo17',n:'Concise Lead Paragraphs <60w',c:'ON-PAGE',w:8},
+  {id:'aeo18',n:'Voice Search Query Match',c:'ON-PAGE',w:7},
+  {id:'aeo19',n:'Answer-First Content Structure',c:'ON-PAGE',w:9},
+  {id:'aeo20',n:'NLP-Friendly Headings',c:'ON-PAGE',w:8},
+  {id:'aeo21',n:'Conversational Query Coverage',c:'ON-PAGE',w:8},
+  {id:'aeo22',n:'Schema Nesting Depth',c:'ON-PAGE',w:6},
+  {id:'aeo23',n:'Rich Snippet Eligibility',c:'ON-PAGE',w:9},
+  {id:'aeo24',n:'Google SGE Optimization',c:'ON-PAGE',w:10},
+  {id:'aeo25',n:'Context Carryover Signals',c:'ON-PAGE',w:7},
+  {id:'aeo26',n:'Entity Salience Score',c:'ON-PAGE',w:8},
+  {id:'aeo27',n:'Semantic HTML5 Structure',c:'ON-SITE',w:7},
+  {id:'aeo28',n:'ClaimReview Schema',c:'ON-PAGE',w:6},
+  {id:'aeo29',n:'Event Schema Accuracy',c:'ON-PAGE',w:5},
+  {id:'aeo30',n:'Product Schema Completeness',c:'ON-PAGE',w:7},
+  {id:'aeo31',n:'Local Business Schema',c:'ON-PAGE',w:7},
+  {id:'aeo32',n:'Review / Rating Schema',c:'ON-PAGE',w:6},
+  {id:'aeo33',n:'Video Schema Markup',c:'ON-PAGE',w:5},
+  {id:'aeo34',n:'Person / Author Schema',c:'ON-PAGE',w:7},
+],
+GEO:[
+  {id:'geo1',n:'llms.txt Presence & Quality',c:'ON-SITE',w:10},
+  {id:'geo2',n:'ai.txt / AI Directives File',c:'ON-SITE',w:9},
+  {id:'geo3',n:'robots.txt AI Crawler Rules',c:'ON-SITE',w:9},
+  {id:'geo4',n:'Entity Graph JSON-LD',c:'ON-SITE',w:10},
+  {id:'geo5',n:'Organization Schema Completeness',c:'ON-PAGE',w:9},
+  {id:'geo6',n:'sameAs References External',c:'OFF-PAGE',w:8},
+  {id:'geo7',n:'Wikipedia / Wikidata Entry',c:'OFF-PAGE',w:10},
+  {id:'geo8',n:'ai.json Signal File',c:'ON-SITE',w:9},
+  {id:'geo9',n:'intents.json Declaration',c:'ON-SITE',w:8},
+  {id:'geo10',n:'governance.json Presence',c:'ON-SITE',w:7},
+  {id:'geo11',n:'entities.json Registry',c:'ON-SITE',w:9},
+  {id:'geo12',n:'Crunchbase Profile',c:'OFF-PAGE',w:7},
+  {id:'geo13',n:'LinkedIn Entity Verification',c:'OFF-PAGE',w:8},
+  {id:'geo14',n:'Press Mentions AI-indexed',c:'OFF-PAGE',w:8},
+  {id:'geo15',n:'Author EEAT Signals',c:'OFF-PAGE',w:9},
+  {id:'geo16',n:'Brand Entity Consistency',c:'ON-PAGE',w:9},
+  {id:'geo17',n:'Canonical URL Signals',c:'ON-SITE',w:7},
+  {id:'geo18',n:'Hreflang Geo-Targeting',c:'ON-SITE',w:6},
+  {id:'geo19',n:'Local Citations NAP',c:'OFF-PAGE',w:7},
+  {id:'geo20',n:'Google Business Profile',c:'OFF-PAGE',w:8},
+  {id:'geo21',n:'Named Entity Density',c:'ON-PAGE',w:8},
+  {id:'geo22',n:'Geo-Tagged Content',c:'ON-PAGE',w:6},
+  {id:'geo23',n:'OpenGraph Completeness',c:'ON-PAGE',w:7},
+  {id:'geo24',n:'Twitter Card Meta',c:'ON-PAGE',w:6},
+  {id:'geo25',n:'proof.json IP Anchoring',c:'ON-SITE',w:8},
+  {id:'geo26',n:'changelog.json Versioning',c:'ON-SITE',w:6},
+  {id:'geo27',n:'Dataset Schema Corpus',c:'ON-PAGE',w:7},
+  {id:'geo28',n:'External Entity Links Quality',c:'OFF-PAGE',w:8},
+],
+AIO:[
+  {id:'aio1',n:'Topical Authority Depth',c:'ON-PAGE',w:10},
+  {id:'aio2',n:'Semantic Keyword Clusters',c:'ON-PAGE',w:9},
+  {id:'aio3',n:'Content Freshness Signal',c:'ON-PAGE',w:8},
+  {id:'aio4',n:'E-E-A-T Score AI Perception',c:'OFF-PAGE',w:10},
+  {id:'aio5',n:'Expertise Signals in Content',c:'ON-PAGE',w:9},
+  {id:'aio6',n:'Fact Density vs Fluff Ratio',c:'ON-PAGE',w:8},
+  {id:'aio7',n:'Source Citation Quality',c:'ON-PAGE',w:8},
+  {id:'aio8',n:'AI Crawl Permission Explicit',c:'ON-SITE',w:9},
+  {id:'aio9',n:'Content Indexability by LLMs',c:'ON-SITE',w:9},
+  {id:'aio10',n:'Perplexity Source Citation',c:'OFF-PAGE',w:8},
+  {id:'aio11',n:'ChatGPT Browse Visibility',c:'OFF-PAGE',w:10},
+  {id:'aio12',n:'Gemini Grounding Eligibility',c:'OFF-PAGE',w:9},
+  {id:'aio13',n:'Claude Source Indexing',c:'OFF-PAGE',w:9},
+  {id:'aio14',n:'Corpus Inclusion Signal',c:'ON-SITE',w:8},
+  {id:'aio15',n:'Unique Data / Proprietary Stats',c:'ON-PAGE',w:10},
+  {id:'aio16',n:'Definition Ownership',c:'ON-PAGE',w:9},
+  {id:'aio17',n:'Thought Leadership Signal',c:'ON-PAGE',w:8},
+  {id:'aio18',n:'Long-Form Completeness',c:'ON-PAGE',w:7},
+  {id:'aio19',n:'Internal Link Semantic Map',c:'ON-SITE',w:7},
+  {id:'aio20',n:'Concept Cluster Coverage',c:'ON-PAGE',w:8},
+  {id:'aio21',n:'Contrastive Analysis Presence',c:'ON-PAGE',w:7},
+  {id:'aio22',n:'RAG-Ready Content Format',c:'ON-PAGE',w:9},
+  {id:'aio23',n:'Dense Paragraph Summaries',c:'ON-PAGE',w:8},
+  {id:'aio24',n:'Table / List Extractability',c:'ON-PAGE',w:7},
+  {id:'aio25',n:'Chronological Versioning',c:'ON-SITE',w:6},
+  {id:'aio26',n:'AI Summary Block',c:'ON-PAGE',w:8},
+  {id:'aio27',n:'Token-Efficient Headings',c:'ON-PAGE',w:7},
+  {id:'aio28',n:'Inference Trigger Keywords',c:'ON-PAGE',w:8},
+  {id:'aio29',n:'Contradiction Avoidance',c:'ON-PAGE',w:7},
+  {id:'aio30',n:'LLM-Readable Metadata',c:'ON-SITE',w:8},
+  {id:'aio31',n:'Allow-Lane Matrix',c:'ON-SITE',w:7},
+],
+SEO:[
+  {id:'seo1',n:'Title Tag Optimization',c:'ON-PAGE',w:10},
+  {id:'seo2',n:'Meta Description Quality',c:'ON-PAGE',w:8},
+  {id:'seo3',n:'H1–H6 Hierarchy',c:'ON-PAGE',w:9},
+  {id:'seo4',n:'Keyword Density Primary',c:'ON-PAGE',w:8},
+  {id:'seo5',n:'LSI Keyword Coverage',c:'ON-PAGE',w:7},
+  {id:'seo6',n:'URL Slug Structure',c:'ON-SITE',w:7},
+  {id:'seo7',n:'Image Alt Tags',c:'ON-PAGE',w:7},
+  {id:'seo8',n:'Internal Link Architecture',c:'ON-SITE',w:9},
+  {id:'seo9',n:'XML Sitemap Quality',c:'ON-SITE',w:8},
+  {id:'seo10',n:'Core Web Vitals Composite',c:'ON-SITE',w:10},
+  {id:'seo11',n:'Mobile Responsiveness',c:'ON-SITE',w:10},
+  {id:'seo12',n:'HTTPS / SSL',c:'ON-SITE',w:9},
+  {id:'seo13',n:'Backlink Authority DA',c:'OFF-PAGE',w:10},
+  {id:'seo14',n:'Backlink Diversity',c:'OFF-PAGE',w:8},
+  {id:'seo15',n:'Referring Domains Count',c:'OFF-PAGE',w:8},
+  {id:'seo16',n:'Anchor Text Distribution',c:'OFF-PAGE',w:7},
+  {id:'seo17',n:'Brand Mention Velocity',c:'OFF-PAGE',w:8},
+  {id:'seo18',n:'Duplicate Content Check',c:'ON-PAGE',w:9},
+  {id:'seo19',n:'Canonical Tags',c:'ON-SITE',w:8},
+  {id:'seo20',n:'Structured Data Errors',c:'ON-PAGE',w:9},
+  {id:'seo21',n:'Crawl Budget Efficiency',c:'ON-SITE',w:7},
+  {id:'seo22',n:'404 / Broken Links',c:'ON-SITE',w:8},
+  {id:'seo23',n:'Redirect Chain Length',c:'ON-SITE',w:7},
+  {id:'seo24',n:'Content Word Count',c:'ON-PAGE',w:7},
+  {id:'seo25',n:'Outbound Link Quality',c:'ON-PAGE',w:6},
+  {id:'seo26',n:'Social Signals',c:'OFF-PAGE',w:6},
+  {id:'seo27',n:'Bounce Rate Engagement',c:'ON-SITE',w:7},
+  {id:'seo28',n:'Dwell Time Estimation',c:'ON-SITE',w:7},
+  {id:'seo29',n:'Click-Through Rate Organic',c:'OFF-PAGE',w:8},
+  {id:'seo30',n:'Search Console Coverage',c:'OFF-PAGE',w:8},
+  {id:'seo31',n:'Index Coverage Report',c:'OFF-PAGE',w:8},
+  {id:'seo32',n:'Core Web Vitals LCP',c:'ON-SITE',w:9},
+  {id:'seo33',n:'Core Web Vitals CLS',c:'ON-SITE',w:8},
+  {id:'seo34',n:'Core Web Vitals INP',c:'ON-SITE',w:8},
+  {id:'seo35',n:'HTTPS Redirect Chain',c:'ON-SITE',w:7},
+  {id:'seo36',n:'Hreflang Implementation',c:'ON-SITE',w:6},
+  {id:'seo37',n:'Pagination Tags',c:'ON-SITE',w:5},
+  {id:'seo38',n:'Schema Error Count',c:'ON-PAGE',w:9},
+  {id:'seo39',n:'Toxic Backlink Ratio',c:'OFF-PAGE',w:8},
+  {id:'seo40',n:'Domain Age & Authority',c:'OFF-PAGE',w:7},
+  {id:'seo41',n:'Content Freshness Recency',c:'ON-PAGE',w:7},
+  {id:'seo42',n:'Structured Header Flow',c:'ON-PAGE',w:7},
+],
+AI_SIGNALS:[
+  {id:'ai1',n:'ClaudeBot Allow Directive',c:'ON-SITE',w:10},
+  {id:'ai2',n:'GPTBot Allow Directive',c:'ON-SITE',w:10},
+  {id:'ai3',n:'Google-Extended Allow',c:'ON-SITE',w:9},
+  {id:'ai4',n:'PerplexityBot Allow',c:'ON-SITE',w:9},
+  {id:'ai5',n:'Meta-AI Allow CCBot',c:'ON-SITE',w:8},
+  {id:'ai6',n:'proof.json SHA-256 Anchoring',c:'ON-SITE',w:10},
+  {id:'ai7',n:'Cryptographic IP Proof',c:'ON-SITE',w:9},
+  {id:'ai8',n:'IPFS / Blockchain Registration',c:'OFF-SITE',w:8},
+  {id:'ai9',n:'session.json State Declaration',c:'ON-SITE',w:7},
+  {id:'ai10',n:'aliases.json Brand Variants',c:'ON-SITE',w:7},
+  {id:'ai11',n:'policy.json AI Policy',c:'ON-SITE',w:8},
+  {id:'ai12',n:'actions.json AI Use Cases',c:'ON-SITE',w:7},
+  {id:'ai13',n:'Hallucination Prevention Layer',c:'ON-SITE',w:9},
+  {id:'ai14',n:'Entity-Graph Completeness',c:'ON-SITE',w:9},
+  {id:'ai15',n:'AI-Readable Content Density',c:'ON-PAGE',w:8},
+  {id:'ai16',n:'Confidentiality Boundary Tags',c:'ON-SITE',w:7},
+  {id:'ai17',n:'Training Data Consent Signal',c:'ON-SITE',w:8},
+  {id:'ai18',n:'EU AI Act Compliance Tag',c:'ON-SITE',w:9},
+  {id:'ai19',n:'AI Governance Statement',c:'ON-SITE',w:8},
+  {id:'ai20',n:'allow-lane-matrix.json',c:'ON-SITE',w:8},
+  {id:'ai21',n:'Gemini Grounding Verified',c:'OFF-SITE',w:9},
+  {id:'ai22',n:'Perplexity Citation Score',c:'OFF-SITE',w:8},
+  {id:'ai23',n:'AI Knowledge Graph Entry',c:'OFF-SITE',w:9},
+  {id:'ai24',n:'LLM Embedding Proximity',c:'OFF-SITE',w:8},
+  {id:'ai25',n:'Vectorial Brand Representation',c:'OFF-SITE',w:7},
+  {id:'ai26',n:'AI Answer Layer Coverage',c:'OFF-SITE',w:9},
+  {id:'ai27',n:'intents.json Schema v1.1+',c:'ON-SITE',w:8},
+  {id:'ai28',n:'ai-proof.json Verification',c:'ON-SITE',w:8},
+  {id:'ai29',n:'entity-index SSOT',c:'ON-SITE',w:7},
+  {id:'ai30',n:'AI-Ready Score Declaration',c:'ON-SITE',w:7},
+  {id:'ai31',n:'Zero-Hallucination Anchors',c:'ON-SITE',w:8},
+  {id:'ai32',n:'Cross-AI Consistency Score',c:'OFF-SITE',w:9},
+]};
+
+let AUD={},zoom='normal',filt='all',sortBy='score';
+
+function h(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=(h*16777619)>>>0;}return(h%10000)/10000;}
+
+async function startAudit(){
+  let raw=document.getElementById('url-input').value.trim();
+  if(!raw){
+    const f=document.getElementById('url-input');
+    f.style.borderColor='var(--red)';f.style.boxShadow='0 0 0 4px rgba(192,57,43,.1)';
+    setTimeout(()=>{f.style.borderColor='';f.style.boxShadow='';},1100);return;
+  }
+  // Strip any protocol/www the user may have typed — engine handles it
+  let clean=raw.replace(/^(https?:\/\/)?(www\.)?/i,'').replace(/\s+/g,'');
+  let url='https://'+clean;
+  document.getElementById('input-zone').style.display='none';
+  document.getElementById('loading-zone').style.display='block';
+  document.getElementById('ld-url').textContent=url;
+  document.getElementById('results-zone').innerHTML='';
+  document.getElementById('results-zone').style.display='none';
+  await runAudit(url);
+}
+
+async function runAudit(url){
+  const st=document.getElementById('stream');
+  const dims=[{k:'AEO',id:'aeo',t:34},{k:'GEO',id:'geo',t:28},{k:'AIO',id:'aio',t:31},{k:'SEO',id:'seo',t:42},{k:'AI_SIGNALS',id:'ai',t:32}];
+  let gt=0;
+  function log(m,c=''){const d=document.createElement('div');d.className=c;d.textContent=m;st.appendChild(d);st.scrollTop=st.scrollHeight;}
+  function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
+
+  log('Initializing AUDIT-AI™ v3.1 — real signal engine…','sl-info');await sleep(200);
+  log('Analyzing domain: '+url,'sl-info');await sleep(300);
+
+  AUD={url,scores:{},signals:{},siteData:{},ts:new Date().toISOString()};
+
+  // ── SINGLE CALL: Claude scores all 167 signals from real domain knowledge ──
+  log('Claude analyzing real AI visibility signals…','sl-info');
+  let allScores = null;
+  try {
+    allScores = await claudeScoreAllSignals(url);
+    if(allScores) log('✓ Real signal analysis complete · 167 signals scored','sl-ok');
+    else {
+      log('⚠ Score parsing failed — check browser console for details','sl-fail');
+      log('  Tip: open DevTools → Console to see raw API response','sl-warn');
+    }
+  } catch(e) {
+    log('✗ API call failed: '+e.message,'sl-fail');
+    allScores = null;
+  }
+  await sleep(200);
+
+  // ── POPULATE RESULTS ──
+  for(const dim of dims){
+    const mod=document.getElementById('m-'+dim.id);
+    mod.classList.add('active');
+    log('Processing '+dim.k+'…','sl-info');
+    const sigs=SIG[dim.k];
+    AUD.signals[dim.k]=[];let ds=0;
+
+    for(let i=0;i<sigs.length;i++){
+      await sleep(10+Math.random()*15);
+      const s=sigs[i];
+      let score;
+      if(allScores && allScores[dim.k] && allScores[dim.k][s.id]!==undefined){
+        score=allScores[dim.k][s.id];
+      } else {
+        score=0; // if Claude failed, show zeros — not fake 67s
+      }
+      score=Math.min(100,Math.max(0,Math.round(score)));
+      const status=score>=75?'pass':score>=45?'warn':'fail';
+
+      AUD.signals[dim.k].push({...s,score,status});ds+=score;gt++;
+      document.getElementById('c-'+dim.id).textContent=(i+1)+' / '+dim.t;
+      document.getElementById('b-'+dim.id).style.width=((i+1)/dim.t*100)+'%';
+      document.getElementById('c-tot').textContent=gt+' / 167';
+      document.getElementById('b-tot').style.width=(gt/167*100)+'%';
+      setP(gt/167*100);
+      const op=Math.round(gt*.4),off=Math.round(gt*.32);
+      document.getElementById('c-op').textContent=Math.min(op,67)+' / 67';
+      document.getElementById('b-op').style.width=(Math.min(op,67)/67*100)+'%';
+      document.getElementById('c-off').textContent=Math.min(off,54)+' / 54';
+      document.getElementById('b-off').style.width=(Math.min(off,54)/54*100)+'%';
+      if(i%4===0){const e=status==='pass'?'✓':status==='warn'?'⚠':'✗';log('  '+e+' '+s.n+' · '+score,'sl-'+status);}
+    }
+    AUD.scores[dim.k]=Math.round(ds/sigs.length);
+    mod.classList.remove('active');mod.classList.add('done');
+    log(dim.k+' · avg score: '+AUD.scores[dim.k]+'/100','sl-ok');
+    await sleep(80);
+  }
+
+  AUD.global=Math.round(
+    (AUD.scores.AEO*34+AUD.scores.GEO*28+AUD.scores.AIO*31+AUD.scores.SEO*42+AUD.scores.AI_SIGNALS*32)/167
+  );
+
+  log('Generating AI synthesis…','sl-info');await sleep(200);
+  const [synth,ap]=await Promise.all([fetchSynth(AUD),fetchAP(AUD)]);
+  log('Dashboard ready.','sl-ok');await sleep(150);
+  document.getElementById('loading-zone').style.display='none';
+  setP(100);setTimeout(()=>setP(0),700);
+  render(AUD,synth,ap);
+}
+
+// ── MOTOR REAL: apeluri catre Cloudflare Worker (3webobs.com), zero scoruri inventate ──
+const WORKER_URL = 'https://3webobs.com';
+let REPORT_V2 = null;
+
+async function claudeScoreAllSignals(url){
+  const r = await fetch(WORKER_URL + '/audit', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({url})
+  });
+  if(!r.ok) throw new Error('audit failed: HTTP ' + r.status);
+  const rep = await r.json();
+  if(rep.error) throw new Error(rep.detail || rep.error);
+
+  REPORT_V2 = rep;
+
+  const out = {};
+  for(const [dim, sigs] of Object.entries(rep.signals)){
+    out[dim] = {};
+    sigs.forEach(s => { out[dim][s.id] = (s.score === null ? 0 : s.score); });
+  }
+  return out;
+}
+
+async function fetchSynth(d){
+  try{
+    const r = await fetch(WORKER_URL + '/synth', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({report: REPORT_V2})
+    });
+    if(!r.ok) return fbSynth(d);
+    const j = await r.json();
+    return j.synthesis || fbSynth(d);
+  }catch{ return fbSynth(d); }
+}
+
+async function fetchAP(d){
+  return (REPORT_V2 && REPORT_V2.plan) ? REPORT_V2.plan : null;
+}
+
+
+function fbSynth(d){
+  const s=d.global;
+  if(s>=75)return`${d.url} commands strong AI visibility at ${s}/100, with a well-built signal foundation that major LLMs can interpret and cite. The remaining exposure lies in GEO-layer entity anchoring — a fixable structural absence rather than a fundamental failure. Deploying proof.json with verified SHA-256 hashes and completing the entity graph will elevate this domain into top-tier AI answer-layer sovereignty.`;
+  if(s>=50)return`${d.url} occupies a contested middle ground at ${s}/100 — partially visible to AI discovery systems, yet absent in the decisive answer layers where purchasing decisions form. The core structural failure is the absence of a declared AI signal stack, leaving crawlers unable to resolve entity context with confidence. Deploying the Sacred Architecture signal suite will transform this domain from contested to cited within two weeks.`;
+  return`${d.url} is effectively invisible to AI systems at ${s}/100 — ChatGPT, Gemini, Claude, and Perplexity cannot reliably surface or attribute this brand in generated responses. The damage is structural: no AI governance files, no entity anchoring, no crawler permissions granted. Immediate deployment of the full Sacred Architecture stack is the only path to reclaiming answer-layer presence before competitors lock category ownership.`;
+}
+
+function render(d,synth,ap){
+  const zone=document.getElementById('results-zone');
+  zone.style.display='block';zone.innerHTML='';
+  const g=getGrade(d.global);
+  const circ=2*Math.PI*82;
+
+  zone.insertAdjacentHTML('beforeend',`
+  <div class="sh-grid fu1 ${g.cls}">
+    <div class="ring-w">
+      <svg viewBox="0 0 190 190">
+        <circle class="r-bg" cx="95" cy="95" r="82"/>
+        <circle class="r-fill" id="rf" cx="95" cy="95" r="82" stroke="${g.stroke}" stroke-dasharray="${circ}" stroke-dashoffset="${circ}"/>
+      </svg>
+      <div class="r-inner">
+        <span class="r-num" id="rn">0</span>
+        <span class="r-lbl">/ 100</span>
+        <span class="r-grade ${g.cls}-badge">${g.label}</span>
+      </div>
+    </div>
+    <div>
+      <div class="sh-label">AI Visibility Composite — 167 Signals</div>
+      <div class="sh-url">${d.url}</div>
+      <div class="sh-ts">${new Date(d.ts).toLocaleString()}</div>
+      <div class="dim-grid">
+        <div class="dim d-aeo">
+          <div class="dim-lbl">AEO</div><div class="dim-name">Answer Engine Optimization</div>
+          <div class="dim-val">${d.scores.AEO}</div>
+          <div class="dim-delta" style="background:${d.scores.AEO>=70?'var(--green-bg)':'var(--red-bg)'};color:${d.scores.AEO>=70?'var(--green)':'var(--red)'}">${d.scores.AEO>=70?'▲ Strong':'▼ Weak'}</div>
+          <div class="dim-bar"><div class="dim-bar-f" style="width:${d.scores.AEO}%"></div></div>
+        </div>
+        <div class="dim d-geo">
+          <div class="dim-lbl">GEO</div><div class="dim-name">Generative Engine Optimization</div>
+          <div class="dim-val">${d.scores.GEO}</div>
+          <div class="dim-delta" style="background:${d.scores.GEO>=70?'var(--green-bg)':'var(--red-bg)'};color:${d.scores.GEO>=70?'var(--green)':'var(--red)'}">${d.scores.GEO>=70?'▲ Strong':'▼ Weak'}</div>
+          <div class="dim-bar"><div class="dim-bar-f" style="width:${d.scores.GEO}%"></div></div>
+        </div>
+        <div class="dim d-aio">
+          <div class="dim-lbl">AIO</div><div class="dim-name">AI Optimization</div>
+          <div class="dim-val">${d.scores.AIO}</div>
+          <div class="dim-delta" style="background:${d.scores.AIO>=70?'var(--green-bg)':'var(--red-bg)'};color:${d.scores.AIO>=70?'var(--green)':'var(--red)'}">${d.scores.AIO>=70?'▲ Strong':'▼ Weak'}</div>
+          <div class="dim-bar"><div class="dim-bar-f" style="width:${d.scores.AIO}%"></div></div>
+        </div>
+        <div class="dim d-seo">
+          <div class="dim-lbl">SEO</div><div class="dim-name">Search Engine Optimization</div>
+          <div class="dim-val">${d.scores.SEO}</div>
+          <div class="dim-delta" style="background:${d.scores.SEO>=70?'var(--green-bg)':'var(--red-bg)'};color:${d.scores.SEO>=70?'var(--green)':'var(--red)'}">${d.scores.SEO>=70?'▲ Strong':'▼ Weak'}</div>
+          <div class="dim-bar"><div class="dim-bar-f" style="width:${d.scores.SEO}%"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>`);
+
+  requestAnimationFrame(()=>{
+    document.getElementById('rf').style.strokeDashoffset=circ-(d.global/100)*circ;
+    animN('rn',0,d.global,1600);
+  });
+
+  // ── RESULTS: accordion-first, Apple Watch Premium layout ──
+
+  // 1 — AI SIGNALS BAND (always visible summary)
+  const ais=d.scores.AI_SIGNALS;
+  const crawlerMap={'ClaudeBot':'ai1','GPTBot':'ai2','Gemini':'ai3','Perplexity':'ai4','CCBot':'ai5'};
+  const crawlers=Object.entries(crawlerMap).map(([name,id])=>{
+    const sc=(AUD.signals.AI_SIGNALS||[]).find(s=>s.id===id);
+    const ok=sc&&sc.score>=75;
+    return`<span class="ct ${ok?'ct-ok':'ct-no'}">${ok?'✓':'✗'} ${name}</span>`;
+  }).join('');
+  zone.insertAdjacentHTML('beforeend',`
+  <div class="ai-band fu2">
+    <div>
+      <div class="aib-lbl">AI Signals Layer · 32 Signals</div>
+      <div class="aib-val">${ais}<span> / 100</span></div>
+      <div class="aib-bar"><div class="aib-bar-f" style="width:${ais}%"></div></div>
+    </div>
+    <div>
+      <div style="font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;margin-bottom:9px;text-align:right">Crawler Permissions</div>
+      <div class="crawler-tags">${crawlers}</div>
+    </div>
+  </div>`);
+
+  // 2 — ACCORDION SECTIONS
+  const SECTIONS = [
+    {
+      id:'synth-acc',
+      icon:'⟁',
+      tag:'AI Synthesis',
+      label:'Executive Verdict',
+      color:'var(--blue)',
+      colorBg:'var(--blue-bg)',
+      defaultOpen:true,
+      content: () => `<div class="acc-synth-body">${synth||'<em style="opacity:.6">Generating…</em>'}</div>`
+    },
+    {
+      id:'action-acc',
+      icon:'◈',
+      tag:'Action Plan',
+      label:'Path to Dominance',
+      color:'var(--text)',
+      colorBg:'var(--bg3)',
+      defaultOpen:true,
+      content: () => {
+        const plan=ap||defPlan(d);
+        return`<div class="acc-ap-grid">
+          <div class="acc-ap-card acc-ap-c">
+            <div class="acc-ap-p">🔴 Critical — Fix Now</div>
+            <div class="acc-ap-title">${plan.critical.title}</div>
+            <ul class="ac-items">${plan.critical.items.map(i=>`<li class="ac-item">${i}</li>`).join('')}</ul>
+            <div class="ac-ft">Impact: <strong>${plan.critical.impact}</strong></div>
+            <div class="ac-delta">▲ ${plan.critical.delta}</div>
+          </div>
+          <div class="acc-ap-card acc-ap-i">
+            <div class="acc-ap-p">🟡 Important — This Month</div>
+            <div class="acc-ap-title">${plan.important.title}</div>
+            <ul class="ac-items">${plan.important.items.map(i=>`<li class="ac-item">${i}</li>`).join('')}</ul>
+            <div class="ac-ft">Impact: <strong>${plan.important.impact}</strong></div>
+            <div class="ac-delta">▲ ${plan.important.delta}</div>
+          </div>
+          <div class="acc-ap-card acc-ap-o">
+            <div class="acc-ap-p">🔵 Optimize — Q2 Roadmap</div>
+            <div class="acc-ap-title">${plan.optimize.title}</div>
+            <ul class="ac-items">${plan.optimize.items.map(i=>`<li class="ac-item">${i}</li>`).join('')}</ul>
+            <div class="ac-ft">Impact: <strong>${plan.optimize.impact}</strong></div>
+            <div class="ac-delta">▲ ${plan.optimize.delta}</div>
+          </div>
+        </div>`;
+      }
+    },
+    {
+      id:'ai-signals-acc',
+      icon:'⬡',
+      tag:'AI Signals',
+      label:`Crawler & Trust Layer · ${d.scores.AI_SIGNALS}/100`,
+      color:'var(--red)',
+      colorBg:'var(--red-bg)',
+      defaultOpen:false,
+      dim:'AI_SIGNALS'
+    },
+    {
+      id:'aeo-acc',
+      icon:'◎',
+      tag:'AEO',
+      label:`Answer Engine Optimization · ${d.scores.AEO}/100`,
+      color:'var(--blue)',
+      colorBg:'var(--blue-bg)',
+      defaultOpen:false,
+      dim:'AEO'
+    },
+    {
+      id:'geo-acc',
+      icon:'◇',
+      tag:'GEO',
+      label:`Generative Engine Optimization · ${d.scores.GEO}/100`,
+      color:'var(--gold)',
+      colorBg:'var(--gold-bg)',
+      defaultOpen:false,
+      dim:'GEO'
+    },
+    {
+      id:'aio-acc',
+      icon:'○',
+      tag:'AIO',
+      label:`AI Optimization · ${d.scores.AIO}/100`,
+      color:'var(--green)',
+      colorBg:'var(--green-bg)',
+      defaultOpen:false,
+      dim:'AIO'
+    },
+    {
+      id:'seo-acc',
+      icon:'□',
+      tag:'SEO',
+      label:`Search Engine Optimization · ${d.scores.SEO}/100`,
+      color:'var(--purple)',
+      colorBg:'var(--purple-bg)',
+      defaultOpen:false,
+      dim:'SEO'
+    }
+  ];
+
+  for(const sec of SECTIONS){
+    const isOpen = sec.defaultOpen;
+    let innerContent = '';
+    if(sec.content){
+      innerContent = sec.content();
+    } else if(sec.dim){
+      const sigs = AUD.signals[sec.dim]||[];
+      const pass=sigs.filter(s=>s.status==='pass').length;
+      const warn=sigs.filter(s=>s.status==='warn').length;
+      const fail=sigs.filter(s=>s.status==='fail').length;
+      innerContent = `
+        <div class="acc-sig-stats">
+          <span class="acc-stat acc-stat-p">✓ ${pass} Pass</span>
+          <span class="acc-stat acc-stat-w">⚠ ${warn} Warn</span>
+          <span class="acc-stat acc-stat-f">✗ ${fail} Fail</span>
+        </div>
+        <div class="acc-ctrls">
+          <button class="cb on" onclick="accFilt(event,'all','${sec.id}','${sec.dim}')">All</button>
+          <button class="cb" onclick="accFilt(event,'fail','${sec.id}','${sec.dim}')">Critical</button>
+          <button class="cb" onclick="accFilt(event,'warn','${sec.id}','${sec.dim}')">Warning</button>
+          <button class="cb" onclick="accFilt(event,'pass','${sec.id}','${sec.dim}')">Pass</button>
+        </div>
+        <div class="sg sg-normal" id="acc-grid-${sec.dim}">${cards(sigs)}</div>`;
+    }
+
+    zone.insertAdjacentHTML('beforeend',`
+    <div class="acc-wrap fu3" id="${sec.id}">
+      <button class="acc-header ${isOpen?'open':''}" onclick="toggleAcc('${sec.id}')">
+        <div class="acc-header-left">
+          <span class="acc-icon" style="background:${sec.colorBg};color:${sec.color}">${sec.icon}</span>
+          <div class="acc-header-text">
+            <span class="acc-tag" style="color:${sec.color}">${sec.tag}</span>
+            <span class="acc-label">${sec.label}</span>
+          </div>
+        </div>
+        <span class="acc-chevron" id="chev-${sec.id}">${isOpen?'▲':'▼'}</span>
+      </button>
+      <div class="acc-body" id="body-${sec.id}" style="display:${isOpen?'block':'none'}">
+        <div class="acc-inner">${innerContent}</div>
+      </div>
+    </div>`);
+  }
+
+  // 3 — AI-READY CTA
+  zone.insertAdjacentHTML('beforeend',`
+  <div class="aiready-cta fu4">
+    <div>
+      <div class="aiready-cta-tag">Next Step</div>
+      <div class="aiready-cta-title">Run your Action Plan</div>
+      <div class="aiready-cta-sub">Deploy the fix — signal by signal, with AI-READY.</div>
+    </div>
+    <a href="/ai-ready" onclick="handleActionPlan(event)" class="aiready-btn">
+      Action Plan →
+      <span class="aiready-badge">AI-READY</span>
+    </a>
+  </div>`);
+
+  // 4 — SHARE BAR
+  zone.insertAdjacentHTML('beforeend',`
+  <div class="share-bar fu5">
+    <div class="share-label">Share this report</div>
+    <div class="share-btns">
+      <button class="share-btn" onclick="printReport()"><span class="share-ico">🖨</span><span>Print Report</span></button>
+      <button class="share-btn" onclick="openShareModal('email')"><span class="share-ico">✉</span><span>Send by Email</span></button>
+      <button class="share-btn share-btn-wa" onclick="openShareModal('whatsapp')"><span class="share-ico">💬</span><span>Send via WhatsApp</span></button>
+    </div>
+  </div>`);
+
+  // 5 — CONTACT
+  zone.insertAdjacentHTML('beforeend',`
+  <div class="contact-section fu5">
+    <div class="contact-title">Contact & Links</div>
+
+    <div class="contact-grid">
+      <a href="https://5thelement.ai" target="_blank" class="contact-card">
+        <span class="contact-ico">🌐</span>
+        <div><div class="contact-name">5thElement.ai</div><div class="contact-desc">AI-FIRST Architecture · Sacred Stack</div></div>
+        <span class="contact-arrow">→</span>
+      </a>
+      <a href="https://aiventure.ro" target="_blank" class="contact-card">
+        <span class="contact-ico">🇷🇴</span>
+        <div><div class="contact-name">AiVenture.ro</div><div class="contact-desc">AI Consultancy · Romanian Market</div></div>
+        <span class="contact-arrow">→</span>
+      </a>
+      <a href="https://1clic-ia.eu" target="_blank" class="contact-card">
+        <span class="contact-ico">⚡</span>
+        <div><div class="contact-name">1Clic-IA.eu</div><div class="contact-desc">AI Visibility · Marché Européen</div></div>
+        <span class="contact-arrow">→</span>
+      </a>
+      <a href="mailto:contact@5thelement.ai" class="contact-card">
+        <span class="contact-ico">✉</span>
+        <div><div class="contact-name">contact@5thelement.ai</div><div class="contact-desc">Direct contact · Founder</div></div>
+        <span class="contact-arrow">→</span>
+      </a>
+      <a href="https://api.whatsapp.com/send/?phone=40737123540" target="_blank" class="contact-card contact-card-wa">
+        <span class="contact-ico">💬</span>
+        <div><div class="contact-name">WhatsApp +40 737 123 540</div><div class="contact-desc">Quick audit consultation</div></div>
+        <span class="contact-arrow">→</span>
+      </a>
+      <a href="https://www.linkedin.com/in/dan-ionesco-a856082a0" target="_blank" class="contact-card">
+        <span class="contact-ico">👤</span>
+        <div><div class="contact-name">Dan Ionesco</div><div class="contact-desc">Founder · LinkedIn Profile</div></div>
+        <span class="contact-arrow">→</span>
+      </a>
+      <a href="https://www.linkedin.com/company/107338970" target="_blank" class="contact-card">
+        <span class="contact-ico">💼</span>
+        <div><div class="contact-name">LinkedIn Company</div><div class="contact-desc">AiVenture S.R.L. · Company page</div></div>
+        <span class="contact-arrow">→</span>
+      </a>
+      <a href="https://www.linkedin.com/showcase/5thelement-ai/" target="_blank" class="contact-card">
+        <span class="contact-ico">⭐</span>
+        <div><div class="contact-name">LinkedIn Showcase</div><div class="contact-desc">5thElement.ai · Product page</div></div>
+        <span class="contact-arrow">→</span>
+      </a>
+      <a href="https://www.crunchbase.com/organization/aiventure-s-r-l" target="_blank" class="contact-card">
+        <span class="contact-ico">📊</span>
+        <div><div class="contact-name">Crunchbase</div><div class="contact-desc">AiVenture S.R.L. · Investor profile</div></div>
+        <span class="contact-arrow">→</span>
+      </a>
+      <a href="https://www.wikidata.org/wiki/Q43229" target="_blank" class="contact-card">
+        <span class="contact-ico">🔗</span>
+        <div><div class="contact-name">Wikidata Entity</div><div class="contact-desc">Knowledge graph anchor · Q43229</div></div>
+        <span class="contact-arrow">→</span>
+      </a>
+      <a href="https://www.facebook.com/people/Aiventure/61573220584246/" target="_blank" class="contact-card">
+        <span class="contact-ico">📘</span>
+        <div><div class="contact-name">Facebook</div><div class="contact-desc">AiVenture · Social presence</div></div>
+        <span class="contact-arrow">→</span>
+      </a>
+      <a href="https://x.com/aipath512" target="_blank" class="contact-card">
+        <span class="contact-ico">𝕏</span>
+        <div><div class="contact-name">X · @aipath512</div><div class="contact-desc">AI insights · Updates</div></div>
+        <span class="contact-arrow">→</span>
+      </a>
+      <a href="https://www.youtube.com/@AIVenture-q8u" target="_blank" class="contact-card">
+        <span class="contact-ico">▶</span>
+        <div><div class="contact-name">YouTube</div><div class="contact-desc">AIVenture · Video content</div></div>
+        <span class="contact-arrow">→</span>
+      </a>
+      <a href="https://medium.com/@aipath512" target="_blank" class="contact-card">
+        <span class="contact-ico">✍</span>
+        <div><div class="contact-name">Medium · @aipath512</div><div class="contact-desc">Long-form AI articles</div></div>
+        <span class="contact-arrow">→</span>
+      </a>
+    </div>
+
+    <!-- LEGAL ENTITY BLOCK -->
+    <div class="legal-block">
+      <div class="legal-header">
+        <span class="legal-ico">🏢</span>
+        <div>
+          <div class="legal-name">AIVENTURE S.R.L.</div>
+          <div class="legal-sub">Entitate juridică înregistrată · România</div>
+        </div>
+        <span class="legal-badge">✓ Verified</span>
+      </div>
+      <div class="legal-grid">
+        <div class="legal-item">
+          <div class="legal-lbl">📍 Sediu social</div>
+          <div class="legal-val">București, Sectorul 1 · Drumul Pădurea Pustnicu, Nr. 141C Corp A, Et. 2</div>
+        </div>
+        <div class="legal-item">
+          <div class="legal-lbl">🧾 CUI</div>
+          <div class="legal-val">51415878</div>
+        </div>
+        <div class="legal-item">
+          <div class="legal-lbl">🧾 Nr. Reg. Comerțului</div>
+          <div class="legal-val">J2025016406000</div>
+        </div>
+        <div class="legal-item">
+          <div class="legal-lbl">🌐 EUID</div>
+          <div class="legal-val">ROONRC.J2025016406000</div>
+        </div>
+        <div class="legal-item">
+          <div class="legal-lbl">⚙️ CAEN</div>
+          <div class="legal-val">6210 — Software la comandă (client-oriented)</div>
+        </div>
+        <div class="legal-item">
+          <div class="legal-lbl">📅 Înregistrată</div>
+          <div class="legal-val">07.03.2025 · Certificat 10.03.2025</div>
+        </div>
+        <div class="legal-item">
+          <div class="legal-lbl">🔐 Serie / Nr.</div>
+          <div class="legal-val">B · 5203685</div>
+        </div>
+        <div class="legal-item">
+          <div class="legal-lbl">✅ AI Trust Status</div>
+          <div class="legal-val" style="color:var(--green);font-weight:600">CUI + EUID + J complet · Entity graph ready</div>
+        </div>
+      </div>
+    </div>
+  </div>`);
+
+  // 6 — SHARE BAR (before glossary)
+  zone.insertAdjacentHTML('beforeend',`
+  <div class="share-bar fu5">
+    <div class="share-label">Share this report</div>
+    <div class="share-btns">
+      <button class="share-btn" onclick="printReport()">
+        <span class="share-ico">🖨</span>
+        <span>Print Report</span>
+      </button>
+      <button class="share-btn" onclick="openShareModal('email')">
+        <span class="share-ico">✉</span>
+        <span>Send by Email</span>
+      </button>
+      <button class="share-btn share-btn-wa" onclick="openShareModal('whatsapp')">
+        <span class="share-ico">💬</span>
+        <span>Send via WhatsApp</span>
+      </button>
+    </div>
+  </div>`);
+
+  // 7 — GLOSSARY — open by default, last section
+  zone.insertAdjacentHTML('beforeend',`
+  <div class="glossary-section fu5">
+    <button class="acc-header open" onclick="toggleAcc('glossary-acc')" style="border-radius:var(--r) var(--r) 0 0">
+      <div class="acc-header-left">
+        <span class="acc-icon" style="background:var(--bg3);color:var(--text)">📖</span>
+        <div class="acc-header-text">
+          <span class="acc-tag" style="color:var(--text)">Glossary</span>
+          <span class="acc-label">All 167 signal terms explained</span>
+        </div>
+      </div>
+      <span class="acc-chevron" id="chev-glossary-acc">▲</span>
+    </button>
+    <div class="acc-body" id="body-glossary-acc" style="display:block">
+      <div class="acc-inner">
+        <div class="glossary-grid">${buildGlossary()}</div>
+      </div>
+    </div>
+  </div>`);
+
+  // Single New Audit — very last
+  zone.insertAdjacentHTML('beforeend',`<button class="rst" onclick="resetAudit()">← New Audit</button>`);
+}
+
+/* ── SHARE MODAL ── */
+function openShareModal(type){
+  const existing=document.getElementById('share-modal');
+  if(existing)existing.remove();
+
+  const isWA = type==='whatsapp';
+  const title = isWA ? 'Send via WhatsApp' : 'Send by Email';
+  const placeholder = isWA ? '+40 737 123 540' : 'recipient@email.com';
+  const inputType = isWA ? 'tel' : 'email';
+  const icon = isWA ? '💬' : '✉';
+  const btnLabel = isWA ? 'Open WhatsApp' : 'Send Email';
+  const score = AUD.global || '—';
+  const url = AUD.url || '—';
+
+  const modal = document.createElement('div');
+  modal.id='share-modal';
+  modal.innerHTML=`
+    <div class="modal-backdrop" onclick="closeShareModal()"></div>
+    <div class="modal-box">
+      <div class="modal-header">
+        <span class="modal-icon">${icon}</span>
+        <div>
+          <div class="modal-title">${title}</div>
+          <div class="modal-sub">AI Visibility Report · ${url}</div>
+        </div>
+        <button class="modal-close" onclick="closeShareModal()">✕</button>
+      </div>
+      <div class="modal-score-row">
+        <div class="modal-score-card">
+          <div class="modal-score-lbl">Global Score</div>
+          <div class="modal-score-val">${score}<span>/100</span></div>
+        </div>
+        <div class="modal-score-card">
+          <div class="modal-score-lbl">Signals</div>
+          <div class="modal-score-val">167</div>
+        </div>
+        <div class="modal-score-card">
+          <div class="modal-score-lbl">Dimensions</div>
+          <div class="modal-score-val">5</div>
+        </div>
+      </div>
+      <div class="modal-field-label">${isWA ? 'WhatsApp number (with country code)' : 'Recipient email address'}</div>
+      <input id="share-input" class="modal-input" type="${inputType}" placeholder="${placeholder}" />
+      <button class="modal-btn" onclick="executeShare('${type}')">${btnLabel} →</button>
+      <div class="modal-note">The report summary and score will be shared. A PDF can be attached via Print → Save as PDF.</div>
+    </div>`;
+  document.body.appendChild(modal);
+  requestAnimationFrame(()=>{
+    modal.querySelector('.modal-box').style.transform='translateY(0)';
+    modal.querySelector('.modal-box').style.opacity='1';
+  });
+  setTimeout(()=>document.getElementById('share-input').focus(), 200);
+}
+
+function closeShareModal(){
+  const m=document.getElementById('share-modal');
+  if(!m)return;
+  const box=m.querySelector('.modal-box');
+  box.style.transform='translateY(16px)';
+  box.style.opacity='0';
+  setTimeout(()=>m.remove(),250);
+}
+
+function buildReportText(){
+  const score=AUD.global||'—';
+  const url=AUD.url||'—';
+  return `🔍 AI VISIBILITY REPORT — AUDIT-AI™
+━━━━━━━━━━━━━━━━━━━━━━━━━━━
+URL Audited: ${url}
+Global Score: ${score}/100
+Signals Audited: 167 across 5 dimensions
+━━━━━━━━━━━━━━━━━━━━━━━━━━━
+AEO (Answer Engine):      ${AUD.scores?.AEO||'—'}/100
+GEO (Generative Engine):  ${AUD.scores?.GEO||'—'}/100
+AIO (AI Optimization):    ${AUD.scores?.AIO||'—'}/100
+SEO (Search Engine):      ${AUD.scores?.SEO||'—'}/100
+AI Signals (Trust Layer): ${AUD.scores?.AI_SIGNALS||'—'}/100
+━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Generated by AUDIT-AI™ · Sacred Architecture V2.0
+5thElement.ai`;
+}
+
+function executeShare(type){
+  const input=document.getElementById('share-input');
+  const val=(input?.value||'').trim();
+  if(!val){
+    input.style.borderColor='var(--red)';
+    input.style.boxShadow='0 0 0 3px rgba(192,57,43,.1)';
+    setTimeout(()=>{input.style.borderColor='';input.style.boxShadow='';},1200);
+    return;
+  }
+
+  const msg = buildReportText();
+  const score=AUD.global||'—';
+  const url=AUD.url||'—';
+
+  if(type==='whatsapp'){
+    const phone=val.replace(/[^0-9+]/g,'');
+    const waUrl=`https://api.whatsapp.com/send/?phone=40737123540&text=${encodeURIComponent(msg)}`;
+    window.open(waUrl,'_blank');
+    closeShareModal();
+    showToast('💬','Opened in WhatsApp','Message pre-filled and ready to send.');
+
+  } else {
+    // Email: copy report to clipboard, then offer Gmail / Outlook / native links
+    const subject=`AI Visibility Report — ${url} — Score ${score}/100`;
+    navigator.clipboard.writeText(msg).catch(()=>{});
+
+    const gmailUrl=`https://mail.google.com/mail/?view=cm&to=${encodeURIComponent(val)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(msg)}`;
+    const outlookUrl=`https://outlook.live.com/mail/0/deeplink/compose?to=${encodeURIComponent(val)}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(msg)}`;
+
+    // Replace modal content with provider picker
+    const box=document.querySelector('.modal-box');
+    box.innerHTML=`
+      <div class="modal-header" style="margin-bottom:16px">
+        <span class="modal-icon">✉</span>
+        <div>
+          <div class="modal-title">Open in your email app</div>
+          <div class="modal-sub">Report copied to clipboard · To: ${val}</div>
+        </div>
+        <button class="modal-close" onclick="closeShareModal()">✕</button>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px">
+        <a href="${gmailUrl}" target="_blank" onclick="closeShareModal()" style="display:flex;align-items:center;gap:12px;padding:13px 18px;background:var(--bg2);border:1.5px solid var(--border-md);border-radius:12px;text-decoration:none;color:var(--text);font-family:'Inter',sans-serif;font-size:13px;font-weight:500;transition:border-color .15s;" onmouseover="this.style.borderColor='var(--blue)'" onmouseout="this.style.borderColor='var(--border-md)'">
+          <span style="font-size:20px">📧</span>
+          <div><div style="font-weight:600">Open Gmail</div><div style="font-size:11px;color:var(--text)">Opens in a new tab, report pre-filled</div></div>
+          <span style="margin-left:auto;color:var(--text)">→</span>
+        </a>
+        <a href="${outlookUrl}" target="_blank" onclick="closeShareModal()" style="display:flex;align-items:center;gap:12px;padding:13px 18px;background:var(--bg2);border:1.5px solid var(--border-md);border-radius:12px;text-decoration:none;color:var(--text);font-family:'Inter',sans-serif;font-size:13px;font-weight:500;transition:border-color .15s;" onmouseover="this.style.borderColor='var(--blue)'" onmouseout="this.style.borderColor='var(--border-md)'">
+          <span style="font-size:20px">📨</span>
+          <div><div style="font-weight:600">Open Outlook</div><div style="font-size:11px;color:var(--text)">Opens Outlook Web, report pre-filled</div></div>
+          <span style="margin-left:auto;color:var(--text)">→</span>
+        </a>
+        <button onclick="copyAndClose()" style="display:flex;align-items:center;gap:12px;padding:13px 18px;background:var(--bg2);border:1.5px solid var(--border-md);border-radius:12px;color:var(--text);font-family:'Inter',sans-serif;font-size:13px;font-weight:500;cursor:pointer;width:100%;text-align:left;transition:border-color .15s;" onmouseover="this.style.borderColor='var(--blue)'" onmouseout="this.style.borderColor='var(--border-md)'">
+          <span style="font-size:20px">📋</span>
+          <div><div style="font-weight:600">Copy report text</div><div style="font-size:11px;color:var(--text)">Paste into any email app</div></div>
+          <span style="margin-left:auto;color:var(--text)">→</span>
+        </button>
+      </div>
+      <div class="modal-note">Report already copied to clipboard. Choose your preferred email app above.</div>`;
+  }
+}
+
+function copyAndClose(){
+  const msg=buildReportText();
+  navigator.clipboard.writeText(msg).then(()=>{
+    closeShareModal();
+    showToast('📋','Copied to clipboard','Paste into any email app.');
+  }).catch(()=>{
+    closeShareModal();
+    showToast('📋','Report ready','Paste into your email app.');
+  });
+}
+
+function showToast(icon, title, sub){
+  const existing=document.getElementById('share-toast');
+  if(existing)existing.remove();
+  const t=document.createElement('div');
+  t.id='share-toast';
+  t.innerHTML=`<span style="font-size:18px">${icon}</span><span><strong style="display:block;font-size:13px;font-weight:600;margin-bottom:1px">${title}</strong><span style="font-size:11px;opacity:.7">${sub}</span></span>`;
+  t.style.cssText=`position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(16px);background:var(--text);color:var(--bg);padding:13px 20px;border-radius:14px;font-family:'Inter',sans-serif;display:flex;align-items:center;gap:12px;box-shadow:0 8px 32px rgba(0,0,0,0.18);z-index:9999;opacity:0;transition:opacity .22s,transform .22s;white-space:nowrap;`;
+  document.body.appendChild(t);
+  requestAnimationFrame(()=>{ t.style.opacity='1'; t.style.transform='translateX(-50%) translateY(0)'; });
+  setTimeout(()=>{ t.style.opacity='0'; t.style.transform='translateX(-50%) translateY(8px)'; setTimeout(()=>t.remove(),250); },3000);
+}
+
+function printReport(){
+  window.print();
+}
+
+/* ── PILL ACCORDION TOGGLE (input screen) ── */
+function togglePill(id){
+  const body=document.getElementById('pb-'+id);
+  const chev=document.getElementById('pc-'+id);
+  const isOpen=body.style.display!=='none';
+  body.style.display=isOpen?'none':'block';
+  if(chev) chev.textContent=isOpen?'▼':'▲';
+  // Lazy-render inline glossary on first open
+  if(id==='glossary' && !isOpen){
+    const grid=document.getElementById('glossary-inline-grid');
+    if(grid && !grid.innerHTML.trim()){
+      grid.innerHTML=buildGlossary();
+      // ensure grid is visible on all screen sizes
+      if(window.innerWidth < 500){
+        grid.style.gridTemplateColumns='1fr';
+      }
+    }
+  }
+}
+
+/* ── SCROLL TO RESULT SECTION (cross-link) ── */
+function scrollToAcc(id){
+  // If results not visible, do nothing
+  if(document.getElementById('results-zone').style.display==='none') return;
+  const el=document.getElementById(id);
+  if(!el) return;
+  // Open it first if closed
+  const body=document.getElementById('body-'+id);
+  if(body && body.style.display==='none') toggleAcc(id);
+  setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),100);
+}
+
+/* ── ACCORDION TOGGLE ── */
+function toggleAcc(id){
+  const body=document.getElementById('body-'+id);
+  const header=document.querySelector(`#${id} .acc-header`)||document.querySelector(`.acc-header[onclick*="${id}"]`);
+  const chev=document.getElementById('chev-'+id);
+  const isOpen=body.style.display!=='none';
+  body.style.display=isOpen?'none':'block';
+  if(chev) chev.textContent=isOpen?'▼':'▲';
+  // Find header by iterating
+  document.querySelectorAll('.acc-header').forEach(h=>{
+    if(h.getAttribute('onclick')&&h.getAttribute('onclick').includes(id)){
+      h.classList.toggle('open',!isOpen);
+    }
+  });
+}
+
+/* ── ACCORDION FILTER (signal sections) ── */
+function accFilt(e,f,secId,dim){
+  e.stopPropagation();
+  // Update active button
+  const ctrl=document.querySelector(`#body-${secId} .acc-ctrls`);
+  if(ctrl) ctrl.querySelectorAll('.cb').forEach(b=>b.classList.remove('on'));
+  e.target.classList.add('on');
+  // Re-render grid
+  const grid=document.getElementById('acc-grid-'+dim);
+  if(!grid) return;
+  const oldFilt=filt;
+  filt=f;
+  grid.innerHTML=cards(AUD.signals[dim]||[]);
+  filt=oldFilt;
+}
+
+/* ── GLOSSARY DATA ── */
+function buildGlossary(){
+  const terms=[
+    {t:'AEO',d:'Answer Engine Optimization — structuring content so AI assistants extract and cite it as direct answers.'},
+    {t:'GEO',d:'Generative Engine Optimization — making your brand entity discoverable and citable by LLM-based systems.'},
+    {t:'AIO',d:'AI Optimization — the full stack of signals that determine how AI systems understand and represent your content.'},
+    {t:'SEO',d:'Search Engine Optimization — technical and content signals that influence traditional search engine rankings.'},
+    {t:'AI Signals',d:'Dedicated machine-readable files (llms.txt, ai.json, proof.json) that declare your brand to AI crawlers.'},
+    {t:'llms.txt',d:'A plain-text governance file at your domain root that declares entity data, intents, and permissions for LLMs.'},
+    {t:'proof.json',d:'Cryptographic IP anchoring file with SHA-256 hashes that timestamp and verify your original concepts.'},
+    {t:'entities.json',d:'Structured entity registry declaring your brand, products, people, and their relationships for AI parsing.'},
+    {t:'intents.json',d:'Declares the user intents your site serves, mapped to funnel stages, for AI-native intent routing.'},
+    {t:'governance.json',d:'Declares your AI usage policy, data consent boundaries, and EU AI Act compliance posture.'},
+    {t:'ai.json',d:'Master AI signal file combining entity, intent, and governance declarations in one discoverable endpoint.'},
+    {t:'robots.txt AI rules',d:'Explicit Allow/Disallow directives for AI crawlers: ClaudeBot, GPTBot, Google-Extended, PerplexityBot.'},
+    {t:'ClaudeBot',d:'Anthropic\'s web crawler used to index content for Claude\'s knowledge base and real-time grounding.'},
+    {t:'GPTBot',d:'OpenAI\'s crawler indexing the web for ChatGPT\'s Browse and future training data.'},
+    {t:'Google-Extended',d:'Google\'s opt-in/out crawler for Gemini AI training and AI Overview grounding.'},
+    {t:'JSON-LD',d:'JavaScript Object Notation for Linked Data — the schema format Google and AI systems use for structured entity understanding.'},
+    {t:'FAQ Schema',d:'Structured markup that explicitly signals Q&A pairs, increasing eligibility for AI direct-answer extraction.'},
+    {t:'Entity Graph',d:'A machine-readable map of your brand\'s entities, their relationships, and external identity anchors.'},
+    {t:'E-E-A-T',d:'Experience, Expertise, Authoritativeness, Trustworthiness — Google and AI signals for content credibility.'},
+    {t:'RAG-Ready',d:'Content structured for Retrieval-Augmented Generation — chunked, cited, and extractable by AI pipelines.'},
+    {t:'SHA-256',d:'Cryptographic hash function used to create immutable timestamps of intellectual property.'},
+    {t:'Sacred Architecture',d:'5thElement.ai\'s proprietary AI-FIRST signal stack: 6-layer system from Edge to Predictive Mastery.'},
+    {t:'sameAs',d:'Schema.org property linking your entity to external authority sources (Wikipedia, Wikidata, LinkedIn).'},
+    {t:'Topical Authority',d:'The degree to which AI systems recognize your domain as a definitive source on a specific topic cluster.'},
+    {t:'Core Web Vitals',d:'Google\'s UX performance metrics: LCP (load), CLS (stability), INP (interactivity).'},
+    {t:'Knowledge Panel',d:'Google\'s entity-level information box, triggered by strong structured data and entity disambiguation.'},
+    {t:'IPFS',d:'InterPlanetary File System — decentralized storage used to create permanent, verifiable content proofs.'},
+    {t:'allow-lane-matrix.json',d:'Declares which AI systems are permitted to access, train on, or cite which content sections.'},
+    {t:'Semantic HTML5',d:'Using the correct HTML tags (article, section, nav, main) to give AI crawlers structural context.'},
+    {t:'Canonical URL',d:'The definitive URL for a piece of content, preventing duplicate indexing across AI and search systems.'},
+    {t:'EU AI Act',d:'European regulation effective 2026 requiring AI transparency, risk classification, and governance documentation.'},
+    {t:'Economic Twin',d:'5thElement.ai\'s concept: a vectorial mathematical copy of your best client, used for AI-driven prospecting.'},
+    {t:'Session-State',d:'5thElement.ai\'s versioning architecture: Sessions as primary economic time units with C/T/H states.'},
+    {t:'MKT-INDIRECT™',d:'5thElement.ai\'s proprietary category: AI Discovery Infrastructure, distinct from SEO, AEO, and GEO.'},
+    {t:'AI-FIRST',d:'Architecture paradigm where AI systems are the primary audience — not browsers, not humans. Predictive by design.'},
+  ];
+  return terms.map(({t,d})=>`
+    <div class="gls-item">
+      <div class="gls-term">${t}</div>
+      <div class="gls-def">${d}</div>
+    </div>`).join('');
+}
+
+function cards(sigs){
+  let arr=[...sigs];
+  if(filt!=='all')arr=arr.filter(s=>s.status===filt);
+  if(sortBy==='score')arr.sort((a,b)=>a.score-b.score);
+  else if(sortBy==='weight')arr.sort((a,b)=>b.w-a.w);
+  else arr.sort((a,b)=>a.n.localeCompare(b.n));
+  return arr.map(s=>{
+    const sc=s.score>=75?'sh':s.score>=45?'sm':'sl_';
+    const bc=s.status==='pass'?'sb-p':s.status==='warn'?'sb-w':'sb-f';
+    const bl=s.status==='pass'?'Pass':s.status==='warn'?'Warn':'Fail';
+    return`<div class="sc"><div class="sc-body"><div class="sc-name">${s.n}</div><div class="sc-meta">${s.c} · Weight ${s.w}/10 · ${s.id.toUpperCase()}</div></div><span class="sc-score ${sc}">${s.score}</span><span class="sb ${bc}">${bl}</span></div>`;
+  }).join('');
+}
+function rerender(){
+  ['AEO','GEO','AIO','SEO','AI_SIGNALS'].forEach(k=>{
+    const g=document.getElementById('g-'+k);
+    if(g){g.className='sg sg-'+zoom;g.innerHTML=cards(AUD.signals[k]||[]);}
+  });
+}
+function setZ(z,btn){zoom=z;document.querySelectorAll('#vz-c,#vz-n,#vz-e').forEach(b=>b.classList.remove('on'));btn.classList.add('on');rerender();}
+function setF(f,btn){filt=f;document.querySelectorAll('#vf-a,#vf-f,#vf-w,#vf-p').forEach(b=>b.classList.remove('on'));btn.classList.add('on');rerender();}
+function setS(s,btn){sortBy=s;document.querySelectorAll('#vs-s,#vs-w,#vs-n').forEach(b=>b.classList.remove('on'));btn.classList.add('on');rerender();}
+
+function resetAudit(){
+  document.getElementById('results-zone').style.display='none';
+  document.getElementById('loading-zone').style.display='none';
+  document.getElementById('input-zone').style.display='block';
+  document.getElementById('url-input').value='';
+  zoom='normal';filt='all';sortBy='score';
+  ['aeo','geo','aio','seo','ai','tot','op','off'].forEach(id=>{
+    const m=document.getElementById('m-'+id);if(m){m.classList.remove('active','done');}
+    const b=document.getElementById('b-'+id);if(b)b.style.width='0%';
+    const c=document.getElementById('c-'+id);if(c)c.textContent=c.textContent.replace(/^\d+/,'0');
+  });
+  document.getElementById('stream').innerHTML='';
+}
+
+function getGrade(s){
+  const cs=getComputedStyle(document.documentElement);
+  const green=cs.getPropertyValue('--green').trim();
+  const blue=cs.getPropertyValue('--blue').trim();
+  const gold=cs.getPropertyValue('--gold').trim();
+  const red=cs.getPropertyValue('--red').trim();
+  if(s>=90)return{label:'S — Dominant',stroke:green,cls:'grade-s'};
+  if(s>=80)return{label:'A — Visible',stroke:blue,cls:'grade-a'};
+  if(s>=65)return{label:'B — Partial',stroke:gold,cls:'grade-b'};
+  if(s>=50)return{label:'C — At Risk',stroke:red,cls:'grade-c'};
+  return{label:'D — Invisible',stroke:red,cls:'grade-d'};
+}
+function animN(id,from,to,dur){
+  const el=document.getElementById(id);if(!el)return;
+  const t0=performance.now();
+  (function step(now){const p=Math.min((now-t0)/dur,1);const e=1-Math.pow(1-p,3);el.textContent=Math.round(from+(to-from)*e);if(p<1)requestAnimationFrame(step);})(t0);
+}
+function defPlan(d){return{critical:{title:'Deploy the AI Signal Stack',items:['Generate llms.txt with full entity, intent, and governance declarations','Fix robots.txt — add explicit Allow for ClaudeBot, GPTBot, Google-Extended','Deploy proof.json with verified SHA-256 hashes for IP anchoring'],impact:'AI crawlers unblocked — LLM indexing begins within 48 hours',delta:'+12–18 pts in 7 days'},important:{title:'Build the Entity Architecture',items:['Deploy entities.json, entity-graph.jsonld, and governance.json','Implement FAQ and HowTo schema on the five highest-traffic pages','Restructure content to answer-first format for primary intent queries'],impact:'Entity recognition activated across Gemini, Perplexity, and ChatGPT Browse',delta:'+8–14 pts in 30 days'},optimize:{title:'Achieve Category Dominance',items:['Deploy intents.json v1.1 with 6-funnel-stage coverage','Cryptographic IP proof and Blockchain anchoring for the 5 core concepts','Vectorial brand representation via Economic Twin entity matching'],impact:'Top 3% AI-visible domain — cited by all major LLMs',delta:'+15–25 pts in 90 days'}};}
+document.addEventListener('DOMContentLoaded',function(){
+  const grid=document.getElementById('glossary-inline-grid');
+  if(grid) grid.innerHTML=buildGlossary();
+});
+</script>
+</body>
+</html>
