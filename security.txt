@@ -1,9 +1,0 @@
-Contact: mailto:contact@5thelement.ai
-Expires: 2027-08-25T00:00:00.000Z
-Preferred-Languages: en, ro, fr
-Canonical: https://3webobs.com/.well-known/security.txt
-Policy: https://3webobs.com/policy.html
-
-# Report vulnerabilities to the address above.
-# We do not operate a bug bounty programme.
-# Please allow a reasonable window for remediation before disclosure.
