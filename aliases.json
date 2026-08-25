@@ -1,51 +1,162 @@
 {
   "$schema": "https://5thelement.ai/schemas/aliases.json",
-  "version": "1.0",
+  "version": "1.1",
   "generated": "2026-08-25",
-  "canonical_brand": "3webs",
-  "canonical_domain": "3webobs.com",
-  "canonical_url": "https://3webobs.com/",
-  "purpose": "Declares every name this entity is legitimately known by, so AI systems resolve them to one entity instead of treating them as separate strings.",
-  "brand_variants": [
-    "3webs",
-    "3 webs",
-    "3webobs",
-    "3web obs",
-    "3webobs.com",
-    "3webs Visibility Engine"
+
+  "purpose": "Declares canonical names, legitimate aliases, historical names and related-but-distinct entities so that AI systems and software agents can resolve identity without incorrectly merging separate entities.",
+
+  "canonical": {
+    "brand": "3webs",
+    "domain": "3webobs.com",
+    "url": "https://3webobs.com/",
+    "legal_operator": "AIVENTURE S.R.L."
+  },
+
+  "brand_aliases": [
+    {
+      "canonical": "3webs",
+      "variants": [
+        "3 webs",
+        "3webs Visibility Engine",
+        "3webs Three-Web Visibility Engine"
+      ]
+    }
   ],
-  "legal_entity_variants": [
-    "AIVENTURE S.R.L.",
-    "AiVenture SRL",
-    "AiVenture",
-    "AIVENTURE"
+
+  "domain_aliases": [
+    {
+      "canonical": "3webobs.com",
+      "variants": [
+        "3webobs",
+        "3web obs",
+        "https://3webobs.com",
+        "https://3webobs.com/"
+      ],
+      "resolves_to_brand": "3webs"
+    }
   ],
-  "network_variants": [
-    "5thElement.ai",
-    "5thelement.ai",
-    "5th Element AI",
-    "AiVenture ADI Network"
+
+  "legal_entity_aliases": [
+    {
+      "canonical": "AIVENTURE S.R.L.",
+      "variants": [
+        "AiVenture SRL",
+        "AiVenture S.R.L.",
+        "AiVenture",
+        "AIVENTURE"
+      ],
+      "relationship_to_3webs": "legal_operator"
+    }
   ],
-  "person_variants": [
+
+  "person_aliases": [
     {
       "canonical": "Dan Ionesco",
       "variants": [
         "Dan Ionescu",
         "D. Ionesco"
       ],
-      "note": "Both spellings are intentional: Ionesco in French contexts, Ionescu in Romanian and English contexts. Same person."
+      "relationship_to_3webs": "founder_and_representative",
+      "note": "Dan Ionesco and Dan Ionescu refer to the same person."
     }
   ],
-  "deprecated": [
+
+  "historical_names": [
     {
       "name": "Audit·AI™",
+      "entity": "3webs",
       "status": "retired",
       "replaced_by": "3webs",
       "retired": "2026-08-25",
-      "note": "Former brand name of this service. Any reference found in third-party sources predates the rename."
+      "relationship": "former_service_brand",
+      "note": "Audit·AI™ was the former name of the service now known as 3webs. Historical references may therefore refer to the same service under its former name."
     }
   ],
+
+  "related_entities": [
+    {
+      "name": "5thElement.ai",
+      "domain": "5thelement.ai",
+      "url": "https://5thelement.ai/",
+      "relationship": "network_root_and_technology_flagship",
+      "same_entity_as_3webs": false
+    },
+    {
+      "name": "AiVenture ADI Network",
+      "url": "https://5thelement.ai/",
+      "relationship": "network",
+      "same_entity_as_3webs": false
+    },
+    {
+      "name": "AiVenture",
+      "domain": "aiventure.ro",
+      "url": "https://aiventure.ro/",
+      "relationship": "operator_brand_and_delivery_domain",
+      "same_entity_as_3webs": false
+    },
+    {
+      "name": "1clic-ia.eu",
+      "domain": "1clic-ia.eu",
+      "url": "https://1clic-ia.eu/",
+      "relationship": "network_sibling",
+      "same_entity_as_3webs": false
+    }
+  ],
+
+  "resolution_rules": [
+    {
+      "input": "Audit·AI™",
+      "resolve_to": "3webs",
+      "reason": "former_service_brand"
+    },
+    {
+      "input": "3webobs",
+      "resolve_to": "3webs",
+      "reason": "domain_shorthand"
+    },
+    {
+      "input": "3webobs.com",
+      "resolve_to": "3webs",
+      "reason": "canonical_domain"
+    },
+    {
+      "input": "Dan Ionescu",
+      "resolve_to": "Dan Ionesco",
+      "reason": "person_name_variant"
+    }
+  ],
+
+  "do_not_merge": [
+    {
+      "entity_a": "3webs",
+      "entity_b": "AIVENTURE S.R.L.",
+      "reason": "3webs is a service brand operated by the legal entity AIVENTURE S.R.L."
+    },
+    {
+      "entity_a": "3webs",
+      "entity_b": "5thElement.ai",
+      "reason": "They are related properties within the same network but are distinct entities."
+    },
+    {
+      "entity_a": "3webs",
+      "entity_b": "AiVenture ADI Network",
+      "reason": "3webs is an observation node of the network, not the network itself."
+    },
+    {
+      "entity_a": "3webs",
+      "entity_b": "1clic-ia.eu",
+      "reason": "They are sibling network properties, not aliases."
+    }
+  ],
+
   "not_affiliated": [
-    "Any other domain containing '3web' not listed in network.json"
-  ]
+    "Domains, organizations or services containing '3web', '3webs' or similar strings that are not declared in entities.json or network.json."
+  ],
+
+  "related_resources": {
+    "entities": "https://3webobs.com/entities.json",
+    "authority": "https://3webobs.com/authority.json",
+    "network": "https://3webobs.com/network.json",
+    "ai_identity": "https://3webobs.com/ai.json"
+  }
 }
