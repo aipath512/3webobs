@@ -36,7 +36,8 @@ async function safeFetch(url, opts = {}) {
   try {
     const r = await fetch(url, { ...opts, signal: ctrl.signal, redirect: 'follow' });
     const text = await r.text();
-    return { ok: r.ok, status: r.status, text, headers: r.headers };
+    return { ok: r.ok, status: r.status, text, headers: r.headers,
+             redirected: r.redirected, finalUrl: r.url };
   } catch (e) {
     return { ok: false, status: 0, text: '', error: String(e) };
   } finally {
@@ -110,7 +111,10 @@ async function gatherEvidence(target) {
   const jsonFiles = {};
   const jsonNames = ['ai.json', 'entities.json', 'governance.json', 'intents.json',
     'authority.json', 'policy.json', 'ai-proof.json', '.well-known/agent-card.json',
-    'llms-full.txt'];
+    'llms-full.txt', 'proof.json', 'adn.json', 'network.json', 'capabilities.json',
+    'session.json', 'aliases.json', 'actions.json', 'allow-lane-matrix.json',
+    'changelog.json', 'humans.txt', 'site.webmanifest', '.well-known/security.txt',
+    'agent-card.json'];
   await Promise.all(jsonNames.map(async n => {
     const r = await safeFetch(origin + '/' + n);
     jsonFiles[n] = r.ok;
@@ -164,7 +168,113 @@ async function gatherEvidence(target) {
       anyDisallowAll: /User-agent:\s*\*[\s\S]{0,40}Disallow:\s*\/\s*$/im.test(robots.text || ''),
     },
     sitemapInRobots: /Sitemap:/i.test(robots.text || ''),
+
+    /* dovezi suplimentare, toate din date deja aduse — zero cereri in plus */
+    headingFlow: (() => {
+      const lv = [...html.matchAll(/<h([1-6])[\s>]/gi)].map(m => Number(m[1]));
+      const skips = lv.filter((v, i) => i > 0 && v > lv[i - 1] + 1).length;
+      return { levels: lv.length, h1count: lv.filter(x => x === 1).length, skips };
+    })(),
+    tocAnchors: [...html.matchAll(/<a\b[^>]+href=["']#[\w-]+["']/gi)].length,
+    tables: (html.match(/<table[\s>]/gi) || []).length,
+    lists: (html.match(/<(ul|ol)[\s>]/gi) || []).length,
+    paginationTags: /<link[^>]+rel=["'](next|prev)["']/i.test(html),
+    slug: target.pathname,
+    ldSameAs: (() => {
+      const org = getNode(ld.nodes, 'Organization') || getNode(ld.nodes, 'Corporation');
+      return (org && Array.isArray(org.sameAs)) ? org.sameAs : [];
+    })(),
+    ldDateModified: (() => {
+      const n = ld.nodes.find(x => x.dateModified);
+      return n ? n.dateModified : null;
+    })(),
+    mentionsAiAct: /2024\/1689|AI Act|Artificial Intelligence Act/i.test(html),
+    mentionsGovernance: /governance|accountab|oversight/i.test(html),
+    metaAiSignals: /<meta[^>]+name=["']ai-signals["']/i.test(html),
+    metaA2A: /<meta[^>]+name=["']a2a-agent-card["']/i.test(html),
+    trainingConsent: /Training:\s*allowed|training["']?\s*:\s*["']allowed/i.test((aitxt.text || '') + (main.text || '')),
+    /* aplicabilitate: exista pe pagina continutul pe care fiecare schema l-ar descrie?
+       Fara continut, schema nu e un esec — pur si simplu nu se aplica. */
+    applicable: (() => {
+      const txt = html.replace(/<script[\s\S]*?<\/script>/gi, '')
+                      .replace(/<style[\s\S]*?<\/style>/gi, '');
+      const plain = txt.replace(/<[^>]+>/g, ' ');
+      return {
+        Product: /add to cart|buy now|in stock|out of stock|SKU|shopping cart/i.test(plain),
+        Event: /<time[\s>]/i.test(txt) &&
+               /venue|register now|doors open|agenda|conference|webinar|workshop on/i.test(plain),
+        VideoObject: /<video[\s>]|youtube\.com\/embed|player\.vimeo\.com|<iframe[^>]+(youtube|vimeo)/i.test(txt),
+        AggregateRating: /itemprop=["']review|class=["'][^"']*\breview\b|\u2605{3,}|\b\d+\s+(customer\s+)?reviews?\b|rated\s+\d(\.\d)?\s*(out of|\/)\s*5/i.test(txt),
+        ClaimReview: /fact[- ]check|we rated this|claim:|verdict:|debunk/i.test(plain),
+        LocalBusiness: /opening hours|walk[- ]?in|visit (us|our) (shop|store|office)|book a table|directions to/i.test(plain),
+        Article: (() => {
+          const words = plain.split(/\s+/).filter(Boolean).length;
+          const hasArticleTag = /<article[\s>]/i.test(txt);
+          const byline = /\bby\s+[A-Z][a-z]+\s+[A-Z][a-z]+|<time[^>]+datetime=|rel=["']author["']/i.test(txt);
+          return words > 900 && hasArticleTag && byline;
+        })(),
+        Person: /<address[\s>]/i.test(txt) || /founder|author|written by/i.test(plain),
+        HowTo: /step\s*\d|first,|then,|finally,/i.test(plain)
+      };
+    })(),
+    redirects: main.redirected || false,
+    finalUrl: main.finalUrl || target.href,
   };
+}
+
+
+/* ---------- PageSpeed Insights — sursa gratuita, fara cheie obligatorie ----------
+   Cheia PAGESPEED_API_KEY e optionala: fara ea, cota e mai mica dar API-ul raspunde.
+   Daca apelul esueaza, semnalele raman NA — niciodata FAIL inventat. */
+async function fetchPageSpeed(url, env) {
+  const key = env && env.PAGESPEED_API_KEY ? '&key=' + env.PAGESPEED_API_KEY : '';
+  const api = 'https://www.googleapis.com/pagespeedonline/v5/runPagespeed'
+            + '?url=' + encodeURIComponent(url)
+            + '&strategy=mobile&category=performance' + key;
+  const ctrl = new AbortController();
+  const t = setTimeout(() => ctrl.abort(), 25000);
+  try {
+    const r = await fetch(api, { signal: ctrl.signal });
+    if (!r.ok) return null;
+    const j = await r.json();
+    const audits = j.lighthouseResult && j.lighthouseResult.audits;
+    if (!audits) return null;
+    const num = (k) => audits[k] && typeof audits[k].numericValue === 'number'
+      ? audits[k].numericValue : null;
+    return {
+      lcp: num('largest-contentful-paint'),
+      cls: num('cumulative-layout-shift'),
+      inp: num('interaction-to-next-paint') ?? num('total-blocking-time'),
+      inpIsProxy: num('interaction-to-next-paint') === null,
+      perf: j.lighthouseResult.categories && j.lighthouseResult.categories.performance
+            ? Math.round(j.lighthouseResult.categories.performance.score * 100) : null,
+      viewportOk: audits['viewport'] ? audits['viewport'].score === 1 : null,
+      source: 'PageSpeed Insights (Lighthouse, mobile)'
+    };
+  } catch { return null; }
+  finally { clearTimeout(t); }
+}
+
+/* praguri Core Web Vitals, dupa documentatia Google */
+function cwvVerdict(kind, v, proxy) {
+  if (v === null || v === undefined) return { status: 'na', method: 'PageSpeed nu a returnat valoarea' };
+  if (kind === 'lcp') {
+    const s = v <= 2500 ? 'pass' : v <= 4000 ? 'partial' : 'fail';
+    return { status: s, score: s === 'pass' ? 95 : s === 'partial' ? 55 : 20,
+             method: `LCP ${Math.round(v)} ms (bun <=2500, slab >4000) — PageSpeed` };
+  }
+  if (kind === 'cls') {
+    const s = v <= 0.1 ? 'pass' : v <= 0.25 ? 'partial' : 'fail';
+    return { status: s, score: s === 'pass' ? 95 : s === 'partial' ? 55 : 20,
+             method: `CLS ${v.toFixed(3)} (bun <=0.1, slab >0.25) — PageSpeed` };
+  }
+  if (kind === 'inp') {
+    const lim = proxy ? [200, 600] : [200, 500];
+    const s = v <= lim[0] ? 'pass' : v <= lim[1] ? 'partial' : 'fail';
+    return { status: s, score: s === 'pass' ? 95 : s === 'partial' ? 55 : 20,
+             method: `${proxy ? 'TBT (proxy pentru INP)' : 'INP'} ${Math.round(v)} ms — PageSpeed` };
+  }
+  return { status: 'na', method: 'metrica necunoscuta' };
 }
 
 /* ---------- reguli de evaluare pe dovezi reale — cheie: keyword din numele semnalului ---------- */
@@ -184,13 +294,21 @@ const SCHEMA_KEYWORDS = [
   [/Organization Schema/i, 'Organization'],
 ];
 
-function evalSignal(sig, ev) {
+function evalSignal(sig, ev, psi) {
   const n = sig.n;
+  psi = psi || (ev && ev.psi) || null;
 
   for (const [re, type] of SCHEMA_KEYWORDS) {
-    if (re.test(n)) return ev.ldTypes.has(type)
-      ? { status: 'pass', score: 90, method: `JSON-LD @type="${type}" gasit` }
-      : { status: 'fail', score: 20, method: `JSON-LD @type="${type}" lipseste` };
+    if (re.test(n)) {
+      if (ev.ldTypes.has(type))
+        return { status: 'pass', score: 90, method: `JSON-LD @type="${type}" gasit` };
+      /* fara continutul corespunzator, schema nu se aplica — nu e un esec */
+      const ap = ev.applicable || {};
+      if (Object.prototype.hasOwnProperty.call(ap, type) && ap[type] === false)
+        return { status: 'na',
+          method: `pagina nu contine continut de tip ${type} — schema nu se aplica` };
+      return { status: 'fail', score: 20, method: `JSON-LD @type="${type}" lipseste` };
+    }
   }
 
   if (/llms\.txt/i.test(n)) return ev.llms
@@ -297,13 +415,249 @@ function evalSignal(sig, ev) {
       score: Math.min(100, cnt * 25), method: `${cnt} referinte sameAs in Organization schema` };
   }
 
+
+  /* ═══════ REGULI ADAUGATE — masurate din date deja aduse, zero cereri suplimentare ═══════ */
+
+  const F = ev.jsonFiles || {};
+  const fileRule = (fname, label) => F[fname]
+    ? { status: 'pass', score: 88, method: `/${fname} raspunde 200` }
+    : { status: 'fail', score: 0, method: `/${fname} lipseste` };
+
+  /* --- permisiuni per-crawler, citite individual din robots.txt --- */
+  const botMap = [
+    [/ClaudeBot Allow/i, 'claudebot', 'ClaudeBot'],
+    [/GPTBot Allow/i, 'gptbot', 'GPTBot'],
+    [/Google-Extended Allow/i, 'googleExtended', 'Google-Extended'],
+    [/PerplexityBot Allow/i, 'perplexitybot', 'PerplexityBot'],
+    [/Meta-AI Allow CCBot|CCBot/i, 'ccbot', 'CCBot'],
+  ];
+  for (const [re, key, label] of botMap) {
+    if (re.test(n)) {
+      if (ev.robotsBots.anyDisallowAll)
+        return { status: 'fail', score: 0, method: 'Disallow: / global in robots.txt' };
+      return ev.robotsBots[key]
+        ? { status: 'pass', score: 95, method: `${label} mentionat explicit in robots.txt` }
+        : { status: 'fail', score: 25, method: `${label} nu e mentionat explicit in robots.txt` };
+    }
+  }
+
+  /* --- fisiere de semnal, verificate prin fetch real --- */
+  const fileMap = [
+    [/ai\.json Signal File/i, 'ai.json'],
+    [/intents\.json/i, 'intents.json'],
+    [/governance\.json/i, 'governance.json'],
+    [/entities\.json/i, 'entities.json'],
+    [/policy\.json AI Policy/i, 'policy.json'],
+    [/session\.json/i, 'session.json'],
+    [/aliases\.json/i, 'aliases.json'],
+    [/actions\.json/i, 'actions.json'],
+    [/allow-lane-matrix/i, 'allow-lane-matrix.json'],
+    [/changelog\.json/i, 'changelog.json'],
+    [/ai-proof\.json/i, 'ai-proof.json'],
+  ];
+  for (const [re, fname] of fileMap) if (re.test(n)) return fileRule(fname);
+
+  /* --- proof.json: accepta oricare dintre cele doua denumiri --- */
+  if (/proof\.json SHA-256|Cryptographic IP Proof|proof\.json IP Anchoring/i.test(n)) {
+    const ok = F['proof.json'] || F['ai-proof.json'];
+    return ok
+      ? { status: 'pass', score: 90, method: 'manifest de integritate publicat (proof.json)' }
+      : { status: 'fail', score: 0, method: 'niciun manifest de integritate publicat' };
+  }
+
+  /* --- permisiune de crawl AI, agregat --- */
+  if (/AI Crawl Permission Explicit|Content Indexability by LLMs/i.test(n)) {
+    const b = ev.robotsBots;
+    const c = [b.gptbot, b.claudebot, b.googleExtended, b.perplexitybot, b.ccbot].filter(Boolean).length;
+    if (b.anyDisallowAll) return { status: 'fail', score: 0, method: 'Disallow: / global' };
+    return { status: c >= 3 ? 'pass' : c > 0 ? 'partial' : 'fail',
+      score: Math.round((c / 5) * 100), method: `${c}/5 crawlere AI permise explicit` };
+  }
+
+  /* --- consimtamant de training --- */
+  if (/Training Data Consent/i.test(n)) return ev.trainingConsent
+    ? { status: 'pass', score: 90, method: 'consimtamant de training declarat explicit' }
+    : { status: 'fail', score: 20, method: 'niciun consimtamant de training declarat' };
+
+  /* --- EU AI Act / guvernanta --- */
+  if (/EU AI Act Compliance Tag/i.test(n)) return ev.mentionsAiAct
+    ? { status: 'pass', score: 88, method: 'Regulamentul (UE) 2024/1689 referit explicit in pagina' }
+    : { status: 'fail', score: 15, method: 'niciun marcaj EU AI Act gasit' };
+
+  if (/AI Governance Statement/i.test(n)) {
+    const ok = F['governance.json'] || ev.mentionsGovernance;
+    return ok ? { status: 'pass', score: 85, method: F['governance.json'] ? '/governance.json publicat' : 'declaratie de guvernanta prezenta in pagina' }
+              : { status: 'fail', score: 10, method: 'nicio declaratie de guvernanta' };
+  }
+
+  /* --- metadate citibile de LLM --- */
+  if (/LLM-Readable Metadata/i.test(n)) {
+    const c = [ev.metaAiSignals, ev.metaA2A, !!ev.llms, ev.ldTypes.size > 0].filter(Boolean).length;
+    return { status: c >= 3 ? 'pass' : c > 0 ? 'partial' : 'fail',
+      score: Math.round((c / 4) * 100), method: `${c}/4 straturi de metadate pentru LLM (meta ai-signals, meta a2a, llms.txt, JSON-LD)` };
+  }
+
+  /* --- graf de entitati --- */
+  if (/Entity Graph JSON-LD|Entity-Graph Completeness/i.test(n)) {
+    const t = ev.ldTypes.size;
+    return { status: t >= 8 ? 'pass' : t >= 3 ? 'partial' : 'fail',
+      score: Math.min(100, t * 8), method: `${t} tipuri schema.org distincte in graful JSON-LD` };
+  }
+
+  /* --- profiluri externe declarate prin sameAs (nu verificate la sursa) --- */
+  if (/Crunchbase Profile/i.test(n)) {
+    const ok = ev.ldSameAs.some(u => /crunchbase\.com/i.test(u));
+    return ok ? { status: 'pass', score: 80, method: 'profil Crunchbase declarat in sameAs (nu verificat la sursa)' }
+              : { status: 'fail', score: 10, method: 'niciun profil Crunchbase in sameAs' };
+  }
+  if (/LinkedIn Entity Verification/i.test(n)) {
+    const c = ev.ldSameAs.filter(u => /linkedin\.com/i.test(u)).length;
+    return { status: c >= 2 ? 'pass' : c === 1 ? 'partial' : 'fail',
+      score: Math.min(100, c * 45), method: `${c} referinte LinkedIn in sameAs (nu verificate la sursa)` };
+  }
+  if (/External Entity Links Quality|Named Entity Density/i.test(n)) {
+    const c = ev.ldSameAs.length;
+    return { status: c >= 6 ? 'pass' : c >= 2 ? 'partial' : 'fail',
+      score: Math.min(100, c * 14), method: `${c} referinte sameAs catre entitati externe` };
+  }
+
+  /* --- consistenta brandului intre titlu, og:site_name si schema --- */
+  if (/Brand Entity Consistency/i.test(n)) {
+    const org = getNode(ev.ldNodes, 'Organization') || getNode(ev.ldNodes, 'Corporation');
+    const brand = getNode(ev.ldNodes, 'Brand');
+    const names = [ev.title, ev.ogTitle, org && org.name, brand && brand.name].filter(Boolean);
+    const norm = s => String(s).toLowerCase().replace(/[^a-z0-9]/g, '');
+    const anchor = brand ? norm(brand.name) : (org ? norm(org.name) : '');
+    const hits = names.filter(x => anchor && norm(x).includes(anchor.slice(0, 5))).length;
+    return { status: hits >= 3 ? 'pass' : hits >= 2 ? 'partial' : 'fail',
+      score: Math.round((hits / names.length) * 100),
+      method: `${hits}/${names.length} locuri unde numele brandului e consecvent` };
+  }
+
+  /* --- structura de continut, din HTML --- */
+  if (/Table of Contents Anchors/i.test(n)) return { status: ev.tocAnchors >= 4 ? 'pass' : ev.tocAnchors > 0 ? 'partial' : 'fail',
+    score: Math.min(100, ev.tocAnchors * 15), method: `${ev.tocAnchors} ancore interne (#) gasite` };
+
+  if (/Structured Header Flow|Schema Nesting Depth/i.test(n)) {
+    const f = ev.headingFlow;
+    if (/Schema Nesting/i.test(n)) {
+      const t = ev.ldTypes.size;
+      return { status: t >= 10 ? 'pass' : t >= 4 ? 'partial' : 'fail',
+        score: Math.min(100, t * 7), method: `${t} tipuri imbricate in graful JSON-LD` };
+    }
+    const ok = f.h1count === 1 && f.skips === 0;
+    return { status: ok ? 'pass' : f.skips <= 2 ? 'partial' : 'fail',
+      score: ok ? 95 : Math.max(10, 80 - f.skips * 20),
+      method: `${f.levels} titluri, ${f.h1count} H1, ${f.skips} salturi de nivel` };
+  }
+
+  if (/Table \/ List Extractability/i.test(n)) {
+    const c = ev.tables + ev.lists;
+    return { status: c >= 5 ? 'pass' : c > 0 ? 'partial' : 'fail',
+      score: Math.min(100, c * 12), method: `${ev.tables} tabele si ${ev.lists} liste extractibile` };
+  }
+
+  if (/RAG-Ready Content Format|Dense Paragraph Summaries/i.test(n)) {
+    const f = ev.headingFlow;
+    const ok = f.levels >= 6 && f.skips === 0 && ev.wordCount >= 500;
+    return { status: ok ? 'pass' : f.levels >= 3 ? 'partial' : 'fail',
+      score: ok ? 88 : 45,
+      method: `${f.levels} sectiuni cu titlu, ${ev.wordCount} cuvinte, ${f.skips} salturi de ierarhie` };
+  }
+
+  if (/URL Slug Structure|Question-Intent URL Structure/i.test(n)) {
+    const s = ev.slug;
+    if (s === '/' ) return { status: 'na', method: 'pagina radacina — slug-ul nu se aplica' };
+    const ok = /^\/[a-z0-9-\/.]+$/.test(s) && !/_|%20|[A-Z]/.test(s);
+    return { status: ok ? 'pass' : 'partial', score: ok ? 90 : 50,
+      method: `slug "${s}" ${ok ? 'curat (lowercase, cratime)' : 'contine caractere neideale'}` };
+  }
+
+  if (/Pagination Tags/i.test(n)) return ev.paginationTags
+    ? { status: 'pass', score: 85, method: 'rel="next"/"prev" prezent' }
+    : { status: 'na', method: 'nicio paginare pe aceasta pagina — nu se aplica' };
+
+  if (/Hreflang Implementation/i.test(n)) return ev.hreflang > 0
+    ? { status: 'pass', score: 85, method: `${ev.hreflang} taguri hreflang` }
+    : { status: 'na', method: 'site mono-limba — hreflang nu se aplica' };
+
+  if (/Content Freshness|Chronological Versioning/i.test(n)) {
+    if (!ev.ldDateModified) return { status: 'fail', score: 20, method: 'nicio data de modificare declarata in JSON-LD' };
+    const days = Math.round((Date.now() - Date.parse(ev.ldDateModified)) / 86400000);
+    return { status: days <= 90 ? 'pass' : days <= 365 ? 'partial' : 'fail',
+      score: days <= 90 ? 90 : days <= 365 ? 55 : 20,
+      method: `dateModified = ${ev.ldDateModified} (${days} zile)` };
+  }
+
+  if (/Redirect Chain|HTTPS Redirect Chain/i.test(n)) return ev.redirects
+    ? { status: 'partial', score: 60, method: `cerere redirectionata catre ${ev.finalUrl}` }
+    : { status: 'pass', score: 95, method: 'niciun redirect — raspuns direct' };
+
+  if (/AI-Ready Score Declaration/i.test(n)) {
+    const ok = F['ai.json'] || F['adn.json'];
+    return ok ? { status: 'pass', score: 80, method: 'declaratie de pregatire AI publicata (ai.json / adn.json)' }
+              : { status: 'fail', score: 10, method: 'nicio declaratie de pregatire AI' };
+  }
+
+  if (/Confidentiality Boundary Tags/i.test(n)) {
+    const ok = F['policy.json'] || F['.well-known/security.txt'];
+    return ok ? { status: 'pass', score: 80, method: 'limite de utilizare declarate (policy.json / security.txt)' }
+              : { status: 'fail', score: 15, method: 'nicio limita de confidentialitate declarata' };
+  }
+
+  if (/Structured Answer Snippets|Direct Answer Formatting|Answer-First Content Structure|Featured Snippet/i.test(n)) {
+    const ok = ev.ldTypes.has('FAQPage') && ev.faqBlocks >= 3;
+    return { status: ok ? 'pass' : ev.ldTypes.has('FAQPage') ? 'partial' : 'fail',
+      score: ok ? 88 : ev.ldTypes.has('FAQPage') ? 55 : 20,
+      method: ev.ldTypes.has('FAQPage')
+        ? `FAQPage in JSON-LD, ${ev.faqBlocks} blocuri Q&A vizibile`
+        : 'niciun bloc de raspuns structurat' };
+  }
+
+  if (/Definition Blocks|Concise Lead Paragraphs/i.test(n)) {
+    const ok = ev.ldTypes.has('DefinedTerm') || ev.ldTypes.has('DefinedTermSet');
+    return ok ? { status: 'pass', score: 85, method: 'DefinedTerm / DefinedTermSet prezent in JSON-LD' }
+              : { status: 'fail', score: 20, method: 'niciun bloc de definitie structurat' };
+  }
+
+  if (/Step-by-Step Schema/i.test(n)) return ev.ldTypes.has('HowTo')
+    ? { status: 'pass', score: 88, method: 'HowTo prezent in JSON-LD' }
+    : { status: 'fail', score: 20, method: 'niciun HowTo structurat' };
+
+  if (/Dataset Schema Corpus/i.test(n)) return ev.ldTypes.has('Dataset')
+    ? { status: 'pass', score: 85, method: 'Dataset prezent in JSON-LD' }
+    : { status: 'fail', score: 20, method: 'niciun Dataset declarat' };
+
+
+
+  /* --- Core Web Vitals, din PageSpeed (gratuit) --- */
+  if (/Core Web Vitals LCP/i.test(n)) return psi ? cwvVerdict('lcp', psi.lcp)
+    : { status: 'na', method: 'PageSpeed indisponibil in acest deploy' };
+  if (/Core Web Vitals CLS/i.test(n)) return psi ? cwvVerdict('cls', psi.cls)
+    : { status: 'na', method: 'PageSpeed indisponibil in acest deploy' };
+  if (/Core Web Vitals INP/i.test(n)) return psi ? cwvVerdict('inp', psi.inp, psi.inpIsProxy)
+    : { status: 'na', method: 'PageSpeed indisponibil in acest deploy' };
+  if (/Core Web Vitals Composite/i.test(n)) {
+    if (!psi || psi.perf === null) return { status: 'na', method: 'PageSpeed indisponibil in acest deploy' };
+    const s = psi.perf >= 90 ? 'pass' : psi.perf >= 50 ? 'partial' : 'fail';
+    return { status: s, score: psi.perf, method: `scor Lighthouse performance ${psi.perf}/100 (mobile) — PageSpeed` };
+  }
+  if (/Mobile Responsiveness/i.test(n)) {
+    if (psi && psi.viewportOk !== null) return psi.viewportOk
+      ? { status: 'pass', score: 95, method: 'viewport validat de Lighthouse (mobile)' }
+      : { status: 'fail', score: 15, method: 'Lighthouse semnaleaza viewport neconfigurat pentru mobil' };
+    return ev.viewport
+      ? { status: 'partial', score: 70, method: 'meta viewport prezent (neconfirmat de Lighthouse)' }
+      : { status: 'fail', score: 0, method: 'lipseste meta viewport' };
+  }
+
   /* semnale care cer date externe platite (backlinks, PageSpeed, Wikidata verificat,
      Crunchbase, LinkedIn, presa, NAP local, Google Business, Core Web Vitals) —
      onest marcate NA, niciodata FAIL sau scor inventat */
   return { status: 'na', method: 'necesita sursa externa (API platit) neconectata in acest deploy' };
 }
 
-function evaluate(ev) {
+function evaluate(ev, psi) {
   const scores = {};
   const signals = {};
   let totalTested = 0, totalNa = 0;
@@ -312,7 +666,7 @@ function evaluate(ev) {
     signals[dim] = [];
     let sum = 0, count = 0;
     for (const sig of SIG[dim]) {
-      const r = evalSignal(sig, ev);
+      const r = evalSignal(sig, ev, psi);
       signals[dim].push({ id: sig.id, n: sig.n, c: sig.c, w: sig.w, status: r.status, score: r.score ?? null, method: r.method });
       if (r.status !== 'na') { sum += r.score; count++; totalTested++; } else { totalNa++; }
     }
@@ -371,9 +725,11 @@ export default {
       const ev = await gatherEvidence(target);
       if (!ev.mainOk) return json({ error: 'unreachable', detail: `nu am putut accesa ${target.href}`, status: ev.status }, 200);
 
-      const evalResult = evaluate(ev);
+      const psi = body.pagespeed === false ? null : await fetchPageSpeed(target.href, env);
+      const evalResult = evaluate(ev, psi);
       const report = { url: target.href, ...evalResult };
       report.plan = buildActionPlan(report);
+      report.sources = { pagespeed: psi ? psi.source : 'unavailable' };
 
       if (env.RATE_KV) {
         try {
@@ -404,7 +760,7 @@ export default {
     if (url.pathname === '/stats') {
       let count = 0;
       if (env.RATE_KV) { try { count = Number(await env.RATE_KV.get('audit_count') || 0); } catch {} }
-      return json({ audits: count, version: '3.0', engine: 'evidence-based', signals: 167, brand: '3webs', network: '5thElement.ai', a2a: '/a2a', agent_card: '/.well-known/agent-card.json' });
+      return json({ audits: count, version: '3.0', engine: 'evidence-based', signals: 167, external_sources: ['PageSpeed Insights (free)'], brand: '3webs', network: '5thElement.ai', a2a: '/a2a', agent_card: '/.well-known/agent-card.json' });
     }
 
 
@@ -467,8 +823,10 @@ export default {
         if (!ev.mainOk) return reply({ skill: 'obs_one_shot', url: target.href,
           status: 'unreachable', detail: 'could not fetch ' + target.href });
 
-        const r = evaluate(ev);
+        const psi = payload.pagespeed === false ? null : await fetchPageSpeed(target.href, env);
+        const r = evaluate(ev, psi);
         const report = { url: target.href, ...r };
+        report.sources = { pagespeed: psi ? psi.source : 'unavailable' };
         report.plan = buildActionPlan(report);
 
         const byWeb = {
@@ -535,7 +893,7 @@ export default {
 
         const ev = await gatherEvidence(target);
         if (!ev.mainOk) return reply({ skill: 'obs_explain', url: target.href, status: 'unreachable' });
-        const v = evalSignal(found, ev);
+        const v = evalSignal(found, ev, await fetchPageSpeed(target.href, env));
         return reply({ skill: 'obs_explain', url: target.href,
           signal: { id: found.id, name: found.n, dimension: dim, category: found.c, weight: found.w },
           verdict: v.status, score: v.score ?? null, evidence: v.method });
@@ -555,7 +913,7 @@ export default {
         const before = JSON.parse(stored);
         const ev = await gatherEvidence(target);
         if (!ev.mainOk) return reply({ skill: 'obs_diff', status: 'unreachable' });
-        const after = evaluate(ev);
+        const after = evaluate(ev, await fetchPageSpeed(target.href, env));
         const changed = [];
         for (const d of Object.keys(after.signals)) {
           after.signals[d].forEach((s, i) => {
