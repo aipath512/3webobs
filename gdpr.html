@@ -79,6 +79,38 @@ footer{border-top:1px solid var(--border);padding:32px;text-align:center;font-si
 color:var(--light)!important;line-height:1.8;}
 html.dark footer{color:var(--light)!important;}
 .company{font-size:11.5px;line-height:1.9;margin-top:12px;}
+
+/* ── HAMBURGER MENU ── */
+#menu-btn{display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:100px;
+background:transparent;border:1px solid var(--border-md);cursor:pointer;flex-shrink:0;}
+#menu-btn svg{width:17px;height:17px;stroke:var(--text);fill:none;stroke-width:2;stroke-linecap:round;}
+html.dark #menu-btn svg{stroke:#f5f5f7;}
+#menu-btn:hover{border-color:var(--blue);}
+#menu-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);opacity:0;pointer-events:none;
+transition:opacity .25s;z-index:9990;}
+#menu-overlay.open{opacity:1;pointer-events:auto;}
+#menu-panel{position:fixed;top:0;right:0;bottom:0;width:290px;max-width:84vw;background:var(--bg);
+border-left:1px solid var(--border);box-shadow:var(--sh2);transform:translateX(100%);
+transition:transform .3s ease;z-index:9991;display:flex;flex-direction:column;padding:22px;overflow-y:auto;}
+#menu-panel.open{transform:translateX(0);}
+.menu-close{align-self:flex-end;width:32px;height:32px;border-radius:100px;border:1px solid var(--border-md);
+background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;margin-bottom:22px;}
+.menu-close svg{width:14px;height:14px;stroke:var(--text);fill:none;stroke-width:2;stroke-linecap:round;}
+html.dark .menu-close svg{stroke:#f5f5f7;}
+.menu-list{display:flex;flex-direction:column;gap:2px;}
+.menu-item{padding:12px 13px;border-radius:var(--rs);font-family:'Inter',sans-serif;font-size:14.5px;
+font-weight:500;display:flex;align-items:center;justify-content:space-between;
+transition:background .15s;text-decoration:none;}
+.menu-item,html.dark .menu-item{color:var(--text)!important;}
+.menu-item:hover{background:var(--bg2);text-decoration:none;}
+.menu-item .tag{font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+padding:2px 8px;border-radius:100px;background:var(--gold-bg);}
+.menu-item .tag,html.dark .menu-item .tag{color:var(--gold)!important;}
+.menu-head{font-size:9.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+padding:0 13px;margin:18px 0 6px;opacity:.5;}
+.menu-sep{height:1px;background:var(--border);margin:14px 0;}
+.menu-foot{margin-top:auto;padding-top:22px;font-size:11px;line-height:1.7;opacity:.65;}
+
 @media(max-width:640px){
  header{padding:16px 18px;flex-direction:column;gap:10px;}
  .hd-meta{text-align:left;}
@@ -97,7 +129,12 @@ html.dark footer{color:var(--light)!important;}
     <p>167-Signal AI Visibility Engine</p>
     <button id="toggle" onclick="toggleTheme()"><span id="ti">&#9790;</span><span id="tl">Dark</span></button>
   </div>
-  <div class="hd-meta">LEGAL &middot; AI-FIRST<br><span style="opacity:.5;font-size:9px">EU &middot; GDPR &middot; AI Act</span></div>
+  <div style="display:flex;align-items:center;gap:14px;">
+    <div class="hd-meta">LEGAL &middot; AI-FIRST<br><span style="opacity:.5;font-size:9px">EU &middot; GDPR &middot; AI Act</span></div>
+    <button id="menu-btn" onclick="openMenu()" aria-label="Menu">
+    <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
+  </div>
 </header>
 
 <div class="wrap">
@@ -107,6 +144,7 @@ html.dark footer{color:var(--light)!important;}
   <a href="/gdpr.html" class="active">GDPR &amp; Privacy</a>
   <a href="/cookies.html">Cookies</a>
   <a href="/ai-act.html">EU AI Act</a>
+  <a href="/contact.html">Contact</a>
   </div>
   <div class="eyebrow">Data Protection</div>
   <h2 class="page-title">GDPR &amp; <em>Privacy</em></h2>
@@ -200,6 +238,37 @@ Contact for data protection matters: <a href="mailto:contact@5thelement.ai">cont
   </div>
   <div style="margin-top:16px"><a href="/">&larr; Back to Audit&middot;AI</a></div>
 </footer>
+
+<div id="menu-overlay" onclick="closeMenu()"></div>
+<nav id="menu-panel">
+  <button class="menu-close" onclick="closeMenu()" aria-label="Close menu">
+    <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </button>
+  <div class="menu-list">
+    <a href="/" class="menu-item">Run an Audit</a>
+    <a href="/#pricing" class="menu-item">Pricing</a>
+    <a href="/#criteria" class="menu-item">The 167 Signals</a>
+    <a href="/contact.html" class="menu-item">Contact</a>
+
+    <div class="menu-head">Legal</div>
+    <a href="/terms.html" class="menu-item">Terms &amp; Conditions</a>
+    <a href="/policy.html" class="menu-item">Acceptable Use</a>
+    <a href="/gdpr.html" class="menu-item">GDPR &amp; Privacy</a>
+    <a href="/cookies.html" class="menu-item">Cookies</a>
+    <a href="/ai-act.html" class="menu-item">EU AI Act <span class="tag">Art. 50</span></a>
+
+    <div class="menu-sep"></div>
+    <div class="menu-head">Network</div>
+    <a href="https://5thelement.ai" class="menu-item">5thElement.ai</a>
+    <a href="https://aiventure.ro" class="menu-item">AiVenture.ro</a>
+    <a href="https://1clic-ia.eu" class="menu-item">1Clic-IA.eu</a>
+  </div>
+  <div class="menu-foot">
+    AUDIT&middot;AI&trade; &mdash; 167-Signal Engine<br>
+    a product of <a href="https://5thelement.ai">5thElement.ai</a><br>
+    AIVENTURE S.R.L. &middot; Romania, EU
+  </div>
+</nav>
 <script>
 function toggleTheme(){
   const d=document.documentElement.classList.toggle('dark');
@@ -218,6 +287,10 @@ function toggleTheme(){
     }
   }catch(e){}
 })();
+
+function openMenu(){document.getElementById('menu-overlay').classList.add('open');document.getElementById('menu-panel').classList.add('open');}
+function closeMenu(){document.getElementById('menu-overlay').classList.remove('open');document.getElementById('menu-panel').classList.remove('open');}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeMenu();});
 </script>
 </body>
 </html>
