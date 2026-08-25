@@ -102,20 +102,26 @@
       "/intents.json",
       "/governance.json",
       "/authority.json",
-      "/policy.json"
+      "/policy.json",
+      "/aliases.json",
+      "/session.json",
+      "/actions.json",
+      "/changelog.json"
     ],
     "machine_web": [
       "/.well-known/agent-card.json",
       "/capabilities.json",
       "/a2a",
-      "/signals"
+      "/signals",
+      "/allow-lane-matrix.json"
     ],
     "network": [
       "/adn.json",
       "/network.json"
     ],
     "integrity": [
-      "/proof.json"
+      "/proof.json",
+      "/ai-proof.json"
     ]
   },
   "governance": {

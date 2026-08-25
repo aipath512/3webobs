@@ -1,0 +1,51 @@
+{
+  "$schema": "https://5thelement.ai/schemas/changelog.json",
+  "version": "1.0",
+  "generated": "2026-08-25",
+  "purpose": "Versioned record of material changes to this service and its declared signals.",
+  "current_version": "3.0.0",
+  "current_release": "2026-08-25",
+  "releases": [
+    {
+      "version": "3.0.0",
+      "date": "2026-08-25",
+      "type": "major",
+      "changes": [
+        "Rebranded from Audit·AI™ to 3webs.",
+        "Repositioned around three webs: human web, AI web, machine web.",
+        "Published A2A v1.0 agent card with five OBS skills.",
+        "Added JSON-RPC 2.0 endpoint at /a2a.",
+        "Added one-shot and permanent observation modes.",
+        "Published full machine-readable signal layer.",
+        "Joined the AiVenture ADI Network as observation node.",
+        "Integrated PageSpeed Insights for Core Web Vitals.",
+        "Published SHA-256 integrity manifest."
+      ]
+    },
+    {
+      "version": "2.0.0",
+      "date": "2026-08-20",
+      "type": "major",
+      "changes": [
+        "Replaced heuristic scoring with deterministic evidence-based rules.",
+        "Introduced not_applicable status for unverifiable signals, replacing invented verdicts.",
+        "Moved AI synthesis server-side with a protected key."
+      ]
+    }
+  ],
+  "planned": [
+    {
+      "item": "Cron-scheduled execution of permanent observations",
+      "status": "not started"
+    },
+    {
+      "item": "Additional external data sources for currently unmeasurable signals",
+      "status": "under evaluation"
+    }
+  ],
+  "policy": {
+    "breaking_changes": "announced in this file before taking effect",
+    "signal_catalogue_changes": "any addition or removal of a signal is recorded here",
+    "integrity": "https://3webobs.com/proof.json"
+  }
+}

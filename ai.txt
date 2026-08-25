@@ -21,6 +21,10 @@ Canonical: https://3webobs.com/
 Signals: https://3webobs.com/ai.json
 Capabilities: https://3webobs.com/capabilities.json
 Proof: https://3webobs.com/proof.json
+Proof-alias: https://3webobs.com/ai-proof.json
+Allow-lanes: https://3webobs.com/allow-lane-matrix.json
+Actions: https://3webobs.com/actions.json
+Aliases: https://3webobs.com/aliases.json
 
 # Nothing on this domain is behind a paywall or authentication.
 # Nothing served here is AI-generated except the narrative summary inside a report,

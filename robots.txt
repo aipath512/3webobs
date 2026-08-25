@@ -124,14 +124,19 @@ Sitemap: https://3webobs.com/sitemap.xml
 # /governance.json         accountability and applicable law
 # /authority.json          verifiable external presence
 # /policy.json             machine-readable usage policy
+# /aliases.json            every name this entity is known by
+# /session.json            state handling — stateless, no auth
+# /actions.json            concrete actions and their contracts
+# /changelog.json          versioned record of material changes
 
 # Machine web (A2A)
 # /.well-known/agent-card.json  A2A v1.0 agent card
 # /a2a                     JSON-RPC 2.0 endpoint (message/send)
 # /capabilities.json       OBS capabilities — one-shot and permanent
+# /allow-lane-matrix.json  what each class of automated visitor may do
 # /signals                 the 167-signal catalogue
 
 # Network
 # /adn.json                ADN descriptor — observation node of the AiVenture ADI Network
 # /network.json            network membership detail
-# /proof.json              SHA-256 integrity manifest
+# /proof.json              SHA-256 integrity manifest (also at /ai-proof.json)

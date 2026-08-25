@@ -92,6 +92,12 @@
     "proof": "https://3webobs.com/proof.json",
     "agent_card": "https://3webobs.com/.well-known/agent-card.json",
     "llms": "https://3webobs.com/llms.txt",
-    "adn": "https://3webobs.com/adn.json"
+    "adn": "https://3webobs.com/adn.json",
+    "aliases": "https://3webobs.com/aliases.json",
+    "session": "https://3webobs.com/session.json",
+    "actions": "https://3webobs.com/actions.json",
+    "allow_lane_matrix": "https://3webobs.com/allow-lane-matrix.json",
+    "changelog": "https://3webobs.com/changelog.json",
+    "ai_proof": "https://3webobs.com/ai-proof.json"
   }
 }

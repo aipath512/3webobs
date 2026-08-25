@@ -48,6 +48,11 @@ applicable rather than assigned an invented value.
 - [governance.json](https://3webobs.com/governance.json): who is accountable, and under what law
 - [authority.json](https://3webobs.com/authority.json): verified external presence
 - [policy.json](https://3webobs.com/policy.json): machine-readable usage policy
+- [aliases.json](https://3webobs.com/aliases.json): every name this entity is known by
+- [session.json](https://3webobs.com/session.json): state handling — stateless, no authentication
+- [actions.json](https://3webobs.com/actions.json): concrete actions and their contracts
+- [allow-lane-matrix.json](https://3webobs.com/allow-lane-matrix.json): what each class of visitor may do
+- [changelog.json](https://3webobs.com/changelog.json): versioned record of material changes
 - [adn.json](https://3webobs.com/adn.json): ADN descriptor — node role within the AiVenture ADI Network
 - [network.json](https://3webobs.com/network.json): network membership detail
 - [proof.json](https://3webobs.com/proof.json): SHA-256 digests of the files above

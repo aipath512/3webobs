@@ -1,0 +1,128 @@
+{
+  "$schema": "https://5thelement.ai/schemas/actions.json",
+  "version": "1.0",
+  "generated": "2026-08-25",
+  "purpose": "The concrete actions an agent or a person can take on this service, with their contracts.",
+  "actions": [
+    {
+      "id": "observe_one_shot",
+      "name": "Observe a domain once",
+      "verb": "AssessAction",
+      "endpoint": {
+        "method": "POST",
+        "path": "/audit",
+        "content_type": "application/json"
+      },
+      "a2a_skill": "obs_one_shot",
+      "input": {
+        "url": "string, required, absolute URI",
+        "pagespeed": "boolean, optional, default true"
+      },
+      "output": "Full report: global score, per-dimension scores, per-signal verdict with evidence, prioritised action plan.",
+      "idempotent": true,
+      "cost": "first observation free",
+      "typical_duration": "5-30 seconds"
+    },
+    {
+      "id": "observe_permanent",
+      "name": "Register continuous observation",
+      "verb": "SubscribeAction",
+      "endpoint": {
+        "method": "POST",
+        "path": "/observe",
+        "content_type": "application/json"
+      },
+      "a2a_skill": "obs_permanent",
+      "input": {
+        "url": "string, required",
+        "interval": "daily | weekly | monthly, required",
+        "notify": "callback URL or email, required",
+        "threshold": "integer, optional, default 3"
+      },
+      "output": "Subscription id and schedule.",
+      "idempotent": false,
+      "cost": "subscription",
+      "status": "registered but not yet executing — scheduled execution requires a Cron Trigger not yet configured"
+    },
+    {
+      "id": "compare_observations",
+      "name": "Compare against a baseline",
+      "verb": "CompareAction",
+      "endpoint": {
+        "method": "POST",
+        "path": "/a2a"
+      },
+      "a2a_skill": "obs_diff",
+      "input": {
+        "url": "string, required",
+        "baseline_id": "string, required"
+      },
+      "output": "Signal-level delta with evidence for each change.",
+      "idempotent": true
+    },
+    {
+      "id": "explain_signal",
+      "name": "Explain one signal verdict",
+      "verb": "ReadAction",
+      "endpoint": {
+        "method": "POST",
+        "path": "/a2a"
+      },
+      "a2a_skill": "obs_explain",
+      "input": {
+        "url": "string, required",
+        "signal_id": "string, required"
+      },
+      "output": "What was fetched, what was found, why the rule produced that verdict.",
+      "idempotent": true
+    },
+    {
+      "id": "list_catalogue",
+      "name": "List the signal catalogue",
+      "verb": "ReadAction",
+      "endpoint": {
+        "method": "GET",
+        "path": "/signals"
+      },
+      "a2a_skill": "obs_catalogue",
+      "input": {},
+      "output": "All 167 signals grouped by dimension and by web, with weights.",
+      "idempotent": true
+    },
+    {
+      "id": "contact",
+      "name": "Contact the operator",
+      "verb": "CommunicateAction",
+      "endpoint": {
+        "method": "GET",
+        "path": "/contact.html"
+      },
+      "channels": [
+        "mailto:contact@5thelement.ai",
+        "https://api.whatsapp.com/send/?phone=40737123540"
+      ],
+      "idempotent": true
+    },
+    {
+      "id": "request_exclusion",
+      "name": "Exclude a domain from observation",
+      "verb": "RejectAction",
+      "endpoint": {
+        "method": "GET",
+        "path": "/policy.html#optout"
+      },
+      "input": {
+        "domain": "string",
+        "proof_of_control": "required"
+      },
+      "output": "Domain added to the exclusion list.",
+      "honoured": true
+    }
+  ],
+  "not_available": [
+    "Legal certification",
+    "Guaranteed ranking or citation",
+    "Access to authenticated areas of any website",
+    "Bulk export of the methodology"
+  ]
+}

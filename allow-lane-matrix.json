@@ -1,0 +1,125 @@
+{
+  "$schema": "https://5thelement.ai/schemas/allow-lane-matrix.json",
+  "version": "1.0",
+  "generated": "2026-08-25",
+  "purpose": "Explicit matrix of what each class of automated visitor may do. Where robots.txt says whether you may enter, this says what you may do once inside.",
+  "lanes": [
+    {
+      "lane": "ai_training",
+      "description": "Crawlers collecting data to train models",
+      "agents": [
+        "GPTBot",
+        "ClaudeBot",
+        "Google-Extended",
+        "CCBot",
+        "Bytespider",
+        "Amazonbot",
+        "Applebot-Extended",
+        "meta-externalagent",
+        "cohere-ai",
+        "anthropic-ai"
+      ],
+      "crawl": "allowed",
+      "index": "allowed",
+      "train": "allowed",
+      "cite": "allowed",
+      "attribution": "requested",
+      "rate_limit": "reasonable use"
+    },
+    {
+      "lane": "ai_search",
+      "description": "Assistants fetching to answer a live user question",
+      "agents": [
+        "ChatGPT-User",
+        "OAI-SearchBot",
+        "Claude-User",
+        "Claude-SearchBot",
+        "PerplexityBot",
+        "Perplexity-User",
+        "MistralAI-User",
+        "DeepSeekBot"
+      ],
+      "crawl": "allowed",
+      "index": "allowed",
+      "train": "allowed",
+      "cite": "allowed",
+      "attribution": "required",
+      "rate_limit": "reasonable use"
+    },
+    {
+      "lane": "search_engines",
+      "description": "Classic search indexing",
+      "agents": [
+        "Googlebot",
+        "Bingbot",
+        "DuckDuckBot",
+        "YandexBot",
+        "Baiduspider",
+        "Applebot"
+      ],
+      "crawl": "allowed",
+      "index": "allowed",
+      "train": "n/a",
+      "cite": "allowed",
+      "attribution": "standard",
+      "rate_limit": "none"
+    },
+    {
+      "lane": "agents_a2a",
+      "description": "Autonomous agents calling the service programmatically",
+      "agents": [
+        "any A2A-compliant client"
+      ],
+      "crawl": "allowed",
+      "index": "allowed",
+      "train": "allowed",
+      "cite": "allowed",
+      "invoke": "allowed via /a2a and /audit",
+      "attribution": "required",
+      "rate_limit": "first observation free; sustained use by written agreement",
+      "entry_point": "https://3webobs.com/.well-known/agent-card.json"
+    },
+    {
+      "lane": "archivers",
+      "description": "Preservation crawlers",
+      "agents": [
+        "archive.org_bot",
+        "ia_archiver",
+        "Arquivo Web Crawler"
+      ],
+      "crawl": "allowed",
+      "index": "allowed",
+      "train": "allowed",
+      "cite": "allowed",
+      "attribution": "standard",
+      "rate_limit": "reasonable use"
+    },
+    {
+      "lane": "unidentified",
+      "description": "Automated traffic that does not identify itself",
+      "crawl": "allowed",
+      "index": "allowed",
+      "train": "allowed",
+      "cite": "allowed",
+      "attribution": "requested",
+      "rate_limit": "throttled on abuse",
+      "note": "No lane is blocked. Abusive volume is throttled regardless of lane."
+    }
+  ],
+  "global_rules": {
+    "paywall": false,
+    "authentication": false,
+    "cloaking": false,
+    "content_differs_by_agent": false,
+    "prohibited_everywhere": [
+      "Reconstructing the scoring methodology to build a competing product",
+      "Reselling reports without a written licence",
+      "Presenting a report as a legal compliance certification"
+    ]
+  },
+  "enforcement": {
+    "technical": "rate limiting only",
+    "legal": "https://3webobs.com/policy.html",
+    "exclusion_requests": "contact@5thelement.ai"
+  }
+}

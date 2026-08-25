@@ -1,0 +1,48 @@
+{
+  "$schema": "https://5thelement.ai/schemas/session.json",
+  "version": "1.0",
+  "generated": "2026-08-25",
+  "purpose": "Declares how state is handled across a visit, for agents that need to know whether context persists.",
+  "statefulness": {
+    "server_side_sessions": false,
+    "authentication": false,
+    "cookies_required": false,
+    "personalisation": false,
+    "note": "Every request is independent. No login, no server-side session, no personalised content. The same URL returns the same content to every visitor and every agent."
+  },
+  "client_storage": [
+    {
+      "key": "theme",
+      "type": "localStorage",
+      "purpose": "light or dark mode preference",
+      "transmitted_to_server": false,
+      "required": false
+    }
+  ],
+  "server_cookies": [
+    {
+      "name": "__cf_bm",
+      "set_by": "Cloudflare",
+      "purpose": "bot management",
+      "strictly_necessary": true
+    },
+    {
+      "name": "cf_clearance",
+      "set_by": "Cloudflare",
+      "purpose": "security challenge clearance",
+      "strictly_necessary": true
+    }
+  ],
+  "agent_guidance": {
+    "session_required": false,
+    "idempotent_reads": true,
+    "observation_ids": "An observation returns an observationId. Retain it to request a later diff. Observations are not chained to a session.",
+    "rate_limit_scope": "per source address, not per session"
+  },
+  "content_variation": {
+    "by_geography": false,
+    "by_user_agent": false,
+    "by_time": false,
+    "note": "No cloaking. Crawlers receive exactly what browsers receive."
+  }
+}
