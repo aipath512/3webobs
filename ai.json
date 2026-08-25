@@ -1,26 +1,30 @@
 {
   "$schema": "https://5thelement.ai/schemas/ai.json",
-  "version": "1.0",
+  "version": "1.1",
   "generated": "2026-08-25",
+
   "identity": {
     "name": "3webs",
     "legal_name": "AIVENTURE S.R.L.",
     "domain": "3webobs.com",
     "canonical": "https://3webobs.com/",
     "type": "AI visibility observation service",
-    "description": "Observes how a domain appears across the human web, the AI web and the machine web, and reports on evidence.",
+    "description": "3webs observes how a public domain appears across the human web, the AI web and the machine web, and reports observable evidence across those three delivery surfaces.",
     "founded": "2025-03-07",
     "jurisdiction": "Romania, European Union",
+
     "identifiers": {
       "cui": "51415878",
       "registration": "J2025016406000",
       "euid": "ROONRC.J2025016406000",
       "caen": "6210"
     },
+
     "contact": {
       "email": "contact@5thelement.ai",
       "founder": "Dan Ionesco"
     },
+
     "same_as": [
       "https://5thelement.ai",
       "https://aiventure.ro",
@@ -34,70 +38,207 @@
       "https://medium.com/@aipath512"
     ]
   },
+
+  "service": {
+    "name": "3webs Visibility Engine",
+    "observation_model": "three_webs",
+    "signal_count": 167,
+
+    "web_layers": [
+      {
+        "id": "human_web",
+        "name": "Human Web",
+        "description": "The browser-facing web consumed primarily by people."
+      },
+      {
+        "id": "ai_web",
+        "name": "AI Web",
+        "description": "The information surface consumed by AI search, answer engines, retrieval systems and language-model-assisted discovery."
+      },
+      {
+        "id": "machine_web",
+        "name": "Machine Web",
+        "description": "The machine-facing surface through which software agents discover, interpret and, where supported, invoke capabilities."
+      }
+    ],
+
+    "disciplines": [
+      "AI Signals",
+      "AEO",
+      "GEO",
+      "AIO",
+      "SEO"
+    ],
+
+    "observation_principle": "Evidence first. Declared capability and demonstrated capability are different states.",
+
+    "capability_states": [
+      "declared",
+      "valid",
+      "reachable",
+      "invocable",
+      "verified"
+    ]
+  },
+
   "network": {
     "name": "AiVenture ADI Network",
-    "root": "https://5thelement.ai",
-    "flagship": "https://5thelement.ai",
+    "root": "https://5thelement.ai/",
+    "flagship": "https://5thelement.ai/",
     "role": "observation_node",
     "adn_descriptor": "https://3webobs.com/adn.json",
     "network_descriptor": "https://5thelement.ai/adn.json"
   },
+
   "permissions": {
+    "public_content": {
+      "read": "allowed",
+      "index": "allowed",
+      "citation": "allowed",
+      "inference": "allowed",
+      "agent_access": "allowed"
+    },
+
     "training": "allowed",
-    "indexing": "allowed",
-    "citation": "allowed",
-    "inference": "allowed",
-    "agent_access": "allowed",
-    "attribution_required": true,
-    "attribution_format": "3webs (3webobs.com), a service of AIVENTURE S.R.L."
+
+    "attribution": {
+      "requested": true,
+      "format": "3webs (3webobs.com), a service of AIVENTURE S.R.L."
+    },
+
+    "detailed_policy": "https://3webobs.com/policy.json",
+    "crawler_policy": "https://3webobs.com/robots.txt",
+    "ai_directives": "https://3webobs.com/ai.txt"
   },
-  "crawlers_allowed": [
-    "GPTBot",
-    "ChatGPT-User",
-    "OAI-SearchBot",
-    "ClaudeBot",
-    "Claude-User",
-    "Claude-SearchBot",
-    "anthropic-ai",
-    "Google-Extended",
-    "PerplexityBot",
-    "Perplexity-User",
-    "DeepSeekBot",
-    "CCBot",
-    "Bytespider",
-    "Amazonbot",
-    "Applebot-Extended",
-    "meta-externalagent",
-    "cohere-ai",
-    "MistralAI-User"
-  ],
-  "transparency": {
-    "ai_generated_content": "Only the narrative summary inside a report. All scores are deterministic.",
-    "eu_ai_act": {
-      "regulation": "Regulation (EU) 2024/1689",
-      "role": "deployer of a general-purpose AI model",
-      "article_50_disclosure": "https://3webobs.com/ai-act.html",
-      "high_risk": false,
-      "prohibited_practices": false
+
+  "ai_crawler_access": {
+    "default": "allowed",
+    "robots": "https://3webobs.com/robots.txt",
+
+    "explicitly_declared": [
+      "GPTBot",
+      "ChatGPT-User",
+      "OAI-SearchBot",
+      "ClaudeBot",
+      "Claude-User",
+      "Claude-SearchBot",
+      "anthropic-ai",
+      "Google-Extended",
+      "PerplexityBot",
+      "Perplexity-User",
+      "CCBot",
+      "Bytespider",
+      "Amazonbot",
+      "Applebot",
+      "Applebot-Extended",
+      "meta-externalagent",
+      "FacebookBot",
+      "cohere-ai",
+      "MistralAI-User",
+      "YouBot",
+      "Diffbot",
+      "Timpibot",
+      "omgili"
+    ],
+
+    "note": "The authoritative crawl directives are the currently served robots.txt file. This list is descriptive and does not override robots.txt."
+  },
+
+  "observation": {
+    "scope": "publicly served resources and externally observable evidence",
+
+    "modes": [
+      {
+        "id": "one_shot",
+        "capability": "obs.one_shot",
+        "description": "Point-in-time observation of a public domain."
+      },
+      {
+        "id": "permanent",
+        "capability": "obs.permanent",
+        "description": "Repeated observation of a public domain to detect material signal changes."
+      }
+    ],
+
+    "methodology": {
+      "signal_count": 167,
+      "deterministic_where_objectively_testable": true,
+      "evidence_required": true,
+      "unobservable_result": "unverified",
+      "not_applicable_supported": true,
+      "invented_values": false
     }
   },
+
+  "ai_usage": {
+    "deterministic_evaluation": {
+      "uses_language_model": false,
+      "description": "Objectively testable signals are evaluated using deterministic rules against observed evidence."
+    },
+
+    "narrative_summary": {
+      "uses_language_model": true,
+      "purpose": "Narrative synthesis of already-observed evidence.",
+      "affects_deterministic_signal_score": false
+    },
+
+    "training_on_submitted_private_data": false
+  },
+
+  "transparency": {
+    "eu_ai_act": {
+      "regulation": "Regulation (EU) 2024/1689",
+      "declared_role": "deployer",
+      "disclosure": "https://3webobs.com/ai-act.html"
+    },
+
+    "limitations": [
+      "3webs reports technical observations, not certifications.",
+      "3webs does not issue legal compliance verdicts.",
+      "3webs does not guarantee search ranking.",
+      "3webs does not guarantee indexing or citation by an AI system.",
+      "3webs does not infer private analytics when those analytics are not publicly observable.",
+      "The presence of a machine-readable capability declaration does not by itself prove that the capability is operational."
+    ]
+  },
+
+  "discovery": {
+    "robots": "https://3webobs.com/robots.txt",
+    "sitemap": "https://3webobs.com/sitemap.xml",
+    "llms": "https://3webobs.com/llms.txt",
+    "ai_directives": "https://3webobs.com/ai.txt"
+  },
+
   "signals": {
+    "identity": "https://3webobs.com/ai.json",
     "entities": "https://3webobs.com/entities.json",
+    "aliases": "https://3webobs.com/aliases.json",
     "intents": "https://3webobs.com/intents.json",
     "capabilities": "https://3webobs.com/capabilities.json",
+    "actions": "https://3webobs.com/actions.json",
     "governance": "https://3webobs.com/governance.json",
     "authority": "https://3webobs.com/authority.json",
     "policy": "https://3webobs.com/policy.json",
-    "network": "https://3webobs.com/network.json",
-    "proof": "https://3webobs.com/proof.json",
-    "agent_card": "https://3webobs.com/.well-known/agent-card.json",
-    "llms": "https://3webobs.com/llms.txt",
-    "adn": "https://3webobs.com/adn.json",
-    "aliases": "https://3webobs.com/aliases.json",
     "session": "https://3webobs.com/session.json",
-    "actions": "https://3webobs.com/actions.json",
     "allow_lane_matrix": "https://3webobs.com/allow-lane-matrix.json",
     "changelog": "https://3webobs.com/changelog.json",
+
+    "agent_card": "https://3webobs.com/.well-known/agent-card.json",
+    "a2a_endpoint": "https://3webobs.com/a2a",
+
+    "adn": "https://3webobs.com/adn.json",
+    "network": "https://3webobs.com/network.json",
+
+    "proof": "https://3webobs.com/proof.json",
     "ai_proof": "https://3webobs.com/ai-proof.json"
+  },
+
+  "verification": {
+    "integrity_manifest": "https://3webobs.com/proof.json",
+    "algorithm": "SHA-256",
+    "scope": "designated public artifacts",
+    "external_timestamp_claimed": false,
+    "digital_signature_claimed": false,
+    "statement": "SHA-256 evidence demonstrates byte-level consistency with the artifact represented by the manifest. It does not by itself establish truthfulness, authorship, regulatory compliance or independent publication time."
   }
 }
