@@ -16,7 +16,7 @@
     "aggregate": "SHA-256 over the newline-joined list of 'path:sha256' entries, sorted by path",
     "verify": "Fetch a file, compute its SHA-256, compare against the entry below. Recompute the aggregate to confirm the manifest itself is intact."
   },
-  "aggregate_sha256": "6f4ab9a9ae3a6ef854b8410a92edf32f4d68620c1df02f09d47e12c44116527c",
+  "aggregate_sha256": "20702cae951c940719b31429a6ca1855dd5fee0d5a2effef5014e5a8d78337c9",
   "file_count": 26,
   "files": [
     {
@@ -118,8 +118,8 @@
     {
       "path": "/index.html",
       "url": "https://3webobs.com/index.html",
-      "bytes": 166668,
-      "sha256": "6b34209185ded36ee3181aad4369de6119facf15a5333ac429e7921630655cac"
+      "bytes": 166627,
+      "sha256": "f834148b44671cf64eb28e109d0dae606eeafce3b0b4f5532b044d6e9b9650b0"
     },
     {
       "path": "/intents.json",
