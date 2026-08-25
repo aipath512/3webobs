@@ -1,85 +1,244 @@
 {
   "$schema": "https://5thelement.ai/schemas/intents.json",
-  "version": "1.0",
+  "version": "1.1",
   "generated": "2026-08-25",
-  "description": "What this service can be asked to do, in the language a caller would use.",
+
+  "service": {
+    "name": "3webs",
+    "domain": "https://3webobs.com/",
+    "operator": "AIVENTURE S.R.L."
+  },
+
+  "purpose": "Declares the tasks that 3webs can be asked to perform and maps natural-language requests to machine-readable capabilities.",
+
+  "interpretation": {
+    "intent_is_capability_proof": false,
+    "statement": "An intent declaration describes what the service is designed to accept. It does not by itself prove that the corresponding capability is currently reachable or operational.",
+    "capability_states": [
+      "declared",
+      "valid",
+      "reachable",
+      "invocable",
+      "verified"
+    ]
+  },
+
   "intents": [
     {
       "id": "observe_once",
       "name": "Observe a domain once",
+      "description": "Perform a point-in-time observation of publicly accessible evidence for a domain.",
+
       "utterances": [
         "audit this website",
+        "observe this website",
+        "observe this domain",
         "how visible is this domain to AI",
+        "check this site's AI visibility",
         "check my AI readiness",
-        "observe example.com",
-        "what do AI systems see on this site"
+        "what do AI systems see on this site",
+        "what does a crawler see on this website",
+        "check the human web, AI web and machine web for this domain"
       ],
+
       "capability": "obs.one_shot",
-      "requires": [
-        "url"
-      ],
-      "cost": "first observation free"
+
+      "input": {
+        "required": [
+          "url"
+        ],
+        "optional": []
+      },
+
+      "output": {
+        "type": "observation",
+        "description": "Point-in-time evidence and signal results for the submitted public domain."
+      },
+
+      "commercial": {
+        "pricing": "See current service terms.",
+        "terms": "https://3webobs.com/terms.html"
+      }
     },
+
     {
       "id": "observe_permanent",
       "name": "Observe a domain continuously",
+      "description": "Re-observe a public domain over time and detect material changes in observable signals.",
+
       "utterances": [
         "monitor this domain",
+        "monitor this website",
+        "watch this domain",
         "watch for regressions",
+        "tell me when something changes",
         "tell me when my score drops",
-        "keep observing example.com"
+        "keep observing this website",
+        "track changes in AI visibility",
+        "monitor the human web, AI web and machine web"
       ],
+
       "capability": "obs.permanent",
-      "requires": [
-        "url",
-        "interval"
-      ],
-      "cost": "subscription"
+
+      "input": {
+        "required": [
+          "url",
+          "interval"
+        ],
+        "optional": [
+          "change_threshold"
+        ]
+      },
+
+      "output": {
+        "type": "observation_series",
+        "description": "A sequence of observations and detected changes over time."
+      },
+
+      "commercial": {
+        "pricing": "See current service terms.",
+        "terms": "https://3webobs.com/terms.html"
+      }
     },
+
     {
       "id": "compare_before_after",
       "name": "Compare two observations",
+      "description": "Compare a current observation with an identified baseline observation and report the observable delta.",
+
       "utterances": [
         "did my changes work",
         "compare before and after",
-        "show the delta since last month"
+        "compare these observations",
+        "what changed since my last observation",
+        "show the delta since last month",
+        "did my AI visibility improve",
+        "which signals changed"
       ],
+
       "capability": "obs.diff",
-      "requires": [
-        "url",
-        "baseline_id"
-      ]
+
+      "input": {
+        "required": [
+          "url",
+          "baseline_id"
+        ],
+        "optional": []
+      },
+
+      "output": {
+        "type": "observation_diff",
+        "description": "Signal-level differences between the baseline and current observation."
+      }
     },
+
     {
       "id": "explain_signal",
-      "name": "Explain a single signal",
+      "name": "Explain a signal result",
+      "description": "Return the observable evidence and evaluation rationale for a specific signal.",
+
       "utterances": [
         "why did this signal fail",
+        "why did this signal pass",
+        "why is this signal partial",
+        "why is this signal unverified",
         "what evidence did you find",
-        "explain llms.txt score"
+        "show me the evidence for this signal",
+        "explain the llms.txt result",
+        "explain this score"
       ],
+
       "capability": "obs.explain",
-      "requires": [
-        "url",
-        "signal_id"
-      ]
+
+      "input": {
+        "required": [
+          "url",
+          "signal_id"
+        ],
+        "optional": [
+          "observation_id"
+        ]
+      },
+
+      "output": {
+        "type": "signal_explanation",
+        "description": "Signal state, test method, observable evidence and explanation."
+      }
     },
+
     {
       "id": "list_signals",
       "name": "List the signal catalogue",
+      "description": "Return the current 3webs observation signal catalogue and associated metadata.",
+
       "utterances": [
         "what do you measure",
         "show me the 167 signals",
-        "what is in the methodology"
+        "list the signals",
+        "show the signal catalogue",
+        "what is in the methodology",
+        "what does 3webs test",
+        "which SEO AEO GEO AIO and AI signals do you measure"
       ],
+
       "capability": "obs.catalogue",
-      "requires": []
+
+      "input": {
+        "required": [],
+        "optional": [
+          "discipline",
+          "web_layer"
+        ]
+      },
+
+      "output": {
+        "type": "signal_catalogue",
+        "description": "Current signal definitions and available methodological metadata."
+      }
     }
   ],
+
+  "intent_resolution": {
+    "strategy": "Match the caller's requested outcome to the most specific supported intent.",
+    "ambiguity": "If required parameters cannot be inferred reliably, request the missing parameter rather than inventing it.",
+    "unknown_intent": "Return unsupported_intent and, where possible, list the closest supported intents.",
+    "do_not_infer_private_access": true
+  },
+
   "not_supported": [
-    "Legal compliance certification",
-    "Guaranteeing a ranking or a citation in any AI system",
-    "Accessing authenticated or private areas of any website",
-    "Analysing a website in order to build a case against a private individual"
-  ]
+    {
+      "id": "legal_certification",
+      "description": "Issuing a legal or regulatory compliance certification."
+    },
+    {
+      "id": "ranking_guarantee",
+      "description": "Guaranteeing ranking, indexing, citation, recommendation or inclusion by a search or AI system."
+    },
+    {
+      "id": "private_access",
+      "description": "Accessing authenticated, restricted or private areas of a website without explicit supported authorization."
+    },
+    {
+      "id": "access_control_bypass",
+      "description": "Bypassing authentication, technical access controls or crawler exclusions."
+    },
+    {
+      "id": "private_person_investigation",
+      "description": "Analysing a website for the purpose of constructing a case against a private natural person."
+    },
+    {
+      "id": "invent_private_metrics",
+      "description": "Inventing or estimating private analytics, Search Console data, traffic, conversion or engagement metrics when they are not observable."
+    }
+  ],
+
+  "machine_interfaces": {
+    "capabilities": "https://3webobs.com/capabilities.json",
+    "actions": "https://3webobs.com/actions.json",
+    "agent_card": "https://3webobs.com/.well-known/agent-card.json",
+    "a2a_endpoint": "https://3webobs.com/a2a"
+  },
+
+  "governance": "https://3webobs.com/governance.json",
+  "policy": "https://3webobs.com/policy.json"
 }
