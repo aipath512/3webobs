@@ -1,70 +1,206 @@
-# 3webs — 3webs Visibility Engine
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
 
-> 3webs observes how a domain appears across the three webs — the human web,
-> the AI web, and the machine web — and reports, on evidence, what each one sees.
-> Operated by AIVENTURE S.R.L., Bucharest, Romania, European Union.
-> Observation node of the AiVenture ADI Network, whose root and technology
-> flagship is 5thelement.ai.
+  <!-- HUMAN WEB -->
 
-## What this service does
+  <url>
+    <loc>https://3webobs.com/</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://3webobs.com/assets/og-cover.png</image:loc>
+      <image:title>3webs Visibility Engine — Human Web, AI Web and Machine Web</image:title>
+    </image:image>
+  </url>
 
-3webs fetches a submitted domain's publicly served resources — HTML, robots.txt,
-sitemap.xml, JSON-LD and declared machine-readable signal files — and evaluates
-167 signals across five dimensions: AI Signals, AEO, GEO, AIO and SEO.
+  <url>
+    <loc>https://3webobs.com/contact.html</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
 
-Scoring is deterministic. The same domain in the same state produces the same
-result. A language model is used only to write the closing narrative summary.
-Signals that cannot be verified from public sources are reported as not
-applicable rather than assigned an invented value.
+  <url>
+    <loc>https://3webobs.com/ai-act.html</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
 
-## The three webs
+  <url>
+    <loc>https://3webobs.com/terms.html</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.4</priority>
+  </url>
 
-- **The human web** — what a person sees: HTML, headings, links, page speed, crawlability.
-- **The AI web** — what an answer engine sees: schema, entity graph, answer-first structure, citability.
-- **The machine web** — what an agent sees: agent cards, declared capabilities, callable endpoints, verifiable evidence.
+  <url>
+    <loc>https://3webobs.com/gdpr.html</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.4</priority>
+  </url>
 
-## Observation modes for agents
+  <url>
+    <loc>https://3webobs.com/policy.html</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.4</priority>
+  </url>
 
-- **One-shot** — a single observation of a domain, returned synchronously.
-- **Permanent** — continuous observation; the domain is re-observed on a schedule
-  and the caller is notified when a signal changes state.
+  <url>
+    <loc>https://3webobs.com/cookies.html</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
 
-## Core pages
 
-- [Home — run an observation](https://3webobs.com/): submit a domain, receive the full report
-- [Contact](https://3webobs.com/contact.html): every official channel, plus agent entry points
-- [EU AI Act transparency](https://3webobs.com/ai-act.html): where AI is used and where it is not
-- [Terms & Conditions](https://3webobs.com/terms.html): scope, pricing, liability
-- [Acceptable Use](https://3webobs.com/policy.html): crawler behaviour, permitted use, exclusion requests
-- [GDPR & Privacy](https://3webobs.com/gdpr.html): data processing, legal basis, rights
-- [Cookies](https://3webobs.com/cookies.html): local storage and cookies
+  <!-- AI WEB -->
 
-## Machine-readable signals
+  <url>
+    <loc>https://3webobs.com/llms.txt</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
 
-- [ai.json](https://3webobs.com/ai.json): declaration of identity, purpose and permissions
-- [entities.json](https://3webobs.com/entities.json): the entity graph
-- [intents.json](https://3webobs.com/intents.json): what this service can be asked to do
-- [capabilities.json](https://3webobs.com/capabilities.json): callable capabilities and their contracts
-- [governance.json](https://3webobs.com/governance.json): who is accountable, and under what law
-- [authority.json](https://3webobs.com/authority.json): verified external presence
-- [policy.json](https://3webobs.com/policy.json): machine-readable usage policy
-- [aliases.json](https://3webobs.com/aliases.json): every name this entity is known by
-- [session.json](https://3webobs.com/session.json): state handling — stateless, no authentication
-- [actions.json](https://3webobs.com/actions.json): concrete actions and their contracts
-- [allow-lane-matrix.json](https://3webobs.com/allow-lane-matrix.json): what each class of visitor may do
-- [changelog.json](https://3webobs.com/changelog.json): versioned record of material changes
-- [adn.json](https://3webobs.com/adn.json): ADN descriptor — node role within the AiVenture ADI Network
-- [network.json](https://3webobs.com/network.json): network membership detail
-- [proof.json](https://3webobs.com/proof.json): SHA-256 digests of the files above
-- [agent-card.json](https://3webobs.com/.well-known/agent-card.json): A2A v1.0 agent card
+  <url>
+    <loc>https://3webobs.com/ai.txt</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
 
-## Contact
+  <url>
+    <loc>https://3webobs.com/ai.json</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
 
-contact@5thelement.ai — AIVENTURE S.R.L., CUI 51415878, EUID ROONRC.J2025016406000
+  <url>
+    <loc>https://3webobs.com/entities.json</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
 
-## Terms for AI systems
+  <url>
+    <loc>https://3webobs.com/intents.json</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
 
-All AI crawlers are explicitly allowed. Content may be read, indexed and cited.
-Attribution to "3webs (3webobs.com)" is requested where content is quoted.
-Reports produced by this service are technical observations, not certifications
-and not legal opinions; they must not be presented as compliance verdicts.
+  <url>
+    <loc>https://3webobs.com/governance.json</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://3webobs.com/authority.json</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://3webobs.com/policy.json</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://3webobs.com/aliases.json</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://3webobs.com/session.json</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://3webobs.com/changelog.json</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+
+  <!-- MACHINE WEB / A2A -->
+
+  <url>
+    <loc>https://3webobs.com/.well-known/agent-card.json</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://3webobs.com/capabilities.json</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://3webobs.com/actions.json</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://3webobs.com/allow-lane-matrix.json</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+
+  <!-- ADI NETWORK -->
+
+  <url>
+    <loc>https://3webobs.com/adn.json</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://3webobs.com/network.json</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+
+  <!-- VERIFIABLE EVIDENCE -->
+
+  <url>
+    <loc>https://3webobs.com/proof.json</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://3webobs.com/ai-proof.json</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+</urlset>
