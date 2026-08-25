@@ -1,15 +1,235 @@
 {
   "$schema": "https://5thelement.ai/schemas/proof.json",
   "version": "1.1",
-  "generated_at": null,
-  "status": "pending_generation",
+  "generated_at": "2026-08-25T18:37:42.857Z",
   "issuer": {
     "legal_name": "AIVENTURE S.R.L.",
+    "cui": "51415878",
+    "euid": "ROONRC.J2025016406000",
     "service": "3webs",
-    "domain": "3webobs.com"
+    "domain": "3webobs.com",
+    "contact": "contact@5thelement.ai"
   },
-  "aggregate_sha256": null,
-  "file_count": 0,
-  "files": [],
-  "note": "This bootstrap manifest is replaced automatically by GitHub Actions after the current site version is live."
+  "integrity_method": {
+    "algorithm": "SHA-256",
+    "digest_encoding": "lowercase hexadecimal",
+    "file_scope": "raw response-body bytes of each designated public artifact as served at generation time",
+    "aggregate": {
+      "algorithm": "SHA-256",
+      "line_format": "<path>:<sha256>",
+      "sort": "lexicographic ascending by path",
+      "encoding": "UTF-8",
+      "line_separator": "LF",
+      "trailing_newline": false
+    }
+  },
+  "aggregate_sha256": "4ee036e606b6e654f012c0849d8ee329e4197a5e08698ac52b53973388719982",
+  "file_count": 30,
+  "files": [
+    {
+      "path": "/.well-known/agent-card.json",
+      "url": "https://3webobs.com/.well-known/agent-card.json",
+      "bytes": 6171,
+      "sha256": "25cc13392da4ab2796b5333ee4e01519e550bd3e2e1ef1af226408b30a3f4836"
+    },
+    {
+      "path": "/.well-known/security.txt",
+      "url": "https://3webobs.com/.well-known/security.txt",
+      "bytes": 362,
+      "sha256": "355fe58370fabaf6b5b318402784997a3988fb17e8612b625729ddbdce624497"
+    },
+    {
+      "path": "/actions.json",
+      "url": "https://3webobs.com/actions.json",
+      "bytes": 3757,
+      "sha256": "b9622ff9db92905018a97eafb25db089b323c095d63a7b7fb8972a053b4a60c4"
+    },
+    {
+      "path": "/adn.json",
+      "url": "https://3webobs.com/adn.json",
+      "bytes": 5389,
+      "sha256": "62a013a317dea0b2182e419f46767efd71e427f04ecd854e49c6e88486743f56"
+    },
+    {
+      "path": "/ai-act.html",
+      "url": "https://3webobs.com/ai-act.html",
+      "bytes": 57738,
+      "sha256": "8612feb14be10ddec4774b76c2a0bacf83d636af385e3654a53be84cbbefe68b"
+    },
+    {
+      "path": "/ai.json",
+      "url": "https://3webobs.com/ai.json",
+      "bytes": 7476,
+      "sha256": "4c93536e65467febb65d87fadd866d61104d3c486e98e9596efcf247954a9ece"
+    },
+    {
+      "path": "/ai.txt",
+      "url": "https://3webobs.com/ai.txt",
+      "bytes": 7476,
+      "sha256": "4c93536e65467febb65d87fadd866d61104d3c486e98e9596efcf247954a9ece"
+    },
+    {
+      "path": "/aliases.json",
+      "url": "https://3webobs.com/aliases.json",
+      "bytes": 4195,
+      "sha256": "054912ce786791207a4230238cfb630624b903cdae49377f648e22aef6f54782"
+    },
+    {
+      "path": "/allow-lane-matrix.json",
+      "url": "https://3webobs.com/allow-lane-matrix.json",
+      "bytes": 3550,
+      "sha256": "302b28856cb929e2b4f352625288a255983f1532ac78ee02f56267b16a0d0994"
+    },
+    {
+      "path": "/assets/og-cover.png",
+      "url": "https://3webobs.com/assets/og-cover.png",
+      "bytes": 45084,
+      "sha256": "660dac08848a1905d137dce27fd27ac4222894309f8e0340dc7bc0bf5c7c932b"
+    },
+    {
+      "path": "/authority.json",
+      "url": "https://3webobs.com/authority.json",
+      "bytes": 7356,
+      "sha256": "22725e8723fd6b4ebcbde17db24b404beaa911acfb8fb27160efbee06eae18bd"
+    },
+    {
+      "path": "/capabilities.json",
+      "url": "https://3webobs.com/capabilities.json",
+      "bytes": 5616,
+      "sha256": "6f467bf4a72162027e0f9520b22f985619ddb6dbcc63f637f6825cd68c2babec"
+    },
+    {
+      "path": "/changelog.json",
+      "url": "https://3webobs.com/changelog.json",
+      "bytes": 6985,
+      "sha256": "e8cd7ba829a4858cd0532329ae13b8e79a716e70794fe10e5dc979eac3a672ba"
+    },
+    {
+      "path": "/contact.html",
+      "url": "https://3webobs.com/contact.html",
+      "bytes": 55433,
+      "sha256": "1aae0080c1ea45e2662d4b621a9fdd627c62f1a6ddd2e654954e4a71311c84c1"
+    },
+    {
+      "path": "/cookies.html",
+      "url": "https://3webobs.com/cookies.html",
+      "bytes": 55292,
+      "sha256": "88bf517b6fbcc4d310bb2563acec0dfcfd07d2d9c3128da429efe7e769f1f5b1"
+    },
+    {
+      "path": "/entities.json",
+      "url": "https://3webobs.com/entities.json",
+      "bytes": 6387,
+      "sha256": "fd22abe8df0d3de6b329f99f8c81e4307d301132f134600f4d9f082d7eb55b68"
+    },
+    {
+      "path": "/gdpr.html",
+      "url": "https://3webobs.com/gdpr.html",
+      "bytes": 59640,
+      "sha256": "3bf4e8400123825107cf70b77f74ff73e875905d1e272334f420d68b2d7d9b92"
+    },
+    {
+      "path": "/governance.json",
+      "url": "https://3webobs.com/governance.json",
+      "bytes": 8004,
+      "sha256": "190c7d00c9ea85f7a8ff9d1b47dd0d89d35f4750741c673c91b34b6b5f6ec30c"
+    },
+    {
+      "path": "/humans.txt",
+      "url": "https://3webobs.com/humans.txt",
+      "bytes": 740,
+      "sha256": "3204072f0a249cde037832d6ec5f7c2b09b841456c754e5d99a924f84292fb49"
+    },
+    {
+      "path": "/index.html",
+      "url": "https://3webobs.com/index.html",
+      "bytes": 167681,
+      "sha256": "bdb2b9a839844c62539b73a4c9376021a1cb9fc1944c1cbef94b708270b45f20"
+    },
+    {
+      "path": "/intents.json",
+      "url": "https://3webobs.com/intents.json",
+      "bytes": 14954,
+      "sha256": "daae09433bc46a6accc95178751e5e178ff077ccb61a19e6d15ebc4d5da3ef9c"
+    },
+    {
+      "path": "/llms.txt",
+      "url": "https://3webobs.com/llms.txt",
+      "bytes": 4815,
+      "sha256": "d89f01f101f75f0ec9b858fcf5fb7c3c3274fbe8583367c25d581b9fb39762a9"
+    },
+    {
+      "path": "/network.json",
+      "url": "https://3webobs.com/network.json",
+      "bytes": 3104,
+      "sha256": "82b67e5da604e407d97835158616438febc0349b95424fc023c01a5a049038da"
+    },
+    {
+      "path": "/policy.html",
+      "url": "https://3webobs.com/policy.html",
+      "bytes": 7356,
+      "sha256": "22725e8723fd6b4ebcbde17db24b404beaa911acfb8fb27160efbee06eae18bd"
+    },
+    {
+      "path": "/policy.json",
+      "url": "https://3webobs.com/policy.json",
+      "bytes": 1312,
+      "sha256": "75157a2b32a22ce6fb48e1534aff0e354a673d21e3a9ec422d827efc564ad08f"
+    },
+    {
+      "path": "/robots.txt",
+      "url": "https://3webobs.com/robots.txt",
+      "bytes": 2485,
+      "sha256": "e4c1437305b7fd184ada0be57bdaf11a95b016070cdfd7a10513007ec19e48a2"
+    },
+    {
+      "path": "/session.json",
+      "url": "https://3webobs.com/session.json",
+      "bytes": 5710,
+      "sha256": "7eed61df39b2e1397b2f5696d7cc96d1fa7c52385942cc215cf10b28f9e1c3d7"
+    },
+    {
+      "path": "/site.webmanifest",
+      "url": "https://3webobs.com/site.webmanifest",
+      "bytes": 552,
+      "sha256": "1f26a8613ff0c0343588f81ad195c6c0bde7fd9847453a70a2646547beb6a7bc"
+    },
+    {
+      "path": "/sitemap.xml",
+      "url": "https://3webobs.com/sitemap.xml",
+      "bytes": 4815,
+      "sha256": "d89f01f101f75f0ec9b858fcf5fb7c3c3274fbe8583367c25d581b9fb39762a9"
+    },
+    {
+      "path": "/terms.html",
+      "url": "https://3webobs.com/terms.html",
+      "bytes": 61501,
+      "sha256": "55f8abb7731607b8d86b5234b1d3ee781398ab580f46aa4bef0c8a63ff50d83e"
+    }
+  ],
+  "verification": {
+    "artifact": "Fetch the declared URL as raw bytes, compute SHA-256, encode as lowercase hexadecimal and compare with the recorded sha256.",
+    "aggregate": "Sort entries lexicographically by path, create path:sha256 lines, join with LF and no trailing newline, then compute SHA-256.",
+    "interpretation": "A matching artifact digest demonstrates byte-for-byte consistency with the artifact represented by this manifest. A matching aggregate demonstrates internal consistency of the recorded file-digest set."
+  },
+  "external_anchoring": {
+    "timestamp_authority": false,
+    "opens_timestamp": false,
+    "digital_signature": false,
+    "statement": "This manifest currently provides cryptographic integrity evidence only."
+  },
+  "evidence_scope": {
+    "proves": [
+      "byte-level consistency of an artifact with the digest recorded in this manifest",
+      "internal consistency of the recorded file-digest set when the aggregate verifies"
+    ],
+    "does_not_prove": [
+      "truthfulness of the content",
+      "regulatory compliance",
+      "legal validity",
+      "authorship by itself",
+      "publication time by itself",
+      "third-party endorsement"
+    ]
+  }
 }
