@@ -1,51 +1,219 @@
 {
   "$schema": "https://5thelement.ai/schemas/changelog.json",
-  "version": "1.0",
+  "version": "1.1",
   "generated": "2026-08-25",
-  "purpose": "Versioned record of material changes to this service and its declared signals.",
+
+  "service": {
+    "name": "3webs",
+    "domain": "https://3webobs.com/",
+    "operator": "AIVENTURE S.R.L."
+  },
+
+  "purpose": "Versioned record of material changes to 3webs, its observation methodology, public interfaces and machine-readable declarations.",
+
   "current_version": "3.0.0",
   "current_release": "2026-08-25",
+
   "releases": [
     {
       "version": "3.0.0",
       "date": "2026-08-25",
       "type": "major",
+
+      "summary": "Repositioned the service as 3webs around observation of the human web, AI web and machine web.",
+
       "changes": [
-        "Rebranded from Audit·AI™ to 3webs.",
-        "Repositioned around three webs: human web, AI web, machine web.",
-        "Published A2A v1.0 agent card with five OBS skills.",
-        "Added JSON-RPC 2.0 endpoint at /a2a.",
-        "Added one-shot and permanent observation modes.",
-        "Published full machine-readable signal layer.",
-        "Joined the AiVenture ADI Network as observation node.",
-        "Integrated PageSpeed Insights for Core Web Vitals.",
-        "Published SHA-256 integrity manifest."
+        {
+          "type": "brand",
+          "change": "Rebranded the service from Audit·AI™ to 3webs."
+        },
+        {
+          "type": "positioning",
+          "change": "Introduced the three-web observation model: human web, AI web and machine web."
+        },
+        {
+          "type": "methodology",
+          "change": "Published the 167-signal observation catalogue across AI Signals, AEO, GEO, AIO and SEO."
+        },
+        {
+          "type": "machine_interface",
+          "change": "Published machine-readable identity, entity, intent, capability, governance, authority, policy, alias, session and action declarations."
+        },
+        {
+          "type": "machine_interface",
+          "change": "Published an A2A agent card at /.well-known/agent-card.json."
+        },
+        {
+          "type": "network",
+          "change": "Declared 3webs as an observation node of the AiVenture ADI Network."
+        },
+        {
+          "type": "policy",
+          "change": "Published an allow-lane matrix describing permitted automated visitor behavior."
+        },
+        {
+          "type": "integrity",
+          "change": "Published a SHA-256 integrity manifest for designated public artifacts."
+        },
+        {
+          "type": "transparency",
+          "change": "Published machine-readable governance, AI-use and service-policy declarations."
+        }
+      ],
+
+      "machine_resources": [
+        "/ai.txt",
+        "/ai.json",
+        "/entities.json",
+        "/intents.json",
+        "/capabilities.json",
+        "/governance.json",
+        "/authority.json",
+        "/policy.json",
+        "/aliases.json",
+        "/session.json",
+        "/actions.json",
+        "/allow-lane-matrix.json",
+        "/adn.json",
+        "/network.json",
+        "/proof.json",
+        "/.well-known/agent-card.json"
       ]
     },
+
     {
       "version": "2.0.0",
       "date": "2026-08-20",
       "type": "major",
+
+      "summary": "Moved the observation methodology toward deterministic, evidence-based evaluation.",
+
       "changes": [
-        "Replaced heuristic scoring with deterministic evidence-based rules.",
-        "Introduced not_applicable status for unverifiable signals, replacing invented verdicts.",
-        "Moved AI synthesis server-side with a protected key."
+        {
+          "type": "methodology",
+          "change": "Replaced heuristic scoring with deterministic rules where signals can be objectively tested."
+        },
+        {
+          "type": "evidence",
+          "change": "Introduced explicit handling for signals that cannot be reliably verified from available public evidence."
+        },
+        {
+          "type": "ai_usage",
+          "change": "Separated deterministic signal evaluation from language-model narrative synthesis."
+        },
+        {
+          "type": "security",
+          "change": "Moved language-model synthesis server-side so provider credentials are not exposed to the browser."
+        }
       ]
     }
   ],
+
+  "current_capability_status": {
+    "one_shot_observation": {
+      "status": "available",
+      "capability": "obs.one_shot"
+    },
+
+    "signal_catalogue": {
+      "status": "available",
+      "capability": "obs.catalogue"
+    },
+
+    "signal_explanation": {
+      "status": "available_if_exposed_by_current_service",
+      "capability": "obs.explain"
+    },
+
+    "observation_diff": {
+      "status": "available_if_exposed_by_current_service",
+      "capability": "obs.diff"
+    },
+
+    "a2a_agent_discovery": {
+      "status": "available",
+      "resource": "/.well-known/agent-card.json"
+    },
+
+    "a2a_endpoint": {
+      "status": "declared",
+      "resource": "/a2a",
+      "note": "Declared does not by itself mean verified as operational."
+    },
+
+    "permanent_observation": {
+      "status": "planned",
+      "capability": "obs.permanent"
+    }
+  },
+
   "planned": [
     {
-      "item": "Cron-scheduled execution of permanent observations",
-      "status": "not started"
+      "id": "permanent_observation_scheduler",
+      "item": "Scheduled execution of permanent observations",
+      "status": "planned",
+      "target_version": null
     },
     {
-      "item": "Additional external data sources for currently unmeasurable signals",
-      "status": "under evaluation"
+      "id": "change_notifications",
+      "item": "Notifications when monitored signal states materially change",
+      "status": "planned",
+      "target_version": null
+    },
+    {
+      "id": "additional_external_sources",
+      "item": "Additional external evidence sources for signals that cannot currently be verified reliably",
+      "status": "under_evaluation",
+      "target_version": null
+    },
+    {
+      "id": "expanded_a2a_verification",
+      "item": "Expanded verification of declared Machine Web and A2A capabilities",
+      "status": "under_evaluation",
+      "target_version": null
     }
   ],
-  "policy": {
-    "breaking_changes": "announced in this file before taking effect",
-    "signal_catalogue_changes": "any addition or removal of a signal is recorded here",
-    "integrity": "https://3webobs.com/proof.json"
+
+  "change_policy": {
+    "breaking_changes": "Material breaking changes to public machine interfaces should be recorded in this changelog.",
+
+    "signal_catalogue_changes": "Additions, removals or material definition changes to observation signals should be recorded here.",
+
+    "capability_changes": "Changes to declared callable capabilities should be reflected in capabilities.json, actions.json and the agent card where applicable.",
+
+    "governance_changes": "Material changes to governance, AI usage or access policy should be reflected in the corresponding machine-readable declarations.",
+
+    "historical_records": "Published historical release entries should not be silently rewritten except to correct factual or encoding errors; material corrections should themselves be recorded."
+  },
+
+  "evidence_model": {
+    "principle": "A changelog records declarations about change; operational capability should be verified independently.",
+
+    "capability_states": [
+      "declared",
+      "valid",
+      "reachable",
+      "invocable",
+      "verified"
+    ],
+
+    "declaration_is_execution_proof": false
+  },
+
+  "integrity": {
+    "manifest": "https://3webobs.com/proof.json",
+    "algorithm": "SHA-256",
+
+    "statement": "The integrity manifest can demonstrate byte-level consistency of the published changelog with its recorded digest. It does not independently prove that every historical statement in the changelog is true."
+  },
+
+  "related_resources": {
+    "identity": "https://3webobs.com/ai.json",
+    "intents": "https://3webobs.com/intents.json",
+    "capabilities": "https://3webobs.com/capabilities.json",
+    "actions": "https://3webobs.com/actions.json",
+    "governance": "https://3webobs.com/governance.json",
+    "agent_card": "https://3webobs.com/.well-known/agent-card.json",
+    "proof": "https://3webobs.com/proof.json"
   }
 }
