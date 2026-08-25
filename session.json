@@ -1,48 +1,161 @@
 {
   "$schema": "https://5thelement.ai/schemas/session.json",
-  "version": "1.0",
+  "version": "1.1",
   "generated": "2026-08-25",
-  "purpose": "Declares how state is handled across a visit, for agents that need to know whether context persists.",
-  "statefulness": {
-    "server_side_sessions": false,
-    "authentication": false,
-    "cookies_required": false,
-    "personalisation": false,
-    "note": "Every request is independent. No login, no server-side session, no personalised content. The same URL returns the same content to every visitor and every agent."
+
+  "service": {
+    "name": "3webs",
+    "domain": "https://3webobs.com/",
+    "operator": "AIVENTURE S.R.L."
   },
+
+  "purpose": "Declares how session state, client-side storage, cookies, observation identifiers and task continuity are handled for human visitors, AI systems and software agents.",
+
+  "statefulness": {
+    "public_content_requires_session": false,
+    "authentication_required_for_public_content": false,
+    "server_side_login_session": false,
+    "cookies_required_for_public_content": false,
+    "personalised_public_content": false,
+
+    "observation_state": "Observation operations may return identifiers that allow a caller to reference a previous observation without requiring a persistent authenticated session.",
+
+    "note": "Public informational resources are designed to be accessible without login or persistent application session."
+  },
+
   "client_storage": [
     {
       "key": "theme",
       "type": "localStorage",
-      "purpose": "light or dark mode preference",
-      "transmitted_to_server": false,
-      "required": false
+      "purpose": "Stores the visitor's light or dark interface preference.",
+      "transmitted_to_server_by_3webs": false,
+      "required_for_service": false
     }
   ],
-  "server_cookies": [
-    {
-      "name": "__cf_bm",
-      "set_by": "Cloudflare",
-      "purpose": "bot management",
-      "strictly_necessary": true
+
+  "infrastructure_cookies": {
+    "provider": "Cloudflare",
+    "application_session_cookies_required": false,
+
+    "possible_cookies": [
+      {
+        "name": "__cf_bm",
+        "set_by": "Cloudflare",
+        "purpose": "Bot-management functionality where enabled.",
+        "conditional": true
+      },
+      {
+        "name": "cf_clearance",
+        "set_by": "Cloudflare",
+        "purpose": "Records successful completion of a Cloudflare security challenge where such a challenge is presented.",
+        "conditional": true
+      }
+    ],
+
+    "note": "Infrastructure cookies may vary according to Cloudflare configuration, traffic conditions and security controls. Their inclusion here does not mean that every visitor receives every listed cookie."
+  },
+
+  "observation_context": {
+    "session_required": false,
+
+    "observation_id": {
+      "may_be_returned": true,
+      "purpose": "Provides a stable reference to an individual observation.",
+      "authentication_token": false,
+      "session_identifier": false
     },
-    {
-      "name": "cf_clearance",
-      "set_by": "Cloudflare",
-      "purpose": "security challenge clearance",
-      "strictly_necessary": true
+
+    "baseline_reference": {
+      "supported": true,
+      "purpose": "Allows a later observation to be compared with a previously identified observation."
+    },
+
+    "continuity": "Observation continuity is based on explicit observation identifiers rather than an implicit browser session."
+  },
+
+  "agent_context": {
+    "session_required_for_discovery": false,
+
+    "agent_card": "https://3webobs.com/.well-known/agent-card.json",
+    "capabilities": "https://3webobs.com/capabilities.json",
+    "intents": "https://3webobs.com/intents.json",
+    "actions": "https://3webobs.com/actions.json",
+    "a2a_endpoint": "https://3webobs.com/a2a",
+
+    "task_state": {
+      "supported_when_declared_by_capability": true,
+
+      "possible_states": [
+        "submitted",
+        "working",
+        "input_required",
+        "completed",
+        "failed",
+        "cancelled"
+      ],
+
+      "task_identifier": "A task identifier may be used to retrieve, resume, cancel or inspect an A2A task where the applicable capability supports those operations.",
+
+      "task_identifier_is_session": false
     }
-  ],
+  },
+
   "agent_guidance": {
     "session_required": false,
-    "idempotent_reads": true,
-    "observation_ids": "An observation returns an observationId. Retain it to request a later diff. Observations are not chained to a session.",
-    "rate_limit_scope": "per source address, not per session"
+    "idempotent_public_reads": true,
+
+    "observation_ids": "Retain an observation identifier when returned if a later comparison or explanation must reference that specific observation.",
+
+    "task_ids": "Retain a task identifier when returned by an asynchronous or stateful machine operation.",
+
+    "do_not_assume_context": "Agents should not assume that conversational, browser or task context persists unless an explicit identifier or applicable protocol contract provides continuity.",
+
+    "rate_limit_scope": "Rate limiting may be applied independently of application session state."
   },
-  "content_variation": {
-    "by_geography": false,
-    "by_user_agent": false,
-    "by_time": false,
-    "note": "No cloaking. Crawlers receive exactly what browsers receive."
+
+  "content_delivery": {
+    "intentional_cloaking": false,
+
+    "user_agent_specific_semantic_content": false,
+
+    "public_machine_resources": "Machine-readable resources are intentionally exposed at stable public URLs.",
+
+    "dynamic_variation_possible": true,
+
+    "possible_causes": [
+      "service updates",
+      "security controls",
+      "infrastructure behavior",
+      "requested observation input",
+      "time-dependent observation results"
+    ],
+
+    "principle": "3webs does not intentionally serve materially different factual claims to crawlers solely because they are crawlers."
+  },
+
+  "privacy": {
+    "session_tracking_required_for_public_reading": false,
+    "cross_site_behavioral_personalisation_declared": false,
+    "privacy_notice": "https://3webobs.com/gdpr.html",
+    "cookies_notice": "https://3webobs.com/cookies.html"
+  },
+
+  "security": {
+    "session_identifier_is_authorization": false,
+    "observation_identifier_is_authorization": false,
+    "task_identifier_is_authorization": false,
+
+    "principle": "Possession of an observation or task identifier must not be interpreted as authorization to access resources that otherwise require authorization."
+  },
+
+  "related_resources": {
+    "policy": "https://3webobs.com/policy.json",
+    "governance": "https://3webobs.com/governance.json",
+    "intents": "https://3webobs.com/intents.json",
+    "capabilities": "https://3webobs.com/capabilities.json",
+    "actions": "https://3webobs.com/actions.json",
+    "allow_lane_matrix": "https://3webobs.com/allow-lane-matrix.json",
+    "agent_card": "https://3webobs.com/.well-known/agent-card.json",
+    "proof": "https://3webobs.com/proof.json"
   }
 }
