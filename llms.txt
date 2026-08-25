@@ -1,4 +1,4 @@
-# 3webs — 167-Signal AI Visibility Engine
+# 3webs — 3webs Visibility Engine
 
 > 3webs observes how a domain appears across the three webs — the human web,
 > the AI web, and the machine web — and reports, on evidence, what each one sees.

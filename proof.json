@@ -16,7 +16,7 @@
     "aggregate": "SHA-256 over the newline-joined list of 'path:sha256' entries, sorted by path",
     "verify": "Fetch a file, compute its SHA-256, compare against the entry below. Recompute the aggregate to confirm the manifest itself is intact."
   },
-  "aggregate_sha256": "20702cae951c940719b31429a6ca1855dd5fee0d5a2effef5014e5a8d78337c9",
+  "aggregate_sha256": "bfe33bd886e00b1db5db8b17e962d5fa2f0df85bf077499b7af2d67ca8dcd3ee",
   "file_count": 26,
   "files": [
     {
@@ -46,8 +46,8 @@
     {
       "path": "/ai-act.html",
       "url": "https://3webobs.com/ai-act.html",
-      "bytes": 59428,
-      "sha256": "a43872e9eeb0f0d8f7d4c486a6807477a1ca08c0393f34131bce5b6e91b9e682"
+      "bytes": 59382,
+      "sha256": "eb58541bbebedefacd365f8f9e5201ac73f4239c9c76079bd0c2c698cde3b3ae"
     },
     {
       "path": "/ai.json",
@@ -64,8 +64,8 @@
     {
       "path": "/assets/og-cover.png",
       "url": "https://3webobs.com/assets/og-cover.png",
-      "bytes": 43476,
-      "sha256": "0a782cee9c3152775858bc64ac08bfc23107477355681ae20095b3e68aa32a3c"
+      "bytes": 45084,
+      "sha256": "660dac08848a1905d137dce27fd27ac4222894309f8e0340dc7bc0bf5c7c932b"
     },
     {
       "path": "/authority.json",
@@ -82,14 +82,14 @@
     {
       "path": "/contact.html",
       "url": "https://3webobs.com/contact.html",
-      "bytes": 57123,
-      "sha256": "f3405372a04c01baa84413c9261563480a77f077f037ae7b183e575ec8007372"
+      "bytes": 57077,
+      "sha256": "35d1c7e8c86928faa83e096856fc171047eddba3065f68852865d2f8ba40713d"
     },
     {
       "path": "/cookies.html",
       "url": "https://3webobs.com/cookies.html",
-      "bytes": 56982,
-      "sha256": "70b23e70889c6393daccb8e1a739648d9989f8d7f6ca59fc5baa631a44bedfa7"
+      "bytes": 56936,
+      "sha256": "75bd90ebb760ca57a3637246788248a0a84c52b6a958139a72f64d186cb73f3e"
     },
     {
       "path": "/entities.json",
@@ -100,8 +100,8 @@
     {
       "path": "/gdpr.html",
       "url": "https://3webobs.com/gdpr.html",
-      "bytes": 61330,
-      "sha256": "ddee86fd7e3a2966164486c43dfb1fed3426f74bcb4bcc986e0b985774c22cd0"
+      "bytes": 61284,
+      "sha256": "9b46c6f7d82a6adc642156ea7c0db8b4ecc10cf494ad2c4239fc93cccdc0d96a"
     },
     {
       "path": "/governance.json",
@@ -112,14 +112,14 @@
     {
       "path": "/humans.txt",
       "url": "https://3webobs.com/humans.txt",
-      "bytes": 748,
-      "sha256": "a0a41743029aa992dc4052693e5a4316e58ef055c0b84afc64ae091a2625a06c"
+      "bytes": 740,
+      "sha256": "3204072f0a249cde037832d6ec5f7c2b09b841456c754e5d99a924f84292fb49"
     },
     {
       "path": "/index.html",
       "url": "https://3webobs.com/index.html",
-      "bytes": 166627,
-      "sha256": "f834148b44671cf64eb28e109d0dae606eeafce3b0b4f5532b044d6e9b9650b0"
+      "bytes": 166642,
+      "sha256": "7d55af395a913f250874efd5b8ef77a2e86712a2e83cc0a6d032b832f13d036d"
     },
     {
       "path": "/intents.json",
@@ -130,8 +130,8 @@
     {
       "path": "/llms.txt",
       "url": "https://3webobs.com/llms.txt",
-      "bytes": 3610,
-      "sha256": "dd86ef503a222913ca6254c8c2b179f70a45b942b6c5342040c2ef59948f341a"
+      "bytes": 3602,
+      "sha256": "30873fb4bd5caa3a32c56a0f7d0c029485afe3ae26365e886507894e9f20a3fc"
     },
     {
       "path": "/network.json",
@@ -142,8 +142,8 @@
     {
       "path": "/policy.html",
       "url": "https://3webobs.com/policy.html",
-      "bytes": 58265,
-      "sha256": "908599082d8bea79f6e5cc653cb6a6b29013f26ad19f0c0db79e838ea360d1fa"
+      "bytes": 58219,
+      "sha256": "5cb33b16910372fbd73ac7a248b03855fbbbd872941067ff2868a196e45ba0a6"
     },
     {
       "path": "/policy.json",
@@ -160,8 +160,8 @@
     {
       "path": "/site.webmanifest",
       "url": "https://3webobs.com/site.webmanifest",
-      "bytes": 560,
-      "sha256": "fa5dc897988473d80916e1cbd27c2ae0e20fd241ac6822e49c9d00ed65c5ea5d"
+      "bytes": 552,
+      "sha256": "1f26a8613ff0c0343588f81ad195c6c0bde7fd9847453a70a2646547beb6a7bc"
     },
     {
       "path": "/sitemap.xml",
@@ -172,8 +172,8 @@
     {
       "path": "/terms.html",
       "url": "https://3webobs.com/terms.html",
-      "bytes": 63191,
-      "sha256": "8feec3fae150f6ca8d220432aea4ac8222f3d5ebee3d81fbd4b8a6f0421bc183"
+      "bytes": 63145,
+      "sha256": "2939597867f296b33e27799df707b9198cd3ac599d8de183e1cb20b320370b3f"
     }
   ],
   "notes": [

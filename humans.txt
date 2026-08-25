@@ -12,7 +12,7 @@
   Contact: contact@5thelement.ai
 
 /* SITE */
-  Name: 3webs — 167-Signal AI Visibility Engine
+  Name: 3webs — 3webs Visibility Engine
   Domain: 3webobs.com
   Standards: HTML5, JSON-LD, A2A v1.0, llms.txt
   Components: Cloudflare Pages, Cloudflare Workers
