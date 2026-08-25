@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+<urlset
+  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
+  <!-- HUMAN WEB -->
 
   <url>
     <loc>https://3webobs.com/</loc>
@@ -9,7 +12,7 @@
     <priority>1.0</priority>
     <image:image>
       <image:loc>https://3webobs.com/assets/og-cover.png</image:loc>
-      <image:title>Audit·AI™ — 167-Signal AI Visibility Engine</image:title>
+      <image:title>3webs Visibility Engine — Human Web, AI Web and Machine Web</image:title>
     </image:image>
   </url>
 
@@ -17,7 +20,7 @@
     <loc>https://3webobs.com/contact.html</loc>
     <lastmod>2026-08-25</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
   </url>
 
   <url>
@@ -56,50 +59,148 @@
   </url>
 
 
+  <!-- AI WEB -->
+
   <url>
     <loc>https://3webobs.com/llms.txt</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://3webobs.com/ai.txt</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://3webobs.com/ai.json</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://3webobs.com/entities.json</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://3webobs.com/intents.json</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://3webobs.com/governance.json</loc>
     <lastmod>2026-08-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
 
   <url>
-    <loc>https://3webobs.com/.well-known/agent-card.json</loc>
+    <loc>https://3webobs.com/authority.json</loc>
     <lastmod>2026-08-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://3webobs.com/policy.json</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://3webobs.com/aliases.json</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://3webobs.com/session.json</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://3webobs.com/changelog.json</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+
+  <!-- MACHINE WEB / A2A -->
+
+  <url>
+    <loc>https://3webobs.com/.well-known/agent-card.json</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://3webobs.com/capabilities.json</loc>
     <lastmod>2026-08-25</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
+    <priority>0.7</priority>
   </url>
+
+  <url>
+    <loc>https://3webobs.com/actions.json</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://3webobs.com/allow-lane-matrix.json</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+
+  <!-- ADI NETWORK -->
 
   <url>
     <loc>https://3webobs.com/adn.json</loc>
     <lastmod>2026-08-25</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://3webobs.com/network.json</loc>
     <lastmod>2026-08-25</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
+    <priority>0.6</priority>
   </url>
 
 
+  <!-- VERIFIABLE EVIDENCE -->
+
   <url>
-    <loc>https://3webobs.com/allow-lane-matrix.json</loc>
-    <lastmod>2026-08-25</lastmod><changefreq>monthly</changefreq><priority>0.5</priority>
+    <loc>https://3webobs.com/proof.json</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
 
   <url>
-    <loc>https://3webobs.com/actions.json</loc>
-    <lastmod>2026-08-25</lastmod><changefreq>monthly</changefreq><priority>0.5</priority>
+    <loc>https://3webobs.com/ai-proof.json</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
 
 </urlset>
