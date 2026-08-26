@@ -1,0 +1,95 @@
+{
+  "$schema": "https://5thelement.ai/schemas/industries.json",
+  "version": "1.0",
+  "generated": "2026-08-26",
+  "service": "3webobs.com",
+  "purpose": "A2A monetization verticals — industries/professions where Agent-to-Agent protocol adoption is emerging as a monetizable machine_web channel.",
+  "related_resources": [
+    "signals.json",
+    "network.json",
+    "intents.json",
+    "adn.json"
+  ],
+  "verticals": [
+    {
+      "id": "v01",
+      "name": "Journalism / media"
+    },
+    {
+      "id": "v02",
+      "name": "Law / legal services"
+    },
+    {
+      "id": "v03",
+      "name": "Medicine / healthcare"
+    },
+    {
+      "id": "v04",
+      "name": "Accounting / tax"
+    },
+    {
+      "id": "v05",
+      "name": "Real estate"
+    },
+    {
+      "id": "v06",
+      "name": "Insurance"
+    },
+    {
+      "id": "v07",
+      "name": "Banking / financial services"
+    },
+    {
+      "id": "v08",
+      "name": "Travel / booking"
+    },
+    {
+      "id": "v09",
+      "name": "Logistics / supply chain"
+    },
+    {
+      "id": "v10",
+      "name": "Retail / e-commerce"
+    },
+    {
+      "id": "v11",
+      "name": "HR / recruiting"
+    },
+    {
+      "id": "v12",
+      "name": "Education / training"
+    },
+    {
+      "id": "v13",
+      "name": "Architecture / construction"
+    },
+    {
+      "id": "v14",
+      "name": "Business consulting"
+    },
+    {
+      "id": "v15",
+      "name": "IT / DevOps / cloud services"
+    },
+    {
+      "id": "v16",
+      "name": "Marketing / advertising"
+    },
+    {
+      "id": "v17",
+      "name": "Transport / mobility"
+    },
+    {
+      "id": "v18",
+      "name": "Agriculture (precision farming)"
+    },
+    {
+      "id": "v19",
+      "name": "Manufacturing / industrial procurement"
+    },
+    {
+      "id": "v20",
+      "name": "Utilities (energy, telecom)"
+    }
+  ]
+}

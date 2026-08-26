@@ -27,7 +27,8 @@
     "serves": "the three webs — human, AI, machine",
     "joined": "2026-08-25",
     "canonical": "https://3webobs.com/",
-    "adn_descriptor": "https://3webobs.com/adn.json"
+    "adn_descriptor": "https://3webobs.com/adn.json",
+    "industries_descriptor": "https://3webobs.com/industries.json"
   },
   "members": [
     {

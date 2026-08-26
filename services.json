@@ -1,0 +1,212 @@
+{
+  "$schema": "https://5thelement.ai/schemas/services.json",
+  "version": "2.0",
+  "generated": "2026-08-26",
+  "supersedes": "1.0",
+  "service": "3webobs.com",
+  "purpose": "Machine-readable capability and offer layer. Declares capabilities as direction-neutral, and access as policy — not as architecture.",
+  "related_resources": [
+    "capabilities.json",
+    "actions.json",
+    "allow-lane-matrix.json",
+    "industries.json",
+    ".well-known/agent-card.json"
+  ],
+  "paradigm": {
+    "name": "Agent-to-Agents",
+    "cardinality": "1:N",
+    "statement": "An agent can discover N agents, request N services, combine N results, produce a new service, and become a provider to other agents in turn.",
+    "symmetry": "Provider and consumer roles are not fixed. An agent that offers a service today can consume another agent's service tomorrow.",
+    "boundary_rule": "The organisational boundary is an access rule, not a limit of the architecture. Separate capabilities are not built for inside and outside.",
+    "correct_question": "What capability does it offer, who is allowed to use it, and under what conditions?",
+    "incorrect_question": "Is this agent internal or external?",
+    "access_lanes": [
+      "internal_to_internal",
+      "external_to_internal",
+      "internal_to_external",
+      "external_to_external"
+    ],
+    "access_lanes_note": "The four lanes describe the context and access policy applied to the same capability. They do not describe four technologies, nor four implementations.",
+    "lane_matrix": "https://3webobs.com/allow-lane-matrix.json"
+  },
+  "access_model": {
+    "description": "Each capability separately declares who may discover it, who may request it, what data it may use, which actions are permitted, and what requires human authorisation. The same capability may serve different lanes under different policies.",
+    "axes": [
+      "discovery — cine o poate vedea declarată",
+      "request — cine o poate invoca",
+      "execution — sub ce identitate se execută",
+      "data_scope — ce date îi sunt accesibile în acea bandă",
+      "authorisation — ce prag declanșează aprobare umană",
+      "commercial_terms — dacă banda respectivă are preț atașat"
+    ],
+    "commercial_note": "Price does not attach to a capability; it attaches to a lane. The same capability may be free internally and charged externally. This remains a difference of policy, not of paradigm."
+  },
+  "human_oversight": {
+    "principle": "The agent proposes and executes within declared limits; the human sets intent, budget, deadline, and the threshold above which human approval is mandatory.",
+    "approval_boundary": ".well-known/agent-card.json → human_approval_boundary",
+    "signal_reference": "ai28 — Human Approval Boundary Declaration"
+  },
+  "capabilities": [
+    {
+      "id": "obs_one_shot",
+      "who": "AIVENTURE S.R.L. — 3webobs.com (observation node, AiVenture ADI Network)",
+      "what": "Observarea celor trei webs pentru un domeniu — human_web, ai_web, machine_web — cu verdict pe semnal și dovadă per semnal",
+      "input": [
+        {
+          "field": "target_url",
+          "type": "string",
+          "required": true,
+          "description": "URL-ul domeniului de observat"
+        },
+        {
+          "field": "contact_email",
+          "type": "string",
+          "required": true,
+          "description": "Adresa pentru livrarea planului de remediere"
+        }
+      ],
+      "output": {
+        "type": "observation_report",
+        "format": [
+          "application/json",
+          "text/html"
+        ],
+        "contents": "Tabel de semnale cu stare observată, dovadă fetch-uită per semnal, plan de acțiuni de remediere derivat din lipsuri"
+      },
+      "term": "PT10M",
+      "term_human": "maximum 10 minute",
+      "action": {
+        "name": "request_observation",
+        "endpoint": "https://3webobs.com/audit",
+        "method": "POST",
+        "protocol": "A2A"
+      },
+      "delivery": "digital — răspuns direct în protocol + email prin magic link",
+      "status_tracking": {
+        "available": true,
+        "endpoint": "https://3webobs.com/a2a",
+        "signal_reference": "ai27 — Task Status Contract"
+      },
+      "operational_status": "operational",
+      "access": [
+        {
+          "lane": "external_to_internal",
+          "who_may_request": "any authenticated agent acting for an organisation with a public domain",
+          "data_scope": "only the target domain supplied in the request",
+          "authorisation": "none_required",
+          "price": {
+            "amount": null,
+            "currency": "EUR",
+            "status": "NOT_YET_DECLARED"
+          },
+          "payment": {
+            "status": "NOT_YET_DECLARED"
+          }
+        },
+        {
+          "lane": "internal_to_internal",
+          "who_may_request": "the ADN network's own agents, for self-observation of member domains",
+          "data_scope": "member domains declared in network.json",
+          "authorisation": "none_required",
+          "price": {
+            "amount": 0,
+            "currency": "EUR",
+            "status": "declared"
+          }
+        }
+      ]
+    },
+    {
+      "id": "obs_permanent",
+      "who": "AIVENTURE S.R.L. — 3webobs.com",
+      "what": "Observare permanentă a aceluiași domeniu, cu re-evaluare periodică și notificare la schimbarea stării unui semnal",
+      "input": [
+        {
+          "field": "target_url",
+          "type": "string",
+          "required": true
+        },
+        {
+          "field": "contact_email",
+          "type": "string",
+          "required": true
+        },
+        {
+          "field": "interval",
+          "type": "string",
+          "required": false,
+          "description": "Cadență de re-observare"
+        }
+      ],
+      "output": {
+        "type": "observation_subscription",
+        "format": [
+          "application/json"
+        ],
+        "contents": "Re-observare la cadența declarată + notificare la schimbare de stare"
+      },
+      "term": "recurring",
+      "action": {
+        "name": "request_permanent_observation",
+        "endpoint": "https://3webobs.com/observe",
+        "method": "POST",
+        "protocol": "A2A"
+      },
+      "delivery": "digital",
+      "status_tracking": {
+        "available": true,
+        "endpoint": "https://3webobs.com/a2a"
+      },
+      "operational_status": "declared_not_operational",
+      "operational_note": "The subscription is written to KV when the route is called, but no scheduler yet executes the re-observation. Declared as such, not presented as functional.",
+      "access": [
+        {
+          "lane": "external_to_internal",
+          "who_may_request": "any authenticated agent",
+          "authorisation": "none_required",
+          "price": {
+            "amount": null,
+            "currency": "EUR",
+            "status": "NOT_YET_DECLARED"
+          },
+          "payment": {
+            "status": "NOT_YET_DECLARED"
+          }
+        }
+      ]
+    }
+  ],
+  "consumes": {
+    "description": "Capabilități pe care acest agent le solicită el însuși altor agenți. Prezența acestei secțiuni este dovada practică a simetriei: același nod este simultan furnizor și consumator.",
+    "declared": []
+  },
+  "capability_template": {
+    "description": "The canonical structure a company fills in to declare a capability. Declared once, regardless of how many access lanes consume it. Does not require modifying the existing website.",
+    "fields": {
+      "who": "The entity accountable for execution",
+      "what": "The economic result produced, not the technology",
+      "input": "What data must be supplied, with type and requirement",
+      "output": "What is produced, in what format",
+      "term": "Turnaround, as a declared duration",
+      "action": "Action name, endpoint, method, protocol",
+      "delivery": "How the result is delivered",
+      "status_tracking": "How the requester checks progress",
+      "operational_status": "operational | declared_not_operational",
+      "access[]": "One or more lanes, each with permitted requesters, data scope, authorisation threshold and its own commercial terms"
+    }
+  },
+  "principles": [
+    "Build capabilities, not separate agents for inside and outside.",
+    "The same capability may serve different lanes under different policies.",
+    "A capability is not declared operational unless execution has been verified.",
+    "Price and turnaround are declared per lane, not left to the agent's interpretation.",
+    "Any action with economic effect passes through a declared authorisation boundary.",
+    "The A2A layer is added over the site; it does not replace it."
+  ],
+  "companion_publication": {
+    "type": "Book",
+    "title": "The Three Webs: AI Delivery Infrastructure for the Emerging Machine Web",
+    "author": "Dan Ionescu",
+    "essay": "https://3webobs.com/a2a-secrets.html"
+  }
+}
