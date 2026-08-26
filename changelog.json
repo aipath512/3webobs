@@ -1,27 +1,49 @@
 {
   "$schema": "https://5thelement.ai/schemas/changelog.json",
   "version": "1.1",
-  "generated": "2026-08-25",
-
+  "generated": "2026-08-26",
   "service": {
     "name": "3webs",
     "domain": "https://3webobs.com/",
     "operator": "AIVENTURE S.R.L."
   },
-
   "purpose": "Versioned record of material changes to 3webs, its observation methodology, public interfaces and machine-readable declarations.",
-
-  "current_version": "3.0.0",
-  "current_release": "2026-08-25",
-
+  "current_version": "3.1.0",
+  "current_release": "2026-08-26",
   "releases": [
+    {
+      "version": "3.1.0",
+      "date": "2026-08-26",
+      "type": "minor",
+      "summary": "Published the commercial capability layer and the companion essay on the Agent-to-Agents paradigm.",
+      "changes": [
+        {
+          "type": "machine_interface",
+          "change": "Published /services.json — capabilities declared direction-neutral, with access lanes carrying their own permitted requesters, data scope, human authorisation threshold and commercial terms."
+        },
+        {
+          "type": "machine_interface",
+          "change": "Published /industries.json — twenty verticals in which Agent-to-Agent adoption is emerging as a monetizable machine-web channel."
+        },
+        {
+          "type": "content",
+          "change": "Published /a2a-secrets.html — companion essay to The Three Webs, on why internal and external A2A are one paradigm and why price attaches to an access lane rather than to a capability."
+        },
+        {
+          "type": "machine_interface",
+          "change": "Linked /industries.json from network.json as industries_descriptor."
+        },
+        {
+          "type": "discovery",
+          "change": "Added the three new resources to sitemap.xml and llms.txt."
+        }
+      ]
+    },
     {
       "version": "3.0.0",
       "date": "2026-08-25",
       "type": "major",
-
       "summary": "Repositioned the service as 3webs around observation of the human web, AI web and machine web.",
-
       "changes": [
         {
           "type": "brand",
@@ -60,7 +82,6 @@
           "change": "Published machine-readable governance, AI-use and service-policy declarations."
         }
       ],
-
       "machine_resources": [
         "/ai.txt",
         "/ai.json",
@@ -80,14 +101,11 @@
         "/.well-known/agent-card.json"
       ]
     },
-
     {
       "version": "2.0.0",
       "date": "2026-08-20",
       "type": "major",
-
       "summary": "Moved the observation methodology toward deterministic, evidence-based evaluation.",
-
       "changes": [
         {
           "type": "methodology",
@@ -108,45 +126,37 @@
       ]
     }
   ],
-
   "current_capability_status": {
     "one_shot_observation": {
       "status": "available",
       "capability": "obs.one_shot"
     },
-
     "signal_catalogue": {
       "status": "available",
       "capability": "obs.catalogue"
     },
-
     "signal_explanation": {
       "status": "available_if_exposed_by_current_service",
       "capability": "obs.explain"
     },
-
     "observation_diff": {
       "status": "available_if_exposed_by_current_service",
       "capability": "obs.diff"
     },
-
     "a2a_agent_discovery": {
       "status": "available",
       "resource": "/.well-known/agent-card.json"
     },
-
     "a2a_endpoint": {
       "status": "declared",
       "resource": "/a2a",
       "note": "Declared does not by itself mean verified as operational."
     },
-
     "permanent_observation": {
       "status": "planned",
       "capability": "obs.permanent"
     }
   },
-
   "planned": [
     {
       "id": "permanent_observation_scheduler",
@@ -173,22 +183,15 @@
       "target_version": null
     }
   ],
-
   "change_policy": {
     "breaking_changes": "Material breaking changes to public machine interfaces should be recorded in this changelog.",
-
     "signal_catalogue_changes": "Additions, removals or material definition changes to observation signals should be recorded here.",
-
     "capability_changes": "Changes to declared callable capabilities should be reflected in capabilities.json, actions.json and the agent card where applicable.",
-
     "governance_changes": "Material changes to governance, AI usage or access policy should be reflected in the corresponding machine-readable declarations.",
-
     "historical_records": "Published historical release entries should not be silently rewritten except to correct factual or encoding errors; material corrections should themselves be recorded."
   },
-
   "evidence_model": {
     "principle": "A changelog records declarations about change; operational capability should be verified independently.",
-
     "capability_states": [
       "declared",
       "valid",
@@ -196,17 +199,13 @@
       "invocable",
       "verified"
     ],
-
     "declaration_is_execution_proof": false
   },
-
   "integrity": {
     "manifest": "https://3webobs.com/proof.json",
     "algorithm": "SHA-256",
-
     "statement": "The integrity manifest can demonstrate byte-level consistency of the published changelog with its recorded digest. It does not independently prove that every historical statement in the changelog is true."
   },
-
   "related_resources": {
     "identity": "https://3webobs.com/ai.json",
     "intents": "https://3webobs.com/intents.json",

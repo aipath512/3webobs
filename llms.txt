@@ -31,6 +31,13 @@
   </url>
 
   <url>
+    <loc>https://3webobs.com/a2a-secrets.html</loc>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
     <loc>https://3webobs.com/terms.html</loc>
     <lastmod>2026-08-25</lastmod>
     <changefreq>yearly</changefreq>
@@ -163,8 +170,22 @@
   </url>
 
   <url>
+    <loc>https://3webobs.com/services.json</loc>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
     <loc>https://3webobs.com/allow-lane-matrix.json</loc>
     <lastmod>2026-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://3webobs.com/industries.json</loc>
+    <lastmod>2026-08-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
