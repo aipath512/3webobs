@@ -297,6 +297,7 @@ const SCHEMA_KEYWORDS = [
 ];
 
 function evalSignal(sig, ev, psi) {
+  if (externalOnly(sig.n)) return { status: 'na', method: 'observatie externa — niciun test public disponibil dintr-un scan de pagina' };
   let n = sig.n;
   /* v3.1 names normalized to existing evidence rules where semantics are equivalent */
   const aliases = [
@@ -806,6 +807,27 @@ function evalSignal(sig, ev, psi) {
   return { status: 'na', method: 'necesita sursa externa (API platit) neconectata in acest deploy' };
 }
 
+
+/* ══ GARD NA — semnale care nu pot fi testate dintr-un scan de pagina ══
+   Nu exista interfata publica prin care sa afli daca un model citeaza
+   un brand, si nici date de backlink fara API platit. Un semnal
+   netestabil devine NA, niciodata FAIL 0. NA e exclus din scor. */
+const EXTERNAL_ONLY = [
+  /Citation Observation/i, /Grounding Observation/i, /Retrieval Discoverability/i,
+  /Knowledge-Graph Entity Presence/i, /Search Knowledge Entity Presence/i,
+  /Independent Editorial Mentions/i, /Independent Brand Mention/i,
+  /Author Experience and Expertise Evidence/i, /External Experience Expertise/i,
+  /Backlink Authority/i, /Backlink Source Diversity/i, /Referring Domain Evidence/i,
+  /Anchor Text Diversity/i, /Suspicious Backlink Risk/i,
+  /Domain History and Independent Authority/i,
+  /Google Business Profile/i, /Local Identity Citation/i,
+  /Independent Organization Profile Presence/i,
+  /People-Also-Ask Topic Coverage/i, /Public Social Presence/i,
+  /Public Engagement Metrics/i, /Private Behavioral Analytics/i,
+  /Organic Search CTR/i, /Search Console Access/i, /Private Search Index Coverage/i,
+];
+function externalOnly(n) { return EXTERNAL_ONLY.some(rx => rx.test(n)); }
+
 function evaluate(ev, psi) {
   const scores = {};
   const signals = {};
@@ -843,22 +865,142 @@ function buildActionPlan(report) {
   };
 }
 
-async function fetchSynthesis(report, env) {
-  if (!env.ANTHROPIC_API_KEY) return null;
-  try {
-    const r = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-api-key': env.ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514', max_tokens: 300,
-        messages: [{ role: 'user', content: `URL:${report.url} scor global:${report.global}/100. Scoruri: ${JSON.stringify(report.scores)}. Testate real:${report.tested}, NA:${report.na}. Scrie 3 propozitii, ton editorial, declarativ, fara clisee, in engleza.` }]
-      })
-    });
-    if (!r.ok) return null;
-    const j = await r.json();
-    return j.content?.[0]?.text || null;
-  } catch { return null; }
+const CLAIM_MAP = [
+  {
+    id: 'crawler_access',
+    ids: ['ai1', 'ai2', 'ai3', 'ai4', 'ai5', 'geo3', 'aio8'],
+    all:  'AI crawler access is declared for every major provider',
+    some: 'AI crawler access is declared for some providers but not all',
+    none: 'no AI crawler access policy is declared, so AI systems have no explicit permission to read this site',
+  },
+  {
+    id: 'declaration_files',
+    ids: ['geo1', 'geo2', 'geo8', 'geo9', 'geo10', 'geo11', 'ai10', 'ai17'],
+    all:  'machine-readable declaration files are published and parseable',
+    some: 'some machine-readable declaration files are published, others are absent',
+    none: 'no machine-readable declaration files are published',
+  },
+  {
+    id: 'entity_anchoring',
+    ids: ['geo4', 'geo5', 'geo6', 'geo16', 'ai9', 'ai13'],
+    all:  'the entity is anchored in structured data with external references',
+    some: 'entity anchoring is present but incomplete',
+    none: 'the entity is not anchored in structured data, so AI systems cannot resolve who this organisation is',
+  },
+  {
+    id: 'agent_layer',
+    ids: ['ai19', 'ai20', 'ai21', 'ai22', 'ai23', 'ai24'],
+    all:  'an agent interface is discoverable, valid and reachable',
+    some: 'an agent interface is declared but incomplete or unreachable',
+    none: 'no agent interface is exposed, so autonomous agents cannot transact with this business',
+  },
+  {
+    id: 'proof_layer',
+    ids: ['ai6', 'ai7', 'ai29', 'ai32', 'geo25'],
+    all:  'claims are traceable to cryptographic evidence',
+    some: 'a proof layer exists but does not cover all claims',
+    none: 'no proof layer is published, so claims cannot be independently verified',
+  },
+  {
+    id: 'answer_structure',
+    ids: ['aeo1', 'aeo3', 'aeo4', 'aeo11', 'aeo14', 'aeo19'],
+    all:  'content is structured for direct answer extraction',
+    some: 'content is partially structured for answer extraction',
+    none: 'content is not structured for answer extraction',
+  },
+];
+
+function flattenSignals(report) {
+  const out = new Map();
+  for (const dim of Object.keys(report.signals || {})) {
+    for (const s of report.signals[dim]) out.set(s.id, s);
+  }
+  return out;
 }
+
+function evaluateClaims(report) {
+  const byId = flattenSignals(report);
+  const claims = [];
+  for (const c of CLAIM_MAP) {
+    const covering = c.ids.map(i => byId.get(i)).filter(Boolean);
+    const scored = covering.filter(s => s.status !== 'na');
+    if (!scored.length) continue;                       // nemasurabil -> tacere
+    const pass = scored.filter(s => s.status === 'pass').length;
+    const fail = scored.filter(s => s.status === 'fail').length;
+    if (fail === scored.length)      claims.push({ id: c.id, tone: 'none', text: c.none, ids: c.ids });
+    else if (pass === scored.length) claims.push({ id: c.id, tone: 'all',  text: c.all,  ids: c.ids });
+    else                             claims.push({ id: c.id, tone: 'some', text: c.some, ids: c.ids });
+  }
+  return claims;
+}
+
+function joinClauses(items) {
+  if (items.length === 1) return items[0];
+  if (items.length === 2) return items[0] + ' and ' + items[1];
+  return items.slice(0, -1).join('; ') + '; and ' + items[items.length - 1];
+}
+
+function gradeOf(score) {
+  if (score >= 85) return { letter: 'A', label: 'STRONG' };
+  if (score >= 70) return { letter: 'B', label: 'ADEQUATE' };
+  if (score >= 55) return { letter: 'C', label: 'PARTIAL' };
+  if (score >= 35) return { letter: 'D', label: 'WEAK' };
+  return { letter: 'E', label: 'ABSENT' };
+}
+
+// Verificare finala: verdictul nu are voie sa nege ceva ce a dat PASS.
+function assertConsistent(report, claims) {
+  const byId = flattenSignals(report);
+  for (const c of claims) {
+    if (c.tone !== 'none') continue;
+    const passing = c.ids.map(i => byId.get(i)).filter(s => s && s.status === 'pass');
+    if (passing.length) {
+      throw new Error('VERDICT INCONSISTENT [' + c.id + ']: ' +
+        passing.map(s => s.n).join(', ') + ' au status pass');
+    }
+  }
+}
+
+function buildSynthesis(report) {
+  const claims = evaluateClaims(report);
+  assertConsistent(report, claims);
+
+  const g = gradeOf(report.global);
+  const strong  = claims.filter(c => c.tone === 'all');
+  const partial = claims.filter(c => c.tone === 'some');
+  const absent  = claims.filter(c => c.tone === 'none');
+
+  const out = [];
+  out.push(`${report.url} scores ${report.global}/100 (${g.letter} — ${g.label}) across ${report.tested} tested signals.`);
+
+  if (strong.length)  out.push(`In place: ${joinClauses(strong.map(c => c.text))}.`);
+  if (absent.length)  out.push(`Missing: ${joinClauses(absent.map(c => c.text))}.`);
+  if (partial.length) out.push(`Partial: ${joinClauses(partial.map(c => c.text))}.`);
+  if (!absent.length && !partial.length && strong.length) {
+    out.push('No structural gaps were found among the signals this scan can test.');
+  }
+
+  if (report.na) {
+    out.push(`${report.na} signals have no public test and are reported as N/A. They are excluded from the score and are not failures.`);
+  }
+  out.push('This scan reads delivered HTML, response headers, robots.txt, declared sitemaps and published signal files. It does not measure whether any AI system currently cites this brand.');
+
+  return out.join(' ');
+}
+
+// Semnatura pastrata (async, doi parametri) ca sa nu schimbi apelantul.
+// env nu mai e folosit — nu mai exista apel extern.
+async function fetchSynthesis(report, env) {
+  try {
+    if (!report || !report.signals) return null;
+    return buildSynthesis(report);
+  } catch (e) {
+    // Inconsistenta = bug real. Mai bine niciun verdict decat unul fals.
+    console.error('synthesis blocked:', e.message);
+    return null;
+  }
+}
+
 
 export default {
   async fetch(request, env, ctx) {
