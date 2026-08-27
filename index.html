@@ -340,6 +340,9 @@ html.dark .mod.active{box-shadow:0 0 0 3px rgba(94,180,255,.1);}
 
 
 /* ── SCAN LEGEND BAND ── */
+.dim.d-a2a .dim-lbl,.dim.d-a2a .dim-val{color:#6d4bd8}
+.dim.d-a2a .dim-bar-f{background:#6d4bd8}
+html.dark .d-a2a .dim-lbl,html.dark .d-a2a .dim-val{color:#a68cff !important}
 .legend-band{background:var(--bg2,#fff);border:1px solid var(--line,rgba(0,0,0,.1));
  border-radius:16px;padding:18px 20px;margin:0 0 18px}
 .legend-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;
@@ -1442,7 +1445,8 @@ html.dark .share-btn-wa:hover, html.dark .share-btn-wa:hover * { color: #ffffff 
     <div class="mod" id="m-geo"><div class="mod-lbl">GEO</div><div class="mod-cnt" id="c-geo">0 / 28</div><div class="mod-bar" id="b-geo"></div></div>
     <div class="mod" id="m-aio"><div class="mod-lbl">AIO</div><div class="mod-cnt" id="c-aio">0 / 31</div><div class="mod-bar" id="b-aio"></div></div>
     <div class="mod" id="m-seo"><div class="mod-lbl">SEO</div><div class="mod-cnt" id="c-seo">0 / 42</div><div class="mod-bar" id="b-seo"></div></div>
-    <div class="mod" id="m-ai"><div class="mod-lbl">AI Signals</div><div class="mod-cnt" id="c-ai">0 / 32</div><div class="mod-bar" id="b-ai"></div></div>
+    <div class="mod" id="m-ai"><div class="mod-lbl">AI Signals</div><div class="mod-cnt" id="c-ai">0 / 19</div><div class="mod-bar" id="b-ai"></div></div>
+    <div class="mod" id="m-a2a"><div class="mod-lbl">A2A</div><div class="mod-cnt" id="c-a2a">0 / 13</div><div class="mod-bar" id="b-a2a"></div></div>
     <div class="mod" id="m-tot"><div class="mod-lbl">Total</div><div class="mod-cnt" id="c-tot">0 / 167</div><div class="mod-bar" id="b-tot"></div></div>
     <div class="mod" id="m-op"><div class="mod-lbl">On-Page</div><div class="mod-cnt" id="c-op">0 / 67</div><div class="mod-bar" id="b-op"></div></div>
     <div class="mod" id="m-off"><div class="mod-lbl">Off-Page</div><div class="mod-cnt" id="c-off">0 / 54</div><div class="mod-bar" id="b-off"></div></div>
@@ -1682,7 +1686,9 @@ async function startAudit(){
 
 async function runAudit(url){
   const st=document.getElementById('stream');
-  const dims=[{k:'AEO',id:'aeo',t:34},{k:'GEO',id:'geo',t:28},{k:'AIO',id:'aio',t:31},{k:'SEO',id:'seo',t:42},{k:'AI_SIGNALS',id:'ai',t:32}];
+  let dims=[{k:'AEO',id:'aeo',t:34},{k:'GEO',id:'geo',t:28},{k:'AIO',id:'aio',t:31},{k:'SEO',id:'seo',t:42},{k:'AI_SIGNALS',id:'ai',t:32}];
+  const DIM_ID={AEO:'aeo',GEO:'geo',AIO:'aio',SEO:'seo',AI_SIGNALS:'ai',A2A:'a2a'};
+  let SRC=SIG;   // fallback: registrul local, folosit doar daca worker-ul nu raspunde
   let gt=0;
   function log(m,c=''){const d=document.createElement('div');d.className=c;d.textContent=m;st.appendChild(d);st.scrollTop=st.scrollHeight;}
   function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
@@ -1697,6 +1703,13 @@ async function runAudit(url){
   let allScores = null;
   try {
     allScores = await claudeScoreAllSignals(url);
+    if(REPORT_V2 && REPORT_V2.signals && Object.keys(REPORT_V2.signals).length){
+      SRC = REPORT_V2.signals;   // nume, categorii si stari reale, direct din motor
+      dims = Object.keys(SRC)
+        .filter(k=>DIM_ID[k])
+        .sort((a,b)=>['AEO','GEO','AIO','SEO','AI_SIGNALS','A2A'].indexOf(a)-['AEO','GEO','AIO','SEO','AI_SIGNALS','A2A'].indexOf(b))
+        .map(k=>({k,id:DIM_ID[k],t:SRC[k].length}));
+    }
     if(allScores) log('✓ Real signal analysis complete · 167 signals scored','sl-ok');
     else {
       log('⚠ Score parsing failed — check browser console for details','sl-fail');
@@ -1711,26 +1724,31 @@ async function runAudit(url){
   // ── POPULATE RESULTS ──
   for(const dim of dims){
     const mod=document.getElementById('m-'+dim.id);
-    mod.classList.add('active');
+    if(mod) mod.classList.add('active');
     log('Processing '+dim.k+'…','sl-info');
-    const sigs=SIG[dim.k];
-    AUD.signals[dim.k]=[];let ds=0;
+    const sigs=SRC[dim.k]||[];
+    AUD.signals[dim.k]=[];let ds=0,dc=0;
+    if(!sigs.length){ AUD.scores[dim.k]=null; if(mod){mod.classList.remove('active');mod.classList.add('done');} continue; }
 
     for(let i=0;i<sigs.length;i++){
       await sleep(10+Math.random()*15);
       const s=sigs[i];
-      let score;
-      if(allScores && allScores[dim.k] && allScores[dim.k][s.id]!==undefined){
-        score=allScores[dim.k][s.id];
-      } else {
-        score=0; // if Claude failed, show zeros — not fake 67s
+      let score, status;
+      if(s.status){                       // semnal venit din motor: pastreaza verdictul lui
+        status=s.status;
+        score=(s.score===null||s.score===undefined)?null:Math.min(100,Math.max(0,Math.round(s.score)));
+      } else {                            // fallback pe registrul local
+        score=(allScores&&allScores[dim.k]&&allScores[dim.k][s.id]!==undefined)?allScores[dim.k][s.id]:0;
+        score=Math.min(100,Math.max(0,Math.round(score)));
+        status=score>=75?'pass':score>=45?'warn':'fail';
       }
-      score=Math.min(100,Math.max(0,Math.round(score)));
-      const status=score>=75?'pass':score>=45?'warn':'fail';
 
-      AUD.signals[dim.k].push({...s,score,status});ds+=score;gt++;
-      document.getElementById('c-'+dim.id).textContent=(i+1)+' / '+dim.t;
-      document.getElementById('b-'+dim.id).style.width=((i+1)/dim.t*100)+'%';
+      AUD.signals[dim.k].push({...s,score,status});
+      if(status!=='na'&&score!==null){ds+=score;dc++;}
+      gt++;
+      const cEl=document.getElementById('c-'+dim.id), bEl=document.getElementById('b-'+dim.id);
+      if(cEl) cEl.textContent=(i+1)+' / '+dim.t;
+      if(bEl) bEl.style.width=((i+1)/dim.t*100)+'%';
       document.getElementById('c-tot').textContent=gt+' / 167';
       document.getElementById('b-tot').style.width=(gt/167*100)+'%';
       setP(gt/167*100);
@@ -1741,15 +1759,17 @@ async function runAudit(url){
       document.getElementById('b-off').style.width=(Math.min(off,54)/54*100)+'%';
       if(i%4===0){const e=status==='pass'?'✓':status==='warn'?'⚠':'✗';log('  '+e+' '+s.n+' · '+score,'sl-'+status);}
     }
-    AUD.scores[dim.k]=Math.round(ds/sigs.length);
-    mod.classList.remove('active');mod.classList.add('done');
+    AUD.scores[dim.k]=dc?Math.round(ds/dc):null;
+    if(mod){mod.classList.remove('active');mod.classList.add('done');}
     log(dim.k+' · avg score: '+AUD.scores[dim.k]+'/100','sl-ok');
     await sleep(80);
   }
 
-  AUD.global=Math.round(
-    (AUD.scores.AEO*34+AUD.scores.GEO*28+AUD.scores.AIO*31+AUD.scores.SEO*42+AUD.scores.AI_SIGNALS*32)/167
-  );
+  {
+    let num=0,den=0;
+    for(const d of dims){ const v=AUD.scores[d.k]; if(typeof v==='number'&&!isNaN(v)){num+=v*d.t;den+=d.t;} }
+    AUD.global=den?Math.round(num/den):0;
+  }
 
   log('Generating AI synthesis…','sl-info');await sleep(200);
   const [synth,ap]=await Promise.all([fetchSynth(AUD),fetchAP(AUD)]);
@@ -1897,6 +1917,12 @@ function render(d,synth,ap){
           <div class="dim-delta" style="background:${d.scores.SEO>=70?'var(--green-bg)':'var(--red-bg)'};color:${d.scores.SEO>=70?'var(--green)':'var(--red)'}">${d.scores.SEO>=70?'▲ Strong':'▼ Weak'}</div>
           <div class="dim-bar"><div class="dim-bar-f" style="width:${d.scores.SEO}%"></div></div>
         </div>
+        ${d.scores.A2A==null?'':`<div class="dim d-a2a">
+          <div class="dim-lbl">A2A</div><div class="dim-name">Agent-to-Agent Signals</div>
+          <div class="dim-val">${d.scores.A2A}</div>
+          <div class="dim-delta" style="background:${d.scores.A2A>=70?'var(--green-bg)':'var(--red-bg)'};color:${d.scores.A2A>=70?'var(--green)':'var(--red)'}">${d.scores.A2A>=70?'\u25b2 Strong':'\u25bc Weak'}</div>
+          <div class="dim-bar"><div class="dim-bar-f" style="width:${d.scores.A2A}%"></div></div>
+        </div>`}
       </div>
     </div>
   </div>`);
@@ -1989,6 +2015,16 @@ function render(d,synth,ap){
       dim:'AI_SIGNALS'
     },
     {
+      id:'a2a-acc',
+      icon:'\u2b21',
+      tag:'A2A',
+      label:`Agent-to-Agent Signals \u00b7 ${d.scores.A2A==null?'\u2014':d.scores.A2A}/100`,
+      color:'var(--purple)',
+      colorBg:'var(--purple-bg)',
+      defaultOpen:false,
+      dim:'A2A'
+    },
+    {
       id:'aeo-acc',
       icon:'◎',
       tag:'AEO',
@@ -2031,6 +2067,7 @@ function render(d,synth,ap){
   ];
 
   for(const sec of SECTIONS){
+    if(sec.dim && !(d.signals[sec.dim]||[]).length) continue;  // fara semnale, fara sectiune
     const isOpen = sec.defaultOpen;
     let innerContent = '';
     if(sec.content){
@@ -2548,6 +2585,7 @@ function buildGlossary(){
 }
 
 function cards(sigs){
+  sigs=sigs||[];
   let arr=[...sigs];
   if(filt!=='all')arr=arr.filter(s=>s.status===filt);
   if(sortBy==='score')arr.sort((a,b)=>a.score-b.score);
@@ -2561,7 +2599,7 @@ function cards(sigs){
   }).join('');
 }
 function rerender(){
-  ['AEO','GEO','AIO','SEO','AI_SIGNALS'].forEach(k=>{
+  ['AEO','GEO','AIO','SEO','AI_SIGNALS','A2A'].forEach(k=>{
     const g=document.getElementById('g-'+k);
     if(g){g.className='sg sg-'+zoom;g.innerHTML=cards(AUD.signals[k]||[]);}
   });
