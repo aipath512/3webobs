@@ -1,8 +1,7 @@
 {
-  "$schema": "https://5thelement.ai/schemas/entities.json",
+  "$schema": "https://3webobs.com/schemas/entities.json",
   "version": "1.1",
   "generated": "2026-08-25",
-
   "primary_entity": {
     "id": "https://3webobs.com/#organization",
     "type": [
@@ -13,7 +12,6 @@
     "url": "https://aiventure.ro/",
     "jurisdiction": "Romania, European Union",
     "email": "contact@5thelement.ai",
-
     "address": {
       "type": "PostalAddress",
       "street_address": "Drumul Pădurea Pustnicu, Nr. 141C, Corp A, Etaj 2, Ap. 5",
@@ -22,7 +20,6 @@
       "postal_code": null,
       "address_country": "RO"
     },
-
     "identifiers": [
       {
         "scheme": "CUI",
@@ -45,7 +42,6 @@
         "label": "Custom software development"
       }
     ],
-
     "same_as": [
       "https://aiventure.ro/",
       "https://www.linkedin.com/company/107338970",
@@ -53,7 +49,6 @@
       "https://www.facebook.com/people/Aiventure/61573220584246/"
     ]
   },
-
   "brands": [
     {
       "id": "https://3webobs.com/#brand",
@@ -71,7 +66,6 @@
       "description": "3webs observes how a public domain appears across the Human Web, AI Web and Machine Web and reports observable evidence."
     }
   ],
-
   "people": [
     {
       "id": "https://3webobs.com/#founder",
@@ -89,7 +83,6 @@
       ]
     }
   ],
-
   "services": [
     {
       "id": "https://3webobs.com/#service",
@@ -104,7 +97,6 @@
       "description": "Point-in-time and longitudinal observation of publicly accessible web evidence across the Human Web, AI Web and Machine Web."
     }
   ],
-
   "software": [
     {
       "id": "https://3webobs.com/#software",
@@ -118,7 +110,6 @@
       "description": "Evidence-based observation engine evaluating 167 signals across AI Signals, AEO, GEO, AIO and SEO."
     }
   ],
-
   "concepts": [
     {
       "id": "https://3webobs.com/#term-human-web",
@@ -152,7 +143,6 @@
       "definition": "A machine-readable delivery layer through which an organization can expose identity, intent, capabilities, governance and verifiable evidence to AI systems and software agents."
     }
   ],
-
   "relationships": [
     {
       "subject": "https://3webobs.com/#organization",
@@ -175,7 +165,6 @@
       "object": "https://3webobs.com/#software"
     }
   ],
-
   "network": {
     "name": "AiVenture ADI Network",
     "role": "observation_node",
@@ -183,7 +172,6 @@
     "descriptor": "https://3webobs.com/adn.json",
     "membership": "https://3webobs.com/network.json"
   },
-
   "network_peers": [
     {
       "domain": "5thelement.ai",
@@ -201,7 +189,6 @@
       "relation": "network_sibling"
     }
   ],
-
   "resolution": {
     "canonical_brand": "3webs",
     "canonical_service_url": "https://3webobs.com/",

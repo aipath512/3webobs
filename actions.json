@@ -1,5 +1,5 @@
 {
-  "$schema": "https://5thelement.ai/schemas/actions.json",
+  "$schema": "https://3webobs.com/schemas/actions.json",
   "version": "1.0",
   "generated": "2026-08-25",
   "purpose": "The concrete actions an agent or a person can take on this service, with their contracts.",

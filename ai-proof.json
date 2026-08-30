@@ -1,7 +1,7 @@
 {
-  "$schema": "https://5thelement.ai/schemas/proof.json",
+  "$schema": "https://3webobs.com/schemas/ai-proof.json",
   "version": "1.1",
-  "generated_at": "2026-08-30T04:17:08.469Z",
+  "generated_at": "2026-08-27T10:29:44.440Z",
   "issuer": {
     "legal_name": "AIVENTURE S.R.L.",
     "cui": "51415878",
@@ -23,7 +23,7 @@
       "trailing_newline": false
     }
   },
-  "aggregate_sha256": "b48d0d3a3d65cffdd8e13e68f87453c0da08bb20aa48a03a2704080e750c3489",
+  "aggregate_sha256": "710db9c467b218e31301db972dc7eb98c19922cbabf3c574d7e3c5e23218a013",
   "file_count": 30,
   "files": [
     {
@@ -143,8 +143,8 @@
     {
       "path": "/index.html",
       "url": "https://3webobs.com/index.html",
-      "bytes": 175685,
-      "sha256": "5083fd3b48a4a67542d534d472d2b890a508eb45654849ee050e35037224e3ed"
+      "bytes": 173353,
+      "sha256": "ed727b5f912b335f2db87941a989e5a468c18aea21e5b6640950936e56e5ec95"
     },
     {
       "path": "/intents.json",

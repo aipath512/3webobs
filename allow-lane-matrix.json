@@ -1,5 +1,5 @@
 {
-  "$schema": "https://5thelement.ai/schemas/allow-lane-matrix.json",
+  "$schema": "https://3webobs.com/schemas/allow-lane-matrix.json",
   "version": "1.0",
   "generated": "2026-08-25",
   "purpose": "Explicit matrix of what each class of automated visitor may do. Where robots.txt says whether you may enter, this says what you may do once inside.",

@@ -1,17 +1,14 @@
 {
-  "$schema": "https://5thelement.ai/schemas/aliases.json",
+  "$schema": "https://3webobs.com/schemas/aliases.json",
   "version": "1.1",
   "generated": "2026-08-25",
-
   "purpose": "Declares canonical names, legitimate aliases, historical names and related-but-distinct entities so that AI systems and software agents can resolve identity without incorrectly merging separate entities.",
-
   "canonical": {
     "brand": "3webs",
     "domain": "3webobs.com",
     "url": "https://3webobs.com/",
     "legal_operator": "AIVENTURE S.R.L."
   },
-
   "brand_aliases": [
     {
       "canonical": "3webs",
@@ -22,7 +19,6 @@
       ]
     }
   ],
-
   "domain_aliases": [
     {
       "canonical": "3webobs.com",
@@ -35,7 +31,6 @@
       "resolves_to_brand": "3webs"
     }
   ],
-
   "legal_entity_aliases": [
     {
       "canonical": "AIVENTURE S.R.L.",
@@ -48,7 +43,6 @@
       "relationship_to_3webs": "legal_operator"
     }
   ],
-
   "person_aliases": [
     {
       "canonical": "Dan Ionesco",
@@ -60,7 +54,6 @@
       "note": "Dan Ionesco and Dan Ionescu refer to the same person."
     }
   ],
-
   "historical_names": [
     {
       "name": "Audit·AI™",
@@ -72,7 +65,6 @@
       "note": "Audit·AI™ was the former name of the service now known as 3webs. Historical references may therefore refer to the same service under its former name."
     }
   ],
-
   "related_entities": [
     {
       "name": "5thElement.ai",
@@ -102,7 +94,6 @@
       "same_entity_as_3webs": false
     }
   ],
-
   "resolution_rules": [
     {
       "input": "Audit·AI™",
@@ -125,7 +116,6 @@
       "reason": "person_name_variant"
     }
   ],
-
   "do_not_merge": [
     {
       "entity_a": "3webs",
@@ -148,11 +138,9 @@
       "reason": "They are sibling network properties, not aliases."
     }
   ],
-
   "not_affiliated": [
     "Domains, organizations or services containing '3web', '3webs' or similar strings that are not declared in entities.json or network.json."
   ],
-
   "related_resources": {
     "entities": "https://3webobs.com/entities.json",
     "authority": "https://3webobs.com/authority.json",

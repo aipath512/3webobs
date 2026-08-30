@@ -1009,6 +1009,68 @@ html.dark .share-btn-wa:hover, html.dark .share-btn-wa:hover * { color: #ffffff 
     </a>
   </div>
 
+  <!-- EXAMPLE REPORT — static, labeled sample, not a live audit -->
+  <section aria-labelledby="example-h" style="margin:36px auto 8px;max-width:640px;">
+    <h2 id="example-h" class="sec-h">What a report <em>looks like</em></h2>
+    <p class="sec-s">A real example, not a live scan — so you know what you'll get before you run one.</p>
+    <div style="border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--bg2);text-align:left;">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px;">
+        <div style="font-size:13px;opacity:.6;">Example: a mid-size SaaS marketing site</div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span style="font-size:28px;font-weight:700;">71</span>
+          <span class="grade-b" style="font-size:12px;padding:3px 9px;border:1px solid;border-radius:20px;">B — Adequate</span>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(88px,1fr));gap:8px;margin-bottom:16px;">
+        <div style="text-align:center;padding:8px 4px;border:1px solid var(--border);border-radius:8px;">
+          <div style="font-size:10px;opacity:.55;text-transform:uppercase;letter-spacing:.04em;">SEO</div>
+          <div style="font-size:17px;font-weight:600;">78</div>
+        </div>
+        <div style="text-align:center;padding:8px 4px;border:1px solid var(--border);border-radius:8px;">
+          <div style="font-size:10px;opacity:.55;text-transform:uppercase;letter-spacing:.04em;">AEO</div>
+          <div style="font-size:17px;font-weight:600;">64</div>
+        </div>
+        <div style="text-align:center;padding:8px 4px;border:1px solid var(--border);border-radius:8px;">
+          <div style="font-size:10px;opacity:.55;text-transform:uppercase;letter-spacing:.04em;">GEO</div>
+          <div style="font-size:17px;font-weight:600;">69</div>
+        </div>
+        <div style="text-align:center;padding:8px 4px;border:1px solid var(--border);border-radius:8px;">
+          <div style="font-size:10px;opacity:.55;text-transform:uppercase;letter-spacing:.04em;">AIO</div>
+          <div style="font-size:17px;font-weight:600;">75</div>
+        </div>
+        <div style="text-align:center;padding:8px 4px;border:1px solid var(--border);border-radius:8px;">
+          <div style="font-size:10px;opacity:.55;text-transform:uppercase;letter-spacing:.04em;">A2A</div>
+          <div style="font-size:17px;font-weight:600;">58</div>
+        </div>
+      </div>
+      <div style="font-size:11px;opacity:.5;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;">Three signals from the 167, with evidence</div>
+      <div style="display:flex;flex-direction:column;gap:7px;font-size:13px;">
+        <div style="display:flex;gap:9px;align-items:flex-start;">
+          <span style="color:var(--green);flex-shrink:0;">✓</span>
+          <span><strong>robots.txt AI Crawler Directives</strong> — GPTBot, ClaudeBot and Google-Extended explicitly allowed</span>
+        </div>
+        <div style="display:flex;gap:9px;align-items:flex-start;">
+          <span style="color:var(--red);flex-shrink:0;">✗</span>
+          <span><strong>Agent Card Discoverable</strong> — no /.well-known/agent-card.json found; AI agents cannot discover callable capabilities</span>
+        </div>
+        <div style="display:flex;gap:9px;align-items:flex-start;">
+          <span style="color:var(--gold);flex-shrink:0;">◐</span>
+          <span><strong>FAQ Structured Data</strong> — FAQPage schema present, but questions aren't visible in the page HTML</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="testimonials-h" style="margin:36px auto 8px;max-width:640px;">
+    <h2 id="testimonials-h" class="sec-h">What a real partner <em>says</em></h2>
+    <div style="display:flex;flex-direction:column;gap:14px;text-align:left;">
+      <div style="border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--bg2);">
+        <p style="font-size:14px;line-height:1.6;margin:0 0 10px;">"Before working with AIVENTURE, our AI-visibility score was 3.8 out of 10 &mdash; most AI systems couldn't tell what ECBTax actually does. After the infrastructure build, we're at 8.5, with a real machine-readable layer behind the site, not just a nicer homepage."</p>
+        <div style="font-size:12px;opacity:.6;">Roxana Deak, FCCA, CPA, CCF &middot; CEO &amp; Founder, <a href="https://ecbtax.com" rel="noopener" style="color:inherit;">ECBTax.com</a></div>
+      </div>
+    </div>
+  </section>
+
   <!-- PRICING BAND -->
   <section aria-labelledby="pricing-h">
   <h2 id="pricing-h" class="sec-h">Plans &amp; <em>Pricing</em></h2>
@@ -1235,6 +1297,39 @@ html.dark .share-btn-wa:hover, html.dark .share-btn-wa:hover * { color: #ffffff 
     </div>
   </div>
 
+<!-- LEAD MAGNET — checklist PDF, gated behind email capture via existing /lead endpoint -->
+<section aria-labelledby="checklist-h" style="max-width:640px;margin:8px auto 40px;text-align:center;">
+  <h2 id="checklist-h" class="sec-h">Get the <em>AI Readiness Checklist</em></h2>
+  <p class="sec-s">A free, condensed PDF of the checklist behind the 167-signal engine &mdash; SEO, AEO, GEO, AIO, AI Signals and A2A, in one page you can work through by hand.</p>
+  <div id="checklist-gate" style="border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--bg2);">
+    <div id="checklist-form-row" style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;">
+      <input type="email" id="checklist-email" placeholder="you@company.com" autocomplete="email"
+        style="flex:1;min-width:220px;padding:10px 14px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--fg);font-size:14px;">
+      <button id="checklist-btn" onclick="unlockChecklist()" class="url-go" style="padding:10px 20px;">Get the checklist</button>
+    </div>
+    <div id="checklist-msg" style="font-size:12px;opacity:.55;margin-top:10px;">No spam &mdash; we only use this to send occasional AI-visibility updates. Unsubscribe any time.</div>
+  </div>
+</section>
+<script>
+async function unlockChecklist(){
+  const emailEl = document.getElementById('checklist-email');
+  const email = (emailEl.value || '').trim();
+  const msg = document.getElementById('checklist-msg');
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+    msg.textContent = 'Enter a valid email address.'; msg.style.color = 'var(--red)'; return;
+  }
+  const btn = document.getElementById('checklist-btn');
+  btn.disabled = true; btn.textContent = 'Unlocking…';
+  try{
+    await fetch('/lead', { method:'POST', headers:{'content-type':'application/json'},
+      body: JSON.stringify({ email, url: 'ai-readiness-checklist' }) });
+  }catch(e){ /* still unlock — the download itself doesn't depend on the lead being stored */ }
+  document.getElementById('checklist-form-row').style.display = 'none';
+  msg.style.color = 'var(--green)';
+  msg.innerHTML = '✓ Thanks — <a href="/assets/ai-readiness-checklist.pdf" download style="color:var(--green);text-decoration:underline;">download the checklist (PDF)</a>';
+}
+</script>
+
 <article id="faq" class="faq-wrap" aria-labelledby="faq-h">
   <h2 id="faq-h" class="sec-h">Frequently Asked <em>Questions</em></h2>
   <p class="sec-s">Ten questions that come up most often, answered plainly.</p>
@@ -1364,6 +1459,18 @@ html.dark .share-btn-wa:hover, html.dark .share-btn-wa:hover * { color: #ffffff 
 </div>
 </main>
 
+<!-- PORTFOLIO STATS — shared counter across all AIVENTURE sites -->
+<section aria-label="Usage stats" style="max-width:640px;margin:30px auto 8px;text-align:center;padding:18px 22px;border:1px solid var(--border);border-radius:14px;background:var(--bg2);">
+  <div style="display:flex;gap:36px;justify-content:center;flex-wrap:wrap;">
+    <div><div data-aiv-stats="pageviews" style="font-size:22px;font-weight:700;">0</div><div style="font-size:10px;opacity:.55;text-transform:uppercase;letter-spacing:.04em;">Page views</div></div>
+    <div><div data-aiv-stats="unique" style="font-size:22px;font-weight:700;">0</div><div style="font-size:10px;opacity:.55;text-transform:uppercase;letter-spacing:.04em;">Unique visitors</div></div>
+    <div><div data-aiv-stats="audits" style="font-size:22px;font-weight:700;">0</div><div style="font-size:10px;opacity:.55;text-transform:uppercase;letter-spacing:.04em;">Audits run</div></div>
+  </div>
+  <div style="font-size:10px;opacity:.4;margin-top:8px;">Across the AIVENTURE / 5thElement.ai network</div>
+</section>
+<script src="https://gdpr.aiventure.ro/stats.js" data-site="3webobs" data-scope="all" defer></script>
+<script src="https://gdpr.aiventure.ro/gdpr.js" data-site="3webobs" data-lang="auto" data-accent="#0051a8" data-privacy-url="/gdpr.html" defer></script>
+
 <footer class="quick" aria-labelledby="ql-h">
   <h2 id="ql-h" class="vh">Quick links</h2>
   <div class="ql-grid">
@@ -1394,6 +1501,10 @@ html.dark .share-btn-wa:hover, html.dark .share-btn-wa:hover * { color: #ffffff 
       <li><a href="/#pricing">Pricing</a></li>
       <li><a href="/#criteria">The 167 Signals</a></li>
       <li><a href="/#faq">FAQ</a></li>
+      <li><a href="/self-audit.html">AI Readiness of 3webobs.com</a></li>
+      <li><a href="/for-seo-agencies.html">For SEO Agencies</a></li>
+      <li><a href="/for-ai-teams.html">For AI Teams</a></li>
+      <li><a href="/for-compliance-consultants.html">For Compliance Consultants</a></li>
       <li><a href="/contact.html">Contact</a></li>
       </ul>
       <h3 class="ql-h">Legal &amp; Compliance</h3>
@@ -1766,9 +1877,17 @@ async function runAudit(url){
   }
 
   {
-    let num=0,den=0;
-    for(const d of dims){ const v=AUD.scores[d.k]; if(typeof v==='number'&&!isNaN(v)){num+=v*d.t;den+=d.t;} }
-    AUD.global=den?Math.round(num/den):0;
+    if (REPORT_V2 && typeof REPORT_V2.global === 'number') {
+      // sursa unica de adevar: acelasi numar folosit de sinteza AI, planul de actiuni si API-ul /audit.
+      // NU se mai recalculeaza local cu o alta formula de ponderare — asta era cauza divergentei
+      // dintre scorul din dashboard si scorul din sinteza AI.
+      AUD.global = REPORT_V2.global;
+    } else {
+      // fallback: worker-ul nu a raspuns, se lucreaza doar cu registrul local SIG
+      let num=0,den=0;
+      for(const d of dims){ const v=AUD.scores[d.k]; if(typeof v==='number'&&!isNaN(v)){num+=v*d.t;den+=d.t;} }
+      AUD.global=den?Math.round(num/den):0;
+    }
   }
 
   log('Generating AI synthesis…','sl-info');await sleep(200);
@@ -1794,6 +1913,7 @@ async function claudeScoreAllSignals(url){
   if(rep.error) throw new Error(rep.detail || rep.error);
 
   REPORT_V2 = rep;
+  if (window.aivStats) window.aivStats.ping('audit_complete');
 
   const out = {};
   for(const [dim, sigs] of Object.entries(rep.signals)){
@@ -2628,11 +2748,13 @@ function getGrade(s){
   const blue=cs.getPropertyValue('--blue').trim();
   const gold=cs.getPropertyValue('--gold').trim();
   const red=cs.getPropertyValue('--red').trim();
-  if(s>=90)return{label:'S — Dominant',stroke:green,cls:'grade-s'};
-  if(s>=80)return{label:'A — Visible',stroke:blue,cls:'grade-a'};
-  if(s>=65)return{label:'B — Partial',stroke:gold,cls:'grade-b'};
-  if(s>=50)return{label:'C — At Risk',stroke:red,cls:'grade-c'};
-  return{label:'D — Invisible',stroke:red,cls:'grade-d'};
+  // praguri si litere identice cu gradeOf() din _worker.js — sursa unica de adevar
+  // pentru clasificare, ca sa nu mai difere eticheta afisata in dashboard fata de sinteza AI.
+  if(s>=85)return{label:'A — Strong',stroke:green,cls:'grade-a'};
+  if(s>=70)return{label:'B — Adequate',stroke:blue,cls:'grade-b'};
+  if(s>=55)return{label:'C — Partial',stroke:gold,cls:'grade-c'};
+  if(s>=35)return{label:'D — Weak',stroke:red,cls:'grade-d'};
+  return{label:'E — Absent',stroke:red,cls:'grade-e'};
 }
 function animN(id,from,to,dur){
   const el=document.getElementById(id);if(!el)return;
@@ -2656,6 +2778,11 @@ document.addEventListener('DOMContentLoaded',function(){
     <a href="/#pricing" class="menu-item">Pricing</a>
     <a href="/#criteria" class="menu-item">The 167 Signals</a>
     <a href="/contact.html" class="menu-item">Contact</a>
+
+    <div class="menu-head">For you</div>
+    <a href="/for-seo-agencies.html" class="menu-item">SEO &amp; Marketing Agencies</a>
+    <a href="/for-ai-teams.html" class="menu-item">AI Product Teams</a>
+    <a href="/for-compliance-consultants.html" class="menu-item">Compliance Consultants</a>
 
     <div class="menu-head">Legal</div>
     <a href="/terms.html" class="menu-item">Terms &amp; Conditions</a>

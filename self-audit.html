@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Readiness of 3webobs.com | 3webs Visibility Engine</title>
+<meta name="description" content="3webs audits itself with its own engine. This page shows the live, current score — not a snapshot — plus a transparent log of what was found and fixed.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://3webobs.com/self-audit.html">
+<style>
+:root{
+  --bg:#0b0b0c;--bg2:#111113;--bg3:#1c1c1e;--fg:#f5f5f7;
+  --border:rgba(255,255,255,0.1);
+  --blue:#5eb4ff;--red:#ff6b6b;--green:#3ddc84;--gold:#ffcf5e;
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.6;}
+.wrap{max-width:720px;margin:0 auto;padding:48px 20px 80px;}
+a{color:var(--blue);}
+h1{font-size:26px;margin:0 0 8px;}
+.sub{font-size:14px;opacity:.65;margin:0 0 32px;}
+.back{font-size:13px;display:inline-block;margin-bottom:24px;}
+.card{border:1px solid var(--border);border-radius:14px;padding:22px 24px;background:var(--bg2);margin-bottom:20px;}
+.score-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:18px;}
+.score-num{font-size:44px;font-weight:700;}
+.grade{font-size:13px;padding:4px 12px;border:1px solid;border-radius:20px;}
+.dims{display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:8px;margin-bottom:6px;}
+.dim{text-align:center;padding:10px 4px;border:1px solid var(--border);border-radius:8px;}
+.dim-k{font-size:10px;opacity:.55;text-transform:uppercase;letter-spacing:.04em;}
+.dim-v{font-size:18px;font-weight:600;}
+.status{font-size:13px;opacity:.55;margin-top:14px;}
+.sig-list{display:flex;flex-direction:column;gap:8px;font-size:13px;margin-top:14px;}
+.sig{display:flex;gap:9px;align-items:flex-start;}
+.log-item{border-left:2px solid var(--border);padding-left:14px;margin-bottom:14px;font-size:14px;}
+.log-item b{display:block;margin-bottom:3px;}
+.loading{opacity:.6;font-size:14px;}
+.err{color:var(--red);font-size:14px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="/">&larr; Back to 3webobs.com</a>
+  <h1>AI Readiness of 3webobs.com</h1>
+  <p class="sub">We run our own 167-signal engine against our own site. This score is live — fetched from <code>/audit</code> when this page loads — not a fixed snapshot that goes stale.</p>
+
+  <div class="card" id="live-card">
+    <div class="loading" id="loading">Running the audit now&hellip;</div>
+  </div>
+
+  <div class="card">
+    <h2 style="font-size:16px;margin:0 0 6px;">What we found and fixed &mdash; 30 Aug 2026</h2>
+    <p style="font-size:13px;opacity:.6;margin:0 0 18px;">A running, honest log. Nothing here is hidden after the fact &mdash; see the full technical log in <a href="https://github.com/aipath512/3webobs/blob/main/REPAIR_SUMMARY.md" rel="noopener">REPAIR_SUMMARY.md</a>.</p>
+
+    <div class="log-item">
+      <b>llms.txt was serving the wrong content</b>
+      It returned a duplicate of sitemap.xml (XML) instead of a real llms.txt file. Rewritten with real markdown content; the engine's own rule was also tightened so it no longer passes XML masquerading as llms.txt.
+    </div>
+    <div class="log-item">
+      <b>The Acceptable Use page was serving JSON, not HTML</b>
+      A prior upload accidentally overwrote policy.html with authority.json's content. Restored from the last known-good version.
+    </div>
+    <div class="log-item">
+      <b>Any missing URL returned the homepage with a 200 status</b>
+      A missing 404.html made Cloudflare Pages fall back to serving index.html for unmatched routes. A real 404 page now exists.
+    </div>
+    <div class="log-item">
+      <b>18 declared JSON Schema references pointed nowhere</b>
+      Every <code>$schema</code> field pointed at a schemas/ folder that was never published. Real, resolvable schema files are now self-hosted and every file repointed to them.
+    </div>
+    <div class="log-item">
+      <b>The dashboard and the AI synthesis showed two different scores</b>
+      The homepage was silently recomputing its own global score with a different formula than the one the engine itself produces. It now uses the engine's own number, and the grade thresholds were unified too.
+    </div>
+    <div class="log-item">
+      <b>Natural-language input to the A2A endpoint failed</b>
+      "audit example.com please" was parsed as if the whole sentence were a URL. The endpoint now extracts the URL from free text.
+    </div>
+    <div class="log-item">
+      <b>tasks/get and tasks/cancel were missing</b>
+      The agent card declared <code>stateTransitionHistory: true</code> without backing it. Both methods are now implemented against the obs.permanent subscription store.
+    </div>
+  </div>
+</div>
+
+<script>
+(async function(){
+  const card = document.getElementById('live-card');
+  try {
+    const r = await fetch('/audit', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ url: 'https://3webobs.com', pagespeed: false })
+    });
+    const j = await r.json();
+    if (!j || typeof j.global !== 'number') throw new Error('unexpected response shape');
+
+    const gradeOf = (s) => {
+      if (s >= 85) return { label: 'A — Strong', cls: 'blue' };
+      if (s >= 70) return { label: 'B — Adequate', cls: 'gold' };
+      if (s >= 55) return { label: 'C — Partial', cls: 'gold' };
+      if (s >= 35) return { label: 'D — Weak', cls: 'red' };
+      return { label: 'E — Absent', cls: 'red' };
+    };
+    const g = gradeOf(j.global);
+    const colorVar = g.cls === 'blue' ? 'var(--blue)' : g.cls === 'gold' ? 'var(--gold)' : 'var(--red)';
+
+    const dimOrder = ['SEO','AEO','GEO','AIO','AI_SIGNALS','A2A'];
+    const dimsHtml = dimOrder.filter(k => j.scores && j.scores[k] !== undefined && j.scores[k] !== null)
+      .map(k => `<div class="dim"><div class="dim-k">${k.replace('_',' ')}</div><div class="dim-v">${j.scores[k]}</div></div>`)
+      .join('');
+
+    // pick a few high-weight signals to show as evidence, whatever their verdict
+    let allSignals = [];
+    if (j.signals) Object.keys(j.signals).forEach(k => (j.signals[k]||[]).forEach(s => allSignals.push(s)));
+    allSignals = allSignals.filter(s => s.status !== 'na').sort((a,b) => (b.w||0) - (a.w||0)).slice(0, 5);
+    const iconFor = (st) => st === 'pass' ? '<span style="color:var(--green)">&check;</span>'
+      : st === 'fail' ? '<span style="color:var(--red)">&cross;</span>'
+      : '<span style="color:var(--gold)">&#9680;</span>';
+    const sigsHtml = allSignals.map(s => `<div class="sig">${iconFor(s.status)}<span><strong>${s.n}</strong> &mdash; ${s.method||''}</span></div>`).join('');
+
+    card.innerHTML = `
+      <div class="score-row">
+        <div><span class="score-num">${j.global}</span><span style="opacity:.5;font-size:14px;">/100</span></div>
+        <span class="grade" style="color:${colorVar};border-color:${colorVar};">${g.label}</span>
+      </div>
+      <div class="dims">${dimsHtml}</div>
+      <div class="sig-list">${sigsHtml}</div>
+      <div class="status">Fetched live just now &middot; ${j.tested||0} signals tested, ${j.na||0} not applicable (need external data no public scan can get) &middot; same engine, same rules, no special-casing for our own domain.</div>
+    `;
+  } catch (e) {
+    card.innerHTML = '<div class="err">Could not run the live audit right now (' + (e && e.message ? e.message : 'unknown error') + '). <a href="/">Run it manually from the homepage &rarr;</a></div>';
+  }
+})();
+</script>
+</body>
+</html>
