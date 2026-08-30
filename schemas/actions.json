@@ -1,0 +1,38 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://3webobs.com/schemas/actions.json",
+  "title": "actions.json",
+  "description": "Minimal structural schema for actions.json, published by 3webs (AIVENTURE S.R.L.). Describes the top-level shape actually present in the live file; nested object internals are intentionally left permissive (additionalProperties: true) rather than over-specified.",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "string"
+    },
+    "generated": {
+      "type": "string"
+    },
+    "purpose": {
+      "type": "string"
+    },
+    "actions": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "not_available": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "version",
+    "generated",
+    "purpose",
+    "actions",
+    "not_available"
+  ],
+  "additionalProperties": true
+}

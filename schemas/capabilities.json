@@ -1,0 +1,60 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://3webobs.com/schemas/capabilities.json",
+  "title": "capabilities.json",
+  "description": "Minimal structural schema for capabilities.json, published by 3webs (AIVENTURE S.R.L.). Describes the top-level shape actually present in the live file; nested object internals are intentionally left permissive (additionalProperties: true) rather than over-specified.",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "string"
+    },
+    "generated": {
+      "type": "string"
+    },
+    "service": {
+      "type": "object"
+    },
+    "observed_webs": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "artifact_provenance_contract": {
+      "type": "object"
+    },
+    "cancellation_and_resume_contract": {
+      "type": "object"
+    },
+    "guarantees": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "not_guaranteed": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "version",
+    "generated",
+    "service",
+    "observed_webs",
+    "capabilities",
+    "artifact_provenance_contract",
+    "cancellation_and_resume_contract",
+    "guarantees",
+    "not_guaranteed"
+  ],
+  "additionalProperties": true
+}

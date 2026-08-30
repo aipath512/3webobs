@@ -1,0 +1,81 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://3webobs.com/schemas/entities.json",
+  "title": "entities.json",
+  "description": "Minimal structural schema for entities.json, published by 3webs (AIVENTURE S.R.L.). Describes the top-level shape actually present in the live file; nested object internals are intentionally left permissive (additionalProperties: true) rather than over-specified.",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "string"
+    },
+    "generated": {
+      "type": "string"
+    },
+    "primary_entity": {
+      "type": "object"
+    },
+    "brands": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "people": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "services": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "software": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "concepts": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "relationships": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "network": {
+      "type": "object"
+    },
+    "network_peers": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "resolution": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "version",
+    "generated",
+    "primary_entity",
+    "brands",
+    "people",
+    "services",
+    "software",
+    "concepts",
+    "relationships",
+    "network",
+    "network_peers",
+    "resolution"
+  ],
+  "additionalProperties": true
+}

@@ -1,0 +1,66 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://3webobs.com/schemas/intents.json",
+  "title": "intents.json",
+  "description": "Minimal structural schema for intents.json, published by 3webs (AIVENTURE S.R.L.). Describes the top-level shape actually present in the live file; nested object internals are intentionally left permissive (additionalProperties: true) rather than over-specified.",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "string"
+    },
+    "generated": {
+      "type": "string"
+    },
+    "service": {
+      "type": "object"
+    },
+    "purpose": {
+      "type": "string"
+    },
+    "interpretation": {
+      "type": "object"
+    },
+    "service_intents": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "machine_web_intent_vocabulary": {
+      "type": "object"
+    },
+    "intent_resolution": {
+      "type": "object"
+    },
+    "machine_web_evaluation": {
+      "type": "object"
+    },
+    "not_supported": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "machine_interfaces": {
+      "type": "object"
+    },
+    "related_resources": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "version",
+    "generated",
+    "service",
+    "purpose",
+    "interpretation",
+    "service_intents",
+    "machine_web_intent_vocabulary",
+    "intent_resolution",
+    "machine_web_evaluation",
+    "not_supported",
+    "machine_interfaces",
+    "related_resources"
+  ],
+  "additionalProperties": true
+}

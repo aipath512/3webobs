@@ -1,0 +1,77 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://3webobs.com/schemas/services.json",
+  "title": "services.json",
+  "description": "Minimal structural schema for services.json, published by 3webs (AIVENTURE S.R.L.). Describes the top-level shape actually present in the live file; nested object internals are intentionally left permissive (additionalProperties: true) rather than over-specified.",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "string"
+    },
+    "generated": {
+      "type": "string"
+    },
+    "supersedes": {
+      "type": "string"
+    },
+    "service": {
+      "type": "string"
+    },
+    "purpose": {
+      "type": "string"
+    },
+    "related_resources": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "paradigm": {
+      "type": "object"
+    },
+    "access_model": {
+      "type": "object"
+    },
+    "human_oversight": {
+      "type": "object"
+    },
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "consumes": {
+      "type": "object"
+    },
+    "capability_template": {
+      "type": "object"
+    },
+    "principles": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "companion_publication": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "version",
+    "generated",
+    "supersedes",
+    "service",
+    "purpose",
+    "related_resources",
+    "paradigm",
+    "access_model",
+    "human_oversight",
+    "capabilities",
+    "consumes",
+    "capability_template",
+    "principles",
+    "companion_publication"
+  ],
+  "additionalProperties": true
+}

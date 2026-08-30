@@ -1,0 +1,55 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://3webobs.com/schemas/proof.json",
+  "title": "proof.json",
+  "description": "Minimal structural schema for proof.json, published by 3webs (AIVENTURE S.R.L.). Describes the top-level shape actually present in the live file; nested object internals are intentionally left permissive (additionalProperties: true) rather than over-specified.",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "string"
+    },
+    "generated_at": {
+      "type": "string"
+    },
+    "issuer": {
+      "type": "object"
+    },
+    "integrity_method": {
+      "type": "object"
+    },
+    "aggregate_sha256": {
+      "type": "string"
+    },
+    "file_count": {
+      "type": "integer"
+    },
+    "files": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "verification": {
+      "type": "object"
+    },
+    "external_anchoring": {
+      "type": "object"
+    },
+    "evidence_scope": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "version",
+    "generated_at",
+    "issuer",
+    "integrity_method",
+    "aggregate_sha256",
+    "file_count",
+    "files",
+    "verification",
+    "external_anchoring",
+    "evidence_scope"
+  ],
+  "additionalProperties": true
+}

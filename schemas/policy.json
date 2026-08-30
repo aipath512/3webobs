@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://3webobs.com/schemas/policy.json",
+  "title": "policy.json",
+  "description": "Minimal structural schema for policy.json, published by 3webs (AIVENTURE S.R.L.). Describes the top-level shape actually present in the live file; nested object internals are intentionally left permissive (additionalProperties: true) rather than over-specified.",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "string"
+    },
+    "generated": {
+      "type": "string"
+    },
+    "human_readable": {
+      "type": "object"
+    },
+    "access": {
+      "type": "object"
+    },
+    "usage": {
+      "type": "object"
+    },
+    "output_constraints": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "exclusion": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "version",
+    "generated",
+    "human_readable",
+    "access",
+    "usage",
+    "output_constraints",
+    "exclusion"
+  ],
+  "additionalProperties": true
+}

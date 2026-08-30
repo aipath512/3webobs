@@ -1,0 +1,78 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://3webobs.com/schemas/governance.json",
+  "title": "governance.json",
+  "description": "Minimal structural schema for governance.json, published by 3webs (AIVENTURE S.R.L.). Describes the top-level shape actually present in the live file; nested object internals are intentionally left permissive (additionalProperties: true) rather than over-specified.",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "string"
+    },
+    "generated": {
+      "type": "string"
+    },
+    "service": {
+      "type": "object"
+    },
+    "accountable_entity": {
+      "type": "object"
+    },
+    "governance_principles": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "applicable_frameworks": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "ai_usage": {
+      "type": "object"
+    },
+    "human_oversight": {
+      "type": "object"
+    },
+    "observation_governance": {
+      "type": "object"
+    },
+    "machine_web_governance": {
+      "type": "object"
+    },
+    "data_handling": {
+      "type": "object"
+    },
+    "crawler_conduct": {
+      "type": "object"
+    },
+    "transparency": {
+      "type": "object"
+    },
+    "change_control": {
+      "type": "object"
+    },
+    "related_resources": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "version",
+    "generated",
+    "service",
+    "accountable_entity",
+    "governance_principles",
+    "applicable_frameworks",
+    "ai_usage",
+    "human_oversight",
+    "observation_governance",
+    "machine_web_governance",
+    "data_handling",
+    "crawler_conduct",
+    "transparency",
+    "change_control",
+    "related_resources"
+  ],
+  "additionalProperties": true
+}

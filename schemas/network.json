@@ -1,0 +1,46 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://3webobs.com/schemas/network.json",
+  "title": "network.json",
+  "description": "Minimal structural schema for network.json, published by 3webs (AIVENTURE S.R.L.). Describes the top-level shape actually present in the live file; nested object internals are intentionally left permissive (additionalProperties: true) rather than over-specified.",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "string"
+    },
+    "generated": {
+      "type": "string"
+    },
+    "network": {
+      "type": "object"
+    },
+    "this_property": {
+      "type": "object"
+    },
+    "members": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "shared_layer": {
+      "type": "object"
+    },
+    "node_obligations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "version",
+    "generated",
+    "network",
+    "this_property",
+    "members",
+    "shared_layer",
+    "node_obligations"
+  ],
+  "additionalProperties": true
+}

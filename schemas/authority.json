@@ -1,0 +1,80 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://3webobs.com/schemas/authority.json",
+  "title": "authority.json",
+  "description": "Minimal structural schema for authority.json, published by 3webs (AIVENTURE S.R.L.). Describes the top-level shape actually present in the live file; nested object internals are intentionally left permissive (additionalProperties: true) rather than over-specified.",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "string"
+    },
+    "generated": {
+      "type": "string"
+    },
+    "service": {
+      "type": "object"
+    },
+    "purpose": {
+      "type": "string"
+    },
+    "interpretation": {
+      "type": "object"
+    },
+    "legal_identity": {
+      "type": "object"
+    },
+    "legal_registers": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "external_profiles": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "owned_properties": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "authority_classes": {
+      "type": "object"
+    },
+    "entity_resolution": {
+      "type": "object"
+    },
+    "not_claimed": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "verification": {
+      "type": "object"
+    },
+    "related_resources": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "version",
+    "generated",
+    "service",
+    "purpose",
+    "interpretation",
+    "legal_identity",
+    "legal_registers",
+    "external_profiles",
+    "owned_properties",
+    "authority_classes",
+    "entity_resolution",
+    "not_claimed",
+    "verification",
+    "related_resources"
+  ],
+  "additionalProperties": true
+}

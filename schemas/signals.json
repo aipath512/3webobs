@@ -1,0 +1,61 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://3webobs.com/schemas/signals.json",
+  "title": "signals.json",
+  "description": "Minimal structural schema for signals.json, published by 3webs (AIVENTURE S.R.L.). Describes the top-level shape actually present in the live file; nested object internals are intentionally left permissive (additionalProperties: true) rather than over-specified.",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "string"
+    },
+    "generated": {
+      "type": "string"
+    },
+    "service": {
+      "type": "string"
+    },
+    "total": {
+      "type": "integer"
+    },
+    "result_states": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "maturity_classes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "web_layers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "principles": {
+      "type": "object"
+    },
+    "discipline_counts": {
+      "type": "object"
+    },
+    "catalogue": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "version",
+    "generated",
+    "service",
+    "total",
+    "result_states",
+    "maturity_classes",
+    "web_layers",
+    "principles",
+    "discipline_counts",
+    "catalogue"
+  ],
+  "additionalProperties": true
+}

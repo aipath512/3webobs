@@ -1,0 +1,39 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://3webobs.com/schemas/allow-lane-matrix.json",
+  "title": "allow-lane-matrix.json",
+  "description": "Minimal structural schema for allow-lane-matrix.json, published by 3webs (AIVENTURE S.R.L.). Describes the top-level shape actually present in the live file; nested object internals are intentionally left permissive (additionalProperties: true) rather than over-specified.",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "string"
+    },
+    "generated": {
+      "type": "string"
+    },
+    "purpose": {
+      "type": "string"
+    },
+    "lanes": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "global_rules": {
+      "type": "object"
+    },
+    "enforcement": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "version",
+    "generated",
+    "purpose",
+    "lanes",
+    "global_rules",
+    "enforcement"
+  ],
+  "additionalProperties": true
+}

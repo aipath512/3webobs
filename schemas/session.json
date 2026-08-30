@@ -1,0 +1,71 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://3webobs.com/schemas/session.json",
+  "title": "session.json",
+  "description": "Minimal structural schema for session.json, published by 3webs (AIVENTURE S.R.L.). Describes the top-level shape actually present in the live file; nested object internals are intentionally left permissive (additionalProperties: true) rather than over-specified.",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "string"
+    },
+    "generated": {
+      "type": "string"
+    },
+    "service": {
+      "type": "object"
+    },
+    "purpose": {
+      "type": "string"
+    },
+    "statefulness": {
+      "type": "object"
+    },
+    "client_storage": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "infrastructure_cookies": {
+      "type": "object"
+    },
+    "observation_context": {
+      "type": "object"
+    },
+    "agent_context": {
+      "type": "object"
+    },
+    "agent_guidance": {
+      "type": "object"
+    },
+    "content_delivery": {
+      "type": "object"
+    },
+    "privacy": {
+      "type": "object"
+    },
+    "security": {
+      "type": "object"
+    },
+    "related_resources": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "version",
+    "generated",
+    "service",
+    "purpose",
+    "statefulness",
+    "client_storage",
+    "infrastructure_cookies",
+    "observation_context",
+    "agent_context",
+    "agent_guidance",
+    "content_delivery",
+    "privacy",
+    "security",
+    "related_resources"
+  ],
+  "additionalProperties": true
+}

@@ -1,0 +1,70 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://3webobs.com/schemas/changelog.json",
+  "title": "changelog.json",
+  "description": "Minimal structural schema for changelog.json, published by 3webs (AIVENTURE S.R.L.). Describes the top-level shape actually present in the live file; nested object internals are intentionally left permissive (additionalProperties: true) rather than over-specified.",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "string"
+    },
+    "generated": {
+      "type": "string"
+    },
+    "service": {
+      "type": "object"
+    },
+    "purpose": {
+      "type": "string"
+    },
+    "current_version": {
+      "type": "string"
+    },
+    "current_release": {
+      "type": "string"
+    },
+    "releases": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "current_capability_status": {
+      "type": "object"
+    },
+    "planned": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "change_policy": {
+      "type": "object"
+    },
+    "evidence_model": {
+      "type": "object"
+    },
+    "integrity": {
+      "type": "object"
+    },
+    "related_resources": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "version",
+    "generated",
+    "service",
+    "purpose",
+    "current_version",
+    "current_release",
+    "releases",
+    "current_capability_status",
+    "planned",
+    "change_policy",
+    "evidence_model",
+    "integrity",
+    "related_resources"
+  ],
+  "additionalProperties": true
+}
