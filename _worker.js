@@ -98,6 +98,44 @@ function tagsOf(html, tag) {
 }
 
 /* ---------- culege toate dovezile despre site ---------- */
+/* ---------- safe, explicit A2A invocation test ----------
+   Only ever invokes a capability the TARGET ITSELF marked safe_to_invoke:true
+   AND side_effects:"none" in its own capabilities.json. Never guesses a skill,
+   never invokes anything mutating. If no such capability is declared, the
+   result stays not_applicable — never a fabricated pass or fail. */
+async function attemptSafeInvocation(origin, caps) {
+  const list = caps && Array.isArray(caps.capabilities) ? caps.capabilities : [];
+  const safeCap = list.find(c => c && c.safe_to_invoke === true && c.side_effects === 'none' && c.a2a_invocation);
+  if (!safeCap) return { attempted: false, reason: 'niciun capability declarat safe_to_invoke:true cu side_effects:"none"' };
+  const inv = safeCap.a2a_invocation;
+  const endpoint = origin + (inv.endpoint || '/a2a');
+  const skillId = inv.skill || safeCap.id;
+  const body = {
+    jsonrpc: '2.0', id: 'safe-test-' + Date.now(),
+    method: inv.method === 'message/send' || !inv.method ? 'message/send' : inv.method,
+    params: { message: { kind: 'message', role: 'user', messageId: crypto.randomUUID(),
+      parts: [{ kind: 'data', data: { skill: skillId } }] } }
+  };
+  const ctrl = new AbortController();
+  const t = setTimeout(() => ctrl.abort(), 8000);
+  try {
+    const r = await fetch(endpoint, {
+      method: 'POST', signal: ctrl.signal,
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    const status = r.status;
+    let rpc = null;
+    try { rpc = await r.json(); } catch {}
+    const validRpc = !!(rpc && rpc.jsonrpc === '2.0' && rpc.result && !rpc.error);
+    const resultData = validRpc && rpc.result.parts && rpc.result.parts[0] && rpc.result.parts[0].data;
+    const executed = !!(validRpc && resultData && resultData.skill === skillId);
+    return { attempted: true, ok: status === 200, validRpc, executed, capabilityId: safeCap.id, skillId, status };
+  } catch (e) {
+    return { attempted: true, ok: false, validRpc: false, executed: false, capabilityId: safeCap.id, skillId, error: String((e && e.message) || e) };
+  } finally { clearTimeout(t); }
+}
+
 async function gatherEvidence(target) {
   const origin = target.origin;
   const [main, robots, sitemap, llms, aitxt] = await Promise.all([
@@ -122,6 +160,8 @@ async function gatherEvidence(target) {
     if (r.ok) { try { jsonBodies[n] = JSON.parse(r.text); } catch { jsonBodies[n] = null; } }
   }));
 
+  const safeInvocation = await attemptSafeInvocation(origin, jsonBodies['capabilities.json']);
+
   const html = main.text || '';
   const ld = extractJsonLd(html);
   const imgs = [...html.matchAll(/<img\b[^>]*>/gi)].map(m => m[0]);
@@ -140,7 +180,7 @@ async function gatherEvidence(target) {
     sitemap: sitemap.ok, sitemapText: sitemap.ok ? sitemap.text : '',
     llms: llms.ok ? llms.text : null,
     aitxt: aitxt.ok ? aitxt.text : null,
-    jsonFiles, jsonBodies,
+    jsonFiles, jsonBodies, safeInvocation,
     ldTypes: ld.types, ldNodes: ld.nodes,
     langAttr: (html.match(/<html[^>]+lang=["']([^"']+)["']/i) || [])[1] || null,
     canonical: (html.match(/<link[^>]+rel=["']canonical["'][^>]+href=["']([^"']+)["']/i) || [])[1] || null,
@@ -440,12 +480,32 @@ function evalSignal(sig, ev, psi) {
       : {status:'fail',score:0,method:'niciun capability contract complet'};
   }
   if (/Declared Endpoint Reachable/i.test(sig.n)) {
-    return card && /^https:\/\//i.test(card.url||'')
-      ? {status:'partial',score:60,method:`endpoint declarat ${card.url}; reachability operationala nu este testata prin POST pentru a evita efecte secundare`}
-      : {status:'fail',score:0,method:'niciun endpoint HTTPS declarat in agent card'};
+    if (!card || !/^https:\/\//i.test(card.url||'')) return {status:'fail',score:0,method:'niciun endpoint HTTPS declarat in agent card'};
+    const si = ev.safeInvocation;
+    return si && si.attempted && si.ok
+      ? {status:'pass',score:95,method:`endpoint declarat ${card.url} confirmat reachable printr-o invocare reala, non-destructiva (HTTP ${si.status})`}
+      : {status:'partial',score:60,method:`endpoint declarat ${card.url}; reachability operationala nu a putut fi confirmata printr-un safe-test`};
   }
-  if (/Machine Protocol Response Valid/i.test(sig.n)|/Capability Invocable Under Declared Contract/i.test(sig.n)|/Capability Execution Verified/i.test(sig.n)) {
-    return {status:'na',method:'necesita invocare activa a agentului; scannerul public nu executa actiuni potentiale fara safe-test explicit'};
+  if (/Machine Protocol Response Valid/i.test(sig.n)) {
+    const si = ev.safeInvocation;
+    if (!si || !si.attempted) return {status:'na',method:'niciun capability declarat safe_to_invoke:true cu side_effects:"none" — invocare reala imposibila fara risc de efecte secundare'};
+    return si.validRpc
+      ? {status:'pass',score:90,method:`raspuns JSON-RPC 2.0 valid la invocarea reala a skill-ului "${si.skillId}" (HTTP ${si.status})`}
+      : {status:'fail',score:10,method:`invocare esuata sau raspuns JSON-RPC invalid (HTTP ${si.status||'n/a'}${si.error?': '+si.error:''})`};
+  }
+  if (/Capability Invocable Under Declared Contract/i.test(sig.n)) {
+    const si = ev.safeInvocation;
+    if (!si || !si.attempted) return {status:'na',method:'niciun capability declarat safe_to_invoke:true cu side_effects:"none" — invocare reala imposibila fara risc de efecte secundare'};
+    return si.ok && si.validRpc
+      ? {status:'pass',score:95,method:`skill "${si.skillId}" invocat cu succes exact prin contractul declarat in capabilities.json (HTTP ${si.status})`}
+      : {status:'fail',score:10,method:`invocarea skill-ului declarat drept safe_to_invoke a esuat`};
+  }
+  if (/Capability Execution Verified/i.test(sig.n)) {
+    const si = ev.safeInvocation;
+    if (!si || !si.attempted) return {status:'na',method:'niciun capability declarat safe_to_invoke:true cu side_effects:"none" — verificare executie imposibila fara risc de efecte secundare'};
+    return si.executed
+      ? {status:'pass',score:90,method:`raspunsul returnat de skill "${si.skillId}" corespunde exact skill-ului invocat — executie reala verificata, nu doar declarata`}
+      : {status:'fail',score:10,method:`raspunsul primit nu confirma executia skill-ului invocat`};
   }
   if (/Task Status Contract/i.test(sig.n)) {
     const txt=JSON.stringify(card||{})+JSON.stringify(caps||{})+JSON.stringify(acts||{});
@@ -1002,7 +1062,56 @@ async function fetchSynthesis(report, env) {
 }
 
 
+/* ---------- executie reala pentru obs.permanent, apelata din scheduled() ----------
+   Reobserva fiecare abonament ajuns la scadenta, salveaza scorul nou, si
+   notifica DOAR daca notify e un URL de callback (email necesita un provider
+   de email legat separat — pana atunci abonamentele cu notify=email raman
+   inregistrate si rulate, dar notificarea e marcata notify_pending_provider). */
+async function runScheduledObservations(env) {
+  if (!env.RATE_KV) return;
+  const list = await env.RATE_KV.list({ prefix: 'sub:' });
+  const now = Date.now();
+  const intervalMs = { daily: 86400000, weekly: 7 * 86400000, monthly: 30 * 86400000 };
+  for (const k of list.keys) {
+    let sub;
+    try { sub = JSON.parse(await env.RATE_KV.get(k.name)); } catch { continue; }
+    if (!sub || sub.status === 'cancelled') continue;
+    const last = sub.lastRunAt ? new Date(sub.lastRunAt).getTime() : 0;
+    if ((now - last) < (intervalMs[sub.interval] || intervalMs.weekly)) continue;
+    const target = normalizeUrl(sub.url);
+    if (!target) continue;
+    try {
+      const ev = await gatherEvidence(target);
+      if (!ev.mainOk) { sub.lastRunAt = new Date().toISOString(); sub.status = 'target_unreachable';
+        await env.RATE_KV.put(k.name, JSON.stringify(sub)); continue; }
+      const psi = await fetchPageSpeed(target.href, env).catch(() => null);
+      const evalResult = evaluate(ev, psi);
+      const newScore = evalResult.globalScore;
+      const prevScore = typeof sub.lastScore === 'number' ? sub.lastScore : null;
+      const delta = prevScore === null ? null : Math.round((newScore - prevScore) * 10) / 10;
+      const changed = prevScore === null || Math.abs(delta) >= (sub.threshold ?? 3);
+      sub.lastRunAt = new Date().toISOString();
+      sub.lastScore = newScore;
+      sub.status = 'active';
+      await env.RATE_KV.put(k.name, JSON.stringify(sub));
+      if (changed && sub.notify) {
+        if (/^https?:\/\//i.test(sub.notify)) {
+          try {
+            await fetch(sub.notify, { method: 'POST', headers: { 'content-type': 'application/json' },
+              body: JSON.stringify({ subscriptionId: sub.id, url: sub.url, previousScore: prevScore,
+                newScore, delta, observedAt: sub.lastRunAt }) });
+          } catch {}
+        }
+        /* notify e email — retinut, dar trimiterea efectiva asteapta un provider de email legat la Worker */
+      }
+    } catch {}
+  }
+}
+
 export default {
+  async scheduled(event, env, ctx) {
+    ctx.waitUntil(runScheduledObservations(env));
+  },
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
     if (request.method === 'OPTIONS') return new Response(null, { headers: CORS });
@@ -1146,6 +1255,18 @@ export default {
 
       /* ── obs_permanent ── */
       if (skill === 'obs_permanent') {
+        if (payload.action === 'cancel') {
+          const cancelId = payload.subscriptionId;
+          if (!cancelId) return rpcErr(-32602, 'Invalid params: subscriptionId is required to cancel');
+          if (!env.RATE_KV) return rpcErr(-32603, 'Internal error: subscription storage unavailable');
+          let existing = null;
+          try { existing = JSON.parse(await env.RATE_KV.get('sub:' + cancelId)); } catch {}
+          if (!existing) return reply({ skill: 'obs_permanent', action: 'cancel', subscriptionId: cancelId, status: 'not_found' });
+          existing.status = 'cancelled';
+          existing.cancelledAt = new Date().toISOString();
+          try { await env.RATE_KV.put('sub:' + cancelId, JSON.stringify(existing)); } catch {}
+          return reply({ skill: 'obs_permanent', action: 'cancel', subscriptionId: cancelId, status: 'cancelled' });
+        }
         const target = normalizeUrl(String(payload.url || '').trim());
         if (!target) return rpcErr(-32602, 'Invalid params: a valid url is required');
         const interval = payload.interval || 'weekly';
@@ -1165,7 +1286,9 @@ export default {
         return reply({ skill: 'obs_permanent', mode: 'permanent',
           subscriptionId: subId, url: sub.url, interval, notify,
           threshold: sub.threshold, status: 'registered',
-          note: 'Scheduled re-observation requires a Cron Trigger to be configured on this Worker. Until then the subscription is recorded but not yet executing.',
+          note: /^https?:\/\//i.test(notify)
+            ? 'Scheduled re-observation runs via a Cloudflare Cron Trigger. Change notifications are POSTed to your callback URL.'
+            : 'Scheduled re-observation runs via a Cloudflare Cron Trigger. Email delivery is pending an email provider binding — the subscription runs and records scores, but email notification is not yet sent; use a callback URL to receive notifications today.',
           cancel: { method: 'POST', path: '/a2a', skill: 'obs_permanent', action: 'cancel', subscriptionId: subId } });
       }
 

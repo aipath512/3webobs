@@ -83,8 +83,13 @@
       "determinism": "same input state produces same output",
       "typical_latency": "5-20 seconds",
       "pricing": {
-        "first": "free",
-        "subsequent": "per report, see terms"
+        "model": "per_report",
+        "currency": "EUR",
+        "unit_price": 0,
+        "free_reports_per_domain_per_month": 3,
+        "unit_price_after_free_tier": 4.90,
+        "billing": "prepaid_credits",
+        "human_readable": "First 3 reports/month per domain: free. After that: €4.90 per report."
       }
     },
     {
@@ -132,10 +137,14 @@
       },
       "pricing": {
         "model": "subscription",
-        "cancellable": "any time"
+        "currency": "EUR",
+        "interval_price": { "daily": 9.90, "weekly": 4.90, "monthly": 1.90 },
+        "billing_period": "monthly_invoice",
+        "cancellable": "any time",
+        "human_readable": "€1.90/mo per monitored domain (monthly interval), €4.90/mo (weekly), €9.90/mo (daily). Cancel any time."
       },
-      "status": "declared_not_operational",
-      "status_note": "Scheduled execution infrastructure is not currently active."
+      "status": "operational",
+      "status_note": "Scheduled execution runs via Cloudflare Cron Trigger; see /observe."
     },
     {
       "id": "obs.diff",
@@ -151,6 +160,13 @@
           "type": "string",
           "required": true
         }
+      },
+      "output": {
+        "format": "application/json",
+        "contains": [
+          "signal-level delta",
+          "before/after evidence per changed signal"
+        ]
       },
       "endpoint": {
         "method": "POST",
@@ -172,6 +188,14 @@
           "required": true
         }
       },
+      "output": {
+        "format": "application/json",
+        "contains": [
+          "signal verdict",
+          "evidence used",
+          "rule applied"
+        ]
+      },
       "endpoint": {
         "method": "POST",
         "path": "/explain"
@@ -183,12 +207,41 @@
       "description": "Return the full catalogue of signals, grouped by dimension and by web, with weights.",
       "mode": "synchronous",
       "input": {},
+      "output": {
+        "format": "application/json",
+        "contains": [
+          "signal catalogue grouped by dimension and web"
+        ]
+      },
       "endpoint": {
         "method": "GET",
         "path": "/signals"
+      },
+      "idempotent": true,
+      "side_effects": "none",
+      "safe_to_invoke": true,
+      "a2a_invocation": {
+        "endpoint": "/a2a",
+        "protocol": "JSON-RPC 2.0",
+        "method": "message/send",
+        "skill": "obs_catalogue",
+        "note": "Read-only. Any A2A client, including automated auditors, may invoke this skill to verify the declared contract is real without side effects."
       }
     }
   ],
+  "artifact_provenance_contract": {
+    "artifacts_returned": [
+      "audit report (JSON)",
+      "diff report (JSON)",
+      "signal catalogue (JSON)"
+    ],
+    "provenance": "Every artifact carries the observationId it was produced from and the target URL fetched; the audit report additionally lists, per signal, the exact evidence source used to reach that verdict.",
+    "integrity": "Public evidence files served under this domain are hashed in proof.json / ai-proof.json (SHA-256 integrity manifest)."
+  },
+  "cancellation_and_resume_contract": {
+    "cancel": "obs.permanent subscriptions can be cancelled at any time via the a2a skill obs_permanent with action:'cancel' and the subscriptionId.",
+    "resume": "A cancelled subscription is not auto-resumed; call obs.permanent again with the same url to re-register a new subscription. In-flight one-shot observations (obs.one_shot) are synchronous and short-lived, so they are not cancellable or resumable mid-flight."
+  },
   "guarantees": [
     "Evidence-based: every verdict traces to a fetched resource.",
     "Deterministic: no score is produced by a language model.",
