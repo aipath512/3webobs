@@ -151,6 +151,8 @@ html.dark .eyebrow, html.dark .synth-tag, html.dark .ld-tag { color: var(--blue)
 .d-geo .dim-lbl, .d-geo .dim-val { color: var(--gold) !important; }
 .d-aio .dim-lbl, .d-aio .dim-val { color: var(--green) !important; }
 .d-seo .dim-lbl, .d-seo .dim-val { color: var(--purple) !important; }
+.d-ai  .dim-lbl, .d-ai  .dim-val { color: var(--red) !important; }
+.d-a2a .dim-lbl, .d-a2a .dim-val { color: var(--blue) !important; }
 
 .sh, .sl-ok  { color: var(--green)  !important; }
 .sm, .sl-warn{ color: var(--gold)   !important; }
@@ -164,6 +166,8 @@ html.dark .d-aeo .dim-lbl, html.dark .d-aeo .dim-val { color: var(--blue) !impor
 html.dark .d-geo .dim-lbl, html.dark .d-geo .dim-val { color: var(--gold) !important; }
 html.dark .d-aio .dim-lbl, html.dark .d-aio .dim-val { color: var(--green) !important; }
 html.dark .d-seo .dim-lbl, html.dark .d-seo .dim-val { color: var(--purple) !important; }
+html.dark .d-ai  .dim-lbl, html.dark .d-ai  .dim-val { color: var(--red) !important; }
+html.dark .d-a2a .dim-lbl, html.dark .d-a2a .dim-val { color: var(--blue) !important; }
 html.dark .sh, html.dark .sl-ok   { color: var(--green)  !important; }
 html.dark .sm, html.dark .sl-warn { color: var(--gold)   !important; }
 html.dark .sl_, html.dark .sl-fail{ color: var(--red)    !important; }
@@ -325,6 +329,20 @@ html.dark .mod.active{box-shadow:0 0 0 3px rgba(94,180,255,.1);}
 .d-geo .dim-lbl,.d-geo .dim-val{color:var(--gold);} .d-geo .dim-bar-f{background:var(--gold);}
 .d-aio .dim-lbl,.d-aio .dim-val{color:var(--green);} .d-aio .dim-bar-f{background:var(--green);}
 .d-seo .dim-lbl,.d-seo .dim-val{color:var(--purple);} .d-seo .dim-bar-f{background:var(--purple);}
+.d-ai .dim-lbl,.d-ai .dim-val{color:var(--red);} .d-ai .dim-bar-f{background:var(--red);}
+.d-a2a .dim-lbl,.d-a2a .dim-val{color:var(--blue);} .d-a2a .dim-bar-f{background:var(--blue);}
+
+/* CATEGORY BLOCK */
+.cat-block{margin-top:28px;padding-top:24px;border-top:1px solid var(--border);}
+.cat-title{font-size:11px;letter-spacing:.09em;text-transform:uppercase;opacity:.55;margin-bottom:14px;}
+.cat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;}
+.cat-card{border:1px solid var(--border);border-radius:12px;padding:14px 16px;background:var(--bg2);}
+.cat-name{font-size:13px;font-weight:600;margin-bottom:2px;}
+.cat-desc{font-size:10.5px;opacity:.5;line-height:1.35;margin-bottom:10px;min-height:28px;}
+.cat-val{font-size:26px;font-weight:700;line-height:1;margin-bottom:8px;}
+.cat-bar{height:4px;border-radius:4px;background:var(--border);overflow:hidden;margin-bottom:8px;}
+.cat-bar-f{height:100%;border-radius:4px;}
+.cat-meta{font-size:10px;opacity:.5;line-height:1.4;}
 
 /* AI BAND */
 .ai-band{display:flex;align-items:center;justify-content:space-between;gap:28px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:26px 32px;margin-bottom:36px;box-shadow:var(--sh1);}
@@ -2039,6 +2057,12 @@ function render(d,synth,ap){
           <div class="dim-delta" style="background:${d.scores.SEO>=70?'var(--green-bg)':'var(--red-bg)'};color:${d.scores.SEO>=70?'var(--green)':'var(--red)'}">${d.scores.SEO>=70?'▲ Strong':'▼ Weak'}</div>
           <div class="dim-bar"><div class="dim-bar-f" style="width:${d.scores.SEO}%"></div></div>
         </div>
+        ${d.scores.AI_SIGNALS==null?'':`<div class="dim d-ai">
+          <div class="dim-lbl">AI SIGNALS</div><div class="dim-name">Machine Trust Signals</div>
+          <div class="dim-val">${d.scores.AI_SIGNALS}</div>
+          <div class="dim-delta" style="background:${d.scores.AI_SIGNALS>=70?'var(--green-bg)':'var(--red-bg)'};color:${d.scores.AI_SIGNALS>=70?'var(--green)':'var(--red)'}">${d.scores.AI_SIGNALS>=70?'\u25b2 Strong':'\u25bc Weak'}</div>
+          <div class="dim-bar"><div class="dim-bar-f" style="width:${d.scores.AI_SIGNALS}%"></div></div>
+        </div>`}
         ${d.scores.A2A==null?'':`<div class="dim d-a2a">
           <div class="dim-lbl">A2A</div><div class="dim-name">Agent-to-Agent Signals</div>
           <div class="dim-val">${d.scores.A2A}</div>
@@ -2046,6 +2070,27 @@ function render(d,synth,ap){
           <div class="dim-bar"><div class="dim-bar-f" style="width:${d.scores.A2A}%"></div></div>
         </div>`}
       </div>
+      ${!d.categories?'':`<div class="cat-block">
+        <div class="cat-title">Where the work sits</div>
+        <div class="cat-grid">
+          ${[['ON-PAGE','On-page','What you write on each page'],
+             ['ON-SITE','On-site','Site-wide technical setup'],
+             ['OFF-PAGE','Off-page','External reputation and citations'],
+             ['OFF-SITE','Off-site','Independent third-party verification']]
+            .filter(([k])=>d.categories[k])
+            .map(([k,label,desc])=>{
+              const c=d.categories[k];
+              const col=c.score==null?'var(--fg)':c.score>=70?'var(--green)':c.score>=50?'var(--gold)':'var(--red)';
+              return `<div class="cat-card">
+                <div class="cat-name">${label}</div>
+                <div class="cat-desc">${desc}</div>
+                <div class="cat-val" style="color:${col}">${c.score==null?'—':c.score}</div>
+                <div class="cat-bar"><div class="cat-bar-f" style="width:${c.score||0}%;background:${col}"></div></div>
+                <div class="cat-meta">${c.tested}/${c.total} tested · ${c.pass} pass · ${c.partial} partial · ${c.fail} fail</div>
+              </div>`;
+            }).join('')}
+        </div>
+      </div>`}
     </div>
   </div>`);
 

@@ -23,7 +23,7 @@
       "trailing_newline": false
     }
   },
-  "aggregate_sha256": "695f44181e03dce6a6f8d2df5d6fc088511995f445602da6ef63fe68b4ddcf4a",
+  "aggregate_sha256": "55b3bc83c63c216b699f114b37377b626acd42b473a9925ce2cda20adac91788",
   "file_count": 35,
   "files": [
     {
@@ -167,8 +167,8 @@
     {
       "path": "/index.html",
       "url": "https://3webobs.com/index.html",
-      "bytes": 186876,
-      "sha256": "17c17294841d26d599c0b9d2e05ddbe3e49db83f4bbc91a2ccd992df25a60442"
+      "bytes": 190007,
+      "sha256": "0c9df76ac30a6bfeccf3c02d3c31f650a81cf80a1b516968c5b8e8a8f208962a"
     },
     {
       "path": "/intents.json",

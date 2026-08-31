@@ -1,7 +1,7 @@
 {
-  "$schema": "https://5thelement.ai/schemas/proof.json",
+  "$schema": "https://3webobs.com/schemas/proof.json",
   "version": "1.1",
-  "generated_at": "2026-08-31T08:57:52.924Z",
+  "generated_at": "2026-08-30T14:30:00.000Z",
   "issuer": {
     "legal_name": "AIVENTURE S.R.L.",
     "cui": "51415878",
@@ -23,20 +23,26 @@
       "trailing_newline": false
     }
   },
-  "aggregate_sha256": "8753f3c3458073f07cd61cfe4432e5d0324766ac24dda54d330bd4f4d620b5cc",
-  "file_count": 30,
+  "aggregate_sha256": "55b3bc83c63c216b699f114b37377b626acd42b473a9925ce2cda20adac91788",
+  "file_count": 35,
   "files": [
     {
       "path": "/.well-known/agent-card.json",
       "url": "https://3webobs.com/.well-known/agent-card.json",
-      "bytes": 6171,
-      "sha256": "25cc13392da4ab2796b5333ee4e01519e550bd3e2e1ef1af226408b30a3f4836"
+      "bytes": 5810,
+      "sha256": "2d62a5d877f4790a674b888439acfbf91d66591ae541b362c61c5d49737ff78c"
     },
     {
       "path": "/.well-known/security.txt",
       "url": "https://3webobs.com/.well-known/security.txt",
       "bytes": 362,
       "sha256": "355fe58370fabaf6b5b318402784997a3988fb17e8612b625729ddbdce624497"
+    },
+    {
+      "path": "/404.html",
+      "url": "https://3webobs.com/404.html",
+      "bytes": 1326,
+      "sha256": "c168e100a3c63d02d7688d18e99363b723e5e378e8fe9f6e7df884d246446eab"
     },
     {
       "path": "/actions.json",
@@ -53,8 +59,8 @@
     {
       "path": "/ai-act.html",
       "url": "https://3webobs.com/ai-act.html",
-      "bytes": 57999,
-      "sha256": "19d46cf7d72a1a1600b1ce231a3742dc594b13137693b5b9ae8ded0abc4a39d1"
+      "bytes": 58056,
+      "sha256": "6a71416cb29a103181cd8b3cca3e671363890d041a2e3a90b66cccf0edc21a9e"
     },
     {
       "path": "/ai.json",
@@ -107,14 +113,14 @@
     {
       "path": "/contact.html",
       "url": "https://3webobs.com/contact.html",
-      "bytes": 55694,
-      "sha256": "94eb8ef17effa2c94b3bea96e0208a66a6a47a99e8d4c9e0a3781e2fccc8403f"
+      "bytes": 55433,
+      "sha256": "1aae0080c1ea45e2662d4b621a9fdd627c62f1a6ddd2e654954e4a71311c84c1"
     },
     {
       "path": "/cookies.html",
       "url": "https://3webobs.com/cookies.html",
-      "bytes": 55553,
-      "sha256": "b81f3d4451d52157a9fe6b9c35f42b37f55fb764c903e3c61c521dc3a1967119"
+      "bytes": 55292,
+      "sha256": "88bf517b6fbcc4d310bb2563acec0dfcfd07d2d9c3128da429efe7e769f1f5b1"
     },
     {
       "path": "/entities.json",
@@ -123,10 +129,28 @@
       "sha256": "694d9e4e1dd1a9cca774c2ed5d5de8195b0aa18a5fc570bdc7c439301723a012"
     },
     {
+      "path": "/for-ai-teams.html",
+      "url": "https://3webobs.com/for-ai-teams.html",
+      "bytes": 18903,
+      "sha256": "c23914f8964db6b03711e4685ddbd4098c562a43c278590737fb77cdf406e182"
+    },
+    {
+      "path": "/for-compliance-consultants.html",
+      "url": "https://3webobs.com/for-compliance-consultants.html",
+      "bytes": 19205,
+      "sha256": "8f40bfd084d68d70a15e9080109476667ad10b6f963c4d999d8593b2a288c142"
+    },
+    {
+      "path": "/for-seo-agencies.html",
+      "url": "https://3webobs.com/for-seo-agencies.html",
+      "bytes": 18995,
+      "sha256": "02acb3b9f76208f757e89c140959c1521bbc94fd37d7e9ea5c079d2036d18f18"
+    },
+    {
       "path": "/gdpr.html",
       "url": "https://3webobs.com/gdpr.html",
-      "bytes": 59901,
-      "sha256": "1aa07f3ff9a3ff7b9bd14799674f263082d0f96ed04cd4fcfb95fc3b4c82639b"
+      "bytes": 59790,
+      "sha256": "a4b94adb2427d2cff011c684776b5d22e48cd36fe95da28ab5a0afc3db3e9f94"
     },
     {
       "path": "/governance.json",
@@ -143,8 +167,8 @@
     {
       "path": "/index.html",
       "url": "https://3webobs.com/index.html",
-      "bytes": 185561,
-      "sha256": "508551ea7f81a9000acaece6c1261b86b67074cd8112695093b29e1a2c267c88"
+      "bytes": 190007,
+      "sha256": "0c9df76ac30a6bfeccf3c02d3c31f650a81cf80a1b516968c5b8e8a8f208962a"
     },
     {
       "path": "/intents.json",
@@ -167,8 +191,8 @@
     {
       "path": "/policy.html",
       "url": "https://3webobs.com/policy.html",
-      "bytes": 56836,
-      "sha256": "1883cbc49f5bfc97b37346c57e6ed6393571ec0df0520e5a8a1c78502e405011"
+      "bytes": 56575,
+      "sha256": "ea3db0b9e5f85bb737bd2a837e5da82ce15b3cc5c524dc1beefce763e5fcd9bd"
     },
     {
       "path": "/policy.json",
@@ -181,6 +205,12 @@
       "url": "https://3webobs.com/robots.txt",
       "bytes": 2485,
       "sha256": "e4c1437305b7fd184ada0be57bdaf11a95b016070cdfd7a10513007ec19e48a2"
+    },
+    {
+      "path": "/self-audit.html",
+      "url": "https://3webobs.com/self-audit.html",
+      "bytes": 7686,
+      "sha256": "eb020487c2f1ba773896b2df205a82f36862dd1056212c1906ed13eaf667c05d"
     },
     {
       "path": "/session.json",
@@ -203,8 +233,8 @@
     {
       "path": "/terms.html",
       "url": "https://3webobs.com/terms.html",
-      "bytes": 61762,
-      "sha256": "c6419ddb3c36da6affdf67469a945abf6db66a4f176f6e6265772f2aea139bbe"
+      "bytes": 61901,
+      "sha256": "6ca27b2c5eb50ffffb561486fb35adf9f9291b52ad8c5682c242e7a69f96fa7c"
     }
   ],
   "verification": {
