@@ -100,8 +100,22 @@ function normalizeUrl(raw) {
    rezolva spre IP-uri private — nu elimina 100% riscul de DNS rebinding
    (fetch() face propria rezolutie separat, dupa acest check), dar blocheaza
    marea majoritate a atacurilor SSRF realiste unde domeniul e static. */
+/* Cache DNS pe durata unui audit. Fara el, fiecare safeFetch facea 2 interogari
+   DoH (A + AAAA), iar un audit complet ajungea la ~88 subrequests din care 58
+   DNS — peste limita de 50 a planului Cloudflare Free, deci auditul ar fi
+   esuat in productie. Aproape toate cererile merg spre acelasi host, deci un
+   cache per-invocatie reduce cele 58 la 1-3. */
+const dnsCache = new Map();
+
 async function resolveHostIsPrivate(hostname) {
   if (looksLikeIpLiteral(hostname)) return isPrivateIPv4(hostname) || isPrivateIPv6(hostname);
+  if (dnsCache.has(hostname)) return dnsCache.get(hostname);
+  const result = await resolveHostIsPrivateUncached(hostname);
+  dnsCache.set(hostname, result);
+  return result;
+}
+
+async function resolveHostIsPrivateUncached(hostname) {
   try {
     const ctrl = new AbortController();
     const t = setTimeout(() => ctrl.abort(), 3000);
@@ -268,14 +282,24 @@ function tagsOf(html, tag) {
    utilizator si nu strica raportul daca registrul e jos. Endpoint fix,
    de incredere — nu trece prin safeFetch (acela e pentru URL-uri
    controlate de utilizator/agent, nu pentru telemetria noastra interna). */
-function logToRegistry(ctx, targetUrl, type) {
-  if (!ctx || !ctx.waitUntil) return;
-  ctx.waitUntil(
-    fetch('https://gdpr.aiventure.ro/registry/log', {
-      method: 'POST', headers: { 'content-type': 'application/json' },
+async function logToRegistry(ctx, targetUrl, type) {
+  /* Varianta anterioara era fire-and-forget cu `.catch(() => {})`, deci orice
+     esec disparea fara urma — registrul ramanea gol si nu se putea afla de ce.
+     Acum asteptam rezultatul si il raportam in raport, ca esecul sa fie vizibil.
+     Costa un singur subrequest, deja inclus in buget. */
+  try {
+    const r = await fetch('https://gdpr.aiventure.ro/registry/log', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ site: '3webobs', url: targetUrl, type: type || 'audit' }),
-    }).catch(() => {})
-  );
+    });
+    if (!r.ok) return { logged: false, reason: 'HTTP ' + r.status };
+    let body = null;
+    try { body = await r.json(); } catch {}
+    return { logged: !!(body && body.ok), reason: body && body.ok ? null : 'raspuns neasteptat' };
+  } catch (e) {
+    return { logged: false, reason: String((e && e.message) || e) };
+  }
 }
 
 async function attemptSafeInvocation(origin, caps) {
@@ -2136,7 +2160,7 @@ export default {
         proofFilesVerified: ev.proofCheck ? ev.proofCheck.verified : 0,
         proofFilesChecked: ev.proofCheck ? ev.proofCheck.checked : 0,
       };
-      logToRegistry(ctx, target.href, 'audit');
+      report.registry = await logToRegistry(ctx, target.href, 'audit');
 
       if (env.RATE_KV) {
         try {
@@ -2334,7 +2358,7 @@ export default {
         };
 
         const observationId = 'obs_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
-        logToRegistry(ctx, report.url, 'audit_a2a');
+        const registryResult = await logToRegistry(ctx, report.url, 'audit_a2a');
         if (env.RATE_KV) {
           try {
             const n = Number(await env.RATE_KV.get('audit_count') || 0) + 1;
