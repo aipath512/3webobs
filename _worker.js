@@ -1789,6 +1789,41 @@ function evaluate(ev, psi) {
     dimWeights[dim] = weightTotal;   // cat "cantareste" dimensiunea, pentru scorul global
   }
 
+  /* Scoruri pe CATEGORIE (ON-PAGE / ON-SITE / OFF-PAGE / OFF-SITE).
+     Datele existau deja in registru (campul `c` al fiecarui semnal) dar nu
+     erau agregate nicaieri — deci nu se putea spune clientului "problema ta e
+     off-page (reputatie externa), nu on-page (ce repari singur pe site)".
+     Aceeasi formula ponderata ca la dimensiuni. */
+  const catAgg = {};
+  for (const dim of Object.keys(SIG)) {
+    for (let i = 0; i < SIG[dim].length; i++) {
+      const sig = SIG[dim][i];
+      const r = signals[dim][i];
+      const cat = sig.c || 'UNCLASSIFIED';
+      if (!catAgg[cat]) catAgg[cat] = { weightedSum: 0, weightTotal: 0, tested: 0, na: 0, total: 0,
+                                        pass: 0, partial: 0, fail: 0 };
+      const a = catAgg[cat];
+      a.total++;
+      if (r.status === 'na') { a.na++; continue; }
+      const w = typeof sig.w === 'number' && sig.w > 0 ? sig.w : 1;
+      a.weightedSum += r.score * w;
+      a.weightTotal += w;
+      a.tested++;
+      if (r.status === 'pass') a.pass++;
+      else if (r.status === 'partial') a.partial++;
+      else if (r.status === 'fail') a.fail++;
+    }
+  }
+  const categories = {};
+  for (const [cat, a] of Object.entries(catAgg)) {
+    categories[cat] = {
+      score: a.weightTotal ? Math.round(a.weightedSum / a.weightTotal) : null,
+      tested: a.tested, na: a.na, total: a.total,
+      pass: a.pass, partial: a.partial, fail: a.fail,
+      coverage: a.total ? Math.round((a.tested / a.total) * 1000) / 10 : 0,
+    };
+  }
+
   /* Global: media dimensiunilor ponderata cu greutatea totala testata in
      fiecare — o dimensiune in care s-au putut testa multe semnale grele
      conteaza mai mult decat una cu doua semnale usoare. */
@@ -1800,7 +1835,7 @@ function evaluate(ev, psi) {
   }
   const global = gWeight ? Math.round(gSum / gWeight) : 0;
 
-  return { scores, signals, global, tested: totalTested, na: totalNa,
+  return { scores, categories, signals, global, tested: totalTested, na: totalNa,
            totalSignals: totalTested + totalNa, scoringMethod: 'weighted-by-signal-weight' };
 }
 
