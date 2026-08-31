@@ -1,5 +1,5 @@
 {
-  "$schema": "https://3webobs.com/schemas/ai-proof.json",
+  "$schema": "https://3webobs.com/schemas/proof.json",
   "version": "1.1",
   "generated_at": "2026-08-30T14:30:00.000Z",
   "issuer": {
