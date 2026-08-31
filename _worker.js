@@ -19,6 +19,11 @@ function json(obj, status = 200, extraHeaders = {}) {
 }
 
 /* ---------- catalogul celor 167 de semnale (id, nume, categorie, greutate) ---------- */
+/* versiune de motor si de registru — apar in fiecare raport, ca doua rapoarte
+   sa poata fi comparate fara sa ghicesti ce deploy le-a produs. */
+const ENGINE_VERSION = '3.1.0';
+const RULESET_VERSION = '2026-08-30';
+
 const SIG = {"AEO":[{"id":"aeo1","n":"FAQ Structured Data","c":"ON-PAGE","w":9,"wl":["HUMAN_WEB","AI_WEB"],"m":"ESTABLISHED_PRACTICE","pt":true},{"id":"aeo2","n":"HowTo Structured Data Where Applicable","c":"ON-PAGE","w":7,"wl":["HUMAN_WEB","AI_WEB"],"m":"ESTABLISHED_PRACTICE","pt":true},{"id":"aeo3","n":"Question-and-Answer Content Blocks","c":"ON-PAGE","w":9,"wl":["HUMAN_WEB","AI_WEB"],"m":"ESTABLISHED_PRACTICE","pt":true},{"id":"aeo4","n":"Extractable Direct Answer Blocks","c":"ON-PAGE","w":10,"wl":["AI_WEB"],"m":"3WEBS_METHOD","pt":true},{"id":"aeo5","n":"Speakable Structured Data Where Applicable","c":"ON-PAGE","w":5,"wl":["AI_WEB"],"m":"PROVIDER_SPECIFIC","pt":true},{"id":"aeo6","n":"Article Structured Data Where Applicable","c":"ON-PAGE","w":7,"wl":["HUMAN_WEB","AI_WEB"],"m":"ESTABLISHED_PRACTICE","pt":true},{"id":"aeo7","n":"Breadcrumb Structured Data","c":"ON-PAGE","w":7,"wl":["HUMAN_WEB","AI_WEB"],"m":"ESTABLISHED_PRACTICE","pt":true},{"id":"aeo8","n":"Table of Contents and Section Anchors","c":"ON-PAGE","w":6,"wl":["HUMAN_WEB","AI_WEB"],"m":"ESTABLISHED_PRACTICE","pt":true},{"id":"aeo9","n":"External Entity Disambiguation","c":"OFF-PAGE","w":8,"wl":["AI_WEB"],"m":"ESTABLISHED_PRACTICE","pt":true},{"id":"aeo10","n":"Search Knowledge Entity Presence","c":"OFF-PAGE","w":9,"wl":["AI_WEB"],"m":"PROVIDER_SPECIFIC","pt":true},{"id":"aeo11","n":"Direct Answer Formatting","c":"ON-PAGE","w":9,"wl":["HUMAN_WEB","AI_WEB"],"m":"ESTABLISHED_PRACTICE","pt":true},{"id":"aeo12","n":"Intent-Oriented URL Structure","c":"ON-SITE","w":6,"wl":["HUMAN_WEB","AI_WEB"],"m":"ESTABLISHED_PRACTICE","pt":true},{"id":"aeo13","n":"People-Also-Ask Topic Coverage","c":"OFF-PAGE","w":7,"wl":["AI_WEB"],"m":"PROVIDER_SPECIFIC","pt":true},{"id":"aeo14","n":"Featured Answer Extractability","c":"ON-PAGE","w":9,"wl":["AI_WEB"],"m":"ESTABLISHED_PRACTICE","pt":true},{"id":"aeo15","n":"Definition Blocks","c":"ON-PAGE","w":7,"wl":["HUMAN_WEB","AI_WEB"],"m":"ESTABLISHED_PRACTICE","pt":true},{"id":"aeo16","n":"Step-by-Step Content Structure","c":"ON-PAGE","w":7,"wl":["HUMAN_WEB","AI_WEB"],"m":"ESTABLISHED_PRACTICE","pt":true},{"id":"aeo17","n":"Concise Lead Answer","c":"ON-PAGE","w":7,"wl":["AI_WEB"],"m":"3WEBS_METHOD","pt":true},{"id":"aeo18","n":"Natural-Language Query Coverage","c":"ON-PAGE","w":7,"wl":["AI_WEB"],"m":"3WEBS_METHOD","pt":true},{"id":"aeo19","n":"Answer-First Content Structure","c":"ON-PAGE","w":9,"wl":["AI_WEB"],"m":"3WEBS_METHOD","pt":true},{"id":"aeo20","n":"Semantically Descriptive Headings","c":"ON-PAGE","w":8,"wl":["HUMAN_WEB","AI_WEB"],"m":"ESTABLISHED_PRACTICE","pt":true},{"id":"aeo21","n":"Conversational Query Coverage","c":"ON-PAGE","w":8,"wl":["AI_WEB"],"m":"3WEBS_METHOD","pt":true},{"id":"aeo22","n":"Structured Data Relationship Coherence","c":"ON-PAGE","w":7,"wl":["AI_WEB"],"m":"ESTABLISHED_PRACTICE","pt":true},{"id":"aeo23","n":"Rich Result Eligibility","c":"ON-PAGE","w":8,"wl":["HUMAN_WEB","AI_WEB"],"m":"PROVIDER_SPECIFIC","pt":true},{"id":"aeo24","n":"Google AI Overview and AI Mode Source Readiness","c":"ON-PAGE","w":9,"wl":["AI_WEB"],"m":"PROVIDER_SPECIFIC","pt":true},{"id":"aeo25","n":"Context Continuity Across Sections","c":"ON-PAGE","w":7,"wl":["AI_WEB"],"m":"3WEBS_METHOD","pt":true},{"id":"aeo26","n":"Primary Entity Salience","c":"ON-PAGE","w":8,"wl":["AI_WEB"],"m":"3WEBS_METHOD","pt":true},{"id":"aeo27","n":"Semantic HTML Structure","c":"ON-SITE","w":8,"wl":["HUMAN_WEB","AI_WEB"],"m":"STANDARD","pt":true},{"id":"aeo28","n":"ClaimReview Structured Data Where Applicable","c":"ON-PAGE","w":5,"wl":["AI_WEB"],"m":"ESTABLISHED_PRACTICE","pt":true},{"id":"aeo29","n":"Event Structured Data Where Applicable","c":"ON-PAGE","w":5,"wl":["HUMAN_WEB","AI_WEB"],"m":"ESTABLISHED_PRACTICE","pt":true},{"id":"aeo30","n":"Product Structured Data Where Applicable","c":"ON-PAGE","w":7,"wl":["HUMAN_WEB","AI_WEB"],"m":"ESTABLISHED_PRACTICE","pt":true},{"id":"aeo31","n":"LocalBusiness Structured Data Where Applicable","c":"ON-PAGE","w":6,"wl":["HUMAN_WEB","AI_WEB"],"m":"ESTABLISHED_PRACTICE","pt":true},{"id":"aeo32","n":"Review and Rating Structured Data Validity","c":"ON-PAGE","w":6,"wl":["HUMAN_WEB","AI_WEB"],"m":"ESTABLISHED_PRACTICE","pt":true},{"id":"aeo33","n":"Video Structured Data Where Applicable","c":"ON-PAGE","w":5,"wl":["HUMAN_WEB","AI_WEB"],"m":"ESTABLISHED_PRACTICE","pt":true},{"id":"aeo34","n":"Person and Author Structured Data","c":"ON-PAGE","w":7,"wl":["AI_WEB"],"m":"ESTABLISHED_PRACTICE","pt":true}],"GEO":[{"id":"geo1","n":"llms.txt Presence and Quality","c":"ON-SITE","w":8,"wl":["AI_WEB"],"m":"EMERGING","pt":true},{"id":"geo2","n":"AI Policy Declaration File","c":"ON-SITE","w":6,"wl":["AI_WEB","MACHINE_WEB"],"m":"3WEBS_METHOD","pt":true},{"id":"geo3","n":"robots.txt AI Crawler Directives","c":"ON-SITE","w":9,"wl":["AI_WEB"],"m":"STANDARD","pt":true},{"id":"geo4","n":"Entity Graph Structured Data","c":"ON-SITE","w":10,"wl":["AI_WEB"],"m":"ESTABLISHED_PRACTICE","pt":true},{"id":"geo5","n":"Organization Structured Data Completeness","c":"ON-PAGE","w":9,"wl":["AI_WEB"],"m":"ESTABLISHED_PRACTICE","pt":true},{"id":"geo6","n":"External Identity References","c":"OFF-PAGE","w":8,"wl":["AI_WEB"],"m":"ESTABLISHED_PRACTICE","pt":true},{"id":"geo7","n":"Independent Knowledge-Graph Entity Presence","c":"OFF-PAGE","w":9,"wl":["AI_WEB"],"m":"ESTABLISHED_PRACTICE","pt":true},{"id":"geo8","n":"ai.json Identity Declaration","c":"ON-SITE","w":6,"wl":["AI_WEB","MACHINE_WEB"],"m":"3WEBS_METHOD","pt":true},{"id":"geo9","n":"Intent Declaration","c":"ON-SITE","w":6,"wl":["MACHINE_WEB"],"m":"3WEBS_METHOD","pt":true},{"id":"geo10","n":"Machine-Readable Governance Declaration","c":"ON-SITE","w":6,"wl":["AI_WEB","MACHINE_WEB"],"m":"3WEBS_METHOD","pt":true},{"id":"geo11","n":"Machine-Readable Entity Registry","c":"ON-SITE","w":7,"wl":["AI_WEB","MACHINE_WEB"],"m":"3WEBS_METHOD","pt":true},{"id":"geo12","n":"Independent Organization Profile Presence","c":"OFF-PAGE","w":6,"wl":["AI_WEB"],"m":"ESTABLISHED_PRACTICE","pt":true},{"id":"geo13","n":"LinkedIn Entity Presence and Consistency","c":"OFF-PAGE","w":6,"wl":["AI_WEB"],"m":"ESTABLISHED_PRACTICE","pt":true},{"id":"geo14","n":"Independent Editorial Mentions","c":"OFF-PAGE","w":8,"wl":["AI_WEB"],"m":"ESTABLISHED_PRACTICE","pt":true},{"id":"geo15","n":"Author Experience and Expertise Evidence","c":"OFF-PAGE","w":8,"wl":["AI_WEB"],"m":"ESTABLISHED_PRACTICE","pt":true},{"id":"geo16","n":"Brand Entity Consistency","c":"ON-PAGE","w":9,"wl":["AI_WEB"],"m":"3WEBS_METHOD","pt":true},{"id":"geo17","n":"Canonical URL Consistency","c":"ON-SITE","w":8,"wl":["HUMAN_WEB","AI_WEB"],"m":"STANDARD","pt":true},{"id":"geo18","n":"Hreflang Language and Region Targeting","c":"ON-SITE","w":6,"wl":["HUMAN_WEB","AI_WEB"],"m":"STANDARD","pt":true},{"id":"geo19","n":"Local Identity Citation Consistency","c":"OFF-PAGE","w":6,"wl":["AI_WEB"],"m":"ESTABLISHED_PRACTICE","pt":true},{"id":"geo20","n":"Google Business Profile Where Applicable","c":"OFF-PAGE","w":7,"wl":["HUMAN_WEB","AI_WEB"],"m":"PROVIDER_SPECIFIC","pt":true},{"id":"geo21","n":"Named Entity Clarity","c":"ON-PAGE","w":8,"wl":["AI_WEB"],"m":"3WEBS_METHOD","pt":true},{"id":"geo22","n":"Geographic Context Explicitness","c":"ON-PAGE","w":6,"wl":["AI_WEB"],"m":"3WEBS_METHOD","pt":true},{"id":"geo23","n":"Open Graph Metadata Completeness","c":"ON-PAGE","w":6,"wl":["HUMAN_WEB","AI_WEB"],"m":"ESTABLISHED_PRACTICE","pt":true},{"id":"geo24","n":"Social Card Metadata Completeness","c":"ON-PAGE","w":5,"wl":["HUMAN_WEB","AI_WEB"],"m":"ESTABLISHED_PRACTICE","pt":true},{"id":"geo25","n":"Integrity Manifest Presence and Validity","c":"ON-SITE","w":7,"wl":["MACHINE_WEB"],"m":"3WEBS_METHOD","pt":true},{"id":"geo26","n":"Machine-Readable Change History","c":"ON-SITE","w":6,"wl":["MACHINE_WEB"],"m":"3WEBS_METHOD","pt":true},{"id":"geo27","n":"Dataset Structured Data Where Applicable","c":"ON-PAGE","w":6,"wl":["AI_WEB"],"m":"ESTABLISHED_PRACTICE","pt":true},{"id":"geo28","n":"External Entity Link Quality","c":"OFF-PAGE","w":8,"wl":["AI_WEB"],"m":"ESTABLISHED_PRACTICE","pt":true}],"AIO":[{"id":"aio1","n":"Topical Coverage Depth","c":"ON-PAGE","w":10,"wl":["AI_WEB"],"m":"3WEBS_METHOD","pt":true},{"id":"aio2","n":"Semantic Topic Cluster Coverage","c":"ON-PAGE","w":9,"wl":["AI_WEB"],"m":"3WEBS_METHOD","pt":true},{"id":"aio3","n":"Content Freshness Evidence","c":"ON-PAGE","w":8,"wl":["HUMAN_WEB","AI_WEB"],"m":"ESTABLISHED_PRACTICE","pt":true},{"id":"aio4","n":"External Experience Expertise Authority Trust Evidence","c":"OFF-PAGE","w":9,"wl":["AI_WEB"],"m":"ESTABLISHED_PRACTICE","pt":true},{"id":"aio5","n":"Expertise Evidence in Content","c":"ON-PAGE","w":9,"wl":["AI_WEB"],"m":"3WEBS_METHOD","pt":true},{"id":"aio6","n":"Information Density","c":"ON-PAGE","w":8,"wl":["AI_WEB"],"m":"3WEBS_METHOD","pt":true},{"id":"aio7","n":"Source Citation Quality","c":"ON-PAGE","w":9,"wl":["AI_WEB"],"m":"3WEBS_METHOD","pt":true},{"id":"aio8","n":"Explicit AI Crawler Access Policy","c":"ON-SITE","w":9,"wl":["AI_WEB"],"m":"STANDARD","pt":true},{"id":"aio9","n":"Public Content AI Fetchability","c":"ON-SITE","w":9,"wl":["AI_WEB"],"m":"3WEBS_METHOD","pt":true},{"id":"aio10","n":"Perplexity Citation Observation","c":"OFF-PAGE","w":7,"wl":["AI_WEB"],"m":"PROVIDER_SPECIFIC","pt":true},{"id":"aio11","n":"ChatGPT Search Citation Observation","c":"OFF-PAGE","w":8,"wl":["AI_WEB"],"m":"PROVIDER_SPECIFIC","pt":true},{"id":"aio12","n":"Google AI Grounding Observation","c":"OFF-PAGE","w":8,"wl":["AI_WEB"],"m":"PROVIDER_SPECIFIC","pt":true},{"id":"aio13","n":"Claude Web Citation Observation","c":"OFF-PAGE","w":7,"wl":["AI_WEB"],"m":"PROVIDER_SPECIFIC","pt":true},{"id":"aio14","n":"AI Retrieval Discoverability Evidence","c":"OFF-PAGE","w":7,"wl":["AI_WEB"],"m":"EXPERIMENTAL","pt":true},{"id":"aio15","n":"Unique First-Party Data","c":"ON-PAGE","w":10,"wl":["AI_WEB"],"m":"3WEBS_METHOD","pt":true},{"id":"aio16","n":"Original Definition Evidence","c":"ON-PAGE","w":8,"wl":["AI_WEB"],"m":"3WEBS_METHOD","pt":true},{"id":"aio17","n":"Original Analysis and Thought Leadership Evidence","c":"ON-PAGE","w":8,"wl":["AI_WEB"],"m":"3WEBS_METHOD","pt":true},{"id":"aio18","n":"Topic Completeness","c":"ON-PAGE","w":7,"wl":["AI_WEB"],"m":"3WEBS_METHOD","pt":true},{"id":"aio19","n":"Internal Semantic Link Graph","c":"ON-SITE","w":8,"wl":["HUMAN_WEB","AI_WEB"],"m":"3WEBS_METHOD","pt":true},{"id":"aio20","n":"Concept Cluster Coverage","c":"ON-PAGE","w":8,"wl":["AI_WEB"],"m":"3WEBS_METHOD","pt":true},{"id":"aio21","n":"Comparative and Contrastive Analysis","c":"ON-PAGE","w":7,"wl":["AI_WEB"],"m":"3WEBS_METHOD","pt":true},{"id":"aio22","n":"Retrieval-Friendly Content Structure","c":"ON-PAGE","w":9,"wl":["AI_WEB"],"m":"3WEBS_METHOD","pt":true},{"id":"aio23","n":"Section-Level Summarizability","c":"ON-PAGE","w":8,"wl":["AI_WEB"],"m":"3WEBS_METHOD","pt":true},{"id":"aio24","n":"Table and List Extractability","c":"ON-PAGE","w":7,"wl":["AI_WEB"],"m":"3WEBS_METHOD","pt":true},{"id":"aio25","n":"Content Version and Date Traceability","c":"ON-SITE","w":7,"wl":["AI_WEB","MACHINE_WEB"],"m":"3WEBS_METHOD","pt":true},{"id":"aio26","n":"Machine-Extractable Summary","c":"ON-PAGE","w":8,"wl":["AI_WEB"],"m":"3WEBS_METHOD","pt":true},{"id":"aio27","n":"Descriptive Heading Efficiency","c":"ON-PAGE","w":7,"wl":["AI_WEB"],"m":"3WEBS_METHOD","pt":true},{"id":"aio28","n":"User Intent Explicitness","c":"ON-PAGE","w":8,"wl":["AI_WEB"],"m":"3WEBS_METHOD","pt":true},{"id":"aio29","n":"Cross-Page Factual Consistency","c":"ON-PAGE","w":9,"wl":["AI_WEB"],"m":"3WEBS_METHOD","pt":true},{"id":"aio30","n":"Machine-Readable AI Metadata","c":"ON-SITE","w":8,"wl":["AI_WEB","MACHINE_WEB"],"m":"3WEBS_METHOD","pt":true},{"id":"aio31","n":"Machine Access Policy Declaration","c":"ON-SITE","w":7,"wl":["MACHINE_WEB"],"m":"3WEBS_METHOD","pt":true}],"SEO":[{"id":"seo1","n":"Title Element Quality","c":"ON-PAGE","w":10,"wl":["HUMAN_WEB"],"m":"ESTABLISHED_PRACTICE","pt":true},{"id":"seo2","n":"Meta Description Quality","c":"ON-PAGE","w":7,"wl":["HUMAN_WEB"],"m":"ESTABLISHED_PRACTICE","pt":true},{"id":"seo3","n":"Heading Hierarchy","c":"ON-PAGE","w":9,"wl":["HUMAN_WEB","AI_WEB"],"m":"ESTABLISHED_PRACTICE","pt":true},{"id":"seo4","n":"Primary Topic Relevance","c":"ON-PAGE","w":8,"wl":["HUMAN_WEB","AI_WEB"],"m":"ESTABLISHED_PRACTICE","pt":true},{"id":"seo5","n":"Semantic Term Coverage","c":"ON-PAGE","w":7,"wl":["HUMAN_WEB","AI_WEB"],"m":"3WEBS_METHOD","pt":true},{"id":"seo6","n":"URL Structure","c":"ON-SITE","w":7,"wl":["HUMAN_WEB"],"m":"ESTABLISHED_PRACTICE","pt":true},{"id":"seo7","n":"Image Alternative Text Coverage","c":"ON-PAGE","w":7,"wl":["HUMAN_WEB"],"m":"STANDARD","pt":true},{"id":"seo8","n":"Internal Link Architecture","c":"ON-SITE","w":9,"wl":["HUMAN_WEB","AI_WEB"],"m":"ESTABLISHED_PRACTICE","pt":true},{"id":"seo9","n":"XML Sitemap Validity and Coverage","c":"ON-SITE","w":9,"wl":["HUMAN_WEB","AI_WEB"],"m":"STANDARD","pt":true},{"id":"seo10","n":"Core Web Vitals Overall Evidence","c":"ON-SITE","w":10,"wl":["HUMAN_WEB"],"m":"PROVIDER_SPECIFIC","pt":true},{"id":"seo11","n":"Mobile Usability","c":"ON-SITE","w":10,"wl":["HUMAN_WEB"],"m":"ESTABLISHED_PRACTICE","pt":true},{"id":"seo12","n":"HTTPS Availability","c":"ON-SITE","w":10,"wl":["HUMAN_WEB","AI_WEB","MACHINE_WEB"],"m":"STANDARD","pt":true},{"id":"seo13","n":"Backlink Authority Evidence","c":"OFF-PAGE","w":9,"wl":["HUMAN_WEB","AI_WEB"],"m":"ESTABLISHED_PRACTICE","pt":true},{"id":"seo14","n":"Backlink Source Diversity","c":"OFF-PAGE","w":8,"wl":["HUMAN_WEB","AI_WEB"],"m":"ESTABLISHED_PRACTICE","pt":true},{"id":"seo15","n":"Referring Domain Evidence","c":"OFF-PAGE","w":8,"wl":["HUMAN_WEB","AI_WEB"],"m":"ESTABLISHED_PRACTICE","pt":true},{"id":"seo16","n":"Anchor Text Diversity","c":"OFF-PAGE","w":7,"wl":["HUMAN_WEB"],"m":"ESTABLISHED_PRACTICE","pt":true},{"id":"seo17","n":"Independent Brand Mention Evidence","c":"OFF-PAGE","w":8,"wl":["HUMAN_WEB","AI_WEB"],"m":"ESTABLISHED_PRACTICE","pt":true},{"id":"seo18","n":"Duplicate Content Risk","c":"ON-PAGE","w":8,"wl":["HUMAN_WEB","AI_WEB"],"m":"ESTABLISHED_PRACTICE","pt":true},{"id":"seo19","n":"Canonical Link Elements","c":"ON-SITE","w":9,"wl":["HUMAN_WEB","AI_WEB"],"m":"STANDARD","pt":true},{"id":"seo20","n":"Structured Data Validity","c":"ON-PAGE","w":9,"wl":["HUMAN_WEB","AI_WEB"],"m":"ESTABLISHED_PRACTICE","pt":true},{"id":"seo21","n":"Crawl Path Efficiency","c":"ON-SITE","w":7,"wl":["HUMAN_WEB","AI_WEB"],"m":"ESTABLISHED_PRACTICE","pt":true},{"id":"seo22","n":"Broken Internal Links","c":"ON-SITE","w":8,"wl":["HUMAN_WEB","AI_WEB"],"m":"ESTABLISHED_PRACTICE","pt":true},{"id":"seo23","n":"Redirect Chain Quality","c":"ON-SITE","w":7,"wl":["HUMAN_WEB","AI_WEB"],"m":"ESTABLISHED_PRACTICE","pt":true},{"id":"seo24","n":"Content Sufficiency for Page Intent","c":"ON-PAGE","w":7,"wl":["HUMAN_WEB","AI_WEB"],"m":"3WEBS_METHOD","pt":true},{"id":"seo25","n":"Outbound Source Quality","c":"ON-PAGE","w":7,"wl":["HUMAN_WEB","AI_WEB"],"m":"ESTABLISHED_PRACTICE","pt":true},{"id":"seo26","n":"Public Social Presence","c":"OFF-PAGE","w":5,"wl":["HUMAN_WEB","AI_WEB"],"m":"ESTABLISHED_PRACTICE","pt":true},{"id":"seo27","n":"Public Engagement Metrics Availability","c":"OFF-PAGE","w":3,"wl":["HUMAN_WEB"],"m":"3WEBS_METHOD","pt":false},{"id":"seo28","n":"Private Behavioral Analytics Availability","c":"OFF-PAGE","w":2,"wl":["HUMAN_WEB"],"m":"3WEBS_METHOD","pt":false},{"id":"seo29","n":"Organic Search CTR Evidence","c":"OFF-PAGE","w":3,"wl":["HUMAN_WEB"],"m":"PROVIDER_SPECIFIC","pt":false},{"id":"seo30","n":"Search Console Access Evidence","c":"OFF-PAGE","w":2,"wl":["HUMAN_WEB"],"m":"PROVIDER_SPECIFIC","pt":false},{"id":"seo31","n":"Private Search Index Coverage Evidence","c":"OFF-PAGE","w":3,"wl":["HUMAN_WEB"],"m":"PROVIDER_SPECIFIC","pt":false},{"id":"seo32","n":"Largest Contentful Paint","c":"ON-SITE","w":9,"wl":["HUMAN_WEB"],"m":"PROVIDER_SPECIFIC","pt":true},{"id":"seo33","n":"Cumulative Layout Shift","c":"ON-SITE","w":8,"wl":["HUMAN_WEB"],"m":"PROVIDER_SPECIFIC","pt":true},{"id":"seo34","n":"Interaction to Next Paint","c":"ON-SITE","w":8,"wl":["HUMAN_WEB"],"m":"PROVIDER_SPECIFIC","pt":true},{"id":"seo35","n":"HTTP to HTTPS Redirect","c":"ON-SITE","w":7,"wl":["HUMAN_WEB","AI_WEB","MACHINE_WEB"],"m":"STANDARD","pt":true},{"id":"seo36","n":"Hreflang Implementation Validity","c":"ON-SITE","w":6,"wl":["HUMAN_WEB","AI_WEB"],"m":"STANDARD","pt":true},{"id":"seo37","n":"Pagination Crawlability","c":"ON-SITE","w":5,"wl":["HUMAN_WEB","AI_WEB"],"m":"ESTABLISHED_PRACTICE","pt":true},{"id":"seo38","n":"Structured Data Warning and Error Severity","c":"ON-PAGE","w":8,"wl":["HUMAN_WEB","AI_WEB"],"m":"ESTABLISHED_PRACTICE","pt":true},{"id":"seo39","n":"Suspicious Backlink Risk","c":"OFF-PAGE","w":6,"wl":["HUMAN_WEB"],"m":"EXPERIMENTAL","pt":true},{"id":"seo40","n":"Domain History and Independent Authority Evidence","c":"OFF-PAGE","w":7,"wl":["HUMAN_WEB","AI_WEB"],"m":"ESTABLISHED_PRACTICE","pt":true},{"id":"seo41","n":"Content Modification Recency","c":"ON-PAGE","w":7,"wl":["HUMAN_WEB","AI_WEB"],"m":"ESTABLISHED_PRACTICE","pt":true},{"id":"seo42","n":"Document Structural Flow","c":"ON-PAGE","w":7,"wl":["HUMAN_WEB","AI_WEB"],"m":"3WEBS_METHOD","pt":true}],"AI_SIGNALS":[{"id":"ai1","n":"OpenAI Crawler Access Declaration","c":"ON-SITE","w":9,"wl":["AI_WEB"],"m":"PROVIDER_SPECIFIC","pt":true},{"id":"ai2","n":"Anthropic Crawler Access Declaration","c":"ON-SITE","w":9,"wl":["AI_WEB"],"m":"PROVIDER_SPECIFIC","pt":true},{"id":"ai3","n":"Google-Extended Policy Declaration","c":"ON-SITE","w":7,"wl":["AI_WEB"],"m":"PROVIDER_SPECIFIC","pt":true},{"id":"ai4","n":"Perplexity Crawler Access Declaration","c":"ON-SITE","w":8,"wl":["AI_WEB"],"m":"PROVIDER_SPECIFIC","pt":true},{"id":"ai5","n":"Other AI Crawler Access Coverage","c":"ON-SITE","w":6,"wl":["AI_WEB"],"m":"PROVIDER_SPECIFIC","pt":true},{"id":"ai6","n":"SHA-256 Integrity Manifest","c":"ON-SITE","w":8,"wl":["MACHINE_WEB"],"m":"3WEBS_METHOD","pt":true},{"id":"ai7","n":"Independent Timestamp or Signature Evidence","c":"OFF-SITE","w":8,"wl":["MACHINE_WEB"],"m":"ESTABLISHED_PRACTICE","pt":true},{"id":"ai8","n":"Machine-Readable Session and State Declaration","c":"ON-SITE","w":6,"wl":["MACHINE_WEB"],"m":"3WEBS_METHOD","pt":true},{"id":"ai9","n":"Canonical Alias and Entity Resolution Declaration","c":"ON-SITE","w":7,"wl":["AI_WEB","MACHINE_WEB"],"m":"3WEBS_METHOD","pt":true},{"id":"ai10","n":"Machine-Readable Usage Policy","c":"ON-SITE","w":7,"wl":["MACHINE_WEB"],"m":"3WEBS_METHOD","pt":true},{"id":"ai11","n":"Machine-Readable Action Contract","c":"ON-SITE","w":8,"wl":["MACHINE_WEB"],"m":"3WEBS_METHOD","pt":true},{"id":"ai12","n":"Grounding and Evidence Controls","c":"ON-SITE","w":8,"wl":["AI_WEB","MACHINE_WEB"],"m":"3WEBS_METHOD","pt":true},{"id":"ai13","n":"Entity Graph Completeness","c":"ON-SITE","w":8,"wl":["AI_WEB","MACHINE_WEB"],"m":"3WEBS_METHOD","pt":true},{"id":"ai14","n":"Machine-Readable Confidentiality Boundary","c":"ON-SITE","w":7,"wl":["MACHINE_WEB"],"m":"3WEBS_METHOD","pt":true},{"id":"ai15","n":"AI Training and Reuse Permission Declaration","c":"ON-SITE","w":7,"wl":["AI_WEB"],"m":"3WEBS_METHOD","pt":true},{"id":"ai16","n":"EU AI Act Transparency Declaration","c":"ON-SITE","w":7,"wl":["AI_WEB","MACHINE_WEB"],"m":"3WEBS_METHOD","pt":true},{"id":"ai17","n":"AI Governance Declaration","c":"ON-SITE","w":8,"wl":["AI_WEB","MACHINE_WEB"],"m":"3WEBS_METHOD","pt":true},{"id":"ai18","n":"Machine Access Allow-Lane Declaration","c":"ON-SITE","w":7,"wl":["MACHINE_WEB"],"m":"3WEBS_METHOD","pt":true},{"id":"ai32","n":"Claim-to-Evidence Traceability","c":"ON-SITE","w":10,"wl":["AI_WEB","MACHINE_WEB"],"m":"3WEBS_METHOD","pt":true}],"A2A":[{"id":"ai19","n":"Agent Card Discoverable","c":"ON-SITE","w":9,"wl":["MACHINE_WEB"],"m":"EMERGING","pt":true},{"id":"ai20","n":"Agent Card Structurally Valid","c":"ON-SITE","w":9,"wl":["MACHINE_WEB"],"m":"EMERGING","pt":true},{"id":"ai21","n":"Capabilities Explicitly Declared","c":"ON-SITE","w":8,"wl":["MACHINE_WEB"],"m":"EMERGING","pt":true},{"id":"ai22","n":"Capability Contract Valid","c":"ON-SITE","w":9,"wl":["MACHINE_WEB"],"m":"3WEBS_METHOD","pt":true},{"id":"ai23","n":"Declared Endpoint Reachable","c":"ON-SITE","w":10,"wl":["MACHINE_WEB"],"m":"3WEBS_METHOD","pt":true},{"id":"ai24","n":"Machine Protocol Response Valid","c":"ON-SITE","w":10,"wl":["MACHINE_WEB"],"m":"3WEBS_METHOD","pt":true},{"id":"ai25","n":"Capability Invocable Under Declared Contract","c":"ON-SITE","w":10,"wl":["MACHINE_WEB"],"m":"3WEBS_METHOD","pt":true},{"id":"ai26","n":"Capability Execution Verified","c":"OFF-SITE","w":10,"wl":["MACHINE_WEB"],"m":"3WEBS_METHOD","pt":true},{"id":"ai27","n":"Task Status Contract","c":"ON-SITE","w":8,"wl":["MACHINE_WEB"],"m":"EMERGING","pt":true},{"id":"ai28","n":"Human Approval Boundary Declaration","c":"ON-SITE","w":9,"wl":["MACHINE_WEB"],"m":"3WEBS_METHOD","pt":true},{"id":"ai29","n":"Artifact Exchange and Provenance Contract","c":"ON-SITE","w":8,"wl":["MACHINE_WEB"],"m":"3WEBS_METHOD","pt":true},{"id":"ai30","n":"Cancellation and Resume Contract","c":"ON-SITE","w":7,"wl":["MACHINE_WEB"],"m":"EMERGING","pt":true},{"id":"ai31","n":"Agent Activity Audit Trail","c":"ON-SITE","w":9,"wl":["MACHINE_WEB"],"m":"3WEBS_METHOD","pt":true}]};
 
 /* ---------- normalizare URL + admisie SSRF ----------
@@ -69,7 +74,15 @@ function looksLikeIpLiteral(host) {
 function normalizeUrl(raw) {
   if (!raw) return null;
   let u = String(raw).trim();
-  if (!/^https?:\/\//i.test(u)) u = 'https://' + u;
+  /* Daca sirul are DEJA o schema (orice schema), nu-i mai punem https:// in
+     fata — altfel "ftp://example.com" devenea "https://ftp://example.com",
+     un URL absurd cu hostname "ftp" care trecea toate verificarile.
+     Schemele non-http(s) sunt respinse mai jos, explicit. */
+  if (/^[a-z][a-z0-9+.-]*:/i.test(u)) {
+    if (!/^https?:\/\//i.test(u)) return null;      // ftp:, file:, javascript:, data: etc.
+  } else {
+    u = 'https://' + u;
+  }
   let parsed;
   try { parsed = new URL(u); } catch { return null; }
   if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') return null;
@@ -212,7 +225,10 @@ function extractJsonLd(html) {
       nodes.push(node);
     }
     for (const k of Object.keys(node)) {
-      if (k !== '@type' && typeof node[k] === 'object') walk(node[k]);
+      /* '@graph' e deja parcurs mai sus; fara aceasta excludere fiecare nod
+         dintr-un @graph era numarat de doua ori — de aici si avertismentul
+         fals "@id duplicat intre noduri" si un numar de noduri umflat. */
+      if (k !== '@type' && k !== '@graph' && typeof node[k] === 'object') walk(node[k]);
     }
   }
   blocks.forEach(walk);
@@ -295,6 +311,77 @@ async function attemptSafeInvocation(origin, caps) {
   } finally { clearTimeout(t); }
 }
 
+/* ---------- parsare REALA robots.txt ----------
+   Varianta veche testa doar daca sirul "GPTBot" apare undeva in fisier. Asta
+   inseamna ca un robots.txt care spune EXPLICIT:
+       User-agent: GPTBot
+       Disallow: /
+   era raportat drept "GPTBot permis" — exact pe dos fata de realitate. Un
+   client ar fi fost informat gresit ca e vizibil pentru AI cand de fapt e blocat.
+
+   Acum parsam pe grupuri de User-agent, respectand semantica RFC 9309:
+   un URI e permis daca nicio regula Disallow nu i se potriveste; grupul
+   specific unui bot are prioritate fata de grupul "*". */
+function parseRobots(text) {
+  const out = { gptbot: false, claudebot: false, googleExtended: false,
+                perplexitybot: false, ccbot: false, anyDisallowAll: false,
+                explicitlyBlocked: [] };
+  if (!text) return out;
+
+  // construim grupurile: user-agent(uri) -> reguli
+  const groups = [];
+  let current = null;
+  for (const rawLine of text.split(/\r?\n/)) {
+    const line = rawLine.replace(/#.*$/, '').trim();
+    if (!line) continue;
+    const m = /^([A-Za-z-]+)\s*:\s*(.*)$/.exec(line);
+    if (!m) continue;
+    const field = m[1].toLowerCase();
+    const value = m[2].trim();
+    if (field === 'user-agent') {
+      if (!current || current.rules.length) { current = { agents: [], rules: [] }; groups.push(current); }
+      current.agents.push(value.toLowerCase());
+    } else if (current && (field === 'allow' || field === 'disallow')) {
+      current.rules.push({ type: field, path: value });
+    }
+  }
+
+  /* Un agent are voie la "/" daca, in grupul care i se aplica, nu exista
+     Disallow care sa prinda "/" — sau exista un Allow mai specific. */
+  function allowedFor(agentName) {
+    const a = agentName.toLowerCase();
+    const specific = groups.find(g => g.agents.includes(a));
+    const wildcard = groups.find(g => g.agents.includes('*'));
+    const group = specific || wildcard;
+    if (!group) return { declared: !!specific, allowed: true };   // fara reguli = permis (RFC 9309)
+    let bestDisallow = null, bestAllow = null;
+    for (const r of group.rules) {
+      if (r.path === '') continue;                    // "Disallow:" gol = permite tot
+      const matches = '/'.startsWith(r.path) || r.path === '/';
+      if (!matches) continue;
+      if (r.type === 'disallow' && (!bestDisallow || r.path.length > bestDisallow.length)) bestDisallow = r.path;
+      if (r.type === 'allow' && (!bestAllow || r.path.length > bestAllow.length)) bestAllow = r.path;
+    }
+    if (!bestDisallow) return { declared: !!specific, allowed: true };
+    if (bestAllow && bestAllow.length >= bestDisallow.length) return { declared: !!specific, allowed: true };
+    return { declared: !!specific, allowed: false };
+  }
+
+  const BOTS = { gptbot: 'GPTBot', claudebot: 'ClaudeBot', googleExtended: 'Google-Extended',
+                 perplexitybot: 'PerplexityBot', ccbot: 'CCBot' };
+  for (const [key, name] of Object.entries(BOTS)) {
+    const r = allowedFor(name);
+    /* "true" inseamna acum: botul chiar are acces, nu doar ca numele lui apare
+       undeva in fisier. Un bot mentionat dar blocat devine false + e listat. */
+    out[key] = r.allowed;
+    if (!r.allowed) out.explicitlyBlocked.push(name);
+  }
+
+  const star = allowedFor('*');
+  out.anyDisallowAll = !star.allowed;
+  return out;
+}
+
 async function gatherEvidence(target) {
   const origin = target.origin;
   const [main, robots, sitemap, llms, aitxt] = await Promise.all([
@@ -328,15 +415,121 @@ async function gatherEvidence(target) {
   const links = [...html.matchAll(/<a\b[^>]+href=["']([^"']+)["']/gi)].map(m => m[1]);
   const internalLinks = links.filter(h => h.startsWith('/') || h.includes(target.host)).length;
   const externalLinks = links.filter(h => /^https?:\/\//i.test(h) && !h.includes(target.host)).length;
+
+  /* ---- verificare REALA a linkurilor interne ----
+     Inainte se numarau doar linkurile, fara sa fie fetch-uite: un link rupt
+     primea PASS. Acum se testeaza efectiv un esantion, cu HEAD (ieftin),
+     cu fallback pe GET daca serverul nu suporta HEAD. Esantion limitat ca
+     sa nu explodeze bugetul de subrequests al unui singur audit. */
+  const LINK_SAMPLE_MAX = 12;
+  const internalHrefs = [...new Set(links
+    .filter(h => h && !/^(#|mailto:|tel:|javascript:|data:)/i.test(h))
+    .map(h => { try { return new URL(h, target.href).href; } catch { return null; } })
+    .filter(u => u && u.startsWith(origin))
+  )].slice(0, LINK_SAMPLE_MAX);
+
+  const linkChecks = await Promise.all(internalHrefs.map(async u => {
+    try {
+      let r = await safeFetch(u, { method: 'HEAD' });
+      if (!r.ok && (r.status === 405 || r.status === 501 || r.status === 0)) {
+        r = await safeFetch(u, { method: 'GET' });
+      }
+      return { url: u, status: r.status, ok: r.status >= 200 && r.status < 400 };
+    } catch { return { url: u, status: 0, ok: false }; }
+  }));
+  const brokenLinks = linkChecks.filter(c => !c.ok);
+
+  /* ---- parsare REALA a sitemap-ului ----
+     Inainte se verifica doar ca sitemap.xml raspunde 200. Acum se parseaza,
+     se numara URL-urile, se verifica lastmod si se testeaza un esantion. */
+  let sitemapInfo = { present: false, parsed: false, urlCount: 0, withLastmod: 0, sampleBroken: [], isIndex: false };
+  let proofCheck = { present: false, entries: 0, verified: 0, mismatches: [], checked: 0 };
+  if (sitemap.ok && sitemap.text) {
+    const t = sitemap.text;
+    sitemapInfo.present = true;
+    sitemapInfo.isIndex = /<sitemapindex/i.test(t);
+    const locs = [...t.matchAll(/<loc>\s*([^<\s]+)\s*<\/loc>/gi)].map(m => m[1]);
+    sitemapInfo.parsed = /<\?xml/i.test(t) && (/<urlset/i.test(t) || sitemapInfo.isIndex);
+    sitemapInfo.urlCount = locs.length;
+    sitemapInfo.withLastmod = [...t.matchAll(/<lastmod>/gi)].length;
+    const sample = locs.filter(u => u.startsWith(origin)).slice(0, 5);
+    const smChecks = await Promise.all(sample.map(async u => {
+      try {
+        let r = await safeFetch(u, { method: 'HEAD' });
+        if (!r.ok && (r.status === 405 || r.status === 501 || r.status === 0)) r = await safeFetch(u, { method: 'GET' });
+        return { url: u, status: r.status, ok: r.status >= 200 && r.status < 400 };
+      } catch { return { url: u, status: 0, ok: false }; }
+    }));
+    sitemapInfo.sampleChecked = smChecks.length;
+    sitemapInfo.sampleBroken = smChecks.filter(c => !c.ok);
+  }
   const wordCount = html.replace(/<script[\s\S]*?<\/script>/gi, '')
     .replace(/<style[\s\S]*?<\/style>/gi, '')
     .replace(/<[^>]+>/g, ' ')
     .split(/\s+/).filter(Boolean).length;
 
+  /* ---- verificare CRIPTOGRAFICA reala a manifestului de integritate ----
+     Inainte: proof.json exista => PASS 90, fara sa se calculeze vreun hash.
+     Auditul extern a gasit un mismatch real pe index.html exact din cauza asta.
+     Acum: descarcam un esantion de fisiere declarate, calculam SHA-256 si
+     comparam cu valoarea din manifest. */
+  const proofBody = jsonBodies['proof.json'] || jsonBodies['ai-proof.json'];
+  if (proofBody) {
+    proofCheck.present = true;
+    // manifestul poate fi { files: [...] } sau { files: { path: {...} } } sau o lista simpla
+    let fileEntries = [];
+    const f = proofBody.files || proofBody.manifest || proofBody.hashes;
+    if (Array.isArray(f)) {
+      fileEntries = f.map(e => ({ path: e.path || e.file || e.name, hash: e.sha256 || e.hash || e.digest, bytes: e.bytes || e.size }));
+    } else if (f && typeof f === 'object') {
+      fileEntries = Object.entries(f).map(([k, v]) => ({
+        path: k, hash: (typeof v === 'string' ? v : (v.sha256 || v.hash || v.digest)), bytes: v && v.bytes }));
+    }
+    fileEntries = fileEntries.filter(e => e.path && e.hash && /^[a-f0-9]{64}$/i.test(e.hash));
+    proofCheck.entries = fileEntries.length;
+
+    const PROOF_SAMPLE_MAX = 4;
+    const sample = fileEntries.slice(0, PROOF_SAMPLE_MAX);
+    for (const entry of sample) {
+      try {
+        const fileUrl = new URL(entry.path.startsWith('/') ? entry.path : '/' + entry.path, origin).href;
+        const r = await safeFetch(fileUrl);
+        if (!r.ok) { proofCheck.mismatches.push({ path: entry.path, reason: `HTTP ${r.status}` }); proofCheck.checked++; continue; }
+        const buf = new TextEncoder().encode(r.text);
+        const digest = await crypto.subtle.digest('SHA-256', buf);
+        const actual = Array.from(new Uint8Array(digest)).map(b => b.toString(16).padStart(2, '0')).join('');
+        proofCheck.checked++;
+        if (actual.toLowerCase() === entry.hash.toLowerCase()) proofCheck.verified++;
+        else proofCheck.mismatches.push({ path: entry.path, expected: entry.hash.slice(0, 12), actual: actual.slice(0, 12) });
+      } catch (e) {
+        proofCheck.checked++;
+        proofCheck.mismatches.push({ path: entry.path, reason: 'eroare la verificare' });
+      }
+    }
+  }
+
   return {
     target, mainOk: main.ok, status: main.status, html,
+    proofCheck,
+    plainText: (() => {
+      return html.replace(/<script[\s\S]*?<\/script>/gi, ' ')
+                 .replace(/<style[\s\S]*?<\/style>/gi, ' ')
+                 .replace(/<[^>]+>/g, ' ')
+                 .replace(/\s+/g, ' ').trim();
+    })(),
+    h3: tagsOf(html, 'h3'),
+    externalHosts: (() => {
+      const hosts = new Set();
+      for (const h of links) {
+        if (/^https?:\/\//i.test(h)) {
+          try { const u = new URL(h); if (u.host !== target.host) hosts.add(u.host); } catch {}
+        }
+      }
+      return [...hosts];
+    })(),
     robots: robots.ok ? robots.text : null,
     sitemap: sitemap.ok, sitemapText: sitemap.ok ? sitemap.text : '',
+    sitemapInfo, linkChecks, brokenLinks,
     llms: llms.ok ? llms.text : null,
     aitxt: aitxt.ok ? aitxt.text : null,
     jsonFiles, jsonBodies, safeInvocation,
@@ -360,14 +553,7 @@ async function gatherEvidence(target) {
     imgTotal: imgs.length, imgWithAlt: imgsWithAlt,
     internalLinks, externalLinks, wordCount,
     https: target.protocol === 'https:',
-    robotsBots: {
-      gptbot: /GPTBot/i.test(robots.text || ''),
-      claudebot: /ClaudeBot/i.test(robots.text || ''),
-      googleExtended: /Google-Extended/i.test(robots.text || ''),
-      perplexitybot: /PerplexityBot/i.test(robots.text || ''),
-      ccbot: /CCBot/i.test(robots.text || ''),
-      anyDisallowAll: /User-agent:\s*\*[\s\S]{0,40}Disallow:\s*\/\s*$/im.test(robots.text || ''),
-    },
+    robotsBots: parseRobots(robots.ok ? robots.text : ''),
     sitemapInRobots: /Sitemap:/i.test(robots.text || ''),
 
     /* dovezi suplimentare, toate din date deja aduse — zero cereri in plus */
@@ -415,7 +601,16 @@ async function gatherEvidence(target) {
           return words > 900 && hasArticleTag && byline;
         })(),
         Person: /<address[\s>]/i.test(txt) || /founder|author|written by/i.test(plain),
-        HowTo: /step\s*\d|first,|then,|finally,/i.test(plain)
+        HowTo: /step\s*\d|first,|then,|finally,/i.test(plain),
+        /* BreadcrumbList se aplica doar unde exista o ierarhie reala de navigare.
+           O homepage nu are parinte, deci nu are ce sa declare intr-un breadcrumb —
+           a o penaliza pentru asta era un fals pozitiv semnalat de auditul extern. */
+        BreadcrumbList: (() => {
+          let depth = 0;
+          try { depth = new URL(target.href).pathname.split('/').filter(Boolean).length; } catch {}
+          if (depth === 0) return false;                       // homepage: nu se aplica
+          return /<nav[^>]*>|aria-label=["'][^"']*breadcrumb/i.test(txt) || depth >= 1;
+        })()
       };
     })(),
     redirects: main.redirected || false,
@@ -630,9 +825,47 @@ function evalSignal(sig, ev, psi) {
     ? { status:'pass', score:95, method:'/.well-known/agent-card.json raspunde 200' }
     : { status:'fail', score:0, method:'agent card nedescoperit' };
   if (/Agent Card Structurally Valid/i.test(sig.n)) {
-    const ok = !!(card && card.protocolVersion && card.url && Array.isArray(card.skills) && card.skills.length);
-    return ok ? {status:'pass',score:95,method:`agent card valid structural; ${card.skills.length} skills`}
-              : ev.jsonFiles['.well-known/agent-card.json'] ? {status:'fail',score:20,method:'agent card prezent dar incomplet/invalid'} : {status:'fail',score:0,method:'agent card lipseste'};
+    if (!card) return ev.jsonFiles['.well-known/agent-card.json']
+      ? {status:'fail',score:10,method:'agent card prezent dar nu se parseaza ca JSON'}
+      : {status:'fail',score:0,method:'agent card lipseste'};
+
+    /* Validare reala pe versiunea declarata, nu doar prezenta campurilor.
+       v1.0 cere supportedInterfaces[] (cu url + protocolBinding + protocolVersion)
+       si NU mai accepta url / preferredTransport / additionalInterfaces la top level.
+       v0.3 cere invers: url la top level. Un card care declara 1.0 dar are forma
+       0.3 nu e conform si nu primeste pass. */
+    const REQUIRED_V1 = ['name','description','version','capabilities',
+                         'supportedInterfaces','defaultInputModes','defaultOutputModes','skills'];
+    const V03_ONLY = ['url','preferredTransport','additionalInterfaces','supportsAuthenticatedExtendedCard'];
+
+    const declaredV1 = Array.isArray(card.supportedInterfaces);
+    const declares03 = typeof card.protocolVersion === 'string' && /^0\.3/.test(card.protocolVersion);
+
+    if (declaredV1) {
+      const missing = REQUIRED_V1.filter(k => card[k] === undefined);
+      const leftovers = V03_ONLY.filter(k => card[k] !== undefined);
+      const ifaces = card.supportedInterfaces;
+      const badIface = ifaces.findIndex(i => !i || !i.url || !i.protocolBinding || !i.protocolVersion);
+      if (missing.length) return {status:'fail',score:25,
+        method:`declara v1 (supportedInterfaces) dar lipsesc campuri obligatorii: ${missing.join(', ')}`};
+      if (!ifaces.length) return {status:'fail',score:25,method:'supportedInterfaces este gol'};
+      if (badIface !== -1) return {status:'fail',score:30,
+        method:`supportedInterfaces[${badIface}] incomplet — fiecare intrare cere url, protocolBinding si protocolVersion`};
+      if (leftovers.length) return {status:'partial',score:65,
+        method:`v1 valid, dar mai contine campuri v0.3 eliminate din spec: ${leftovers.join(', ')}`};
+      return {status:'pass',score:95,
+        method:`agent card conform A2A v1.0 — ${ifaces.length} interfata/e declarate, ${card.skills.length} skills`};
+    }
+
+    if (declares03) {
+      const ok03 = !!(card.url && Array.isArray(card.skills) && card.skills.length && card.capabilities);
+      return ok03 ? {status:'pass',score:80,
+                     method:`agent card conform v0.3 (${card.skills.length} skills); migrarea la v1.0 e recomandata`}
+                  : {status:'fail',score:25,method:'declara v0.3 dar ii lipsesc campurile obligatorii (url, skills, capabilities)'};
+    }
+
+    return {status:'fail',score:20,
+      method:`versiune de protocol neconforma: declara "${card.protocolVersion || 'nedeclarat'}" dar nu are nici supportedInterfaces (v1.0), nici forma completa v0.3`};
   }
   if (/Capabilities Explicitly Declared/i.test(sig.n)) {
     const c = caps && Array.isArray(caps.capabilities) ? caps.capabilities.length : 0;
@@ -646,11 +879,20 @@ function evalSignal(sig, ev, psi) {
       : {status:'fail',score:0,method:'niciun capability contract complet'};
   }
   if (/Declared Endpoint Reachable/i.test(sig.n)) {
-    if (!card || !/^https:\/\//i.test(card.url||'')) return {status:'fail',score:0,method:'niciun endpoint HTTPS declarat in agent card'};
+    /* endpoint-ul declarat difera intre versiuni de protocol:
+       v1.0 -> supportedInterfaces[].url ; v0.3 -> card.url la top level.
+       Acceptam ambele, altfel un card v1 corect ar pica pe nedrept. */
+    let declaredUrl = null;
+    if (card && Array.isArray(card.supportedInterfaces)) {
+      const iface = card.supportedInterfaces.find(i => i && /^https:\/\//i.test(i.url || ''));
+      if (iface) declaredUrl = iface.url;
+    }
+    if (!declaredUrl && card && /^https:\/\//i.test(card.url || '')) declaredUrl = card.url;
+    if (!declaredUrl) return {status:'fail',score:0,method:'niciun endpoint HTTPS declarat in agent card (nici supportedInterfaces[].url, nici url)'};
     const si = ev.safeInvocation;
     return si && si.attempted && si.ok
-      ? {status:'pass',score:95,method:`endpoint declarat ${card.url} confirmat reachable printr-o invocare reala, non-destructiva (HTTP ${si.status})`}
-      : {status:'partial',score:60,method:`endpoint declarat ${card.url}; reachability operationala nu a putut fi confirmata printr-un safe-test`};
+      ? {status:'pass',score:95,method:`endpoint declarat ${declaredUrl} confirmat reachable printr-o invocare reala, non-destructiva (HTTP ${si.status})`}
+      : {status:'partial',score:60,method:`endpoint declarat ${declaredUrl}; reachability operationala nu a putut fi confirmata printr-un safe-test`};
   }
   if (/Machine Protocol Response Valid/i.test(sig.n)) {
     const si = ev.safeInvocation;
@@ -703,6 +945,24 @@ function evalSignal(sig, ev, psi) {
       : proof || evidenceWords ? {status:'partial',score:50,method:'trasabilitate partiala intre claims si evidence'} : {status:'fail',score:0,method:'nicio trasabilitate claim-to-evidence detectata'};
   }
 
+  if (/proof\.json SHA-256|Cryptographic IP Proof|proof\.json IP Anchoring|SHA-256 Integrity Manifest|Integrity Manifest Presence/i.test(n) || /SHA-256 Integrity Manifest|Integrity Manifest Presence and Validity/i.test(sig.n)) {
+    const pc = ev.proofCheck || {};
+    if (!pc.present) return { status: 'fail', score: 0, method: 'niciun manifest de integritate publicat' };
+    if (!pc.entries) return { status: 'fail', score: 25,
+      method: 'proof.json exista dar nu contine intrari cu hash SHA-256 valid (64 hex)' };
+    if (!pc.checked) return { status: 'partial', score: 55,
+      method: `${pc.entries} intrari declarate, dar niciuna nu a putut fi verificata` };
+
+    if (pc.mismatches.length === 0) return { status: 'pass', score: 95,
+      method: `${pc.entries} fisiere in manifest; ${pc.verified}/${pc.checked} verificate criptografic, hash-urile corespund exact` };
+
+    const m = pc.mismatches[0];
+    const detail = m.reason ? `${m.path}: ${m.reason}`
+      : `${m.path}: manifest ${m.expected}… vs live ${m.actual}…`;
+    return { status: 'fail', score: 20,
+      method: `manifestul NU corespunde site-ului live — ${pc.mismatches.length} din ${pc.checked} verificate difera (${detail})` };
+  }
+
   if (/\.json/i.test(n)) {
     const fname = (n.match(/([\w.-]+\.json)/i) || [])[1];
     if (fname && fname in ev.jsonFiles) return ev.jsonFiles[fname]
@@ -714,9 +974,26 @@ function evalSignal(sig, ev, psi) {
     ? { status: 'pass', score: 85, method: '.well-known/agent-card.json prezent' }
     : { status: 'fail', score: 0, method: '.well-known/agent-card.json lipseste' };
 
-  if (/sitemap/i.test(n)) return ev.sitemap
-    ? { status: 'pass', score: 80, method: 'sitemap.xml raspunde 200' }
-    : { status: 'fail', score: 10, method: 'sitemap.xml lipseste sau eroare' };
+  if (/sitemap/i.test(n)) {
+    const si = ev.sitemapInfo || {};
+    if (!si.present) return { status: 'fail', score: 10, method: 'sitemap.xml lipseste sau eroare' };
+    if (!si.parsed) return { status: 'fail', score: 20,
+      method: 'sitemap.xml raspunde 200 dar nu se parseaza ca XML valid (<urlset> sau <sitemapindex> lipseste)' };
+    if (si.urlCount === 0) return { status: 'fail', score: 25, method: 'sitemap XML valid dar nu contine niciun <loc>' };
+
+    const broken = (si.sampleBroken || []).length;
+    const checked = si.sampleChecked || 0;
+    const lastmodPct = si.urlCount ? si.withLastmod / si.urlCount : 0;
+
+    if (broken > 0) return { status: 'fail', score: 35,
+      method: `${si.urlCount} URL-uri in sitemap, dar ${broken} din ${checked} testate nu raspund (ex. ${si.sampleBroken[0].url} -> HTTP ${si.sampleBroken[0].status})` };
+
+    if (lastmodPct < 0.5) return { status: 'partial', score: 65,
+      method: `${si.urlCount} URL-uri, ${checked}/${checked} testate raspund; doar ${si.withLastmod} au <lastmod> (recomandat pe toate)` };
+
+    return { status: 'pass', score: 90,
+      method: `${si.urlCount} URL-uri, esantion de ${checked} verificat si accesibil, ${si.withLastmod} cu <lastmod>` };
+  }
 
   if (/canonical/i.test(n)) return ev.canonical
     ? { status: 'pass', score: 85, method: `<link rel="canonical"> = ${ev.canonical}` }
@@ -756,6 +1033,21 @@ function evalSignal(sig, ev, psi) {
 
   if (/Word Count|Content (Length|Depth)/i.test(n)) return { status: ev.wordCount >= 600 ? 'pass' : ev.wordCount >= 250 ? 'partial' : 'fail',
     score: Math.min(100, Math.round((ev.wordCount / 600) * 100)), method: `${ev.wordCount} cuvinte pe pagina principala` };
+
+  /* Broken Internal Links — verifica efectiv destinatiile, nu doar numarul.
+     Inainte: 27 linkuri numarate = PASS 100, chiar daca erau rupte. */
+  if (/Broken Internal Links/i.test(n)) {
+    const checks = ev.linkChecks || [];
+    const broken = ev.brokenLinks || [];
+    if (!checks.length) return { status: 'na', method: 'niciun link intern absolut de testat pe aceasta pagina' };
+    if (broken.length === 0) return { status: 'pass', score: 95,
+      method: `${checks.length} linkuri interne testate efectiv, toate raspund` };
+    const pct = broken.length / checks.length;
+    const ex = broken.slice(0, 3).map(b => `${b.url} -> HTTP ${b.status || 'fara raspuns'}`).join('; ');
+    return { status: pct > 0.25 ? 'fail' : 'partial',
+      score: Math.max(0, Math.round((1 - pct) * 100)),
+      method: `${broken.length} din ${checks.length} linkuri interne testate sunt rupte: ${ex}` };
+  }
 
   if (/Internal Link/i.test(n)) return { status: ev.internalLinks >= 10 ? 'pass' : ev.internalLinks >= 3 ? 'partial' : 'fail',
     score: Math.min(100, ev.internalLinks * 8), method: `${ev.internalLinks} linkuri interne detectate` };
@@ -834,12 +1126,6 @@ function evalSignal(sig, ev, psi) {
   for (const [re, fname] of fileMap) if (re.test(n)) return fileRule(fname);
 
   /* --- proof.json: accepta oricare dintre cele doua denumiri --- */
-  if (/proof\.json SHA-256|Cryptographic IP Proof|proof\.json IP Anchoring/i.test(n)) {
-    const ok = F['proof.json'] || F['ai-proof.json'];
-    return ok
-      ? { status: 'pass', score: 90, method: 'manifest de integritate publicat (proof.json)' }
-      : { status: 'fail', score: 0, method: 'niciun manifest de integritate publicat' };
-  }
 
   /* --- permisiune de crawl AI, agregat --- */
   if (/AI Crawl Permission Explicit|Content Indexability by LLMs/i.test(n)) {
@@ -1027,6 +1313,419 @@ function evalSignal(sig, ev, psi) {
       : { status: 'fail', score: 0, method: 'lipseste meta viewport' };
   }
 
+  /* ══════════════════════════════════════════════════════════════════
+     SEMNALE DE CONTINUT — analizate din pagina deja descarcata.
+     Erau marcate gresit "necesita API platit"; nu necesita nimic extern.
+     ══════════════════════════════════════════════════════════════════ */
+
+  const PT = ev.plainText || '';
+  const words = PT ? PT.split(/\s+/).filter(Boolean) : [];
+  const WC = words.length;
+  const sentences = PT.split(/[.!?]+\s/).filter(s => s.trim().length > 15);
+  const allHeads = [...(ev.h1 || []), ...(ev.h2 || []), ...(ev.h3 || [])];
+
+  if (/URL Structure/i.test(n)) {
+    let p = '';
+    try { p = new URL(ev.finalUrl || ev.target.href).pathname; } catch {}
+    const segs = p.split('/').filter(Boolean);
+    if (!segs.length) return { status: 'na', method: 'pagina radacina — structura de slug nu se aplica' };
+    const bad = segs.filter(s => s.length > 40 || /[A-Z]/.test(s) || /_/.test(s) || /%[0-9a-f]{2}/i.test(s) || /^\d+$/.test(s));
+    const deep = segs.length > 4;
+    if (!bad.length && !deep) return { status: 'pass', score: 90,
+      method: `URL curat: ${segs.length} segmente, lowercase, cu cratime, fara ID-uri numerice` };
+    const issues = [];
+    if (bad.length) issues.push(`${bad.length} segmente problematice (${bad[0]})`);
+    if (deep) issues.push(`adancime ${segs.length} (recomandat max 4)`);
+    return { status: bad.length > 1 || deep ? 'fail' : 'partial',
+      score: bad.length > 1 || deep ? 35 : 65, method: 'URL: ' + issues.join('; ') };
+  }
+
+  if (/Information Density/i.test(n)) {
+    if (!WC) return { status: 'fail', score: 0, method: 'nicio pagina de text extras' };
+    const uniq = new Set(words.map(w => w.toLowerCase().replace(/[^a-z0-9]/gi, ''))).size;
+    const ratio = uniq / WC;
+    const numbers = (PT.match(/\b\d[\d.,]*\b/g) || []).length;
+    return { status: ratio > 0.35 && WC > 300 ? 'pass' : ratio > 0.22 ? 'partial' : 'fail',
+      score: Math.min(100, Math.round(ratio * 220)),
+      method: `${WC} cuvinte, ${uniq} unice (raport ${(ratio * 100).toFixed(0)}%), ${numbers} valori numerice concrete` };
+  }
+
+  if (/Section-Level Summarizability|Machine-Extractable Summary/i.test(n)) {
+    if (!allHeads.length) return { status: 'fail', score: 10, method: 'nicio sectiune cu heading — continutul nu poate fi rezumat pe bucati' };
+    const lead = PT.slice(0, 400);
+    const hasLead = /\b(is|are|provides|measures|means|does|offers|este|sunt|ofera)\b/i.test(lead) && lead.length > 120;
+    const ratio = WC / allHeads.length;
+    const ok = ratio >= 40 && ratio <= 400 && hasLead;
+    return { status: ok ? 'pass' : (allHeads.length >= 3 ? 'partial' : 'fail'),
+      score: ok ? 88 : allHeads.length >= 3 ? 60 : 25,
+      method: `${allHeads.length} sectiuni, ~${Math.round(ratio)} cuvinte/sectiune${hasLead ? ', cu paragraf-rezumat la inceput' : ', fara rezumat clar la inceput'}` };
+  }
+
+  if (/User Intent Explicitness/i.test(n)) {
+    const q = (PT.match(/\?/g) || []).length;
+    const actionWords = (PT.match(/\b(how to|what is|why|when|guide|step|learn|start|get|run|check|cum|ce este|de ce|ghid|pas)\b/gi) || []).length;
+    const total = q + actionWords;
+    return { status: total >= 8 ? 'pass' : total >= 3 ? 'partial' : 'fail',
+      score: Math.min(100, total * 9),
+      method: `${q} intrebari + ${actionWords} formulari orientate pe intentie detectate in text` };
+  }
+
+  if (/Primary Topic Relevance/i.test(n)) {
+    const title = (ev.title || '').toLowerCase();
+    const h1 = (ev.h1 && ev.h1[0] ? ev.h1[0] : '').replace(/<[^>]+>/g, ' ').toLowerCase();
+    const terms = [...new Set((title + ' ' + h1).split(/\W+/).filter(w => w.length > 4))];
+    if (!terms.length || !WC) return { status: 'fail', score: 10, method: 'titlu sau H1 lipsa — subiectul principal nu poate fi determinat' };
+    const low = PT.toLowerCase();
+    const found = terms.filter(t => low.includes(t));
+    const pct = found.length / terms.length;
+    return { status: pct > 0.6 ? 'pass' : pct > 0.3 ? 'partial' : 'fail',
+      score: Math.round(pct * 100),
+      method: `${found.length}/${terms.length} termeni din titlu/H1 apar si in corpul paginii (${Math.round(pct * 100)}% coerenta)` };
+  }
+
+  if (/Semantic Term Coverage|Concept Cluster Coverage|Semantic Topic Cluster/i.test(n)) {
+    if (WC < 100) return { status: 'fail', score: 10, method: `doar ${WC} cuvinte — acoperire semantica insuficienta` };
+    const freq = {};
+    for (const w of words) {
+      const k = w.toLowerCase().replace(/[^a-z0-9]/gi, '');
+      if (k.length > 5) freq[k] = (freq[k] || 0) + 1;
+    }
+    const recurring = Object.entries(freq).filter(([, c]) => c >= 3);
+    return { status: recurring.length >= 12 ? 'pass' : recurring.length >= 5 ? 'partial' : 'fail',
+      score: Math.min(100, recurring.length * 7),
+      method: `${recurring.length} termeni de specialitate recurenti (>=3 aparitii), ex: ${recurring.slice(0, 4).map(r => r[0]).join(', ')}` };
+  }
+
+  if (/Topical Coverage Depth|Topic Completeness/i.test(n)) {
+    const score = Math.min(100, Math.round((WC / 1200) * 60 + allHeads.length * 4));
+    return { status: WC > 900 && allHeads.length >= 5 ? 'pass' : WC > 350 ? 'partial' : 'fail',
+      score, method: `${WC} cuvinte in ${allHeads.length} sectiuni cu heading` };
+  }
+
+  if (/Source Citation Quality|Outbound Source Quality/i.test(n)) {
+    const hosts = ev.externalHosts || [];
+    if (!hosts.length) return { status: 'fail', score: 15, method: 'nicio sursa externa citata' };
+    const authoritative = hosts.filter(h => /\.(gov|edu|europa\.eu|int)$|\.gov\.|wikipedia\.org|w3\.org|ietf\.org|iso\.org|schema\.org|nist\.gov/i.test(h));
+    return { status: authoritative.length >= 2 ? 'pass' : hosts.length >= 3 ? 'partial' : 'fail',
+      score: Math.min(100, authoritative.length * 30 + hosts.length * 5),
+      method: `${hosts.length} domenii externe citate, din care ${authoritative.length} autoritative (${authoritative.slice(0, 3).join(', ') || 'niciunul'})` };
+  }
+
+  if (/Expertise Evidence in Content/i.test(n)) {
+    const signals = [
+      /\b(FCCA|CPA|CCF|PhD|MSc|certified|chartered|licensed|expert|specialist)\b/i.test(PT),
+      /\b(years? of experience|since \d{4}|founded in \d{4})\b/i.test(PT),
+      /\b(Regulation \(EU\)|RFC \d+|ISO \d+|standard)\b/i.test(PT),
+      (ev.ldTypes && (ev.ldTypes.has('Person') || ev.ldTypes.has('Organization'))),
+      /\b(methodology|framework|our (approach|method))\b/i.test(PT),
+    ].filter(Boolean).length;
+    return { status: signals >= 3 ? 'pass' : signals >= 1 ? 'partial' : 'fail',
+      score: Math.round((signals / 5) * 100),
+      method: `${signals}/5 tipuri de dovada de expertiza (credentiale, vechime, standarde citate, schema Person/Org, metodologie proprie)` };
+  }
+
+  if (/Unique First-Party Data|Original Definition Evidence|Original Analysis/i.test(n)) {
+    const hasNumbers = (PT.match(/\b\d[\d.,]*\s*(%|signals?|points?|semnale|puncte)\b/gi) || []).length;
+    const hasDefinitions = (ev.ldTypes && ev.ldTypes.has('DefinedTerm')) || /\bmeans\b|\bis defined as\b|\binseamna\b/i.test(PT);
+    const hasOwnMethod = /\b(our|proprietary|we (developed|built|measure)|metodologia noastra)\b/i.test(PT);
+    const c = [hasNumbers >= 3, hasDefinitions, hasOwnMethod].filter(Boolean).length;
+    return { status: c >= 2 ? 'pass' : c === 1 ? 'partial' : 'fail',
+      score: Math.round((c / 3) * 95),
+      method: `${hasNumbers} valori proprii citate, definitii proprii: ${hasDefinitions ? 'da' : 'nu'}, metodologie declarata: ${hasOwnMethod ? 'da' : 'nu'}` };
+  }
+
+  if (/Comparative and Contrastive Analysis/i.test(n)) {
+    const comp = (PT.match(/\b(versus|vs\.?|compared to|unlike|whereas|in contrast|difference between|fata de|spre deosebire)\b/gi) || []).length;
+    const tables = ev.tables || 0;
+    return { status: comp >= 3 || tables >= 1 ? 'pass' : comp >= 1 ? 'partial' : 'fail',
+      score: Math.min(100, comp * 20 + tables * 30),
+      method: `${comp} formulari comparative, ${tables} tabele de comparatie` };
+  }
+
+  if (/Natural-Language Query Coverage|Conversational Query Coverage/i.test(n)) {
+    const qHeads = allHeads.filter(h => /\?|^(how|what|why|when|where|can|does|is|do|cum|ce|de ce|cand)\b/i.test(h.replace(/<[^>]+>/g, '').trim())).length;
+    const faq = ev.faqBlocks || 0;
+    const total = qHeads + faq;
+    return { status: total >= 5 ? 'pass' : total >= 2 ? 'partial' : 'fail',
+      score: Math.min(100, total * 12),
+      method: `${qHeads} headinguri formulate ca intrebare + ${faq} blocuri Q&A` };
+  }
+
+  if (/Context Continuity Across Sections|Cross-Page Factual Consistency/i.test(n)) {
+    if (allHeads.length < 2) return { status: 'fail', score: 15, method: 'prea putine sectiuni pentru a evalua continuitatea' };
+    const headWords = allHeads.map(h => h.replace(/<[^>]+>/g, '').toLowerCase().split(/\W+/).filter(w => w.length > 4));
+    let shared = 0;
+    for (let i = 1; i < headWords.length; i++) {
+      if (headWords[i].some(w => headWords[i - 1].includes(w) || (ev.title || '').toLowerCase().includes(w))) shared++;
+    }
+    const pct = shared / (headWords.length - 1);
+    return { status: pct > 0.4 ? 'pass' : pct > 0.15 ? 'partial' : 'fail',
+      score: Math.round(pct * 130),
+      method: `${shared}/${headWords.length - 1} tranzitii intre sectiuni impart vocabular cu sectiunea precedenta sau cu titlul` };
+  }
+
+  if (/Primary Entity Salience|Named Entity Clarity/i.test(n)) {
+    const org = ev.ldNodes ? getNode(ev.ldNodes, 'Organization') : null;
+    const brandName = (org && org.name) || (ev.title || '').split(/[|—–-]/)[0].trim();
+    if (!brandName) return { status: 'fail', score: 10, method: 'nicio entitate principala identificabila' };
+    const count = (PT.match(new RegExp(brandName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi')) || []).length;
+    const inTitle = (ev.title || '').toLowerCase().includes(brandName.toLowerCase());
+    const inH1 = (ev.h1 || []).some(h => h.toLowerCase().includes(brandName.toLowerCase()));
+    return { status: count >= 3 && (inTitle || inH1) ? 'pass' : count >= 1 ? 'partial' : 'fail',
+      score: Math.min(100, count * 15 + (inTitle ? 25 : 0) + (inH1 ? 20 : 0)),
+      method: `entitatea "${brandName}" apare de ${count} ori in text, in titlu: ${inTitle ? 'da' : 'nu'}, in H1: ${inH1 ? 'da' : 'nu'}` };
+  }
+
+  if (/Geographic Context Explicitness/i.test(n)) {
+    const org = ev.ldNodes ? getNode(ev.ldNodes, 'Organization') : null;
+    const hasAddr = !!(org && org.address);
+    const hasCountry = /\b(Romania|România|European Union|EU|Bucharest|București|worldwide)\b/i.test(PT);
+    const hasArea = !!(org && org.areaServed);
+    const c = [hasAddr, hasCountry, hasArea].filter(Boolean).length;
+    return { status: c >= 2 ? 'pass' : c === 1 ? 'partial' : 'fail',
+      score: Math.round((c / 3) * 95),
+      method: `adresa in schema: ${hasAddr ? 'da' : 'nu'}, tara/regiune in text: ${hasCountry ? 'da' : 'nu'}, areaServed declarat: ${hasArea ? 'da' : 'nu'}` };
+  }
+
+  if (/Structured Data Relationship Coherence/i.test(n)) {
+    const nodes = ev.ldNodes || [];
+    if (!nodes.length) return { status: 'fail', score: 0, method: 'niciun nod JSON-LD' };
+    const withId = nodes.filter(x => x && x['@id']).length;
+    const refs = JSON.stringify(nodes).match(/"@id"\s*:\s*"[^"]+"/g) || [];
+    const linked = refs.length - withId;
+    return { status: withId >= 3 && linked > 0 ? 'pass' : withId >= 1 ? 'partial' : 'fail',
+      score: Math.min(100, withId * 12 + Math.max(0, linked) * 4),
+      method: `${nodes.length} noduri JSON-LD, ${withId} cu @id propriu, ${Math.max(0, linked)} referinte intre ele (graf conectat)` };
+  }
+
+  if (/Duplicate Content Risk/i.test(n)) {
+    if (!sentences.length) return { status: 'na', method: 'text insuficient pentru analiza de duplicare' };
+    const norm = sentences.map(s => s.trim().toLowerCase().replace(/\s+/g, ' '));
+    const uniq = new Set(norm);
+    const dupPct = 1 - uniq.size / norm.length;
+    const hasCanonical = !!ev.canonical;
+    return { status: dupPct < 0.1 && hasCanonical ? 'pass' : dupPct < 0.25 ? 'partial' : 'fail',
+      score: Math.round((1 - dupPct) * (hasCanonical ? 100 : 70)),
+      method: `${norm.length} propozitii, ${Math.round(dupPct * 100)}% repetate intern; canonical ${hasCanonical ? 'prezent' : 'lipsa'}` };
+  }
+
+  if (/Crawl Path Efficiency/i.test(n)) {
+    const checks = ev.linkChecks || [];
+    const inSitemap = ev.sitemapInfo ? ev.sitemapInfo.urlCount : 0;
+    const hasRobotsSitemap = ev.sitemapInRobots;
+    const c = [checks.length >= 5, inSitemap > 0, hasRobotsSitemap].filter(Boolean).length;
+    return { status: c === 3 ? 'pass' : c >= 1 ? 'partial' : 'fail',
+      score: Math.round((c / 3) * 95),
+      method: `${checks.length} linkuri interne accesibile, ${inSitemap} URL-uri in sitemap, sitemap declarat in robots.txt: ${hasRobotsSitemap ? 'da' : 'nu'}` };
+  }
+
+  if (/Grounding and Evidence Controls/i.test(n)) {
+    const pc = ev.proofCheck || {};
+    const hasProof = pc.present && pc.entries > 0;
+    const verified = pc.verified > 0 && pc.mismatches.length === 0;
+    const declaresMethod = /\b(deterministic|evidence|rules applied|no score is generated)\b/i.test(PT);
+    const c = [hasProof, verified, declaresMethod].filter(Boolean).length;
+    return { status: c === 3 ? 'pass' : c >= 1 ? 'partial' : 'fail',
+      score: Math.round((c / 3) * 95),
+      method: `manifest de integritate: ${hasProof ? 'da' : 'nu'}, hash-uri verificate: ${verified ? 'da' : 'nu'}, metoda declarata public: ${declaresMethod ? 'da' : 'nu'}` };
+  }
+
+  /* ══════════════════════════════════════════════════════════════════
+     SEMNALE VERIFICABILE LOCAL — declaratii, structura, consistenta.
+     Unde se poate verifica DOAR declaratia (nu si continutul sursei
+     externe), dovada spune asta explicit — nu pretinde verificare completa.
+     ══════════════════════════════════════════════════════════════════ */
+
+  const SA = ev.ldSameAs || [];
+  const hostOf = (u) => { try { return new URL(u).host.replace(/^www\./, ''); } catch { return ''; } };
+
+  if (/Structured Data Validity/i.test(n) && !/Warning|Severity/i.test(n)) {
+    const nodes = ev.ldNodes || [];
+    if (!nodes.length) return { status: 'fail', score: 0, method: 'niciun bloc JSON-LD de validat' };
+    const REQ = {
+      Organization: ['name'], LocalBusiness: ['name', 'address'], Person: ['name'],
+      Product: ['name'], Article: ['headline'], FAQPage: ['mainEntity'],
+      HowTo: ['name', 'step'], Event: ['name', 'startDate'], BreadcrumbList: ['itemListElement'],
+      WebSite: ['name'], SoftwareApplication: ['name'], Service: ['name'],
+    };
+    const errors = [];
+    for (const node of nodes) {
+      if (!node || typeof node !== 'object') { errors.push('nod care nu e obiect'); continue; }
+      const t = Array.isArray(node['@type']) ? node['@type'][0] : node['@type'];
+      if (!t) { errors.push('nod fara @type'); continue; }
+      const req = REQ[t];
+      if (req) for (const k of req) if (node[k] === undefined) errors.push(`${t} fara "${k}"`);
+    }
+    if (!errors.length) return { status: 'pass', score: 92,
+      method: `${nodes.length} noduri JSON-LD, toate cu @type si proprietatile obligatorii pentru tipul lor` };
+    return { status: errors.length > 3 ? 'fail' : 'partial',
+      score: Math.max(10, 90 - errors.length * 15),
+      method: `${errors.length} probleme in JSON-LD: ${errors.slice(0, 3).join('; ')}` };
+  }
+
+  if (/Structured Data Warning and Error Severity/i.test(n)) {
+    const nodes = ev.ldNodes || [];
+    if (!nodes.length) return { status: 'fail', score: 0, method: 'niciun JSON-LD' };
+    const raw = JSON.stringify(nodes);
+    const warnings = [];
+    if (!/"@context"/.test(ev.html)) warnings.push('@context lipsa in cel putin un bloc');
+    if (/"@id"\s*:\s*""/.test(raw)) warnings.push('@id gol');
+    if (/:\s*"(TODO|TBD|xxx|lorem)"/i.test(raw)) warnings.push('valori placeholder ramase');
+    if (/"url"\s*:\s*"(?!https?:)/.test(raw)) warnings.push('url relativ (recomandat absolut)');
+    const dup = nodes.filter(x => x && x['@id']).map(x => x['@id']);
+    if (new Set(dup).size !== dup.length) warnings.push('@id duplicat intre noduri');
+    if (!warnings.length) return { status: 'pass', score: 90, method: 'niciun avertisment structural detectat in JSON-LD' };
+    return { status: warnings.length > 2 ? 'partial' : 'pass',
+      score: Math.max(40, 90 - warnings.length * 12),
+      method: `${warnings.length} avertismente (nu erori blocante): ${warnings.join('; ')}` };
+  }
+
+  if (/Rich Result Eligibility/i.test(n)) {
+    const T = ev.ldTypes || new Set();
+    const RICH = ['FAQPage', 'HowTo', 'Product', 'Article', 'NewsArticle', 'BreadcrumbList',
+                  'Event', 'Recipe', 'Review', 'VideoObject', 'Course', 'JobPosting', 'Organization'];
+    const eligible = RICH.filter(t => T.has(t));
+    if (!eligible.length) return { status: 'fail', score: 10,
+      method: 'niciun tip de schema eligibil pentru rezultate imbogatite (FAQPage, HowTo, Product, Article, Event...)' };
+    return { status: eligible.length >= 2 ? 'pass' : 'partial',
+      score: Math.min(95, eligible.length * 35),
+      method: `${eligible.length} tipuri eligibile pentru rich results declarate: ${eligible.join(', ')} (eligibilitatea finala o decide Google)` };
+  }
+
+  if (/Google AI Overview and AI Mode Source Readiness/i.test(n)) {
+    const c = [
+      (ev.faqBlocks || 0) >= 3,
+      (ev.ldTypes && (ev.ldTypes.has('FAQPage') || ev.ldTypes.has('HowTo'))),
+      !!ev.llms,
+      (ev.h2 || []).length >= 4,
+      !!(ev.robotsBots && ev.robotsBots.googleExtended),
+    ].filter(Boolean).length;
+    return { status: c >= 4 ? 'pass' : c >= 2 ? 'partial' : 'fail',
+      score: Math.round((c / 5) * 95),
+      method: `${c}/5 conditii de extractibilitate (Q&A vizibil, schema FAQ/HowTo, llms.txt, structura de headinguri, Google-Extended permis) — aparitia efectiva in AI Overviews nu e observabila public` };
+  }
+
+  if (/External Entity Disambiguation/i.test(n)) {
+    if (!SA.length) return { status: 'fail', score: 0,
+      method: 'niciun link sameAs — entitatea nu e legata de niciun hub extern de identitate' };
+    const HUBS = ['wikidata.org', 'wikipedia.org', 'crunchbase.com', 'linkedin.com',
+                  'github.com', 'orcid.org', 'ror.org', 'opencorporates.com'];
+    const matched = [...new Set(SA.map(hostOf).filter(h => HUBS.some(x => h.endsWith(x))))];
+    return { status: matched.length >= 2 ? 'pass' : matched.length === 1 ? 'partial' : 'fail',
+      score: Math.min(95, matched.length * 40),
+      method: `${matched.length} huburi de identitate declarate in sameAs (${matched.join(', ') || 'niciunul'}) — declaratia e verificabila local, potrivirea profilului nu` };
+  }
+
+  if (/External Entity Link Quality/i.test(n)) {
+    if (!SA.length) return { status: 'fail', score: 0, method: 'niciun sameAs declarat' };
+    const https = SA.filter(u => /^https:\/\//i.test(u)).length;
+    const uniqueHosts = new Set(SA.map(hostOf).filter(Boolean));
+    const wellFormed = SA.filter(u => { try { new URL(u); return true; } catch { return false; } }).length;
+    const ok = https === SA.length && wellFormed === SA.length && uniqueHosts.size >= 3;
+    return { status: ok ? 'pass' : uniqueHosts.size >= 2 ? 'partial' : 'fail',
+      score: Math.min(95, uniqueHosts.size * 22 + (https === SA.length ? 20 : 0)),
+      method: `${SA.length} linkuri sameAs catre ${uniqueHosts.size} domenii distincte, ${https} pe HTTPS, ${wellFormed} bine formate` };
+  }
+
+  if (/LinkedIn Entity Presence and Consistency/i.test(n)) {
+    const li = SA.filter(u => /linkedin\.com/i.test(u));
+    if (!li.length) return { status: 'fail', score: 0, method: 'niciun profil LinkedIn declarat in sameAs' };
+    const company = li.filter(u => /linkedin\.com\/(company|school)\//i.test(u));
+    return { status: company.length ? 'pass' : 'partial',
+      score: company.length ? 88 : 55,
+      method: company.length
+        ? `profil de companie LinkedIn declarat (${li.length} link-uri LinkedIn) — declaratia e verificabila local, continutul profilului nu`
+        : `${li.length} link LinkedIn declarat, dar niciunul de tip /company/ (pare profil personal)` };
+  }
+
+  if (/Public Social Presence/i.test(n)) {
+    const SOCIAL = ['linkedin.com', 'x.com', 'twitter.com', 'facebook.com', 'youtube.com',
+                    'instagram.com', 'github.com', 'medium.com', 'tiktok.com', 'mastodon'];
+    const found = [...new Set(SA.map(hostOf).filter(h => SOCIAL.some(s => h.includes(s))))];
+    return { status: found.length >= 3 ? 'pass' : found.length >= 1 ? 'partial' : 'fail',
+      score: Math.min(95, found.length * 28),
+      method: `${found.length} profiluri sociale declarate public in sameAs: ${found.join(', ') || 'niciunul'}` };
+  }
+
+  if (/Independent Organization Profile Presence/i.test(n)) {
+    const DIRS = ['crunchbase.com', 'opencorporates.com', 'bloomberg.com', 'dnb.com',
+                  'clutch.co', 'g2.com', 'trustpilot.com', 'listafirme.ro', 'termene.ro'];
+    const found = [...new Set(SA.map(hostOf).filter(h => DIRS.some(d => h.includes(d))))];
+    if (!found.length) return { status: 'fail', score: 5,
+      method: 'niciun profil declarat in directoare independente de firme (Crunchbase, OpenCorporates, Trustpilot...)' };
+    return { status: found.length >= 2 ? 'pass' : 'partial', score: Math.min(90, found.length * 45),
+      method: `${found.length} profiluri in directoare independente declarate: ${found.join(', ')} — existenta profilului nu e verificata din acest scan` };
+  }
+
+  if (/Author Experience and Expertise Evidence/i.test(n)) {
+    const person = ev.ldNodes ? getNode(ev.ldNodes, 'Person') : null;
+    const c = [
+      !!person,
+      !!(person && (person.jobTitle || person.hasCredential || person.honorificSuffix)),
+      !!(person && person.sameAs),
+      /\b(FCCA|CPA|CCF|PhD|MBA|CFA|certified|chartered)\b/i.test(PT),
+      /\b(author|written by|by [A-Z][a-z]+ [A-Z]|autor)\b/.test(PT),
+    ].filter(Boolean).length;
+    return { status: c >= 3 ? 'pass' : c >= 1 ? 'partial' : 'fail',
+      score: Math.round((c / 5) * 95),
+      method: `${c}/5 dovezi de autor (schema Person, titlu/credentiale, sameAs personal, acronime de certificare in text, atribuire explicita)` };
+  }
+
+  if (/External Experience Expertise Authority Trust Evidence/i.test(n)) {
+    const c = [
+      SA.length >= 3,
+      !!(ev.ldNodes && getNode(ev.ldNodes, 'Person')),
+      /\/(about|despre|contact|legal|terms)/i.test(ev.html),
+      !!(ev.ldNodes && getNode(ev.ldNodes, 'Organization') && getNode(ev.ldNodes, 'Organization').address),
+      /\b(CUI|VAT|registration (number|no)|Reg\. Com)\b/i.test(PT),
+    ].filter(Boolean).length;
+    return { status: c >= 4 ? 'pass' : c >= 2 ? 'partial' : 'fail',
+      score: Math.round((c / 5) * 92),
+      method: `${c}/5 semnale E-E-A-T verificabile pe pagina (profiluri externe declarate, autor identificat, pagini about/contact/legal, adresa in schema, identificatori legali) — reputatia externa nu e observabila public` };
+  }
+
+  if (/Local Identity Citation Consistency/i.test(n)) {
+    const org = ev.ldNodes ? getNode(ev.ldNodes, 'Organization') : null;
+    const addr = org && org.address;
+    if (!addr) return { status: 'fail', score: 10, method: 'nicio adresa in schema Organization — consistenta NAP nu poate fi evaluata' };
+    const name = org.name || '';
+    const locality = typeof addr === 'object' ? (addr.addressLocality || '') : '';
+    const tel = (org.telephone) || ((PT.match(/\+?\d[\d\s().-]{8,}\d/) || [])[0] || '');
+    const nameInText = name && PT.toLowerCase().includes(name.toLowerCase().slice(0, 12));
+    const locInText = locality && PT.toLowerCase().includes(locality.toLowerCase());
+    const c = [nameInText, locInText, !!tel].filter(Boolean).length;
+    return { status: c === 3 ? 'pass' : c >= 1 ? 'partial' : 'fail',
+      score: Math.round((c / 3) * 92),
+      method: `NAP intern consistent: nume in text ${nameInText ? 'da' : 'nu'}, localitate in text ${locInText ? 'da' : 'nu'}, telefon ${tel ? 'da' : 'nu'} — consistenta cu directoare externe nu e verificabila local` };
+  }
+
+  if (/Independent Timestamp or Signature Evidence/i.test(n)) {
+    const pb = (ev.jsonBodies && (ev.jsonBodies['proof.json'] || ev.jsonBodies['ai-proof.json'])) || null;
+    if (!pb) return { status: 'fail', score: 0, method: 'niciun manifest publicat' };
+    const ea = pb.external_anchoring || {};
+    const anchors = ['timestamp_authority', 'opens_timestamp', 'digital_signature'].filter(k => ea[k] === true);
+    if (anchors.length) return { status: 'pass', score: 92,
+      method: `ancorare externa declarata si activa: ${anchors.join(', ')}` };
+    const honest = typeof ea.statement === 'string' && /integrity|only|nu/i.test(ea.statement);
+    return { status: honest ? 'partial' : 'fail', score: honest ? 55 : 15,
+      method: honest
+        ? 'fara ancorare externa (TSA/OpenTimestamps/semnatura), dar manifestul declara onest aceasta limita — integritate, nu dovada de moment'
+        : 'fara ancorare externa si fara declararea acestei limite' };
+  }
+
+  if (/Anchor Text Diversity/i.test(n)) {
+    const anchors = [...(ev.html.matchAll(/<a\b[^>]*>([\s\S]*?)<\/a>/gi))]
+      .map(m => m[1].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().toLowerCase())
+      .filter(t => t.length > 1);
+    if (anchors.length < 5) return { status: 'na', method: 'prea putine linkuri pentru a evalua diversitatea textului de ancora' };
+    const uniq = new Set(anchors);
+    const generic = anchors.filter(t => /^(click here|here|read more|more|link|aici|mai mult)$/.test(t)).length;
+    const ratio = uniq.size / anchors.length;
+    return { status: ratio > 0.6 && generic === 0 ? 'pass' : ratio > 0.35 ? 'partial' : 'fail',
+      score: Math.round(ratio * 100) - generic * 5,
+      method: `${anchors.length} ancore interne, ${uniq.size} distincte (${Math.round(ratio * 100)}% diversitate), ${generic} generice de tip "click here" — ancorele backlinkurilor externe nu sunt observabile` };
+  }
+
   /* semnale care cer date externe platite (backlinks, PageSpeed, Wikidata verificat,
      Crunchbase, LinkedIn, presa, NAP local, Google Business, Core Web Vitals) —
      onest marcate NA, niciodata FAIL sau scor inventat */
@@ -1042,16 +1741,23 @@ const EXTERNAL_ONLY = [
   /Citation Observation/i, /Grounding Observation/i, /Retrieval Discoverability/i,
   /Knowledge-Graph Entity Presence/i, /Search Knowledge Entity Presence/i,
   /Independent Editorial Mentions/i, /Independent Brand Mention/i,
-  /Author Experience and Expertise Evidence/i, /External Experience Expertise/i,
   /Backlink Authority/i, /Backlink Source Diversity/i, /Referring Domain Evidence/i,
-  /Anchor Text Diversity/i, /Suspicious Backlink Risk/i,
+  /Suspicious Backlink Risk/i,
   /Domain History and Independent Authority/i,
-  /Google Business Profile/i, /Local Identity Citation/i,
-  /Independent Organization Profile Presence/i,
-  /People-Also-Ask Topic Coverage/i, /Public Social Presence/i,
+  /Google Business Profile/i,
+  /People-Also-Ask Topic Coverage/i,
   /Public Engagement Metrics/i, /Private Behavioral Analytics/i,
   /Organic Search CTR/i, /Search Console Access/i, /Private Search Index Coverage/i,
 ];
+/* Scoase din gard, pentru ca au acum reguli reale de evaluare locala —
+   evalueaza ce e declarat si consistent pe pagina, si spun explicit in dovada
+   ce anume NU poate fi confirmat din exterior:
+     Author Experience and Expertise Evidence  -> schema Person + credentiale in text
+     External Experience Expertise (E-E-A-T)   -> profiluri declarate, about/contact/legal, identificatori legali
+     Anchor Text Diversity                     -> diversitatea ancorelor interne
+     Local Identity Citation Consistency       -> consistenta NAP interna (schema vs text)
+     Independent Organization Profile Presence -> profiluri declarate in directoare
+     Public Social Presence                    -> profiluri sociale declarate in sameAs */
 function externalOnly(n) { return EXTERNAL_ONLY.some(rx => rx.test(n)); }
 
 function evaluate(ev, psi) {
@@ -1059,21 +1765,43 @@ function evaluate(ev, psi) {
   const signals = {};
   let totalTested = 0, totalNa = 0;
 
+  /* Scorul foloseste PONDERILE semnalelor (sig.w), nu media simpla.
+     Inainte, `HTTPS Availability` (w=10) cantarea exact cat
+     `Private Behavioral Analytics` (w=2) — ceea ce face scorul sa nu reflecte
+     importanta reala a defectelor. Ponderile erau stocate si folosite doar la
+     sortarea planului de actiuni, niciodata la calcul.
+     Semnalele NA sunt excluse complet, deci nu penalizeaza si nu dilueaza. */
+  const dimWeights = {};
   for (const dim of Object.keys(SIG)) {
     signals[dim] = [];
-    let sum = 0, count = 0;
+    let weightedSum = 0, weightTotal = 0, count = 0;
     for (const sig of SIG[dim]) {
       const r = evalSignal(sig, ev, psi);
       signals[dim].push({ id: sig.id, n: sig.n, c: sig.c, w: sig.w, status: r.status, score: r.score ?? null, method: r.method });
-      if (r.status !== 'na') { sum += r.score; count++; totalTested++; } else { totalNa++; }
+      if (r.status !== 'na') {
+        const w = typeof sig.w === 'number' && sig.w > 0 ? sig.w : 1;
+        weightedSum += r.score * w;
+        weightTotal += w;
+        count++; totalTested++;
+      } else { totalNa++; }
     }
-    scores[dim] = count ? Math.round(sum / count) : null;
+    scores[dim] = weightTotal ? Math.round(weightedSum / weightTotal) : null;
+    dimWeights[dim] = weightTotal;   // cat "cantareste" dimensiunea, pentru scorul global
   }
 
-  const validDims = Object.values(scores).filter(v => v !== null);
-  const global = validDims.length ? Math.round(validDims.reduce((a, b) => a + b, 0) / validDims.length) : 0;
+  /* Global: media dimensiunilor ponderata cu greutatea totala testata in
+     fiecare — o dimensiune in care s-au putut testa multe semnale grele
+     conteaza mai mult decat una cu doua semnale usoare. */
+  let gSum = 0, gWeight = 0;
+  for (const dim of Object.keys(scores)) {
+    if (scores[dim] === null) continue;
+    gSum += scores[dim] * dimWeights[dim];
+    gWeight += dimWeights[dim];
+  }
+  const global = gWeight ? Math.round(gSum / gWeight) : 0;
 
-  return { scores, signals, global, tested: totalTested, na: totalNa, totalSignals: totalTested + totalNa };
+  return { scores, signals, global, tested: totalTested, na: totalNa,
+           totalSignals: totalTested + totalNa, scoringMethod: 'weighted-by-signal-weight' };
 }
 
 function buildActionPlan(report) {
@@ -1313,6 +2041,25 @@ export default {
       report.plan = buildActionPlan(report);
       report.sources = { pagespeed: psi ? psi.source : 'unavailable' };
       report.observationId = 'obs_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+
+      /* provenance: fara asta, doua rapoarte nu pot fi comparate corect —
+         nu stii ce versiune de reguli le-a produs sau cata acoperire au avut. */
+      report.observedAt = new Date().toISOString();
+      report.engineVersion = ENGINE_VERSION;
+      report.rulesetVersion = RULESET_VERSION;
+      report.requestId = request.headers.get('cf-ray') || report.observationId;
+      report.coverage = report.totalSignals
+        ? Math.round((report.tested / report.totalSignals) * 1000) / 10
+        : null;
+      report.evidence = {
+        mainStatus: ev.status,
+        finalUrl: ev.finalUrl,
+        redirected: ev.redirects,
+        internalLinksChecked: (ev.linkChecks || []).length,
+        sitemapUrls: ev.sitemapInfo ? ev.sitemapInfo.urlCount : 0,
+        proofFilesVerified: ev.proofCheck ? ev.proofCheck.verified : 0,
+        proofFilesChecked: ev.proofCheck ? ev.proofCheck.checked : 0,
+      };
       logToRegistry(ctx, target.href, 'audit');
 
       if (env.RATE_KV) {
@@ -1408,7 +2155,21 @@ export default {
          obs.permanent. These are the only long-lived "tasks" this Worker has: everything
          else (obs_one_shot, obs_diff, obs_explain, obs_catalogue) completes synchronously
          within message/send and has no separate task to look up afterwards. */
-      if (rpc.method === 'tasks/get' || rpc.method === 'tasks/cancel') {
+      /* A2A v1.0 foloseste nume canonice de metoda (SendMessage, GetTask,
+         CancelTask, ListTasks); `message/send` si `tasks/get` sunt aliasuri
+         pre-1.0 (v0.3). Cardul declara v1.0, deci acceptam numele canonice —
+         plus aliasurile vechi, pentru clientii care inca le folosesc. */
+      const METHOD_ALIASES = {
+        'SendMessage': 'message/send',
+        'GetTask': 'tasks/get',
+        'CancelTask': 'tasks/cancel',
+        'ListTasks': 'tasks/list',
+        'SendStreamingMessage': 'message/stream',
+        'SubscribeToTask': 'tasks/resubscribe',
+      };
+      const method = METHOD_ALIASES[rpc.method] || rpc.method;
+
+      if (method === 'tasks/get' || method === 'tasks/cancel') {
         const taskId = rpc.params && (rpc.params.id || rpc.params.taskId);
         if (!taskId) return rpcErr(-32602, 'Invalid params: id is required');
         if (!env.RATE_KV) return rpcErr(-32603, 'Internal error: task storage unavailable');
@@ -1417,7 +2178,7 @@ export default {
         if (!sub) return rpcErr(-32001, 'Task not found', { id: taskId });
         const stateOf = (s) => s === 'active' ? 'working' : s === 'cancelled' ? 'canceled'
           : s === 'target_unreachable' ? 'failed' : s === 'registered' ? 'submitted' : 'unknown';
-        if (rpc.method === 'tasks/cancel') {
+        if (method === 'tasks/cancel') {
           sub.status = 'cancelled';
           sub.cancelledAt = new Date().toISOString();
           try { await env.RATE_KV.put('sub:' + taskId, JSON.stringify(sub)); } catch {}
@@ -1429,8 +2190,9 @@ export default {
         } });
       }
 
-      if (rpc.method !== 'message/send') return rpcErr(-32601,
-        'Method not found: this Worker supports message/send, tasks/get and tasks/cancel. ' +
+      if (method !== 'message/send') return rpcErr(-32601,
+        'Method not found. Supported (A2A v1.0 canonical names, pre-1.0 aliases also accepted): ' +
+        'SendMessage (message/send), GetTask (tasks/get), CancelTask (tasks/cancel). ' +
         'message/stream is intentionally not implemented — see capabilities.streaming:false in the agent card; every skill here completes synchronously within message/send, so there is nothing to stream.');
 
       const msg = rpc.params && rpc.params.message;
@@ -1543,8 +2305,17 @@ export default {
           threshold: payload.threshold ?? 3, status: 'registered',
           registeredAt: new Date().toISOString() };
 
-        if (env.RATE_KV) {
-          try { await env.RATE_KV.put('sub:' + subId, JSON.stringify(sub)); } catch {}
+        /* Nu confirmam niciodata un abonament care nu a fost salvat.
+           Varianta veche inghitea eroarea si returna oricum status:'registered'
+           cu un subscriptionId — clientul credea ca monitorizarea e activa, dar
+           nu exista nicaieri si nu ar fi rulat niciodata. */
+        if (!env.RATE_KV) {
+          return rpcErr(-32603, 'Internal error: subscription storage is not configured on this deployment, so the subscription cannot be persisted. Nothing was registered.');
+        }
+        try {
+          await env.RATE_KV.put('sub:' + subId, JSON.stringify(sub));
+        } catch (e) {
+          return rpcErr(-32603, 'Internal error: failed to persist the subscription. Nothing was registered — please retry.');
         }
         return reply({ skill: 'obs_permanent', mode: 'permanent',
           subscriptionId: subId, url: sub.url, interval, notify,
@@ -1636,7 +2407,14 @@ export default {
       const subId = 'perm_' + crypto.randomUUID();
       const sub = { id: subId, url: target.href, interval, notify: notifyCheck.value,
         threshold: body.threshold ?? 3, status: 'registered', registeredAt: new Date().toISOString() };
-      if (env.RATE_KV) { try { await env.RATE_KV.put('sub:' + subId, JSON.stringify(sub)); } catch {} }
+      if (!env.RATE_KV) {
+        return json({ error: 'subscription storage is not configured on this deployment; nothing was registered' }, 503);
+      }
+      try {
+        await env.RATE_KV.put('sub:' + subId, JSON.stringify(sub));
+      } catch (e) {
+        return json({ error: 'failed to persist the subscription; nothing was registered' }, 503);
+      }
       return json(sub);
     }
 
