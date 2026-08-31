@@ -14,7 +14,7 @@
     "email": "contact@5thelement.ai",
     "address": {
       "type": "PostalAddress",
-      "street_address": "Drumul Pădurea Pustnicu, Nr. 141C, Corp A, Etaj 2, Ap. 5",
+      "street_address": "Drumul Pădurea Pustnicu, Nr. 141C, Corp A, Etaj 2",
       "address_locality": "București",
       "address_region": "București",
       "postal_code": null,

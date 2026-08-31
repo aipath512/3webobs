@@ -23,7 +23,7 @@
       "trailing_newline": false
     }
   },
-  "aggregate_sha256": "55b3bc83c63c216b699f114b37377b626acd42b473a9925ce2cda20adac91788",
+  "aggregate_sha256": "84b1886cd0e8b434b89f35a98498deb6423092be34dd958c2fbc6e09d311de70",
   "file_count": 35,
   "files": [
     {
@@ -59,8 +59,8 @@
     {
       "path": "/ai-act.html",
       "url": "https://3webobs.com/ai-act.html",
-      "bytes": 58056,
-      "sha256": "6a71416cb29a103181cd8b3cca3e671363890d041a2e3a90b66cccf0edc21a9e"
+      "bytes": 58021,
+      "sha256": "010ce8d9bd3693732acd2cff5ff72f28608f91d5a4675050928d4094fbb3fde5"
     },
     {
       "path": "/ai.json",
@@ -113,50 +113,50 @@
     {
       "path": "/contact.html",
       "url": "https://3webobs.com/contact.html",
-      "bytes": 55433,
-      "sha256": "1aae0080c1ea45e2662d4b621a9fdd627c62f1a6ddd2e654954e4a71311c84c1"
+      "bytes": 55391,
+      "sha256": "8933aedb75dddabc99c6e4b0287ec95d6c10191ca1f4987255208f67d58d86ae"
     },
     {
       "path": "/cookies.html",
       "url": "https://3webobs.com/cookies.html",
-      "bytes": 55292,
-      "sha256": "88bf517b6fbcc4d310bb2563acec0dfcfd07d2d9c3128da429efe7e769f1f5b1"
+      "bytes": 55257,
+      "sha256": "1aab731b33e55d71bcedcf4de6117cf21b5fc37adcd9ce9fa08003007702cd8f"
     },
     {
       "path": "/entities.json",
       "url": "https://3webobs.com/entities.json",
-      "bytes": 6372,
-      "sha256": "694d9e4e1dd1a9cca774c2ed5d5de8195b0aa18a5fc570bdc7c439301723a012"
+      "bytes": 6365,
+      "sha256": "56e808dcd382df630a8830071da6bc14aa65be8e4abc8d1d44863468ffacd3ba"
     },
     {
       "path": "/for-ai-teams.html",
       "url": "https://3webobs.com/for-ai-teams.html",
-      "bytes": 18903,
-      "sha256": "c23914f8964db6b03711e4685ddbd4098c562a43c278590737fb77cdf406e182"
+      "bytes": 18896,
+      "sha256": "c621c0142237d942d6903f1e9c8ef4a1a188a225fe4b39a9f8d85abcbe21353d"
     },
     {
       "path": "/for-compliance-consultants.html",
       "url": "https://3webobs.com/for-compliance-consultants.html",
-      "bytes": 19205,
-      "sha256": "8f40bfd084d68d70a15e9080109476667ad10b6f963c4d999d8593b2a288c142"
+      "bytes": 19198,
+      "sha256": "3b1062bba68ccb74a3c3ab69bfe06a5d1efe71b8c30ae681209a2d47d4d30942"
     },
     {
       "path": "/for-seo-agencies.html",
       "url": "https://3webobs.com/for-seo-agencies.html",
-      "bytes": 18995,
-      "sha256": "02acb3b9f76208f757e89c140959c1521bbc94fd37d7e9ea5c079d2036d18f18"
+      "bytes": 18988,
+      "sha256": "260515631a43b28dba1fd817a62d70061c8f198ced913d46ccc56ebe264ad0e0"
     },
     {
       "path": "/gdpr.html",
       "url": "https://3webobs.com/gdpr.html",
-      "bytes": 59790,
-      "sha256": "a4b94adb2427d2cff011c684776b5d22e48cd36fe95da28ab5a0afc3db3e9f94"
+      "bytes": 59748,
+      "sha256": "09785d9d67b33a532d1feee961dba30180aa23dc132e5e01a4d8d9126cc9d970"
     },
     {
       "path": "/governance.json",
       "url": "https://3webobs.com/governance.json",
-      "bytes": 7966,
-      "sha256": "8a10388defa57fed63b5a6d9541bea0d45d15dbb307e49036c41c1957137eeb5"
+      "bytes": 7959,
+      "sha256": "72824ecf4dc1c8efa6a2cb69dfd460466056e3373528729825ad9aadeef29193"
     },
     {
       "path": "/humans.txt",
@@ -167,8 +167,8 @@
     {
       "path": "/index.html",
       "url": "https://3webobs.com/index.html",
-      "bytes": 190007,
-      "sha256": "0c9df76ac30a6bfeccf3c02d3c31f650a81cf80a1b516968c5b8e8a8f208962a"
+      "bytes": 191604,
+      "sha256": "419852814ed7289683d6b600c9184f1d715848387608613eb632f940a7ba4dd1"
     },
     {
       "path": "/intents.json",
@@ -191,8 +191,8 @@
     {
       "path": "/policy.html",
       "url": "https://3webobs.com/policy.html",
-      "bytes": 56575,
-      "sha256": "ea3db0b9e5f85bb737bd2a837e5da82ce15b3cc5c524dc1beefce763e5fcd9bd"
+      "bytes": 56540,
+      "sha256": "aa89e8303698dd1acb1cc3b1e78835cd4056ba787a3d40067928ba90ef361120"
     },
     {
       "path": "/policy.json",
@@ -233,8 +233,8 @@
     {
       "path": "/terms.html",
       "url": "https://3webobs.com/terms.html",
-      "bytes": 61901,
-      "sha256": "6ca27b2c5eb50ffffb561486fb35adf9f9291b52ad8c5682c242e7a69f96fa7c"
+      "bytes": 61866,
+      "sha256": "4164feac189c99831ba078804be967b528457e2b907b17d28611fe230020a302"
     }
   ],
   "verification": {
