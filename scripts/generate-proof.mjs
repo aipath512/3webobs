@@ -6,6 +6,7 @@ const BASE = "https://3webobs.com";
 const PATHS = [
   "/.well-known/agent-card.json",
   "/.well-known/security.txt",
+  "/404.html",
   "/actions.json",
   "/adn.json",
   "/ai-act.html",
@@ -20,6 +21,9 @@ const PATHS = [
   "/contact.html",
   "/cookies.html",
   "/entities.json",
+  "/for-ai-teams.html",
+  "/for-compliance-consultants.html",
+  "/for-seo-agencies.html",
   "/gdpr.html",
   "/governance.json",
   "/humans.txt",
@@ -30,10 +34,11 @@ const PATHS = [
   "/policy.html",
   "/policy.json",
   "/robots.txt",
+  "/self-audit.html",
   "/session.json",
   "/site.webmanifest",
   "/sitemap.xml",
-  "/terms.html"
+  "/terms.html",
 ].sort();
 
 function sha256(buffer) {
