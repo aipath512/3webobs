@@ -27,23 +27,63 @@ jobs:
         with:
           node-version: "22"
 
-      - name: Wait for this commit to be live on Cloudflare
+      # ── CAUZA CURSEI, REPARATA ──────────────────────────────────────────
+      # Versiunea veche astepta doar ca signals.json sa fie live. Daca un
+      # commit schimba index.html dar NU signals.json, bucla de asteptare
+      # trecea instant (signals.json era deja live si identic din deploy-ul
+      # anterior) si manifestul se genera peste un index.html VECHI.
+      # Exact asta a produs mismatch-ul gasit de auditul extern.
+      #
+      # Acum asteptam pana cand FIECARE fisier din manifest are, live, exact
+      # acelasi hash ca in repo la acest commit. Abia atunci deploy-ul e
+      # sigur complet propagat.
+      - name: Wait until the live site matches this commit, file by file
         shell: bash
         run: |
-          EXPECTED=$(sha256sum signals.json | awk '{print $1}')
-          echo "Expected signals.json SHA-256: $EXPECTED"
-          for i in {1..60}; do
-            if curl -fsS "https://3webobs.com/signals.json?proof_wait=$GITHUB_SHA" -o /tmp/live-signals.json; then
-              LIVE=$(sha256sum /tmp/live-signals.json | awk '{print $1}')
-              echo "Live SHA-256: $LIVE"
-              if [ "$LIVE" = "$EXPECTED" ]; then
-                echo "Current commit is live."
-                exit 0
+          set -uo pipefail
+          MAX_ATTEMPTS=60
+          SLEEP_SECONDS=10
+
+          mapfile -t PATHS < <(node -e '
+            const src = require("fs").readFileSync("scripts/generate-proof.mjs","utf8");
+            const m = src.match(/const PATHS = \[([\s\S]*?)\]/);
+            if (!m) process.exit(1);
+            for (const line of m[1].split("\n")) {
+              const q = line.match(/"([^"]+)"/);
+              if (q) console.log(q[1]);
+            }
+          ')
+
+          echo "Verific ${#PATHS[@]} fisiere."
+
+          for attempt in $(seq 1 $MAX_ATTEMPTS); do
+            MISMATCHED=0
+            FIRST_BAD=""
+            for p in "${PATHS[@]}"; do
+              LOCAL_FILE=".${p}"
+              [ -f "$LOCAL_FILE" ] || continue
+              EXPECTED=$(sha256sum "$LOCAL_FILE" | awk '{print $1}')
+              if curl -fsS "https://3webobs.com${p}?proof_wait=${GITHUB_SHA}" -o /tmp/live_asset 2>/dev/null; then
+                LIVE=$(sha256sum /tmp/live_asset | awk '{print $1}')
+                if [ "$LIVE" != "$EXPECTED" ]; then
+                  MISMATCHED=$((MISMATCHED+1))
+                  [ -z "$FIRST_BAD" ] && FIRST_BAD="$p"
+                fi
+              else
+                MISMATCHED=$((MISMATCHED+1))
+                [ -z "$FIRST_BAD" ] && FIRST_BAD="$p (nu raspunde)"
               fi
+            done
+
+            if [ "$MISMATCHED" -eq 0 ]; then
+              echo "Deploy-ul acestui commit este complet live. Continui."
+              exit 0
             fi
-            sleep 10
+            echo "Incercarea $attempt/$MAX_ATTEMPTS: $MISMATCHED fisiere inca nepropagate (primul: $FIRST_BAD)."
+            sleep $SLEEP_SECONDS
           done
-          echo "Cloudflare did not publish this signals.json version in time."
+
+          echo "Cloudflare nu a propagat complet acest commit in timpul alocat."
           exit 1
 
       - name: Generate proof.json from live public files
@@ -51,6 +91,30 @@ jobs:
 
       - name: Copy canonical manifest to ai-proof.json
         run: cp proof.json ai-proof.json
+
+      # Verificare finala: manifestul proaspat generat trebuie sa corespunda
+      # fisierelor din repo. Daca nu, mai bine esuam decat sa publicam o
+      # dovada falsa.
+      - name: Verify the generated manifest against the repo
+        shell: bash
+        run: |
+          set -euo pipefail
+          node -e '
+            const fs = require("fs"), crypto = require("crypto");
+            const proof = JSON.parse(fs.readFileSync("proof.json","utf8"));
+            let bad = 0;
+            for (const e of proof.files) {
+              const local = "." + e.path;
+              if (!fs.existsSync(local)) continue;
+              const h = crypto.createHash("sha256").update(fs.readFileSync(local)).digest("hex");
+              if (h !== e.sha256) {
+                console.error("MISMATCH " + e.path + ": manifest " + e.sha256.slice(0,12) + " vs repo " + h.slice(0,12));
+                bad++;
+              }
+            }
+            if (bad) { console.error(bad + " nepotriviri - nu public un manifest fals."); process.exit(1); }
+            console.log("Manifest verificat: toate hash-urile corespund repo-ului.");
+          '
 
       - name: Commit proof manifests if changed
         shell: bash
