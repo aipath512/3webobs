@@ -8,7 +8,8 @@
 const CORS = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'GET,POST,OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type',
+  'Access-Control-Allow-Headers': 'Content-Type, A2A-Version, A2A-Extensions',
+  'Access-Control-Expose-Headers': 'A2A-Version',
 };
 
 function json(obj, status = 200, extraHeaders = {}) {
@@ -171,7 +172,41 @@ async function validateNotify(notify) {
    complet verificarea facuta pe URL-ul initial. Fiecare hop e revalidat
    prin normalizeUrl + resolveHostIsPrivate inainte de a fi urmat. */
 const MAX_RESPONSE_BYTES = 3 * 1024 * 1024; // 3MB — suficient pentru HTML/JSON, opreste raspunsuri abuzive
+
+/* ---------- limitator de concurenta ----------
+   Cloudflare permite maximum 6 conexiuni simultane de iesire per invocatie,
+   IDENTIC pe planul Free si pe cel Paid — nu e o limita de subrequesturi si
+   nu se rezolva prin upgrade. Codul facea Promise.all pe 23 de fisiere JSON
+   si pe toate linkurile interne deodata; cererile peste 6 se puneau la coada,
+   iar cand coada depasea timeout-ul de 8s rezultatul devenea status 0.
+   Pool-ul de 4 lasa loc si pentru DNS/PageSpeed care ruleaza in paralel. */
+const MAX_CONCURRENT_FETCH = 4;
+let inFlight = 0;
+const fetchQueue = [];
+function acquireSlot() {
+  if (inFlight < MAX_CONCURRENT_FETCH) { inFlight++; return Promise.resolve(); }
+  return new Promise(resolve => fetchQueue.push(resolve));
+}
+function releaseSlot() {
+  const next = fetchQueue.shift();
+  if (next) next(); else inFlight--;
+}
+
+/* Elibereaza conexiunea cand raspunsul nu e citit. Fara asta, orice raspuns
+   abandonat (redirect, eroare, HEAD respins) tine conexiunea ocupata pana la
+   sfarsitul invocatiei, iar cele 6 sloturi se epuizeaza. Cauza reala a
+   celor 4 URL-uri raportate ca HTTP 0 in sitemap. */
+function discardBody(r) {
+  try { if (r && r.body && !r.bodyUsed) r.body.cancel(); } catch {}
+}
+
 async function safeFetch(url, opts = {}, hops = 0) {
+  await acquireSlot();
+  try { return await safeFetchInner(url, opts, hops); }
+  finally { releaseSlot(); }
+}
+
+async function safeFetchInner(url, opts = {}, hops = 0) {
   const ctrl = new AbortController();
   const t = setTimeout(() => ctrl.abort(), 8000);
   try {
@@ -182,12 +217,17 @@ async function safeFetch(url, opts = {}, hops = 0) {
     }
     const r = await fetch(target.href, { ...opts, signal: ctrl.signal, redirect: 'manual' });
     if ([301, 302, 303, 307, 308].includes(r.status)) {
+      /* raspunsul de redirect are corp; daca nu e consumat, conexiunea ramane
+         ocupata. Cele 11 redirecturi 308 din sitemap epuizau singure sloturile. */
+      discardBody(r);
       const loc = r.headers.get('location');
-      if (!loc || hops >= 4) return { ok: false, status: r.status, text: '', error: 'blocked: redirect limit or missing Location' };
+      if (!loc || hops >= 4) return { ok: false, status: r.status, text: '', errorKind: 'redirect', error: 'blocked: redirect limit or missing Location' };
       let nextUrl;
-      try { nextUrl = new URL(loc, target.href).href; } catch { return { ok: false, status: r.status, text: '', error: 'blocked: invalid redirect target' }; }
+      try { nextUrl = new URL(loc, target.href).href; } catch { return { ok: false, status: r.status, text: '', errorKind: 'redirect', error: 'blocked: invalid redirect target' }; }
       clearTimeout(t);
-      return safeFetch(nextUrl, opts, hops + 1);
+      /* recursie pe Inner, nu pe safeFetch: altfel un hop ar cere un al doilea
+         slot tinandu-l pe primul, iar un lant de redirecturi ar bloca pool-ul. */
+      return safeFetchInner(nextUrl, opts, hops + 1);
     }
     const reader = r.body ? r.body.getReader() : null;
     let text = '';
@@ -210,7 +250,13 @@ async function safeFetch(url, opts = {}, hops = 0) {
     return { ok: r.ok, status: r.status, text, headers: r.headers,
              redirected: hops > 0, finalUrl: target.href };
   } catch (e) {
-    return { ok: false, status: 0, text: '', error: String(e) };
+    /* status 0 nu mai e o eticheta unica: raportam cauza, ca un timeout sa nu
+       mai fie confundat cu un URL care chiar nu exista. */
+    const msg = String(e);
+    const kind = /abort/i.test(msg) ? 'timeout'
+      : /subrequest/i.test(msg) ? 'subrequest_limit'
+      : /connection|network|socket/i.test(msg) ? 'connection' : 'exception';
+    return { ok: false, status: 0, text: '', errorKind: kind, error: msg };
   } finally {
     clearTimeout(t);
   }
@@ -302,8 +348,19 @@ async function logToRegistry(ctx, targetUrl, type) {
   }
 }
 
-async function attemptSafeInvocation(origin, caps) {
+async function attemptSafeInvocation(origin, caps, opts) {
   const list = caps && Array.isArray(caps.capabilities) ? caps.capabilities : [];
+  /* ATENTIE — invocare activa, nu observare pasiva.
+     `safe_to_invoke: true` este o declaratie a site-ului AUDITAT despre el insusi.
+     Un scanner care face POST doar pe baza ei executa cod pe o tinta care si-a
+     acordat singura permisiunea: orice site poate declara asta si poate produce
+     efecte secundare reale. De aceea invocarea e acum OPT-IN explicit, cerut de
+     cel care ruleaza auditul ({ invokeDeclaredCapability: true }), nu implicita.
+     Fara opt-in, semnalele de invocare raman `na` — necunoscut, nu esec. */
+  if (!opts || opts.invokeDeclaredCapability !== true) {
+    return { attempted: false, skipped: 'not_opted_in',
+      reason: 'invocarea capabilitatii declarate necesita consimtamantul celui care ruleaza auditul; declaratia safe_to_invoke a site-ului auditat nu e suficienta' };
+  }
   const safeCap = list.find(c => c && c.safe_to_invoke === true && c.side_effects === 'none' && c.a2a_invocation);
   if (!safeCap) return { attempted: false, reason: 'niciun capability declarat safe_to_invoke:true cu side_effects:"none"' };
   const inv = safeCap.a2a_invocation;
@@ -406,7 +463,7 @@ function parseRobots(text) {
   return out;
 }
 
-async function gatherEvidence(target) {
+async function gatherEvidence(target, opts) {
   const origin = target.origin;
   const [main, robots, sitemap, llms, aitxt] = await Promise.all([
     safeFetch(target.href),
@@ -430,7 +487,7 @@ async function gatherEvidence(target) {
     if (r.ok) { try { jsonBodies[n] = JSON.parse(r.text); } catch { jsonBodies[n] = null; } }
   }));
 
-  const safeInvocation = await attemptSafeInvocation(origin, jsonBodies['capabilities.json']);
+  const safeInvocation = await attemptSafeInvocation(origin, jsonBodies['capabilities.json'], opts);
 
   const html = main.text || '';
   const ld = extractJsonLd(html);
@@ -458,10 +515,13 @@ async function gatherEvidence(target) {
       if (!r.ok && (r.status === 405 || r.status === 501 || r.status === 0)) {
         r = await safeFetch(u, { method: 'GET' });
       }
-      return { url: u, status: r.status, ok: r.status >= 200 && r.status < 400 };
-    } catch { return { url: u, status: 0, ok: false }; }
+      return { url: u, status: r.status, ok: r.status >= 200 && r.status < 400, errorKind: r.errorKind || null };
+    } catch { return { url: u, status: 0, ok: false, errorKind: 'exception' }; }
   }));
-  const brokenLinks = linkChecks.filter(c => !c.ok);
+  /* acelasi principiu ca la sitemap: o eroare de transport a scannerului nu e
+     un link stricat al site-ului auditat. */
+  const brokenLinks = linkChecks.filter(c => !c.ok && !c.errorKind);
+  const inconclusiveLinks = linkChecks.filter(c => !c.ok && c.errorKind);
 
   /* ---- parsare REALA a sitemap-ului ----
      Inainte se verifica doar ca sitemap.xml raspunde 200. Acum se parseaza,
@@ -481,11 +541,15 @@ async function gatherEvidence(target) {
       try {
         let r = await safeFetch(u, { method: 'HEAD' });
         if (!r.ok && (r.status === 405 || r.status === 501 || r.status === 0)) r = await safeFetch(u, { method: 'GET' });
-        return { url: u, status: r.status, ok: r.status >= 200 && r.status < 400 };
-      } catch { return { url: u, status: 0, ok: false }; }
+        return { url: u, status: r.status, ok: r.status >= 200 && r.status < 400, errorKind: r.errorKind || null };
+      } catch (e) { return { url: u, status: 0, ok: false, errorKind: 'exception' }; }
     }));
     sitemapInfo.sampleChecked = smChecks.length;
-    sitemapInfo.sampleBroken = smChecks.filter(c => !c.ok);
+    /* Un URL care nu a putut fi verificat din cauza scannerului (timeout, conexiune,
+       exceptie) NU e un URL stricat al site-ului auditat. Il raportam separat, ca
+       verificare neconcludenta, ca sa nu mai producem fals-negative pe sitemap. */
+    sitemapInfo.sampleBroken = smChecks.filter(c => !c.ok && !c.errorKind);
+    sitemapInfo.sampleInconclusive = smChecks.filter(c => !c.ok && c.errorKind);
   }
   const wordCount = html.replace(/<script[\s\S]*?<\/script>/gi, '')
     .replace(/<style[\s\S]*?<\/style>/gi, '')
@@ -553,7 +617,7 @@ async function gatherEvidence(target) {
     })(),
     robots: robots.ok ? robots.text : null,
     sitemap: sitemap.ok, sitemapText: sitemap.ok ? sitemap.text : '',
-    sitemapInfo, linkChecks, brokenLinks,
+    sitemapInfo, linkChecks, brokenLinks, inconclusiveLinks,
     llms: llms.ok ? llms.text : null,
     aitxt: aitxt.ok ? aitxt.text : null,
     jsonFiles, jsonBodies, safeInvocation,
@@ -976,6 +1040,14 @@ function evalSignal(sig, ev, psi) {
       method: 'proof.json exista dar nu contine intrari cu hash SHA-256 valid (64 hex)' };
     if (!pc.checked) return { status: 'partial', score: 55,
       method: `${pc.entries} intrari declarate, dar niciuna nu a putut fi verificata` };
+
+    /* geo25 (Integrity Manifest Presence and Validity) evalueaza EXISTENTA si
+       structura manifestului; ai6 (SHA-256 Integrity Manifest) evalueaza daca
+       hash-urile corespund octetilor serviti live. Inainte ambele rulau aceeasi
+       ramura, deci un singur defect real producea doua FAIL-uri in doua
+       dimensiuni. Acum doar semnalul de hash penalizeaza nepotrivirile. */
+    if (/Integrity Manifest Presence and Validity/i.test(sig.n)) return { status: 'pass', score: 92,
+      method: `${pc.entries} intrari cu hash SHA-256 valid, manifest publicat si parsabil` };
 
     if (pc.mismatches.length === 0) return { status: 'pass', score: 95,
       method: `${pc.entries} fisiere in manifest; ${pc.verified}/${pc.checked} verificate criptografic, hash-urile corespund exact` };
@@ -1475,7 +1547,17 @@ function evalSignal(sig, ev, psi) {
       method: `${qHeads} headinguri formulate ca intrebare + ${faq} blocuri Q&A` };
   }
 
-  if (/Context Continuity Across Sections|Cross-Page Factual Consistency/i.test(n)) {
+  /* Cross-Page Factual Consistency cere compararea a doua sau mai multe pagini.
+     Auditul citeste o singura pagina, deci acest semnal NU e testabil aici.
+     Inainte imprumuta metrica lexicala de la Context Continuity si raporta un
+     verdict care nu corespundea numelui semnalului. Ramane 'na' pana exista
+     un mod multi-pagina real. */
+  if (/Cross-Page Factual Consistency/i.test(n)) {
+    return { status: 'na', score: null,
+      method: 'necesita compararea mai multor pagini; auditul curent evalueaza o singura pagina' };
+  }
+
+  if (/Context Continuity Across Sections/i.test(n)) {
     if (allHeads.length < 2) return { status: 'fail', score: 15, method: 'prea putine sectiuni pentru a evalua continuitatea' };
     const headWords = allHeads.map(h => h.replace(/<[^>]+>/g, '').toLowerCase().split(/\W+/).filter(w => w.length > 4));
     let shared = 0;
@@ -2132,7 +2214,9 @@ export default {
       const target = normalizeUrl(extractUrlFromText(body.url));
       if (!target) return json({ error: 'invalid url' }, 400);
 
-      const ev = await gatherEvidence(target);
+      /* invokeDeclaredCapability: opt-in explicit al celui care cere auditul,
+         pentru a permite un POST catre /a2a-ul site-ului auditat. Implicit false. */
+      const ev = await gatherEvidence(target, { invokeDeclaredCapability: body.invokeDeclaredCapability === true });
       if (!ev.mainOk) return json({ error: 'unreachable', detail: `nu am putut accesa ${target.href}`, status: ev.status }, 200);
 
       const psi = body.pagespeed === false ? null : await fetchPageSpeed(target.href, env);
@@ -2251,6 +2335,24 @@ export default {
 
       if (rpc.jsonrpc !== '2.0') return rpcErr(-32600, 'Invalid Request: jsonrpc must be "2.0"');
 
+      /* ---------- negociere de versiune A2A ----------
+         Specificatia v1.0 (sectiunea 3.6): clientul trimite antetul A2A-Version;
+         un antet absent INSEAMNA 0.3, nu "cea mai noua". Un agent poate expune
+         mai multe interfete pe acelasi transport cu versiuni diferite.
+         Deci nu e un hack de compatibilitate: e comportamentul cerut de standard.
+         Diferentele de format intre 0.3 si 1.0:
+           - 0.3: parts au discriminator `kind`, role este "user"/"agent"
+           - 1.0: discriminatorul `kind` a fost ELIMINAT (Appendix A.2.1),
+                  un Part contine exact unul dintre text/data/url/raw,
+                  iar Role este enum: ROLE_USER / ROLE_AGENT */
+      const verRaw = String(request.headers.get('A2A-Version') || url.searchParams.get('A2A-Version') || '').trim();
+      const wireVersion = verRaw === '' ? '0.3' : verRaw.split('.').slice(0, 2).join('.');
+      if (!['0.3', '1.0'].includes(wireVersion)) {
+        return rpcErr(-32003, 'VersionNotSupportedError: this interface implements A2A 1.0 and 0.3',
+          { requested: verRaw, supported: ['1.0', '0.3'] });
+      }
+      const isV1 = wireVersion === '1.0';
+
       /* tasks/get, tasks/cancel — backed by the same KV subscription record used by
          obs.permanent. These are the only long-lived "tasks" this Worker has: everything
          else (obs_one_shot, obs_diff, obs_explain, obs_catalogue) completes synchronously
@@ -2276,8 +2378,15 @@ export default {
         let sub = null;
         try { sub = JSON.parse(await env.RATE_KV.get('sub:' + taskId)); } catch {}
         if (!sub) return rpcErr(-32001, 'Task not found', { id: taskId });
-        const stateOf = (s) => s === 'active' ? 'working' : s === 'cancelled' ? 'canceled'
-          : s === 'target_unreachable' ? 'failed' : s === 'registered' ? 'submitted' : 'unknown';
+        /* TaskState: v1.0 foloseste enumul TASK_STATE_*, v0.3 sirurile scurte. */
+        const stateOf = (s) => {
+          const short = s === 'active' ? 'working' : s === 'cancelled' ? 'canceled'
+            : s === 'target_unreachable' ? 'failed' : s === 'registered' ? 'submitted' : 'unknown';
+          if (!isV1) return short;
+          const map = { working: 'TASK_STATE_WORKING', canceled: 'TASK_STATE_CANCELED',
+            failed: 'TASK_STATE_FAILED', submitted: 'TASK_STATE_SUBMITTED', unknown: 'TASK_STATE_UNSPECIFIED' };
+          return map[short];
+        };
         if (method === 'tasks/cancel') {
           sub.status = 'cancelled';
           sub.cancelledAt = new Date().toISOString();
@@ -2297,18 +2406,33 @@ export default {
 
       const msg = rpc.params && rpc.params.message;
       const parts = (msg && msg.parts) || [];
-      const dataPart = parts.find(p => p.kind === 'data' || p.type === 'data');
-      const textPart = parts.find(p => p.kind === 'text' || p.type === 'text');
+      /* Detectia partilor nu se mai bazeaza pe `kind`/`type`. In v1 un Part e
+         identificat prin CAMPUL pe care il contine, iar `kind` nu mai exista.
+         Codul vechi cauta doar kind==='data'/'text', deci o cerere v1 valida
+         ({parts:[{text:"..."}]}) nu gasea nimic, payload ramanea gol si
+         raspunsul era -32602 Invalid params — exact eroarea din audit. */
+      const dataPart = parts.find(p => p && p.data !== undefined && p.data !== null)
+        || parts.find(p => p && (p.kind === 'data' || p.type === 'data'));
+      const textPart = parts.find(p => p && typeof p.text === 'string')
+        || parts.find(p => p && (p.kind === 'text' || p.type === 'text'));
       const payload = (dataPart && (dataPart.data || dataPart.payload)) || {};
       const skill = payload.skill || (rpc.params && rpc.params.skill) || 'obs_one_shot';
 
+      /* Rolul acceptat la intrare: "user" (0.3) sau ROLE_USER (1.0). Orice
+         altceva e o cerere formata gresit, nu o tacere care produce un audit. */
+      const inRole = String((msg && msg.role) || '').toUpperCase().replace('ROLE_', '');
+      if (msg && inRole && inRole !== 'USER') {
+        return rpcErr(-32602, 'Invalid params: message.role must be ROLE_USER (v1) or "user" (v0.3)');
+      }
+
       const reply = (obj) => json({
         jsonrpc: '2.0', id,
-        result: {
-          kind: 'message', role: 'agent',
-          messageId: crypto.randomUUID(),
-          parts: [{ kind: 'data', data: obj }]
-        }
+        result: isV1
+          ? { messageId: crypto.randomUUID(), role: 'ROLE_AGENT',
+              parts: [{ data: obj, mediaType: 'application/json' }] }
+          : { kind: 'message', role: 'agent',
+              messageId: crypto.randomUUID(),
+              parts: [{ kind: 'data', data: obj }] }
       });
 
       /* ── obs_catalogue ── */

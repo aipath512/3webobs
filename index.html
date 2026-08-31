@@ -1145,7 +1145,7 @@ html.dark .share-btn-wa:hover, html.dark .share-btn-wa:hover * { color: #ffffff 
       <!-- CTA row -->
       <div style="padding:14px 18px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
         <div style="font-size:11px;color:var(--text);opacity:.6;">
-          💳 Secure payment · Cancel anytime
+          💬 Order via WhatsApp · No card charged here · Cancel anytime
         </div>
         <a class="btn-inv btn-order" href="https://api.whatsapp.com/send/?phone=40737123540&text=Hi%2C%20I%20want%20to%20order%203webs%2049€" target="_blank">
           Order → WhatsApp
@@ -1184,9 +1184,9 @@ html.dark .share-btn-wa:hover, html.dark .share-btn-wa:hover * { color: #ffffff 
           </button>
           <div class="pill-acc-body" id="pb-ai" style="display:none">
             <p class="pill-acc-def"><strong>What it is:</strong> AI Signals are dedicated machine-readable files and permissions that explicitly declare your brand to AI crawlers — separate from SEO or schema work.</p>
-            <p class="pill-acc-def"><strong>Why it matters:</strong> Without explicit permissions, GPTBot and ClaudeBot are blocked by default. Without proof.json and entities.json, your brand identity cannot be verified by AI systems.</p>
+            <p class="pill-acc-def"><strong>Why it matters:</strong> AI crawlers such as GPTBot and ClaudeBot follow robots.txt: they are allowed unless you disallow them, and an explicit rule is what makes your policy unambiguous and auditable. Without proof.json and entities.json, your brand identity cannot be verified by AI systems.</p>
             <p class="pill-acc-eg"><strong>Examples:</strong> ClaudeBot Allow · GPTBot Allow · Google-Extended Allow · proof.json SHA-256 · Cryptographic IP proof · entities.json · intents.json · governance.json · allow-lane-matrix.json · EU AI Act tag · session.json</p>
-            <p class="pill-acc-eg"><strong>Real impact:</strong> 5thElement.ai is top 1% worldwide — scoring 88–96 on these 32 signals. Most sites score 0–5.</p>
+            <p class="pill-acc-eg"><strong>Real impact:</strong> 5thElement.ai scores 88–96 on these signals in our own audit. Most sites we have scanned declare none of them at all. Measured with the 3webs method — not an independent industry ranking.</p>
             <a class="pill-acc-link" href="#pacc-ai" onclick="scrollToAcc('ai-signals-acc')">→ See your AI Signals score in results</a>
           </div>
         </div>
@@ -1202,7 +1202,7 @@ html.dark .share-btn-wa:hover, html.dark .share-btn-wa:hover * { color: #ffffff 
         <p class="pill-acc-def"><strong>What it is:</strong> AEO structures your content so AI assistants — ChatGPT, Gemini, Perplexity, Siri — extract it as a direct answer without the user clicking a link.</p>
         <p class="pill-acc-def"><strong>Why it matters:</strong> 60%+ of AI responses cite zero external links. If your content isn't AEO-optimised, you're invisible in the answer layer — even if you rank #1 on Google.</p>
         <p class="pill-acc-eg"><strong>Examples of AEO signals:</strong> FAQ Schema · HowTo Schema · Answer-First paragraphs · Featured Snippet formatting · Question-intent URLs · Speakable Schema · Direct Definition Blocks</p>
-        <p class="pill-acc-eg"><strong>Real impact:</strong> A site with FAQ schema + answer-first structure is 4× more likely to be quoted in ChatGPT Browse responses than a site without.</p>
+        <p class="pill-acc-eg"><strong>Real impact:</strong> FAQ schema and answer-first structure make a page easier to quote verbatim, because the answer is already isolated from the surrounding page. We publish no citation-rate figure, because we cannot measure one from outside the providers.</p>
         <a class="pill-acc-link" href="#pacc-aeo" onclick="scrollToAcc('aeo-acc')">→ See your AEO score in results</a>
       </div>
     </div>
@@ -1218,7 +1218,7 @@ html.dark .share-btn-wa:hover, html.dark .share-btn-wa:hover * { color: #ffffff 
         <p class="pill-acc-def"><strong>What it is:</strong> GEO makes your brand entity discoverable, citable, and trustworthy to the generative AI layer — the infrastructure that LLMs use to decide WHO to mention.</p>
         <p class="pill-acc-def"><strong>Why it matters:</strong> Google, Claude, Gemini and ChatGPT all resolve brand identity through entity graphs. Without a declared entity, you are a string of text — not a brand. You cannot be cited with confidence.</p>
         <p class="pill-acc-eg"><strong>Examples of GEO signals:</strong> llms.txt · ai.json · entities.json · JSON-LD entity graph · Organization Schema · sameAs links to Wikipedia/Wikidata · Press mentions · LinkedIn entity verification · proof.json</p>
-        <p class="pill-acc-eg"><strong>Real impact:</strong> 5thElement.ai scores 96/100 on llms.txt — one of fewer than 2,000 domains globally with a fully declared AI entity stack.</p>
+        <p class="pill-acc-eg"><strong>Real impact:</strong> 5thElement.ai scores 96/100 on llms.txt. A complete declared entity stack (llms.txt + ai.json + entities.json + agent card) is still rare — we do not publish a global count, because no reliable census exists.</p>
         <a class="pill-acc-link" href="#pacc-geo" onclick="scrollToAcc('geo-acc')">→ See your GEO score in results</a>
       </div>
     </div>
@@ -1234,7 +1234,7 @@ html.dark .share-btn-wa:hover, html.dark .share-btn-wa:hover * { color: #ffffff 
         <p class="pill-acc-def"><strong>What it is:</strong> AIO covers the full stack of signals that determine how AI systems understand, rank, and reproduce your content — from crawler permissions to topical authority to RAG-readiness.</p>
         <p class="pill-acc-def"><strong>Why it matters:</strong> LLMs don't just read your page — they decide whether your content deserves to be in their training corpus and retrieval layer. AIO is the difference between being a source and being invisible.</p>
         <p class="pill-acc-eg"><strong>Examples of AIO signals:</strong> Topical Authority depth · Semantic keyword clusters · E-E-A-T score · RAG-ready content format · Corpus inclusion signals · ChatGPT Browse visibility · Gemini grounding eligibility · Claude source indexing</p>
-        <p class="pill-acc-eg"><strong>Real impact:</strong> Sites with RAG-ready structure (chunked, cited, dense paragraphs) are 6× more likely to appear in Perplexity cited sources.</p>
+        <p class="pill-acc-eg"><strong>Real impact:</strong> Chunked, densely cited paragraphs are what retrieval systems index and quote. Any multiplier on citation rates would be unverifiable from outside the provider, so we do not claim one.</p>
         <a class="pill-acc-link" href="#pacc-aio" onclick="scrollToAcc('aio-acc')">→ See your AIO score in results</a>
       </div>
     </div>
