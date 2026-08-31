@@ -1,20 +1,23 @@
 {
-  "protocolVersion": "1.0",
   "name": "3webs OBS",
   "description": "Observes how a domain appears across the three webs — the human web, the AI web and the machine web — and returns evidence-based findings. One-shot or permanent observation.",
-  "url": "https://3webobs.com/a2a",
-  "preferredTransport": "JSONRPC",
   "version": "3.0.0",
-  "documentationUrl": "https://3webobs.com/contact.html#agents",
-  "iconUrl": "https://3webobs.com/assets/og-cover.png",
-  "provider": {
-    "organization": "AIVENTURE S.R.L.",
-    "url": "https://3webobs.com/"
-  },
+  "supportedInterfaces": [
+    {
+      "url": "https://3webobs.com/a2a",
+      "protocolBinding": "JSONRPC",
+      "protocolVersion": "1.0"
+    },
+    {
+      "url": "https://3webobs.com/audit",
+      "protocolBinding": "HTTP+JSON",
+      "protocolVersion": "1.0"
+    }
+  ],
   "capabilities": {
     "streaming": false,
     "pushNotifications": false,
-    "stateTransitionHistory": true
+    "extendedAgentCard": false
   },
   "defaultInputModes": [
     "application/json",
@@ -24,14 +27,14 @@
     "application/json",
     "text/plain"
   ],
-  "securitySchemes": {
-    "anonymous": {
-      "type": "apiKey",
-      "in": "header",
-      "name": "Authorization",
-      "description": "Public discovery and supported anonymous operations may not require credentials. Sustained or privileged use may require credentials under a separate integration agreement."
-    }
+  "securitySchemes": {},
+  "security": [],
+  "provider": {
+    "organization": "AIVENTURE S.R.L.",
+    "url": "https://3webobs.com/"
   },
+  "documentationUrl": "https://3webobs.com/contact.html#agents",
+  "iconUrl": "https://3webobs.com/assets/og-cover.png",
   "skills": [
     {
       "id": "obs_one_shot",
@@ -63,14 +66,13 @@
     {
       "id": "obs_permanent",
       "name": "Observe a domain permanently",
-      "description": "Declared continuous-observation capability. Scheduled execution is not currently operational; activation requires configured scheduling infrastructure.",
+      "description": "Register a domain for scheduled re-observation. Runs on a Cloudflare Cron Trigger at the chosen interval (daily, weekly or monthly), records each score, and POSTs a change notification to a callback URL when the score moves past your threshold. Email delivery is not yet wired to a provider — use a callback URL.",
       "tags": [
         "monitoring",
         "observation",
         "regression",
         "continuous",
-        "subscription",
-        "declared-not-operational"
+        "subscription"
       ],
       "examples": [
         "Watch example.com weekly and tell me if anything breaks",
@@ -149,19 +151,6 @@
       "outputModes": [
         "application/json"
       ]
-    }
-  ],
-  "supportsAuthenticatedExtendedCard": false,
-  "additionalInterfaces": [
-    {
-      "url": "https://3webobs.com/audit",
-      "transport": "HTTP+JSON",
-      "description": "Direct REST endpoint for obs_one_shot"
-    },
-    {
-      "url": "https://3webobs.com/observe",
-      "transport": "HTTP+JSON",
-      "description": "Direct REST endpoint for obs_permanent"
     }
   ],
   "x-3webs": {
