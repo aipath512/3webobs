@@ -92,10 +92,18 @@ async function main() {
     }
   }
 
-  // agregatul se recalculeaza din hash-urile DECLARATE, exact cum e definit
-  // in manifest.verification — verifica integritatea listei, nu a site-ului
-  const concat = files.map(f => f.sha256).sort().join('');
-  const aggregate = sha256(Buffer.from(concat));
+  /* Agregatul se recalculeaza EXACT dupa formula declarata in
+     manifest.verification.aggregate: sortare lexicografica dupa path, linii
+     "<path>:<sha256>", unite cu LF, fara newline final.
+     Versiunea anterioara concatena doar hash-urile sortate — alta formula
+     decat cea documentata, deci verificatorul "confirma" un agregat care nu
+     corespundea metodei publicate. */
+  const canonical = files
+    .slice()
+    .sort((a, b) => a.path < b.path ? -1 : a.path > b.path ? 1 : 0)
+    .map(f => `${f.path}:${f.sha256}`)
+    .join('\n');
+  const aggregate = sha256(Buffer.from(canonical, 'utf8'));
   const aggregateOk = aggregate === manifest.aggregate_sha256;
 
   log(`\n${'─'.repeat(60)}`);
