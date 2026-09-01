@@ -94,7 +94,7 @@
     {
       "id": "obs_permanent",
       "name": "Observe a domain permanently",
-      "description": "Register a domain for scheduled re-observation. The subscription is recorded and can be read or cancelled through GetTask / CancelTask. Scheduled execution runs from an external Cron Trigger and is only active when that scheduler is configured — check /stats before relying on it. Change notifications are delivered to a callback URL; email delivery is not wired to a provider.",
+      "description": "Register a domain for scheduled re-observation. The subscription is recorded and can be read or cancelled through GetTask / CancelTask. Scheduled execution is driven by an external hourly trigger; check /stats to confirm it is running on this deployment. Change notifications are delivered to a callback URL; email delivery is not wired to a provider.",
       "tags": [
         "monitoring",
         "observation",
