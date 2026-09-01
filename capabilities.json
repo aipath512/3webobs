@@ -92,11 +92,31 @@
         "human_readable": "First 3 reports/month per domain: free. After that: €19 per report, excluding VAT.",
         "pricing_page": "https://3webobs.com/pricing",
         "api_access": {
-          "pay_as_you_go_eur": 19,
-          "pack_100_eur": 1290,
-          "pack_500_eur": 4950,
+          "availability": "PreOrder",
+          "requires": [
+            "api_key",
+            "prepaid_credit"
+          ],
+          "pay_as_you_go_eur": 0.5,
+          "pack_1000_eur": 400,
+          "pack_1000_unit_price_eur": 0.4,
+          "pack_5000_eur": 1500,
+          "pack_5000_unit_price_eur": 0.3,
           "enterprise": "on request",
-          "human_readable": "API: €19/call. 100-call pack €1290 (€12.90/call). 500-call pack €4950 (€9.90/call). Enterprise on request."
+          "includes": [
+            "raw JSON report: signal verdicts, evidence, scores, coverage, confidence",
+            "observationId",
+            "engine version and catalogue version",
+            "machine-readable action plan"
+          ],
+          "excludes": [
+            "PDF export",
+            "shareable public report URL",
+            "entry in the integrity manifest",
+            "retained report history"
+          ],
+          "price_parity_rule": "The per-call price is below the per-report price only because the deliverable is strictly smaller. If machine access ever returns a PDF, a public URL, a signed report or retained history, the price moves to parity with the human report.",
+          "human_readable": "Machine access: EUR 0.50 per call on prepaid credit; EUR 0.40 per call in a 1,000-call pack (EUR 400); EUR 0.30 per call in a 5,000-call pack (EUR 1,500); enterprise on request. Returns raw JSON only. Not open yet: requires API keys and prepaid credit, both in preparation."
         }
       }
     },
@@ -265,5 +285,7 @@
     "A ranking, citation or commercial outcome in any third-party AI system.",
     "Legal compliance under any regulation.",
     "Completeness where a target site blocks automated access."
-  ]
+  ],
+  "pricing_source": "https://3webobs.com/pricing.json",
+  "pricing_note": "All commercial terms in this file are derived from pricing.json. If the two disagree, pricing.json is authoritative and the divergence is a bug."
 }
