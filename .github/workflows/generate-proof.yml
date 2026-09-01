@@ -27,6 +27,14 @@ jobs:
         with:
           node-version: "22"
 
+      # ── CE ASTEPTAM ─────────────────────────────────────────────────────
+      # Bucla verifica exact fisierele din PATHS (scripts/generate-proof.mjs).
+      # HTML-ul nu mai e in lista: Cloudflare injecteaza automat beacon-ul
+      # Web Analytics in fiecare pagina, deci octetii serviti nu pot fi
+      # identici cu cei din repo. Asteptam doar fisierele pe care nimic nu
+      # le modifica la livrare, deci potrivirea vine de obicei din prima
+      # incercare.
+      #
       # ── CAUZA CURSEI, REPARATA ──────────────────────────────────────────
       # Versiunea veche astepta doar ca signals.json sa fie live. Daca un
       # commit schimba index.html dar NU signals.json, bucla de asteptare
@@ -41,7 +49,7 @@ jobs:
         shell: bash
         run: |
           set -uo pipefail
-          MAX_ATTEMPTS=60
+          MAX_ATTEMPTS=30
           SLEEP_SECONDS=10
 
           mapfile -t PATHS < <(node -e '
