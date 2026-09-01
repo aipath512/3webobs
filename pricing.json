@@ -1,0 +1,201 @@
+{
+  "schema_version": "1.0",
+  "updated": "2026-09-01",
+  "canonical_url": "https://3webobs.com/pricing.json",
+  "currency": "EUR",
+  "role": "Single source of truth for all pricing on 3webobs.com. Every other representation (homepage, /pricing, FAQ visible text, FAQPage markup, OfferCatalog JSON-LD, capabilities.json, agent card, checkout) MUST be generated from this file. Divergence between this file and any published price is a bug, not a variant.",
+
+  "consumers": [
+    "index.html (OfferCatalog + visible pricing table)",
+    "pricing.html (comparison table + 3 section tables)",
+    "all 18 pages (OfferCatalog JSON-LD block)",
+    "FAQ (visible Q&A text + FAQPage markup — must match word for word)",
+    "capabilities.json (agent-readable commercial terms)",
+    "/.well-known/agent-card.json (skill pricing reference)",
+    "meta descriptions"
+  ],
+
+  "availability_rules": {
+    "note": "availability is not a free-text field. It reflects whether the delivery mechanism actually runs.",
+    "InStock": "the mechanism that delivers this plan is live and verified",
+    "PreOrder": "the plan is defined and priced but its delivery mechanism is not yet operational",
+    "monitoring_gate": "All monitoring plans stay PreOrder until the hourly cron calling /cron-tick is confirmed running. When the cron is green, flip the three monitoring plans to InStock and delete the disclaimer in notices.monitoring_not_running from every page."
+  },
+
+  "plans": [
+    {
+      "id": "free_tier",
+      "name": "Free reports",
+      "audience": "human",
+      "price": 0,
+      "unit": "report",
+      "quota": { "amount": 3, "per": "month", "scope": "domain" },
+      "billing": "none",
+      "availability": "InStock",
+      "deliverables": [
+        "full 167-signal report in the browser",
+        "per-signal evidence",
+        "prioritised action plan",
+        "score + coverage + confidence per dimension"
+      ],
+      "excluded": ["scheduled re-observation", "change alerts", "API access"],
+      "rationale": "Market convention, not a concession. 5 of 9 competing tools have a real free entry point."
+    },
+    {
+      "id": "extra_report",
+      "name": "Additional report",
+      "audience": "human",
+      "price": 19,
+      "unit": "report",
+      "billing": "one_time",
+      "availability": "InStock",
+      "deliverables": [
+        "everything in the free tier",
+        "shareable public report URL",
+        "PDF export",
+        "report hash recorded in the integrity manifest",
+        "retained history for the domain"
+      ],
+      "excluded": ["scheduled re-observation"]
+    },
+    {
+      "id": "monitor_monthly",
+      "name": "Monthly monitoring",
+      "audience": "human",
+      "price": 29,
+      "unit": "month",
+      "billing": "recurring",
+      "frequency": "monthly",
+      "scope": "per monitored domain",
+      "availability": "PreOrder",
+      "deliverables": [
+        "one full re-observation per month",
+        "delta against the previous observation",
+        "change alerts to a callback URL",
+        "full report history"
+      ]
+    },
+    {
+      "id": "monitor_weekly",
+      "name": "Weekly monitoring",
+      "audience": "human",
+      "price": 49,
+      "unit": "month",
+      "billing": "recurring",
+      "frequency": "weekly",
+      "scope": "per monitored domain",
+      "availability": "PreOrder",
+      "deliverables": [
+        "one full re-observation per week",
+        "delta against the previous observation",
+        "change alerts to a callback URL",
+        "full report history"
+      ]
+    },
+    {
+      "id": "monitor_daily",
+      "name": "Daily monitoring",
+      "audience": "human",
+      "price": 99,
+      "unit": "month",
+      "billing": "recurring",
+      "frequency": "daily",
+      "scope": "per monitored domain",
+      "availability": "PreOrder",
+      "deliverables": [
+        "one full re-observation per day",
+        "delta against the previous observation",
+        "change alerts to a callback URL",
+        "full report history"
+      ]
+    },
+    {
+      "id": "api_call",
+      "name": "Machine access (A2A / REST)",
+      "audience": "agent",
+      "price": 0.5,
+      "unit": "call",
+      "billing": "prepaid_credit",
+      "availability": "PreOrder",
+      "requires": ["api_key", "prepaid_balance"],
+      "deliverables": [
+        "raw JSON report: signal verdicts, evidence, scores, coverage, confidence",
+        "observationId",
+        "engine version + catalogue version",
+        "machine-readable action plan"
+      ],
+      "excluded": [
+        "PDF export",
+        "shareable public report URL",
+        "signed report / integrity manifest entry",
+        "retained report history",
+        "human-facing report page"
+      ],
+      "price_parity_note": "The 0.50 EUR price is defensible ONLY because the deliverable is strictly smaller than the 19 EUR human report. If the API ever returns a PDF, a public URL, a signed report or retained history, this price must move to parity with extra_report, otherwise the API becomes an arbitrage channel against the product itself."
+    },
+    {
+      "id": "api_pack_1000",
+      "name": "1,000 call credit pack",
+      "audience": "agent",
+      "price": 400,
+      "unit": "pack",
+      "unit_price": 0.4,
+      "quota": { "amount": 1000, "per": "pack", "scope": "account" },
+      "billing": "prepaid_credit",
+      "availability": "PreOrder",
+      "deliverables": ["same as api_call, 1,000 calls"],
+      "expiry": "12 months from purchase"
+    },
+    {
+      "id": "api_pack_5000",
+      "name": "5,000 call credit pack",
+      "audience": "agent",
+      "price": 1500,
+      "unit": "pack",
+      "unit_price": 0.3,
+      "quota": { "amount": 5000, "per": "pack", "scope": "account" },
+      "billing": "prepaid_credit",
+      "availability": "PreOrder",
+      "deliverables": ["same as api_call, 5,000 calls"],
+      "expiry": "12 months from purchase"
+    },
+    {
+      "id": "ai_ready_implementation",
+      "name": "AI-READY implementation",
+      "audience": "human",
+      "price": null,
+      "unit": "project",
+      "billing": "quote",
+      "availability": "InStock",
+      "deliverables": [
+        "remediation of failed signals, not measurement of them",
+        "edge delivery of the machine-web signal layer",
+        "re-audit with delta against the baseline observation"
+      ],
+      "rationale": "The positioning argument: competitors tell you whether you are cited. This tells you why you are not, and then fixes it."
+    },
+    {
+      "id": "enterprise",
+      "name": "Enterprise",
+      "audience": "human",
+      "price": null,
+      "unit": "contract",
+      "billing": "quote",
+      "availability": "InStock",
+      "deliverables": ["negotiated volume", "dedicated terms", "SLA"]
+    }
+  ],
+
+  "integrity_rules": [
+    "No monitoring plan may cost less per month than a single additional report. A monthly plan delivers at least one report, so pricing it below extra_report makes the standalone report irrational to buy.",
+    "The per-call API price and the per-report human price may differ ONLY while their deliverables differ. Same output, same price.",
+    "Volume packs must decrease monotonically in unit price.",
+    "Any plan whose delivery mechanism is not running is PreOrder, in this file and in schema.org, with no exception for pages that look better without the label."
+  ],
+
+  "notices": {
+    "monitoring_not_running": "Scheduled re-observation is not yet running. Monitoring plans are listed as pre-order.",
+    "sample_report": "SAMPLE — illustrative data, fictional domain.",
+    "no_guarantee": "An audit does not guarantee citation or ranking."
+  }
+}

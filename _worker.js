@@ -688,6 +688,16 @@ async function gatherEvidence(target, opts) {
           const byline = /\bby\s+[A-Z][a-z]+\s+[A-Z][a-z]+|<time[^>]+datetime=|rel=["']author["']/i.test(txt);
           return words > 900 && hasArticleTag && byline;
         })(),
+        /* Speakable e o functie in disponibilitate limitata, restransa la
+           publisheri de stiri in cateva piete. Ceruta universal, producea FAIL
+           pe pagini carora nu li se aplica — un fals pozitiv care costa clientul
+           munca inutila. Se aplica exact unde se aplica si Article. */
+        SpeakableSpecification: (() => {
+          const words = plain.split(/\s+/).filter(Boolean).length;
+          const hasArticleTag = /<article[\s>]/i.test(txt);
+          const byline = /\bby\s+[A-Z][a-z]+\s+[A-Z][a-z]+|<time[^>]+datetime=|rel=["']author["']/i.test(txt);
+          return words > 900 && hasArticleTag && byline;
+        })(),
         Person: /<address[\s>]/i.test(txt) || /founder|author|written by/i.test(plain),
         HowTo: /step\s*\d|first,|then,|finally,/i.test(plain),
         /* BreadcrumbList se aplica doar unde exista o ierarhie reala de navigare.
@@ -980,25 +990,33 @@ function evalSignal(sig, ev, psi) {
     const si = ev.safeInvocation;
     return si && si.attempted && si.ok
       ? {status:'pass',score:95,method:`endpoint declarat ${declaredUrl} confirmat reachable printr-o invocare reala, non-destructiva (HTTP ${si.status})`}
-      : {status:'partial',score:60,method:`endpoint declarat ${declaredUrl}; reachability operationala nu a putut fi confirmata printr-un safe-test`};
+      : {status:'partial',score:60,method:`endpoint declarat ${declaredUrl}; ${si && si.skipped === 'not_opted_in'
+          ? 'invocarea nu a fost ceruta de cel care ruleaza auditul (invokeDeclaredCapability), deci reachability nu a fost testata activ'
+          : 'reachability operationala nu a putut fi confirmata printr-un safe-test'}`};
   }
   if (/Machine Protocol Response Valid/i.test(sig.n)) {
     const si = ev.safeInvocation;
-    if (!si || !si.attempted) return {status:'na',method:'niciun capability declarat safe_to_invoke:true cu side_effects:"none" — invocare reala imposibila fara risc de efecte secundare'};
+    if (!si || !si.attempted) return {status:'na',method: si && si.skipped === 'not_opted_in'
+      ? 'invocarea capabilitatii declarate nu a fost ceruta de cel care ruleaza auditul (invokeDeclaredCapability: true); contractul exista, dar nu a fost executat'
+      : 'niciun capability declarat safe_to_invoke:true cu side_effects:"none" — invocare reala imposibila fara risc de efecte secundare'};
     return si.validRpc
       ? {status:'pass',score:90,method:`raspuns JSON-RPC 2.0 valid la invocarea reala a skill-ului "${si.skillId}" (HTTP ${si.status})`}
       : {status:'fail',score:10,method:`invocare esuata sau raspuns JSON-RPC invalid (HTTP ${si.status||'n/a'}${si.error?': '+si.error:''})`};
   }
   if (/Capability Invocable Under Declared Contract/i.test(sig.n)) {
     const si = ev.safeInvocation;
-    if (!si || !si.attempted) return {status:'na',method:'niciun capability declarat safe_to_invoke:true cu side_effects:"none" — invocare reala imposibila fara risc de efecte secundare'};
+    if (!si || !si.attempted) return {status:'na',method: si && si.skipped === 'not_opted_in'
+      ? 'invocarea capabilitatii declarate nu a fost ceruta de cel care ruleaza auditul (invokeDeclaredCapability: true); contractul exista, dar nu a fost executat'
+      : 'niciun capability declarat safe_to_invoke:true cu side_effects:"none" — invocare reala imposibila fara risc de efecte secundare'};
     return si.ok && si.validRpc
       ? {status:'pass',score:95,method:`skill "${si.skillId}" invocat cu succes exact prin contractul declarat in capabilities.json (HTTP ${si.status})`}
       : {status:'fail',score:10,method:`invocarea skill-ului declarat drept safe_to_invoke a esuat`};
   }
   if (/Capability Execution Verified/i.test(sig.n)) {
     const si = ev.safeInvocation;
-    if (!si || !si.attempted) return {status:'na',method:'niciun capability declarat safe_to_invoke:true cu side_effects:"none" — verificare executie imposibila fara risc de efecte secundare'};
+    if (!si || !si.attempted) return {status:'na',method: si && si.skipped === 'not_opted_in'
+      ? 'executia nu a fost verificata: invocarea nu a fost ceruta de cel care ruleaza auditul (invokeDeclaredCapability: true)'
+      : 'niciun capability declarat safe_to_invoke:true cu side_effects:"none" — verificare executie imposibila fara risc de efecte secundare'};
     return si.executed
       ? {status:'pass',score:90,method:`raspunsul returnat de skill "${si.skillId}" corespunde exact skill-ului invocat — executie reala verificata, nu doar declarata`}
       : {status:'fail',score:10,method:`raspunsul primit nu confirma executia skill-ului invocat`};
@@ -1866,6 +1884,38 @@ const EXTERNAL_ONLY = [
      Public Social Presence                    -> profiluri sociale declarate in sameAs */
 function externalOnly(n) { return EXTERNAL_ONLY.some(rx => rx.test(n)); }
 
+/* ---------- invariant status <-> scor ----------
+   Unele reguli calculau statusul dintr-o conditie si scorul dintr-o formula
+   independenta. La `Primary Entity Salience`, un brand mentionat de 7+ ori in
+   text dar absent din titlu si din H1 producea status `partial` cu scor 100 —
+   simultan incomplet si perfect. Un auditor extern a semnalat contradictia.
+
+   Aici statusul se DERIVA din scor, o singura data, pentru toate semnalele.
+   `na` primeste scor null, niciodata 0: un semnal netestabil nu e un esec, iar
+   scorul 0 l-ar penaliza pe client pentru limita noastra de observatie.
+   Cand regula pretinde alt status decat spune banda de scor, castiga scorul si
+   dezacordul se scrie in `method`, ca bugul sa ramana vizibil, nu netezit. */
+const SCORE_BANDS = { pass: 85, partial: 25 };
+
+function statusFromScore(score) {
+  if (score >= SCORE_BANDS.pass) return 'pass';
+  if (score >= SCORE_BANDS.partial) return 'partial';
+  return 'fail';
+}
+
+function normalizeVerdict(r) {
+  if (!r) return { status: 'na', score: null, method: 'regula nu a returnat niciun verdict' };
+  if (r.status === 'na') return { status: 'na', score: null, method: r.method };
+  const raw = Number(r.score);
+  const score = Number.isFinite(raw) ? Math.max(0, Math.min(100, Math.round(raw))) : 0;
+  const derived = statusFromScore(score);
+  if (r.status && r.status !== derived) {
+    return { status: derived, score,
+      method: `${r.method} [status corectat: regula a raportat "${r.status}" cu scor ${score}; banda de scor da "${derived}"]` };
+  }
+  return { status: derived, score, method: r.method };
+}
+
 function evaluate(ev, psi) {
   const scores = {};
   const signals = {};
@@ -1878,11 +1928,12 @@ function evaluate(ev, psi) {
      sortarea planului de actiuni, niciodata la calcul.
      Semnalele NA sunt excluse complet, deci nu penalizeaza si nu dilueaza. */
   const dimWeights = {};
+  const dimensions = {};
   for (const dim of Object.keys(SIG)) {
     signals[dim] = [];
     let weightedSum = 0, weightTotal = 0, count = 0;
     for (const sig of SIG[dim]) {
-      const r = evalSignal(sig, ev, psi);
+      const r = normalizeVerdict(evalSignal(sig, ev, psi));
       signals[dim].push({ id: sig.id, n: sig.n, c: sig.c, w: sig.w, status: r.status, score: r.score ?? null, method: r.method });
       if (r.status !== 'na') {
         const w = typeof sig.w === 'number' && sig.w > 0 ? sig.w : 1;
@@ -1893,6 +1944,24 @@ function evaluate(ev, psi) {
     }
     scores[dim] = weightTotal ? Math.round(weightedSum / weightTotal) : null;
     dimWeights[dim] = weightTotal;   // cat "cantareste" dimensiunea, pentru scorul global
+
+    /* Coverage si confidence pe dimensiune. Coverage exista deja pe categorii,
+       dar nu pe dimensiuni — asa incat "Off-Page 84/100" se putea citi drept
+       autoritate externa verificata, cand de fapt inseamna 84/100 din portiunea
+       care s-a putut testa. Scorul pleaca de acum insotit de cat acopera. */
+    const dimTotal = SIG[dim].length;
+    const dimCoverage = dimTotal ? count / dimTotal : 0;
+    dimensions[dim] = {
+      score: scores[dim],
+      tested: count,
+      na: dimTotal - count,
+      total: dimTotal,
+      coverage: Math.round(dimCoverage * 1000) / 10,
+      confidence: dimCoverage >= 0.8 ? 'high' : dimCoverage >= 0.5 ? 'medium' : 'low',
+      label: scores[dim] === null
+        ? `nescorat · 0% acoperire · confidence low`
+        : `${scores[dim]}/100 · ${Math.round(dimCoverage * 100)}% acoperire · confidence ${dimCoverage >= 0.8 ? 'high' : dimCoverage >= 0.5 ? 'medium' : 'low'}`
+    };
   }
 
   /* Scoruri pe CATEGORIE (ON-PAGE / ON-SITE / OFF-PAGE / OFF-SITE).
@@ -1941,8 +2010,13 @@ function evaluate(ev, psi) {
   }
   const global = gWeight ? Math.round(gSum / gWeight) : 0;
 
-  return { scores, categories, signals, global, tested: totalTested, na: totalNa,
-           totalSignals: totalTested + totalNa, scoringMethod: 'weighted-by-signal-weight' };
+  const globalCoverage = (totalTested + totalNa) ? totalTested / (totalTested + totalNa) : 0;
+
+  return { scores, dimensions, categories, signals, global, tested: totalTested, na: totalNa,
+           totalSignals: totalTested + totalNa,
+           confidence: globalCoverage >= 0.8 ? 'high' : globalCoverage >= 0.5 ? 'medium' : 'low',
+           scoringMethod: 'weighted-by-signal-weight',
+           scoringFormula: 'media dimensiunilor, ponderata cu greutatea semnalelor testate in fiecare; semnalele na sunt excluse, nu punctate cu zero; statusul fiecarui semnal se deriva din scorul lui' };
 }
 
 function buildActionPlan(report) {
@@ -2216,7 +2290,19 @@ export default {
 
       /* invokeDeclaredCapability: opt-in explicit al celui care cere auditul,
          pentru a permite un POST catre /a2a-ul site-ului auditat. Implicit false. */
-      const ev = await gatherEvidence(target, { invokeDeclaredCapability: body.invokeDeclaredCapability === true });
+      /* Consimtamant pentru invocare. Regula generala ramane opt-in explicit:
+         `safe_to_invoke` e declaratia site-ului AUDITAT despre el insusi, si un
+         scanner care face POST doar pe baza ei executa cod pe o tinta care si-a
+         dat singura voie.
+         Exceptia: cand tinta e chiar acest serviciu, proprietarul auditului si
+         proprietarul tintei sunt aceeasi entitate, deci consimtamantul exista
+         prin definitie. Fara asta, self-auditul isi raporta propria capabilitate
+         drept netestata, desi ea functioneaza. */
+      const selfHost = url.hostname.replace(/^www\./, '');
+      const isSelfAudit = target.hostname.replace(/^www\./, '') === selfHost;
+      const ev = await gatherEvidence(target, {
+        invokeDeclaredCapability: body.invokeDeclaredCapability === true || isSelfAudit
+      });
       if (!ev.mainOk) return json({ error: 'unreachable', detail: `nu am putut accesa ${target.href}`, status: ev.status }, 200);
 
       const psi = body.pagespeed === false ? null : await fetchPageSpeed(target.href, env);
