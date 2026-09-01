@@ -3,13 +3,29 @@ import { writeFile } from "node:fs/promises";
 
 const BASE = "https://3webobs.com";
 
+/* ── CE SEMNAM, SI DE CE NU HTML-UL ────────────────────────────────────
+   Manifestul acopera stratul de semnale: fisierele pe care le publicam noi
+   si care ajung la client neatinse. HTML-ul este deliberat exclus.
+
+   Motivul e verificabil, nu teoretic: orice CDN modern modifica HTML-ul la
+   livrare. Cloudflare insereaza automat beacon-ul Web Analytics in fiecare
+   pagina, iar o ruta de worker poate insera orice altceva. Octetii serviti
+   nu vor fi niciodata identici cu cei din repo, oricat de corect ar fi
+   generat manifestul.
+
+   O promisiune de integritate pe HTML ar fi deci falsa prin constructie —
+   la noi si cu atat mai mult la un client, caruia nu i-am putea cere sa
+   dezactiveze functii ale platformei lui. Fisierele de mai jos nu sunt
+   injectate de nimeni, deci semnatura pe ele este adevarata oriunde.
+
+   Daca vreodata semnam si HTML, amprenta se ia DUPA toate transformarile
+   de livrare, nu inaintea lor. */
+
 const PATHS = [
   "/.well-known/agent-card.json",
   "/.well-known/security.txt",
-  "/404.html",
   "/actions.json",
   "/adn.json",
-  "/ai-act.html",
   "/ai.json",
   "/ai.txt",
   "/aliases.json",
@@ -18,27 +34,17 @@ const PATHS = [
   "/authority.json",
   "/capabilities.json",
   "/changelog.json",
-  "/contact.html",
-  "/cookies.html",
   "/entities.json",
-  "/for-ai-teams.html",
-  "/for-compliance-consultants.html",
-  "/for-seo-agencies.html",
-  "/gdpr.html",
   "/governance.json",
   "/humans.txt",
-  "/index.html",
   "/intents.json",
   "/llms.txt",
   "/network.json",
-  "/policy.html",
   "/policy.json",
   "/robots.txt",
-  "/self-audit.html",
   "/session.json",
   "/site.webmanifest",
   "/sitemap.xml",
-  "/terms.html",
 ].sort();
 
 function sha256(buffer) {
