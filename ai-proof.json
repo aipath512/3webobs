@@ -1,7 +1,7 @@
 {
   "$schema": "https://5thelement.ai/schemas/proof.json",
   "version": "1.1",
-  "generated_at": "2026-09-01T07:15:43.480Z",
+  "generated_at": "2026-09-01T07:23:20.059Z",
   "issuer": {
     "legal_name": "AIVENTURE S.R.L.",
     "cui": "51415878",
@@ -23,7 +23,7 @@
       "trailing_newline": false
     }
   },
-  "aggregate_sha256": "6161ae7a51931ea1f23a7a1b4d4c9631774f8d5b26e3d0bb012ec63104d38574",
+  "aggregate_sha256": "16c8cc64a19edf569be5fc5a7fae8c9b4e4bdd7f7c61673009377693aabfa255",
   "file_count": 23,
   "files": [
     {
@@ -89,8 +89,8 @@
     {
       "path": "/capabilities.json",
       "url": "https://3webobs.com/capabilities.json",
-      "bytes": 8085,
-      "sha256": "84e848eda82b65220bf63d3bb8e8bfd89772cc9efb1d2d27b20bbdb884285ca3"
+      "bytes": 8513,
+      "sha256": "2bc7c24ee7787f3303830c67a122768ab0869bab7829771e7b8a0d5059b27442"
     },
     {
       "path": "/changelog.json",
@@ -125,8 +125,8 @@
     {
       "path": "/llms.txt",
       "url": "https://3webobs.com/llms.txt",
-      "bytes": 2369,
-      "sha256": "a86a316c523f90a28f943a062c66e976a52da952221f0e590252e93476bee626"
+      "bytes": 2549,
+      "sha256": "2cf0fe9b3aada7d2f32de173a8b7d8afdff05d899a25626449e2aa92cf609cba"
     },
     {
       "path": "/network.json",
@@ -161,8 +161,8 @@
     {
       "path": "/sitemap.xml",
       "url": "https://3webobs.com/sitemap.xml",
-      "bytes": 5965,
-      "sha256": "554c93361161506ec6eace02671ccfbcb0a97979b648f605bf9c804811043a1a"
+      "bytes": 7140,
+      "sha256": "773b98be1e3a0616d1e02fc809da515536e884942e6cde41c3aa6ff1426ded86"
     }
   ],
   "verification": {
