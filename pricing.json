@@ -4,7 +4,6 @@
   "canonical_url": "https://3webobs.com/pricing.json",
   "currency": "EUR",
   "role": "Single source of truth for all pricing on 3webobs.com. Every other representation (homepage, /pricing, FAQ visible text, FAQPage markup, OfferCatalog JSON-LD, capabilities.json, agent card, checkout) MUST be generated from this file. Divergence between this file and any published price is a bug, not a variant.",
-
   "consumers": [
     "index.html (OfferCatalog + visible pricing table)",
     "pricing.html (comparison table + 3 section tables)",
@@ -14,14 +13,12 @@
     "/.well-known/agent-card.json (skill pricing reference)",
     "meta descriptions"
   ],
-
   "availability_rules": {
     "note": "availability is not a free-text field. It reflects whether the delivery mechanism actually runs.",
     "InStock": "the mechanism that delivers this plan is live and verified",
     "PreOrder": "the plan is defined and priced but its delivery mechanism is not yet operational",
-    "monitoring_gate": "All monitoring plans stay PreOrder until the hourly cron calling /cron-tick is confirmed running. When the cron is green, flip the three monitoring plans to InStock and delete the disclaimer in notices.monitoring_not_running from every page."
+    "monitoring_gate": "Monitoring plans went InStock on 2026-09-01, when the hourly cron calling /cron-tick was verified end to end (manual trigger returned status 200, and the Cron Trigger on the aiventure-gdpr Worker is scheduled hourly). If the cron ever stops, these revert to PreOrder."
   },
-
   "plans": [
     {
       "id": "free_tier",
@@ -29,7 +26,11 @@
       "audience": "human",
       "price": 0,
       "unit": "report",
-      "quota": { "amount": 3, "per": "month", "scope": "domain" },
+      "quota": {
+        "amount": 3,
+        "per": "month",
+        "scope": "domain"
+      },
       "billing": "none",
       "availability": "InStock",
       "deliverables": [
@@ -38,7 +39,11 @@
         "prioritised action plan",
         "score + coverage + confidence per dimension"
       ],
-      "excluded": ["scheduled re-observation", "change alerts", "API access"],
+      "excluded": [
+        "scheduled re-observation",
+        "change alerts",
+        "API access"
+      ],
       "rationale": "Market convention, not a concession. 5 of 9 competing tools have a real free entry point."
     },
     {
@@ -56,7 +61,9 @@
         "report hash recorded in the integrity manifest",
         "retained history for the domain"
       ],
-      "excluded": ["scheduled re-observation"]
+      "excluded": [
+        "scheduled re-observation"
+      ]
     },
     {
       "id": "monitor_monthly",
@@ -67,7 +74,7 @@
       "billing": "recurring",
       "frequency": "monthly",
       "scope": "per monitored domain",
-      "availability": "PreOrder",
+      "availability": "InStock",
       "deliverables": [
         "one full re-observation per month",
         "delta against the previous observation",
@@ -84,7 +91,7 @@
       "billing": "recurring",
       "frequency": "weekly",
       "scope": "per monitored domain",
-      "availability": "PreOrder",
+      "availability": "InStock",
       "deliverables": [
         "one full re-observation per week",
         "delta against the previous observation",
@@ -101,7 +108,7 @@
       "billing": "recurring",
       "frequency": "daily",
       "scope": "per monitored domain",
-      "availability": "PreOrder",
+      "availability": "InStock",
       "deliverables": [
         "one full re-observation per day",
         "delta against the previous observation",
@@ -117,7 +124,10 @@
       "unit": "call",
       "billing": "prepaid_credit",
       "availability": "PreOrder",
-      "requires": ["api_key", "prepaid_balance"],
+      "requires": [
+        "api_key",
+        "prepaid_balance"
+      ],
       "deliverables": [
         "raw JSON report: signal verdicts, evidence, scores, coverage, confidence",
         "observationId",
@@ -140,10 +150,16 @@
       "price": 400,
       "unit": "pack",
       "unit_price": 0.4,
-      "quota": { "amount": 1000, "per": "pack", "scope": "account" },
+      "quota": {
+        "amount": 1000,
+        "per": "pack",
+        "scope": "account"
+      },
       "billing": "prepaid_credit",
       "availability": "PreOrder",
-      "deliverables": ["same as api_call, 1,000 calls"],
+      "deliverables": [
+        "same as api_call, 1,000 calls"
+      ],
       "expiry": "12 months from purchase"
     },
     {
@@ -153,10 +169,16 @@
       "price": 1500,
       "unit": "pack",
       "unit_price": 0.3,
-      "quota": { "amount": 5000, "per": "pack", "scope": "account" },
+      "quota": {
+        "amount": 5000,
+        "per": "pack",
+        "scope": "account"
+      },
       "billing": "prepaid_credit",
       "availability": "PreOrder",
-      "deliverables": ["same as api_call, 5,000 calls"],
+      "deliverables": [
+        "same as api_call, 5,000 calls"
+      ],
       "expiry": "12 months from purchase"
     },
     {
@@ -182,19 +204,21 @@
       "unit": "contract",
       "billing": "quote",
       "availability": "InStock",
-      "deliverables": ["negotiated volume", "dedicated terms", "SLA"]
+      "deliverables": [
+        "negotiated volume",
+        "dedicated terms",
+        "SLA"
+      ]
     }
   ],
-
   "integrity_rules": [
     "No monitoring plan may cost less per month than a single additional report. A monthly plan delivers at least one report, so pricing it below extra_report makes the standalone report irrational to buy.",
     "The per-call API price and the per-report human price may differ ONLY while their deliverables differ. Same output, same price.",
     "Volume packs must decrease monotonically in unit price.",
     "Any plan whose delivery mechanism is not running is PreOrder, in this file and in schema.org, with no exception for pages that look better without the label."
   ],
-
   "notices": {
-    "monitoring_not_running": "Scheduled re-observation is not yet running. Monitoring plans are listed as pre-order.",
+    "monitoring_not_running": "Scheduled re-observation runs hourly; each plan is re-observed at its own interval.",
     "sample_report": "SAMPLE — illustrative data, fictional domain.",
     "no_guarantee": "An audit does not guarantee citation or ranking."
   }
