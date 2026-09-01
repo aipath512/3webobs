@@ -1954,9 +1954,9 @@ function buildActionPlan(report) {
   const top = allFails.slice(0, 9);
   const chunk = (arr, n) => arr.slice(n * 3, n * 3 + 3);
   return {
-    critical: { title: 'Repara imediat', items: chunk(top, 0).map(s => s.n), impact: 'Cele mai grele FAIL-uri gasite, pondere mare', delta: '+ puncte in cateva zile' },
-    important: { title: 'Urmatorul pas', items: chunk(top, 1).map(s => s.n), impact: 'FAIL-uri cu pondere medie', delta: '+ puncte in 30 zile' },
-    optimize: { title: 'Optimizare fina', items: chunk(top, 2).map(s => s.n), impact: 'Ajustari fine', delta: '+ puncte in 90 zile' },
+    critical: { title: 'Fix first', items: chunk(top, 0).map(s => s.n), impact: 'The heaviest failures found, by signal weight', delta: 'points within days' },
+    important: { title: 'Then', items: chunk(top, 1).map(s => s.n), impact: 'Medium-weight failures', delta: 'points within 30 days' },
+    optimize: { title: 'Refine', items: chunk(top, 2).map(s => s.n), impact: 'Fine adjustments', delta: 'points within 90 days' },
   };
 }
 

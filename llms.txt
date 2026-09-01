@@ -31,3 +31,4 @@
 ## Notes for crawlers and agents
 
 This file is for guidance, not a sitemap — see [sitemap.xml](https://3webobs.com/sitemap.xml) for the full crawlable URL list. Training and reuse permissions are declared in [ai.txt](https://3webobs.com/ai.txt). The audit endpoint (`POST /audit`) and the A2A endpoint (`POST /a2a`) only ever fetch publicly served resources on the submitted domain — no authentication is attempted and nothing is installed.
+- /data-dictionary.json: entity-relation data dictionary for this site — every entity, every typed relation in both directions, with cardinalities, and the inter-page link graph

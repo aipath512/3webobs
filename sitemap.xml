@@ -17,6 +17,41 @@
   </url>
 
   <url>
+    <loc>https://3webobs.com/pricing</loc>
+    <lastmod>2026-08-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://3webobs.com/167-signals</loc>
+    <lastmod>2026-08-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://3webobs.com/glossary</loc>
+    <lastmod>2026-08-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://3webobs.com/data-dictionary</loc>
+    <lastmod>2026-08-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://3webobs.com/data-dictionary.json</loc>
+    <lastmod>2026-08-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
     <loc>https://3webobs.com/contact</loc>
     <lastmod>2026-08-25</lastmod>
     <changefreq>monthly</changefreq>
@@ -93,6 +128,13 @@
     <priority>0.3</priority>
   </url>
 
+
+  <url>
+    <loc>https://3webobs.com/assets/3webs-sample-report.pdf</loc>
+    <lastmod>2026-08-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
 
   <!-- AI WEB -->
 
@@ -175,6 +217,13 @@
 
 
   <!-- MACHINE WEB / A2A -->
+
+  <url>
+    <loc>https://3webobs.com/agents</loc>
+    <lastmod>2026-08-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
 
   <url>
     <loc>https://3webobs.com/.well-known/agent-card.json</loc>
