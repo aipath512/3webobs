@@ -87,16 +87,16 @@
         "currency": "EUR",
         "unit_price": 0,
         "free_reports_per_domain_per_month": 3,
-        "unit_price_after_free_tier": 4.9,
+        "unit_price_after_free_tier": 19,
         "billing": "prepaid_credits",
-        "human_readable": "First 3 reports/month per domain: free. After that: €4.90 per report.",
+        "human_readable": "First 3 reports/month per domain: free. After that: €19 per report, excluding VAT.",
         "pricing_page": "https://3webobs.com/pricing",
         "api_access": {
-          "pay_as_you_go_eur": 4.9,
-          "pack_100_eur": 390,
-          "pack_500_eur": 1450,
+          "pay_as_you_go_eur": 19,
+          "pack_100_eur": 1290,
+          "pack_500_eur": 4950,
           "enterprise": "on request",
-          "human_readable": "API: €4.90/call. 100-call pack €390 (€3.90/call). 500-call pack €1450 (€2.90/call). Enterprise on request."
+          "human_readable": "API: €19/call. 100-call pack €1290 (€12.90/call). 500-call pack €4950 (€9.90/call). Enterprise on request."
         }
       }
     },
@@ -147,13 +147,13 @@
         "model": "subscription",
         "currency": "EUR",
         "interval_price": {
-          "daily": 9.9,
-          "weekly": 4.9,
-          "monthly": 1.9
+          "daily": 99,
+          "weekly": 49,
+          "monthly": 29
         },
         "billing_period": "monthly_invoice",
         "cancellable": "any time",
-        "human_readable": "€1.90/mo per monitored domain (monthly interval), €4.90/mo (weekly), €9.90/mo (daily). Cancel any time.",
+        "human_readable": "€29/mo per monitored domain (monthly interval), €49/mo (weekly), €99/mo (daily). Cancel any time.",
         "pricing_page": "https://3webobs.com/pricing"
       },
       "status": "operational",
