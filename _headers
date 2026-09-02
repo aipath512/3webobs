@@ -10,7 +10,10 @@
   Access-Control-Allow-Origin: *
   Cache-Control: public, max-age=300
 
+# Access-Control-Allow-Origin este deja setat de regula /*.json de mai sus.
+# Repetat aici, Cloudflare Pages concateneaza cele doua valori si serveste
+# "Access-Control-Allow-Origin: *, *", care nu e un header CORS valid si e
+# respins de clientii stricti — exact agentii pentru care exista fisierul.
 /.well-known/agent-card.json
-  Access-Control-Allow-Origin: *
   Content-Type: application/json; charset=utf-8
   Cache-Control: public, max-age=300

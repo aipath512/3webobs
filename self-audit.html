@@ -29,6 +29,14 @@ h1{font-size:26px;margin:0 0 8px;}
 .dim-k{font-size:10px;opacity:.55;text-transform:uppercase;letter-spacing:.04em;}
 .dim-v{font-size:18px;font-weight:600;}
 .dim-c{font-size:9px;opacity:.5;margin-top:3px;line-height:1.3;}
+.sig-head{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin:18px 0 8px;display:flex;flex-wrap:wrap;align-items:baseline;gap:8px;}
+.sig-head-ok{color:var(--green,#3ca05a);}
+.sig-head-todo{color:var(--gold,#c8a028);}
+.sig-count{font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;opacity:.55;color:var(--text);}
+.sig-block-todo{margin-top:4px;}
+.sig-toggle{margin-top:14px;font-size:11px;opacity:.5;}
+.sig-toggle label{display:inline-flex;align-items:center;gap:6px;cursor:pointer;}
+.sig-toggle input{width:13px;height:13px;}
 .dim-conf{display:inline-block;padding:1px 5px;border-radius:20px;font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-top:3px;}
 .conf-high{background:var(--green-bg,rgba(60,160,90,.15));color:var(--green,#3ca05a);}
 .conf-medium{background:rgba(200,160,40,.15);color:var(--gold,#c8a028);}
@@ -84,8 +92,41 @@ font-family:'Inter',sans-serif;font-size:14.5px;font-weight:500;line-height:1.45
   </div>
 
   <div class="card">
-    <h2 style="font-size:16px;margin:0 0 6px;">What we found and fixed &mdash; 30 Aug 2026</h2>
+    <h2 style="font-size:16px;margin:0 0 6px;">What we found and fixed</h2>
     <p style="font-size:13px;opacity:.6;margin:0 0 18px;">A running, honest log. Nothing here is hidden after the fact &mdash; see the full technical log in <a href="https://github.com/aipath512/3webobs/blob/main/REPAIR_SUMMARY.md" rel="noopener">REPAIR_SUMMARY.md</a>.</p>
+
+    <h3 style="font-size:12px;text-transform:uppercase;letter-spacing:.08em;opacity:.5;margin:22px 0 10px;font-weight:600;">1 September 2026 &mdash; v3.1, after an external audit</h3>
+
+    <div class="log-item">
+      <b>A signal could be reported as incomplete and perfect at the same time</b>
+      Two rules computed the verdict from one condition and the score from a separate formula. A brand named seven times in the body but absent from the title and the H1 came back as <code>partial</code> with a score of 100. Status is now derived from the score, once, for all 167 signals. Where a rule disagrees with its own number, the number wins and the disagreement is written into the evidence rather than smoothed away.
+    </div>
+    <div class="log-item">
+      <b>Signals that could not be tested were scored zero</b>
+      A signal marked not applicable now carries no score at all, instead of a zero that quietly penalised the site for the limits of an external scan.
+    </div>
+    <div class="log-item">
+      <b>Speakable markup was required on every page</b>
+      Speakable is a limited feature, restricted to news publishers in a small number of markets. Asking for it on a pricing page or a glossary produced a failure that cost the reader work for no gain. It is now requested only where editorial content is actually present, on the same rule already used for Article.
+    </div>
+    <div class="log-item">
+      <b>Scores were published without saying how much they covered</b>
+      A dimension score read as a verdict on the whole dimension. It never was: some signals need backlink data, Search Console or traffic figures that no public scan can reach. Every dimension now carries the share of its signals that produced a real verdict, and a confidence label derived from it. A 93 with 55% coverage is a different claim from a 93 with 100%, and the report now says which one it is.
+    </div>
+    <div class="log-item">
+      <b>The engine could not see its own A2A capability</b>
+      Four A2A signals reported that no capability was declared safe to invoke, while <code>capabilities.json</code> declared exactly that and an external auditor had already executed it successfully. The real reason was different: invocation requires explicit opt-in from whoever runs the audit, because <code>safe_to_invoke</code> is a claim a site makes about itself, and a scanner that POSTs on that basis alone executes code on a target that granted itself permission. The opt-in stays. The message now states the actual reason, and a self-audit of this domain enables it automatically, since here the auditor and the target are the same party.
+    </div>
+    <div class="log-item">
+      <b>Four different price lists were published at the same time</b>
+      The homepage, the FAQ, the pricing page and <code>capabilities.json</code> each carried a different set of numbers, because every number was copied by hand into every surface. Prices now live in a single file, <a href="/pricing.json">pricing.json</a>, from which every other representation is generated. An agent that reads the machine-readable contract and a person who reads the page now see the same offer.
+    </div>
+    <div class="log-item">
+      <b>Monitoring was sold before it could run</b>
+      Scheduled re-observation had no clock behind it, so the monitoring plans were listed as pre-order rather than presented as available. The hourly trigger is now live and verified end to end, and the plans moved to in-stock. Machine access is still marked pre-order for the same reason: it needs API keys and prepaid credit, and neither exists yet.
+    </div>
+
+    <h3 style="font-size:12px;text-transform:uppercase;letter-spacing:.08em;opacity:.5;margin:26px 0 10px;font-weight:600;">30 August 2026</h3>
 
     <div class="log-item">
       <b>llms.txt was serving the wrong content</b>
@@ -162,11 +203,40 @@ font-family:'Inter',sans-serif;font-size:14.5px;font-weight:500;line-height:1.45
     // pick a few high-weight signals to show as evidence, whatever their verdict
     let allSignals = [];
     if (j.signals) Object.keys(j.signals).forEach(k => (j.signals[k]||[]).forEach(s => allSignals.push(s)));
-    allSignals = allSignals.filter(s => s.status !== 'na').sort((a,b) => (b.w||0) - (a.w||0)).slice(0, 5);
+    /* Doua sectiuni, nu un filtru ascuns. Puterea sus, munca ramasa dedesubt.
+       Ierarhia face treaba comerciala pe care ar face-o ascunderea, dar nimic
+       nu e ascuns: pagina care publica acoperirea nu isi poate alege numai
+       victoriile fara sa isi piarda argumentul.
+       Comutatorul e al vizitatorului, si porneste pe "toate" — un default care
+       ascunde esecurile transforma afirmatia "acelasi motor, fara tratament
+       special" intr-una falsa in momentul in care cineva il apasa. */
+    allSignals = allSignals.filter(s => s.status !== 'na');
+    const byWeight = (a,b) => (b.w||0) - (a.w||0);
+    const strengths = allSignals.filter(s => s.status === 'pass').sort(byWeight).slice(0, 4);
+    const todo      = allSignals.filter(s => s.status !== 'pass').sort(byWeight).slice(0, 4);
+    const totalPass = allSignals.filter(s => s.status === 'pass').length;
+    const totalTodo = allSignals.filter(s => s.status !== 'pass').length;
+
     const iconFor = (st) => st === 'pass' ? '<span style="color:var(--green)">&check;</span>'
       : st === 'fail' ? '<span style="color:var(--red)">&cross;</span>'
       : '<span style="color:var(--gold)">&#9680;</span>';
-    const sigsHtml = allSignals.map(s => `<div class="sig">${iconFor(s.status)}<span><strong>${s.n}</strong> &mdash; ${s.method||''}</span></div>`).join('');
+    const rowsFor = (arr) => arr.map(s =>
+      `<div class="sig">${iconFor(s.status)}<span><strong>${s.n}</strong> &mdash; ${s.method||''}</span></div>`).join('');
+
+    const sigsHtml = `
+      <div class="sig-head sig-head-ok">Already in place
+        <span class="sig-count">${totalPass} of ${totalPass + totalTodo} tested signals pass</span></div>
+      <div class="sig-list">${rowsFor(strengths)}</div>
+      ${totalTodo ? `
+      <div class="sig-block-todo" id="todo-block">
+        <div class="sig-head sig-head-todo">Still on our list
+          <span class="sig-count">${totalTodo} signal${totalTodo === 1 ? '' : 's'} below pass</span></div>
+        <div class="sig-list">${rowsFor(todo)}</div>
+      </div>
+      <div class="sig-toggle">
+        <label><input type="checkbox" id="only-pass"> Show only what passes</label>
+      </div>` : ''}
+    `;
 
     card.innerHTML = `
       <div class="score-row">
@@ -174,9 +244,16 @@ font-family:'Inter',sans-serif;font-size:14.5px;font-weight:500;line-height:1.45
         <span class="grade" style="color:${colorVar};border-color:${colorVar};">${g.label}</span>
       </div>
       <div class="dims">${dimsHtml}</div>
-      <div class="sig-list">${sigsHtml}</div>
-      <div class="status">Fetched live just now &middot; ${j.tested||0} signals tested, ${j.na||0} not applicable (need external data no public scan can get) &middot; same engine, same rules, no special-casing for our own domain.</div>
+      <div class="sig-wrap">${sigsHtml}</div>
+      <div class="status">Fetched live just now &middot; ${j.tested||0} signals tested, ${j.na||0} not applicable (need external data no public scan can get)${j.sources && j.sources.pagespeed === 'unavailable' ? ' &middot; PageSpeed was unavailable on this run, so the Core Web Vitals signals were not tested &mdash; the tested count moves with it' : ''} &middot; ${j.confidence ? 'overall confidence ' + j.confidence + ' &middot; ' : ''}same engine, same rules, no special-casing for our own domain.</div>
     `;
+    const onlyPass = card.querySelector('#only-pass');
+    if (onlyPass) {
+      onlyPass.addEventListener('change', () => {
+        const blk = card.querySelector('#todo-block');
+        if (blk) blk.style.display = onlyPass.checked ? 'none' : '';
+      });
+    }
   } catch (e) {
     card.innerHTML = '<div class="err">Could not run the live audit right now (' + (e && e.message ? e.message : 'unknown error') + '). <a href="/">Run it manually from the homepage &rarr;</a></div>';
   }

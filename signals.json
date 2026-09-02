@@ -1,1961 +1,1423 @@
 {
-  "$schema": "https://3webobs.com/schemas/signals.json",
-  "version": "3.1",
-  "generated": "2026-08-25",
-  "service": "3webs",
+  "schema_version": "1.0",
+  "generated_from": "_worker.js SIG registry — the same catalogue obs_catalogue returns over A2A",
+  "canonical_url": "https://3webobs.com/signals.json",
+  "role": "Single source of truth for the signal count and its breakdown. Any page, on this domain or another, that states how many signals the engine tests must derive the number from this file. A number written by hand is how two registries drift apart.",
+  "verify": "POST https://3webobs.com/a2a with skill obs_catalogue returns the same catalogue. If the two disagree, this file is stale and that is a bug.",
   "total": 167,
-  "result_states": [
-    "PASS",
-    "PARTIAL",
-    "FAIL",
-    "NOT_APPLICABLE",
-    "UNVERIFIED"
+  "families": [
+    {
+      "id": "AI_SIGNALS",
+      "name": "AI Signals",
+      "tagline": "crawler & trust layer",
+      "count": 19,
+      "covers": "Bot allow directives, AI declaration files, policy and governance endpoints, entity graph completeness, training consent signals.",
+      "read_by": "GPTBot · ClaudeBot · PerplexityBot · Google-Extended",
+      "web": "MACHINE_WEB"
+    },
+    {
+      "id": "AEO",
+      "name": "AEO",
+      "tagline": "answer engine optimization",
+      "count": 34,
+      "covers": "Schema completeness, FAQ and HowTo markup, entity disambiguation, answer-first structure, semantic HTML, concise lead paragraphs.",
+      "read_by": "answer engines",
+      "web": "AI_WEB"
+    },
+    {
+      "id": "GEO",
+      "name": "GEO",
+      "tagline": "generative engine optimization",
+      "count": 28,
+      "covers": "Entity resolution against public registries, sameAs references, declaration files, brand consistency, canonical signals, authorship.",
+      "read_by": "knowledge graphs",
+      "web": "AI_WEB"
+    },
+    {
+      "id": "AIO",
+      "name": "AIO",
+      "tagline": "ai optimization",
+      "count": 31,
+      "covers": "Chunkable structure, extractable tables and lists, fact density, contradiction avoidance, freshness signals, RAG-ready formatting.",
+      "read_by": "RAG pipelines",
+      "web": "AI_WEB"
+    },
+    {
+      "id": "SEO",
+      "name": "SEO",
+      "tagline": "search engine optimization",
+      "count": 42,
+      "covers": "Titles, canonicals, sitemaps, header hierarchy, Core Web Vitals, redirects, broken links, structured data errors.",
+      "read_by": "Googlebot · Bingbot",
+      "web": "HUMAN_WEB"
+    },
+    {
+      "id": "A2A",
+      "name": "A2A",
+      "tagline": "agent-to-agent",
+      "count": 13,
+      "covers": "Agent card, declared capabilities, safe invocation contract, protocol version, task lifecycle, machine-readable terms.",
+      "read_by": "autonomous agents",
+      "web": "MACHINE_WEB"
+    }
   ],
-  "maturity_classes": [
-    "STANDARD",
-    "PROVIDER_SPECIFIC",
-    "ESTABLISHED_PRACTICE",
-    "EMERGING",
-    "3WEBS_METHOD",
-    "EXPERIMENTAL"
-  ],
-  "web_layers": [
-    "HUMAN_WEB",
-    "AI_WEB",
-    "MACHINE_WEB"
-  ],
-  "principles": {
-    "evidence_required": true,
-    "declaration_is_proof": false,
-    "private_metrics_are_not_invented": true,
-    "not_applicable_is_not_unverified": true,
-    "capability_progression": [
-      "DECLARED",
-      "VALID",
-      "REACHABLE",
-      "INVOCABLE",
-      "VERIFIED"
-    ]
+  "webs": {
+    "HUMAN_WEB": {
+      "label": "Human web — what a person sees",
+      "count": 42
+    },
+    "AI_WEB": {
+      "label": "AI web — what an answer engine sees",
+      "count": 93
+    },
+    "MACHINE_WEB": {
+      "label": "Machine web — what an agent sees",
+      "count": 32
+    }
   },
-  "discipline_counts": {
-    "AEO": 34,
-    "GEO": 28,
-    "AIO": 31,
-    "SEO": 42,
-    "AI_SIGNALS": 32
+  "categories": {
+    "ON-SITE": 66,
+    "OFF-SITE": 2,
+    "ON-PAGE": 68,
+    "OFF-PAGE": 31
   },
-  "catalogue": {
-    "AEO": [
-      {
-        "id": "aeo1",
-        "name": "FAQ Structured Data",
-        "category": "ON-PAGE",
-        "weight": 9,
-        "web_layers": [
-          "HUMAN_WEB",
-          "AI_WEB"
-        ],
-        "maturity": "ESTABLISHED_PRACTICE",
-        "publicly_testable": true
-      },
-      {
-        "id": "aeo2",
-        "name": "HowTo Structured Data Where Applicable",
-        "category": "ON-PAGE",
-        "weight": 7,
-        "web_layers": [
-          "HUMAN_WEB",
-          "AI_WEB"
-        ],
-        "maturity": "ESTABLISHED_PRACTICE",
-        "publicly_testable": true
-      },
-      {
-        "id": "aeo3",
-        "name": "Question-and-Answer Content Blocks",
-        "category": "ON-PAGE",
-        "weight": 9,
-        "web_layers": [
-          "HUMAN_WEB",
-          "AI_WEB"
-        ],
-        "maturity": "ESTABLISHED_PRACTICE",
-        "publicly_testable": true
-      },
-      {
-        "id": "aeo4",
-        "name": "Extractable Direct Answer Blocks",
-        "category": "ON-PAGE",
-        "weight": 10,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      },
-      {
-        "id": "aeo5",
-        "name": "Speakable Structured Data Where Applicable",
-        "category": "ON-PAGE",
-        "weight": 5,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "PROVIDER_SPECIFIC",
-        "publicly_testable": true
-      },
-      {
-        "id": "aeo6",
-        "name": "Article Structured Data Where Applicable",
-        "category": "ON-PAGE",
-        "weight": 7,
-        "web_layers": [
-          "HUMAN_WEB",
-          "AI_WEB"
-        ],
-        "maturity": "ESTABLISHED_PRACTICE",
-        "publicly_testable": true
-      },
-      {
-        "id": "aeo7",
-        "name": "Breadcrumb Structured Data",
-        "category": "ON-PAGE",
-        "weight": 7,
-        "web_layers": [
-          "HUMAN_WEB",
-          "AI_WEB"
-        ],
-        "maturity": "ESTABLISHED_PRACTICE",
-        "publicly_testable": true
-      },
-      {
-        "id": "aeo8",
-        "name": "Table of Contents and Section Anchors",
-        "category": "ON-PAGE",
-        "weight": 6,
-        "web_layers": [
-          "HUMAN_WEB",
-          "AI_WEB"
-        ],
-        "maturity": "ESTABLISHED_PRACTICE",
-        "publicly_testable": true
-      },
-      {
-        "id": "aeo9",
-        "name": "External Entity Disambiguation",
-        "category": "OFF-PAGE",
-        "weight": 8,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "ESTABLISHED_PRACTICE",
-        "publicly_testable": true
-      },
-      {
-        "id": "aeo10",
-        "name": "Search Knowledge Entity Presence",
-        "category": "OFF-PAGE",
-        "weight": 9,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "PROVIDER_SPECIFIC",
-        "publicly_testable": true
-      },
-      {
-        "id": "aeo11",
-        "name": "Direct Answer Formatting",
-        "category": "ON-PAGE",
-        "weight": 9,
-        "web_layers": [
-          "HUMAN_WEB",
-          "AI_WEB"
-        ],
-        "maturity": "ESTABLISHED_PRACTICE",
-        "publicly_testable": true
-      },
-      {
-        "id": "aeo12",
-        "name": "Intent-Oriented URL Structure",
-        "category": "ON-SITE",
-        "weight": 6,
-        "web_layers": [
-          "HUMAN_WEB",
-          "AI_WEB"
-        ],
-        "maturity": "ESTABLISHED_PRACTICE",
-        "publicly_testable": true
-      },
-      {
-        "id": "aeo13",
-        "name": "People-Also-Ask Topic Coverage",
-        "category": "OFF-PAGE",
-        "weight": 7,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "PROVIDER_SPECIFIC",
-        "publicly_testable": true
-      },
-      {
-        "id": "aeo14",
-        "name": "Featured Answer Extractability",
-        "category": "ON-PAGE",
-        "weight": 9,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "ESTABLISHED_PRACTICE",
-        "publicly_testable": true
-      },
-      {
-        "id": "aeo15",
-        "name": "Definition Blocks",
-        "category": "ON-PAGE",
-        "weight": 7,
-        "web_layers": [
-          "HUMAN_WEB",
-          "AI_WEB"
-        ],
-        "maturity": "ESTABLISHED_PRACTICE",
-        "publicly_testable": true
-      },
-      {
-        "id": "aeo16",
-        "name": "Step-by-Step Content Structure",
-        "category": "ON-PAGE",
-        "weight": 7,
-        "web_layers": [
-          "HUMAN_WEB",
-          "AI_WEB"
-        ],
-        "maturity": "ESTABLISHED_PRACTICE",
-        "publicly_testable": true
-      },
-      {
-        "id": "aeo17",
-        "name": "Concise Lead Answer",
-        "category": "ON-PAGE",
-        "weight": 7,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      },
-      {
-        "id": "aeo18",
-        "name": "Natural-Language Query Coverage",
-        "category": "ON-PAGE",
-        "weight": 7,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      },
-      {
-        "id": "aeo19",
-        "name": "Answer-First Content Structure",
-        "category": "ON-PAGE",
-        "weight": 9,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      },
-      {
-        "id": "aeo20",
-        "name": "Semantically Descriptive Headings",
-        "category": "ON-PAGE",
-        "weight": 8,
-        "web_layers": [
-          "HUMAN_WEB",
-          "AI_WEB"
-        ],
-        "maturity": "ESTABLISHED_PRACTICE",
-        "publicly_testable": true
-      },
-      {
-        "id": "aeo21",
-        "name": "Conversational Query Coverage",
-        "category": "ON-PAGE",
-        "weight": 8,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      },
-      {
-        "id": "aeo22",
-        "name": "Structured Data Relationship Coherence",
-        "category": "ON-PAGE",
-        "weight": 7,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "ESTABLISHED_PRACTICE",
-        "publicly_testable": true
-      },
-      {
-        "id": "aeo23",
-        "name": "Rich Result Eligibility",
-        "category": "ON-PAGE",
-        "weight": 8,
-        "web_layers": [
-          "HUMAN_WEB",
-          "AI_WEB"
-        ],
-        "maturity": "PROVIDER_SPECIFIC",
-        "publicly_testable": true
-      },
-      {
-        "id": "aeo24",
-        "name": "Google AI Overview and AI Mode Source Readiness",
-        "category": "ON-PAGE",
-        "weight": 9,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "PROVIDER_SPECIFIC",
-        "publicly_testable": true
-      },
-      {
-        "id": "aeo25",
-        "name": "Context Continuity Across Sections",
-        "category": "ON-PAGE",
-        "weight": 7,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      },
-      {
-        "id": "aeo26",
-        "name": "Primary Entity Salience",
-        "category": "ON-PAGE",
-        "weight": 8,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      },
-      {
-        "id": "aeo27",
-        "name": "Semantic HTML Structure",
-        "category": "ON-SITE",
-        "weight": 8,
-        "web_layers": [
-          "HUMAN_WEB",
-          "AI_WEB"
-        ],
-        "maturity": "STANDARD",
-        "publicly_testable": true
-      },
-      {
-        "id": "aeo28",
-        "name": "ClaimReview Structured Data Where Applicable",
-        "category": "ON-PAGE",
-        "weight": 5,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "ESTABLISHED_PRACTICE",
-        "publicly_testable": true
-      },
-      {
-        "id": "aeo29",
-        "name": "Event Structured Data Where Applicable",
-        "category": "ON-PAGE",
-        "weight": 5,
-        "web_layers": [
-          "HUMAN_WEB",
-          "AI_WEB"
-        ],
-        "maturity": "ESTABLISHED_PRACTICE",
-        "publicly_testable": true
-      },
-      {
-        "id": "aeo30",
-        "name": "Product Structured Data Where Applicable",
-        "category": "ON-PAGE",
-        "weight": 7,
-        "web_layers": [
-          "HUMAN_WEB",
-          "AI_WEB"
-        ],
-        "maturity": "ESTABLISHED_PRACTICE",
-        "publicly_testable": true
-      },
-      {
-        "id": "aeo31",
-        "name": "LocalBusiness Structured Data Where Applicable",
-        "category": "ON-PAGE",
-        "weight": 6,
-        "web_layers": [
-          "HUMAN_WEB",
-          "AI_WEB"
-        ],
-        "maturity": "ESTABLISHED_PRACTICE",
-        "publicly_testable": true
-      },
-      {
-        "id": "aeo32",
-        "name": "Review and Rating Structured Data Validity",
-        "category": "ON-PAGE",
-        "weight": 6,
-        "web_layers": [
-          "HUMAN_WEB",
-          "AI_WEB"
-        ],
-        "maturity": "ESTABLISHED_PRACTICE",
-        "publicly_testable": true
-      },
-      {
-        "id": "aeo33",
-        "name": "Video Structured Data Where Applicable",
-        "category": "ON-PAGE",
-        "weight": 5,
-        "web_layers": [
-          "HUMAN_WEB",
-          "AI_WEB"
-        ],
-        "maturity": "ESTABLISHED_PRACTICE",
-        "publicly_testable": true
-      },
-      {
-        "id": "aeo34",
-        "name": "Person and Author Structured Data",
-        "category": "ON-PAGE",
-        "weight": 7,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "ESTABLISHED_PRACTICE",
-        "publicly_testable": true
-      }
-    ],
-    "GEO": [
-      {
-        "id": "geo1",
-        "name": "llms.txt Presence and Quality",
-        "category": "ON-SITE",
-        "weight": 8,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "EMERGING",
-        "publicly_testable": true
-      },
-      {
-        "id": "geo2",
-        "name": "AI Policy Declaration File",
-        "category": "ON-SITE",
-        "weight": 6,
-        "web_layers": [
-          "AI_WEB",
-          "MACHINE_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      },
-      {
-        "id": "geo3",
-        "name": "robots.txt AI Crawler Directives",
-        "category": "ON-SITE",
-        "weight": 9,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "STANDARD",
-        "publicly_testable": true
-      },
-      {
-        "id": "geo4",
-        "name": "Entity Graph Structured Data",
-        "category": "ON-SITE",
-        "weight": 10,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "ESTABLISHED_PRACTICE",
-        "publicly_testable": true
-      },
-      {
-        "id": "geo5",
-        "name": "Organization Structured Data Completeness",
-        "category": "ON-PAGE",
-        "weight": 9,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "ESTABLISHED_PRACTICE",
-        "publicly_testable": true
-      },
-      {
-        "id": "geo6",
-        "name": "External Identity References",
-        "category": "OFF-PAGE",
-        "weight": 8,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "ESTABLISHED_PRACTICE",
-        "publicly_testable": true
-      },
-      {
-        "id": "geo7",
-        "name": "Independent Knowledge-Graph Entity Presence",
-        "category": "OFF-PAGE",
-        "weight": 9,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "ESTABLISHED_PRACTICE",
-        "publicly_testable": true
-      },
-      {
-        "id": "geo8",
-        "name": "ai.json Identity Declaration",
-        "category": "ON-SITE",
-        "weight": 6,
-        "web_layers": [
-          "AI_WEB",
-          "MACHINE_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      },
-      {
-        "id": "geo9",
-        "name": "Intent Declaration",
-        "category": "ON-SITE",
-        "weight": 6,
-        "web_layers": [
-          "MACHINE_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      },
-      {
-        "id": "geo10",
-        "name": "Machine-Readable Governance Declaration",
-        "category": "ON-SITE",
-        "weight": 6,
-        "web_layers": [
-          "AI_WEB",
-          "MACHINE_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      },
-      {
-        "id": "geo11",
-        "name": "Machine-Readable Entity Registry",
-        "category": "ON-SITE",
-        "weight": 7,
-        "web_layers": [
-          "AI_WEB",
-          "MACHINE_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      },
-      {
-        "id": "geo12",
-        "name": "Independent Organization Profile Presence",
-        "category": "OFF-PAGE",
-        "weight": 6,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "ESTABLISHED_PRACTICE",
-        "publicly_testable": true
-      },
-      {
-        "id": "geo13",
-        "name": "LinkedIn Entity Presence and Consistency",
-        "category": "OFF-PAGE",
-        "weight": 6,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "ESTABLISHED_PRACTICE",
-        "publicly_testable": true
-      },
-      {
-        "id": "geo14",
-        "name": "Independent Editorial Mentions",
-        "category": "OFF-PAGE",
-        "weight": 8,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "ESTABLISHED_PRACTICE",
-        "publicly_testable": true
-      },
-      {
-        "id": "geo15",
-        "name": "Author Experience and Expertise Evidence",
-        "category": "OFF-PAGE",
-        "weight": 8,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "ESTABLISHED_PRACTICE",
-        "publicly_testable": true
-      },
-      {
-        "id": "geo16",
-        "name": "Brand Entity Consistency",
-        "category": "ON-PAGE",
-        "weight": 9,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      },
-      {
-        "id": "geo17",
-        "name": "Canonical URL Consistency",
-        "category": "ON-SITE",
-        "weight": 8,
-        "web_layers": [
-          "HUMAN_WEB",
-          "AI_WEB"
-        ],
-        "maturity": "STANDARD",
-        "publicly_testable": true
-      },
-      {
-        "id": "geo18",
-        "name": "Hreflang Language and Region Targeting",
-        "category": "ON-SITE",
-        "weight": 6,
-        "web_layers": [
-          "HUMAN_WEB",
-          "AI_WEB"
-        ],
-        "maturity": "STANDARD",
-        "publicly_testable": true
-      },
-      {
-        "id": "geo19",
-        "name": "Local Identity Citation Consistency",
-        "category": "OFF-PAGE",
-        "weight": 6,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "ESTABLISHED_PRACTICE",
-        "publicly_testable": true
-      },
-      {
-        "id": "geo20",
-        "name": "Google Business Profile Where Applicable",
-        "category": "OFF-PAGE",
-        "weight": 7,
-        "web_layers": [
-          "HUMAN_WEB",
-          "AI_WEB"
-        ],
-        "maturity": "PROVIDER_SPECIFIC",
-        "publicly_testable": true
-      },
-      {
-        "id": "geo21",
-        "name": "Named Entity Clarity",
-        "category": "ON-PAGE",
-        "weight": 8,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      },
-      {
-        "id": "geo22",
-        "name": "Geographic Context Explicitness",
-        "category": "ON-PAGE",
-        "weight": 6,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      },
-      {
-        "id": "geo23",
-        "name": "Open Graph Metadata Completeness",
-        "category": "ON-PAGE",
-        "weight": 6,
-        "web_layers": [
-          "HUMAN_WEB",
-          "AI_WEB"
-        ],
-        "maturity": "ESTABLISHED_PRACTICE",
-        "publicly_testable": true
-      },
-      {
-        "id": "geo24",
-        "name": "Social Card Metadata Completeness",
-        "category": "ON-PAGE",
-        "weight": 5,
-        "web_layers": [
-          "HUMAN_WEB",
-          "AI_WEB"
-        ],
-        "maturity": "ESTABLISHED_PRACTICE",
-        "publicly_testable": true
-      },
-      {
-        "id": "geo25",
-        "name": "Integrity Manifest Presence and Validity",
-        "category": "ON-SITE",
-        "weight": 7,
-        "web_layers": [
-          "MACHINE_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      },
-      {
-        "id": "geo26",
-        "name": "Machine-Readable Change History",
-        "category": "ON-SITE",
-        "weight": 6,
-        "web_layers": [
-          "MACHINE_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      },
-      {
-        "id": "geo27",
-        "name": "Dataset Structured Data Where Applicable",
-        "category": "ON-PAGE",
-        "weight": 6,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "ESTABLISHED_PRACTICE",
-        "publicly_testable": true
-      },
-      {
-        "id": "geo28",
-        "name": "External Entity Link Quality",
-        "category": "OFF-PAGE",
-        "weight": 8,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "ESTABLISHED_PRACTICE",
-        "publicly_testable": true
-      }
-    ],
-    "AIO": [
-      {
-        "id": "aio1",
-        "name": "Topical Coverage Depth",
-        "category": "ON-PAGE",
-        "weight": 10,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      },
-      {
-        "id": "aio2",
-        "name": "Semantic Topic Cluster Coverage",
-        "category": "ON-PAGE",
-        "weight": 9,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      },
-      {
-        "id": "aio3",
-        "name": "Content Freshness Evidence",
-        "category": "ON-PAGE",
-        "weight": 8,
-        "web_layers": [
-          "HUMAN_WEB",
-          "AI_WEB"
-        ],
-        "maturity": "ESTABLISHED_PRACTICE",
-        "publicly_testable": true
-      },
-      {
-        "id": "aio4",
-        "name": "External Experience Expertise Authority Trust Evidence",
-        "category": "OFF-PAGE",
-        "weight": 9,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "ESTABLISHED_PRACTICE",
-        "publicly_testable": true
-      },
-      {
-        "id": "aio5",
-        "name": "Expertise Evidence in Content",
-        "category": "ON-PAGE",
-        "weight": 9,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      },
-      {
-        "id": "aio6",
-        "name": "Information Density",
-        "category": "ON-PAGE",
-        "weight": 8,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      },
-      {
-        "id": "aio7",
-        "name": "Source Citation Quality",
-        "category": "ON-PAGE",
-        "weight": 9,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      },
-      {
-        "id": "aio8",
-        "name": "Explicit AI Crawler Access Policy",
-        "category": "ON-SITE",
-        "weight": 9,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "STANDARD",
-        "publicly_testable": true
-      },
-      {
-        "id": "aio9",
-        "name": "Public Content AI Fetchability",
-        "category": "ON-SITE",
-        "weight": 9,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      },
-      {
-        "id": "aio10",
-        "name": "Perplexity Citation Observation",
-        "category": "OFF-PAGE",
-        "weight": 7,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "PROVIDER_SPECIFIC",
-        "publicly_testable": true
-      },
-      {
-        "id": "aio11",
-        "name": "ChatGPT Search Citation Observation",
-        "category": "OFF-PAGE",
-        "weight": 8,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "PROVIDER_SPECIFIC",
-        "publicly_testable": true
-      },
-      {
-        "id": "aio12",
-        "name": "Google AI Grounding Observation",
-        "category": "OFF-PAGE",
-        "weight": 8,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "PROVIDER_SPECIFIC",
-        "publicly_testable": true
-      },
-      {
-        "id": "aio13",
-        "name": "Claude Web Citation Observation",
-        "category": "OFF-PAGE",
-        "weight": 7,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "PROVIDER_SPECIFIC",
-        "publicly_testable": true
-      },
-      {
-        "id": "aio14",
-        "name": "AI Retrieval Discoverability Evidence",
-        "category": "OFF-PAGE",
-        "weight": 7,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "EXPERIMENTAL",
-        "publicly_testable": true
-      },
-      {
-        "id": "aio15",
-        "name": "Unique First-Party Data",
-        "category": "ON-PAGE",
-        "weight": 10,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      },
-      {
-        "id": "aio16",
-        "name": "Original Definition Evidence",
-        "category": "ON-PAGE",
-        "weight": 8,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      },
-      {
-        "id": "aio17",
-        "name": "Original Analysis and Thought Leadership Evidence",
-        "category": "ON-PAGE",
-        "weight": 8,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      },
-      {
-        "id": "aio18",
-        "name": "Topic Completeness",
-        "category": "ON-PAGE",
-        "weight": 7,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      },
-      {
-        "id": "aio19",
-        "name": "Internal Semantic Link Graph",
-        "category": "ON-SITE",
-        "weight": 8,
-        "web_layers": [
-          "HUMAN_WEB",
-          "AI_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      },
-      {
-        "id": "aio20",
-        "name": "Concept Cluster Coverage",
-        "category": "ON-PAGE",
-        "weight": 8,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      },
-      {
-        "id": "aio21",
-        "name": "Comparative and Contrastive Analysis",
-        "category": "ON-PAGE",
-        "weight": 7,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      },
-      {
-        "id": "aio22",
-        "name": "Retrieval-Friendly Content Structure",
-        "category": "ON-PAGE",
-        "weight": 9,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      },
-      {
-        "id": "aio23",
-        "name": "Section-Level Summarizability",
-        "category": "ON-PAGE",
-        "weight": 8,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      },
-      {
-        "id": "aio24",
-        "name": "Table and List Extractability",
-        "category": "ON-PAGE",
-        "weight": 7,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      },
-      {
-        "id": "aio25",
-        "name": "Content Version and Date Traceability",
-        "category": "ON-SITE",
-        "weight": 7,
-        "web_layers": [
-          "AI_WEB",
-          "MACHINE_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      },
-      {
-        "id": "aio26",
-        "name": "Machine-Extractable Summary",
-        "category": "ON-PAGE",
-        "weight": 8,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      },
-      {
-        "id": "aio27",
-        "name": "Descriptive Heading Efficiency",
-        "category": "ON-PAGE",
-        "weight": 7,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      },
-      {
-        "id": "aio28",
-        "name": "User Intent Explicitness",
-        "category": "ON-PAGE",
-        "weight": 8,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      },
-      {
-        "id": "aio29",
-        "name": "Cross-Page Factual Consistency",
-        "category": "ON-PAGE",
-        "weight": 9,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      },
-      {
-        "id": "aio30",
-        "name": "Machine-Readable AI Metadata",
-        "category": "ON-SITE",
-        "weight": 8,
-        "web_layers": [
-          "AI_WEB",
-          "MACHINE_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      },
-      {
-        "id": "aio31",
-        "name": "Machine Access Policy Declaration",
-        "category": "ON-SITE",
-        "weight": 7,
-        "web_layers": [
-          "MACHINE_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      }
-    ],
-    "SEO": [
-      {
-        "id": "seo1",
-        "name": "Title Element Quality",
-        "category": "ON-PAGE",
-        "weight": 10,
-        "web_layers": [
-          "HUMAN_WEB"
-        ],
-        "maturity": "ESTABLISHED_PRACTICE",
-        "publicly_testable": true
-      },
-      {
-        "id": "seo2",
-        "name": "Meta Description Quality",
-        "category": "ON-PAGE",
-        "weight": 7,
-        "web_layers": [
-          "HUMAN_WEB"
-        ],
-        "maturity": "ESTABLISHED_PRACTICE",
-        "publicly_testable": true
-      },
-      {
-        "id": "seo3",
-        "name": "Heading Hierarchy",
-        "category": "ON-PAGE",
-        "weight": 9,
-        "web_layers": [
-          "HUMAN_WEB",
-          "AI_WEB"
-        ],
-        "maturity": "ESTABLISHED_PRACTICE",
-        "publicly_testable": true
-      },
-      {
-        "id": "seo4",
-        "name": "Primary Topic Relevance",
-        "category": "ON-PAGE",
-        "weight": 8,
-        "web_layers": [
-          "HUMAN_WEB",
-          "AI_WEB"
-        ],
-        "maturity": "ESTABLISHED_PRACTICE",
-        "publicly_testable": true
-      },
-      {
-        "id": "seo5",
-        "name": "Semantic Term Coverage",
-        "category": "ON-PAGE",
-        "weight": 7,
-        "web_layers": [
-          "HUMAN_WEB",
-          "AI_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      },
-      {
-        "id": "seo6",
-        "name": "URL Structure",
-        "category": "ON-SITE",
-        "weight": 7,
-        "web_layers": [
-          "HUMAN_WEB"
-        ],
-        "maturity": "ESTABLISHED_PRACTICE",
-        "publicly_testable": true
-      },
-      {
-        "id": "seo7",
-        "name": "Image Alternative Text Coverage",
-        "category": "ON-PAGE",
-        "weight": 7,
-        "web_layers": [
-          "HUMAN_WEB"
-        ],
-        "maturity": "STANDARD",
-        "publicly_testable": true
-      },
-      {
-        "id": "seo8",
-        "name": "Internal Link Architecture",
-        "category": "ON-SITE",
-        "weight": 9,
-        "web_layers": [
-          "HUMAN_WEB",
-          "AI_WEB"
-        ],
-        "maturity": "ESTABLISHED_PRACTICE",
-        "publicly_testable": true
-      },
-      {
-        "id": "seo9",
-        "name": "XML Sitemap Validity and Coverage",
-        "category": "ON-SITE",
-        "weight": 9,
-        "web_layers": [
-          "HUMAN_WEB",
-          "AI_WEB"
-        ],
-        "maturity": "STANDARD",
-        "publicly_testable": true
-      },
-      {
-        "id": "seo10",
-        "name": "Core Web Vitals Overall Evidence",
-        "category": "ON-SITE",
-        "weight": 10,
-        "web_layers": [
-          "HUMAN_WEB"
-        ],
-        "maturity": "PROVIDER_SPECIFIC",
-        "publicly_testable": true
-      },
-      {
-        "id": "seo11",
-        "name": "Mobile Usability",
-        "category": "ON-SITE",
-        "weight": 10,
-        "web_layers": [
-          "HUMAN_WEB"
-        ],
-        "maturity": "ESTABLISHED_PRACTICE",
-        "publicly_testable": true
-      },
-      {
-        "id": "seo12",
-        "name": "HTTPS Availability",
-        "category": "ON-SITE",
-        "weight": 10,
-        "web_layers": [
-          "HUMAN_WEB",
-          "AI_WEB",
-          "MACHINE_WEB"
-        ],
-        "maturity": "STANDARD",
-        "publicly_testable": true
-      },
-      {
-        "id": "seo13",
-        "name": "Backlink Authority Evidence",
-        "category": "OFF-PAGE",
-        "weight": 9,
-        "web_layers": [
-          "HUMAN_WEB",
-          "AI_WEB"
-        ],
-        "maturity": "ESTABLISHED_PRACTICE",
-        "publicly_testable": true
-      },
-      {
-        "id": "seo14",
-        "name": "Backlink Source Diversity",
-        "category": "OFF-PAGE",
-        "weight": 8,
-        "web_layers": [
-          "HUMAN_WEB",
-          "AI_WEB"
-        ],
-        "maturity": "ESTABLISHED_PRACTICE",
-        "publicly_testable": true
-      },
-      {
-        "id": "seo15",
-        "name": "Referring Domain Evidence",
-        "category": "OFF-PAGE",
-        "weight": 8,
-        "web_layers": [
-          "HUMAN_WEB",
-          "AI_WEB"
-        ],
-        "maturity": "ESTABLISHED_PRACTICE",
-        "publicly_testable": true
-      },
-      {
-        "id": "seo16",
-        "name": "Anchor Text Diversity",
-        "category": "OFF-PAGE",
-        "weight": 7,
-        "web_layers": [
-          "HUMAN_WEB"
-        ],
-        "maturity": "ESTABLISHED_PRACTICE",
-        "publicly_testable": true
-      },
-      {
-        "id": "seo17",
-        "name": "Independent Brand Mention Evidence",
-        "category": "OFF-PAGE",
-        "weight": 8,
-        "web_layers": [
-          "HUMAN_WEB",
-          "AI_WEB"
-        ],
-        "maturity": "ESTABLISHED_PRACTICE",
-        "publicly_testable": true
-      },
-      {
-        "id": "seo18",
-        "name": "Duplicate Content Risk",
-        "category": "ON-PAGE",
-        "weight": 8,
-        "web_layers": [
-          "HUMAN_WEB",
-          "AI_WEB"
-        ],
-        "maturity": "ESTABLISHED_PRACTICE",
-        "publicly_testable": true
-      },
-      {
-        "id": "seo19",
-        "name": "Canonical Link Elements",
-        "category": "ON-SITE",
-        "weight": 9,
-        "web_layers": [
-          "HUMAN_WEB",
-          "AI_WEB"
-        ],
-        "maturity": "STANDARD",
-        "publicly_testable": true
-      },
-      {
-        "id": "seo20",
-        "name": "Structured Data Validity",
-        "category": "ON-PAGE",
-        "weight": 9,
-        "web_layers": [
-          "HUMAN_WEB",
-          "AI_WEB"
-        ],
-        "maturity": "ESTABLISHED_PRACTICE",
-        "publicly_testable": true
-      },
-      {
-        "id": "seo21",
-        "name": "Crawl Path Efficiency",
-        "category": "ON-SITE",
-        "weight": 7,
-        "web_layers": [
-          "HUMAN_WEB",
-          "AI_WEB"
-        ],
-        "maturity": "ESTABLISHED_PRACTICE",
-        "publicly_testable": true
-      },
-      {
-        "id": "seo22",
-        "name": "Broken Internal Links",
-        "category": "ON-SITE",
-        "weight": 8,
-        "web_layers": [
-          "HUMAN_WEB",
-          "AI_WEB"
-        ],
-        "maturity": "ESTABLISHED_PRACTICE",
-        "publicly_testable": true
-      },
-      {
-        "id": "seo23",
-        "name": "Redirect Chain Quality",
-        "category": "ON-SITE",
-        "weight": 7,
-        "web_layers": [
-          "HUMAN_WEB",
-          "AI_WEB"
-        ],
-        "maturity": "ESTABLISHED_PRACTICE",
-        "publicly_testable": true
-      },
-      {
-        "id": "seo24",
-        "name": "Content Sufficiency for Page Intent",
-        "category": "ON-PAGE",
-        "weight": 7,
-        "web_layers": [
-          "HUMAN_WEB",
-          "AI_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      },
-      {
-        "id": "seo25",
-        "name": "Outbound Source Quality",
-        "category": "ON-PAGE",
-        "weight": 7,
-        "web_layers": [
-          "HUMAN_WEB",
-          "AI_WEB"
-        ],
-        "maturity": "ESTABLISHED_PRACTICE",
-        "publicly_testable": true
-      },
-      {
-        "id": "seo26",
-        "name": "Public Social Presence",
-        "category": "OFF-PAGE",
-        "weight": 5,
-        "web_layers": [
-          "HUMAN_WEB",
-          "AI_WEB"
-        ],
-        "maturity": "ESTABLISHED_PRACTICE",
-        "publicly_testable": true
-      },
-      {
-        "id": "seo27",
-        "name": "Public Engagement Metrics Availability",
-        "category": "OFF-PAGE",
-        "weight": 3,
-        "web_layers": [
-          "HUMAN_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": false
-      },
-      {
-        "id": "seo28",
-        "name": "Private Behavioral Analytics Availability",
-        "category": "OFF-PAGE",
-        "weight": 2,
-        "web_layers": [
-          "HUMAN_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": false
-      },
-      {
-        "id": "seo29",
-        "name": "Organic Search CTR Evidence",
-        "category": "OFF-PAGE",
-        "weight": 3,
-        "web_layers": [
-          "HUMAN_WEB"
-        ],
-        "maturity": "PROVIDER_SPECIFIC",
-        "publicly_testable": false
-      },
-      {
-        "id": "seo30",
-        "name": "Search Console Access Evidence",
-        "category": "OFF-PAGE",
-        "weight": 2,
-        "web_layers": [
-          "HUMAN_WEB"
-        ],
-        "maturity": "PROVIDER_SPECIFIC",
-        "publicly_testable": false
-      },
-      {
-        "id": "seo31",
-        "name": "Private Search Index Coverage Evidence",
-        "category": "OFF-PAGE",
-        "weight": 3,
-        "web_layers": [
-          "HUMAN_WEB"
-        ],
-        "maturity": "PROVIDER_SPECIFIC",
-        "publicly_testable": false
-      },
-      {
-        "id": "seo32",
-        "name": "Largest Contentful Paint",
-        "category": "ON-SITE",
-        "weight": 9,
-        "web_layers": [
-          "HUMAN_WEB"
-        ],
-        "maturity": "PROVIDER_SPECIFIC",
-        "publicly_testable": true
-      },
-      {
-        "id": "seo33",
-        "name": "Cumulative Layout Shift",
-        "category": "ON-SITE",
-        "weight": 8,
-        "web_layers": [
-          "HUMAN_WEB"
-        ],
-        "maturity": "PROVIDER_SPECIFIC",
-        "publicly_testable": true
-      },
-      {
-        "id": "seo34",
-        "name": "Interaction to Next Paint",
-        "category": "ON-SITE",
-        "weight": 8,
-        "web_layers": [
-          "HUMAN_WEB"
-        ],
-        "maturity": "PROVIDER_SPECIFIC",
-        "publicly_testable": true
-      },
-      {
-        "id": "seo35",
-        "name": "HTTP to HTTPS Redirect",
-        "category": "ON-SITE",
-        "weight": 7,
-        "web_layers": [
-          "HUMAN_WEB",
-          "AI_WEB",
-          "MACHINE_WEB"
-        ],
-        "maturity": "STANDARD",
-        "publicly_testable": true
-      },
-      {
-        "id": "seo36",
-        "name": "Hreflang Implementation Validity",
-        "category": "ON-SITE",
-        "weight": 6,
-        "web_layers": [
-          "HUMAN_WEB",
-          "AI_WEB"
-        ],
-        "maturity": "STANDARD",
-        "publicly_testable": true
-      },
-      {
-        "id": "seo37",
-        "name": "Pagination Crawlability",
-        "category": "ON-SITE",
-        "weight": 5,
-        "web_layers": [
-          "HUMAN_WEB",
-          "AI_WEB"
-        ],
-        "maturity": "ESTABLISHED_PRACTICE",
-        "publicly_testable": true
-      },
-      {
-        "id": "seo38",
-        "name": "Structured Data Warning and Error Severity",
-        "category": "ON-PAGE",
-        "weight": 8,
-        "web_layers": [
-          "HUMAN_WEB",
-          "AI_WEB"
-        ],
-        "maturity": "ESTABLISHED_PRACTICE",
-        "publicly_testable": true
-      },
-      {
-        "id": "seo39",
-        "name": "Suspicious Backlink Risk",
-        "category": "OFF-PAGE",
-        "weight": 6,
-        "web_layers": [
-          "HUMAN_WEB"
-        ],
-        "maturity": "EXPERIMENTAL",
-        "publicly_testable": true
-      },
-      {
-        "id": "seo40",
-        "name": "Domain History and Independent Authority Evidence",
-        "category": "OFF-PAGE",
-        "weight": 7,
-        "web_layers": [
-          "HUMAN_WEB",
-          "AI_WEB"
-        ],
-        "maturity": "ESTABLISHED_PRACTICE",
-        "publicly_testable": true
-      },
-      {
-        "id": "seo41",
-        "name": "Content Modification Recency",
-        "category": "ON-PAGE",
-        "weight": 7,
-        "web_layers": [
-          "HUMAN_WEB",
-          "AI_WEB"
-        ],
-        "maturity": "ESTABLISHED_PRACTICE",
-        "publicly_testable": true
-      },
-      {
-        "id": "seo42",
-        "name": "Document Structural Flow",
-        "category": "ON-PAGE",
-        "weight": 7,
-        "web_layers": [
-          "HUMAN_WEB",
-          "AI_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      }
-    ],
-    "AI_SIGNALS": [
-      {
-        "id": "ai1",
-        "name": "OpenAI Crawler Access Declaration",
-        "category": "ON-SITE",
-        "weight": 9,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "PROVIDER_SPECIFIC",
-        "publicly_testable": true
-      },
-      {
-        "id": "ai2",
-        "name": "Anthropic Crawler Access Declaration",
-        "category": "ON-SITE",
-        "weight": 9,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "PROVIDER_SPECIFIC",
-        "publicly_testable": true
-      },
-      {
-        "id": "ai3",
-        "name": "Google-Extended Policy Declaration",
-        "category": "ON-SITE",
-        "weight": 7,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "PROVIDER_SPECIFIC",
-        "publicly_testable": true
-      },
-      {
-        "id": "ai4",
-        "name": "Perplexity Crawler Access Declaration",
-        "category": "ON-SITE",
-        "weight": 8,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "PROVIDER_SPECIFIC",
-        "publicly_testable": true
-      },
-      {
-        "id": "ai5",
-        "name": "Other AI Crawler Access Coverage",
-        "category": "ON-SITE",
-        "weight": 6,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "PROVIDER_SPECIFIC",
-        "publicly_testable": true
-      },
-      {
-        "id": "ai6",
-        "name": "SHA-256 Integrity Manifest",
-        "category": "ON-SITE",
-        "weight": 8,
-        "web_layers": [
-          "MACHINE_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      },
-      {
-        "id": "ai7",
-        "name": "Independent Timestamp or Signature Evidence",
-        "category": "OFF-SITE",
-        "weight": 8,
-        "web_layers": [
-          "MACHINE_WEB"
-        ],
-        "maturity": "ESTABLISHED_PRACTICE",
-        "publicly_testable": true
-      },
-      {
-        "id": "ai8",
-        "name": "Machine-Readable Session and State Declaration",
-        "category": "ON-SITE",
-        "weight": 6,
-        "web_layers": [
-          "MACHINE_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      },
-      {
-        "id": "ai9",
-        "name": "Canonical Alias and Entity Resolution Declaration",
-        "category": "ON-SITE",
-        "weight": 7,
-        "web_layers": [
-          "AI_WEB",
-          "MACHINE_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      },
-      {
-        "id": "ai10",
-        "name": "Machine-Readable Usage Policy",
-        "category": "ON-SITE",
-        "weight": 7,
-        "web_layers": [
-          "MACHINE_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      },
-      {
-        "id": "ai11",
-        "name": "Machine-Readable Action Contract",
-        "category": "ON-SITE",
-        "weight": 8,
-        "web_layers": [
-          "MACHINE_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      },
-      {
-        "id": "ai12",
-        "name": "Grounding and Evidence Controls",
-        "category": "ON-SITE",
-        "weight": 8,
-        "web_layers": [
-          "AI_WEB",
-          "MACHINE_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      },
-      {
-        "id": "ai13",
-        "name": "Entity Graph Completeness",
-        "category": "ON-SITE",
-        "weight": 8,
-        "web_layers": [
-          "AI_WEB",
-          "MACHINE_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      },
-      {
-        "id": "ai14",
-        "name": "Machine-Readable Confidentiality Boundary",
-        "category": "ON-SITE",
-        "weight": 7,
-        "web_layers": [
-          "MACHINE_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      },
-      {
-        "id": "ai15",
-        "name": "AI Training and Reuse Permission Declaration",
-        "category": "ON-SITE",
-        "weight": 7,
-        "web_layers": [
-          "AI_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      },
-      {
-        "id": "ai16",
-        "name": "EU AI Act Transparency Declaration",
-        "category": "ON-SITE",
-        "weight": 7,
-        "web_layers": [
-          "AI_WEB",
-          "MACHINE_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      },
-      {
-        "id": "ai17",
-        "name": "AI Governance Declaration",
-        "category": "ON-SITE",
-        "weight": 8,
-        "web_layers": [
-          "AI_WEB",
-          "MACHINE_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      },
-      {
-        "id": "ai18",
-        "name": "Machine Access Allow-Lane Declaration",
-        "category": "ON-SITE",
-        "weight": 7,
-        "web_layers": [
-          "MACHINE_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      },
-      {
-        "id": "ai19",
-        "name": "Agent Card Discoverable",
-        "category": "ON-SITE",
-        "weight": 9,
-        "web_layers": [
-          "MACHINE_WEB"
-        ],
-        "maturity": "EMERGING",
-        "publicly_testable": true
-      },
-      {
-        "id": "ai20",
-        "name": "Agent Card Structurally Valid",
-        "category": "ON-SITE",
-        "weight": 9,
-        "web_layers": [
-          "MACHINE_WEB"
-        ],
-        "maturity": "EMERGING",
-        "publicly_testable": true
-      },
-      {
-        "id": "ai21",
-        "name": "Capabilities Explicitly Declared",
-        "category": "ON-SITE",
-        "weight": 8,
-        "web_layers": [
-          "MACHINE_WEB"
-        ],
-        "maturity": "EMERGING",
-        "publicly_testable": true
-      },
-      {
-        "id": "ai22",
-        "name": "Capability Contract Valid",
-        "category": "ON-SITE",
-        "weight": 9,
-        "web_layers": [
-          "MACHINE_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      },
-      {
-        "id": "ai23",
-        "name": "Declared Endpoint Reachable",
-        "category": "ON-SITE",
-        "weight": 10,
-        "web_layers": [
-          "MACHINE_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      },
-      {
-        "id": "ai24",
-        "name": "Machine Protocol Response Valid",
-        "category": "ON-SITE",
-        "weight": 10,
-        "web_layers": [
-          "MACHINE_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      },
-      {
-        "id": "ai25",
-        "name": "Capability Invocable Under Declared Contract",
-        "category": "ON-SITE",
-        "weight": 10,
-        "web_layers": [
-          "MACHINE_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      },
-      {
-        "id": "ai26",
-        "name": "Capability Execution Verified",
-        "category": "OFF-SITE",
-        "weight": 10,
-        "web_layers": [
-          "MACHINE_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      },
-      {
-        "id": "ai27",
-        "name": "Task Status Contract",
-        "category": "ON-SITE",
-        "weight": 8,
-        "web_layers": [
-          "MACHINE_WEB"
-        ],
-        "maturity": "EMERGING",
-        "publicly_testable": true
-      },
-      {
-        "id": "ai28",
-        "name": "Human Approval Boundary Declaration",
-        "category": "ON-SITE",
-        "weight": 9,
-        "web_layers": [
-          "MACHINE_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      },
-      {
-        "id": "ai29",
-        "name": "Artifact Exchange and Provenance Contract",
-        "category": "ON-SITE",
-        "weight": 8,
-        "web_layers": [
-          "MACHINE_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      },
-      {
-        "id": "ai30",
-        "name": "Cancellation and Resume Contract",
-        "category": "ON-SITE",
-        "weight": 7,
-        "web_layers": [
-          "MACHINE_WEB"
-        ],
-        "maturity": "EMERGING",
-        "publicly_testable": true
-      },
-      {
-        "id": "ai31",
-        "name": "Agent Activity Audit Trail",
-        "category": "ON-SITE",
-        "weight": 9,
-        "web_layers": [
-          "MACHINE_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      },
-      {
-        "id": "ai32",
-        "name": "Claim-to-Evidence Traceability",
-        "category": "ON-SITE",
-        "weight": 10,
-        "web_layers": [
-          "AI_WEB",
-          "MACHINE_WEB"
-        ],
-        "maturity": "3WEBS_METHOD",
-        "publicly_testable": true
-      }
-    ]
-  }
+  "note_on_adi": "Agent readiness on the ADI scale (L0–L5) is tracked separately and is never added to this total. A2A here counts audit signals that can be observed; ADI levels are cumulative gates over a different registry.",
+  "signals": [
+    {
+      "id": "ai1",
+      "name": "OpenAI Crawler Access Declaration",
+      "family": "AI_SIGNALS",
+      "category": "ON-SITE",
+      "weight": 9,
+      "web": "MACHINE_WEB"
+    },
+    {
+      "id": "ai2",
+      "name": "Anthropic Crawler Access Declaration",
+      "family": "AI_SIGNALS",
+      "category": "ON-SITE",
+      "weight": 9,
+      "web": "MACHINE_WEB"
+    },
+    {
+      "id": "ai3",
+      "name": "Google-Extended Policy Declaration",
+      "family": "AI_SIGNALS",
+      "category": "ON-SITE",
+      "weight": 7,
+      "web": "MACHINE_WEB"
+    },
+    {
+      "id": "ai4",
+      "name": "Perplexity Crawler Access Declaration",
+      "family": "AI_SIGNALS",
+      "category": "ON-SITE",
+      "weight": 8,
+      "web": "MACHINE_WEB"
+    },
+    {
+      "id": "ai5",
+      "name": "Other AI Crawler Access Coverage",
+      "family": "AI_SIGNALS",
+      "category": "ON-SITE",
+      "weight": 6,
+      "web": "MACHINE_WEB"
+    },
+    {
+      "id": "ai6",
+      "name": "SHA-256 Integrity Manifest",
+      "family": "AI_SIGNALS",
+      "category": "ON-SITE",
+      "weight": 8,
+      "web": "MACHINE_WEB"
+    },
+    {
+      "id": "ai7",
+      "name": "Independent Timestamp or Signature Evidence",
+      "family": "AI_SIGNALS",
+      "category": "OFF-SITE",
+      "weight": 8,
+      "web": "MACHINE_WEB"
+    },
+    {
+      "id": "ai8",
+      "name": "Machine-Readable Session and State Declaration",
+      "family": "AI_SIGNALS",
+      "category": "ON-SITE",
+      "weight": 6,
+      "web": "MACHINE_WEB"
+    },
+    {
+      "id": "ai9",
+      "name": "Canonical Alias and Entity Resolution Declaration",
+      "family": "AI_SIGNALS",
+      "category": "ON-SITE",
+      "weight": 7,
+      "web": "MACHINE_WEB"
+    },
+    {
+      "id": "ai10",
+      "name": "Machine-Readable Usage Policy",
+      "family": "AI_SIGNALS",
+      "category": "ON-SITE",
+      "weight": 7,
+      "web": "MACHINE_WEB"
+    },
+    {
+      "id": "ai11",
+      "name": "Machine-Readable Action Contract",
+      "family": "AI_SIGNALS",
+      "category": "ON-SITE",
+      "weight": 8,
+      "web": "MACHINE_WEB"
+    },
+    {
+      "id": "ai12",
+      "name": "Grounding and Evidence Controls",
+      "family": "AI_SIGNALS",
+      "category": "ON-SITE",
+      "weight": 8,
+      "web": "MACHINE_WEB"
+    },
+    {
+      "id": "ai13",
+      "name": "Entity Graph Completeness",
+      "family": "AI_SIGNALS",
+      "category": "ON-SITE",
+      "weight": 8,
+      "web": "MACHINE_WEB"
+    },
+    {
+      "id": "ai14",
+      "name": "Machine-Readable Confidentiality Boundary",
+      "family": "AI_SIGNALS",
+      "category": "ON-SITE",
+      "weight": 7,
+      "web": "MACHINE_WEB"
+    },
+    {
+      "id": "ai15",
+      "name": "AI Training and Reuse Permission Declaration",
+      "family": "AI_SIGNALS",
+      "category": "ON-SITE",
+      "weight": 7,
+      "web": "MACHINE_WEB"
+    },
+    {
+      "id": "ai16",
+      "name": "EU AI Act Transparency Declaration",
+      "family": "AI_SIGNALS",
+      "category": "ON-SITE",
+      "weight": 7,
+      "web": "MACHINE_WEB"
+    },
+    {
+      "id": "ai17",
+      "name": "AI Governance Declaration",
+      "family": "AI_SIGNALS",
+      "category": "ON-SITE",
+      "weight": 8,
+      "web": "MACHINE_WEB"
+    },
+    {
+      "id": "ai18",
+      "name": "Machine Access Allow-Lane Declaration",
+      "family": "AI_SIGNALS",
+      "category": "ON-SITE",
+      "weight": 7,
+      "web": "MACHINE_WEB"
+    },
+    {
+      "id": "ai32",
+      "name": "Claim-to-Evidence Traceability",
+      "family": "AI_SIGNALS",
+      "category": "ON-SITE",
+      "weight": 10,
+      "web": "MACHINE_WEB"
+    },
+    {
+      "id": "aeo1",
+      "name": "FAQ Structured Data",
+      "family": "AEO",
+      "category": "ON-PAGE",
+      "weight": 9,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aeo2",
+      "name": "HowTo Structured Data Where Applicable",
+      "family": "AEO",
+      "category": "ON-PAGE",
+      "weight": 7,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aeo3",
+      "name": "Question-and-Answer Content Blocks",
+      "family": "AEO",
+      "category": "ON-PAGE",
+      "weight": 9,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aeo4",
+      "name": "Extractable Direct Answer Blocks",
+      "family": "AEO",
+      "category": "ON-PAGE",
+      "weight": 10,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aeo5",
+      "name": "Speakable Structured Data Where Applicable",
+      "family": "AEO",
+      "category": "ON-PAGE",
+      "weight": 5,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aeo6",
+      "name": "Article Structured Data Where Applicable",
+      "family": "AEO",
+      "category": "ON-PAGE",
+      "weight": 7,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aeo7",
+      "name": "Breadcrumb Structured Data",
+      "family": "AEO",
+      "category": "ON-PAGE",
+      "weight": 7,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aeo8",
+      "name": "Table of Contents and Section Anchors",
+      "family": "AEO",
+      "category": "ON-PAGE",
+      "weight": 6,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aeo9",
+      "name": "External Entity Disambiguation",
+      "family": "AEO",
+      "category": "OFF-PAGE",
+      "weight": 8,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aeo10",
+      "name": "Search Knowledge Entity Presence",
+      "family": "AEO",
+      "category": "OFF-PAGE",
+      "weight": 9,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aeo11",
+      "name": "Direct Answer Formatting",
+      "family": "AEO",
+      "category": "ON-PAGE",
+      "weight": 9,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aeo12",
+      "name": "Intent-Oriented URL Structure",
+      "family": "AEO",
+      "category": "ON-SITE",
+      "weight": 6,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aeo13",
+      "name": "People-Also-Ask Topic Coverage",
+      "family": "AEO",
+      "category": "OFF-PAGE",
+      "weight": 7,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aeo14",
+      "name": "Featured Answer Extractability",
+      "family": "AEO",
+      "category": "ON-PAGE",
+      "weight": 9,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aeo15",
+      "name": "Definition Blocks",
+      "family": "AEO",
+      "category": "ON-PAGE",
+      "weight": 7,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aeo16",
+      "name": "Step-by-Step Content Structure",
+      "family": "AEO",
+      "category": "ON-PAGE",
+      "weight": 7,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aeo17",
+      "name": "Concise Lead Answer",
+      "family": "AEO",
+      "category": "ON-PAGE",
+      "weight": 7,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aeo18",
+      "name": "Natural-Language Query Coverage",
+      "family": "AEO",
+      "category": "ON-PAGE",
+      "weight": 7,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aeo19",
+      "name": "Answer-First Content Structure",
+      "family": "AEO",
+      "category": "ON-PAGE",
+      "weight": 9,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aeo20",
+      "name": "Semantically Descriptive Headings",
+      "family": "AEO",
+      "category": "ON-PAGE",
+      "weight": 8,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aeo21",
+      "name": "Conversational Query Coverage",
+      "family": "AEO",
+      "category": "ON-PAGE",
+      "weight": 8,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aeo22",
+      "name": "Structured Data Relationship Coherence",
+      "family": "AEO",
+      "category": "ON-PAGE",
+      "weight": 7,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aeo23",
+      "name": "Rich Result Eligibility",
+      "family": "AEO",
+      "category": "ON-PAGE",
+      "weight": 8,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aeo24",
+      "name": "Google AI Overview and AI Mode Source Readiness",
+      "family": "AEO",
+      "category": "ON-PAGE",
+      "weight": 9,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aeo25",
+      "name": "Context Continuity Across Sections",
+      "family": "AEO",
+      "category": "ON-PAGE",
+      "weight": 7,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aeo26",
+      "name": "Primary Entity Salience",
+      "family": "AEO",
+      "category": "ON-PAGE",
+      "weight": 8,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aeo27",
+      "name": "Semantic HTML Structure",
+      "family": "AEO",
+      "category": "ON-SITE",
+      "weight": 8,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aeo28",
+      "name": "ClaimReview Structured Data Where Applicable",
+      "family": "AEO",
+      "category": "ON-PAGE",
+      "weight": 5,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aeo29",
+      "name": "Event Structured Data Where Applicable",
+      "family": "AEO",
+      "category": "ON-PAGE",
+      "weight": 5,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aeo30",
+      "name": "Product Structured Data Where Applicable",
+      "family": "AEO",
+      "category": "ON-PAGE",
+      "weight": 7,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aeo31",
+      "name": "LocalBusiness Structured Data Where Applicable",
+      "family": "AEO",
+      "category": "ON-PAGE",
+      "weight": 6,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aeo32",
+      "name": "Review and Rating Structured Data Validity",
+      "family": "AEO",
+      "category": "ON-PAGE",
+      "weight": 6,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aeo33",
+      "name": "Video Structured Data Where Applicable",
+      "family": "AEO",
+      "category": "ON-PAGE",
+      "weight": 5,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aeo34",
+      "name": "Person and Author Structured Data",
+      "family": "AEO",
+      "category": "ON-PAGE",
+      "weight": 7,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "geo1",
+      "name": "llms.txt Presence and Quality",
+      "family": "GEO",
+      "category": "ON-SITE",
+      "weight": 8,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "geo2",
+      "name": "AI Policy Declaration File",
+      "family": "GEO",
+      "category": "ON-SITE",
+      "weight": 6,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "geo3",
+      "name": "robots.txt AI Crawler Directives",
+      "family": "GEO",
+      "category": "ON-SITE",
+      "weight": 9,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "geo4",
+      "name": "Entity Graph Structured Data",
+      "family": "GEO",
+      "category": "ON-SITE",
+      "weight": 10,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "geo5",
+      "name": "Organization Structured Data Completeness",
+      "family": "GEO",
+      "category": "ON-PAGE",
+      "weight": 9,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "geo6",
+      "name": "External Identity References",
+      "family": "GEO",
+      "category": "OFF-PAGE",
+      "weight": 8,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "geo7",
+      "name": "Independent Knowledge-Graph Entity Presence",
+      "family": "GEO",
+      "category": "OFF-PAGE",
+      "weight": 9,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "geo8",
+      "name": "ai.json Identity Declaration",
+      "family": "GEO",
+      "category": "ON-SITE",
+      "weight": 6,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "geo9",
+      "name": "Intent Declaration",
+      "family": "GEO",
+      "category": "ON-SITE",
+      "weight": 6,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "geo10",
+      "name": "Machine-Readable Governance Declaration",
+      "family": "GEO",
+      "category": "ON-SITE",
+      "weight": 6,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "geo11",
+      "name": "Machine-Readable Entity Registry",
+      "family": "GEO",
+      "category": "ON-SITE",
+      "weight": 7,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "geo12",
+      "name": "Independent Organization Profile Presence",
+      "family": "GEO",
+      "category": "OFF-PAGE",
+      "weight": 6,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "geo13",
+      "name": "LinkedIn Entity Presence and Consistency",
+      "family": "GEO",
+      "category": "OFF-PAGE",
+      "weight": 6,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "geo14",
+      "name": "Independent Editorial Mentions",
+      "family": "GEO",
+      "category": "OFF-PAGE",
+      "weight": 8,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "geo15",
+      "name": "Author Experience and Expertise Evidence",
+      "family": "GEO",
+      "category": "OFF-PAGE",
+      "weight": 8,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "geo16",
+      "name": "Brand Entity Consistency",
+      "family": "GEO",
+      "category": "ON-PAGE",
+      "weight": 9,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "geo17",
+      "name": "Canonical URL Consistency",
+      "family": "GEO",
+      "category": "ON-SITE",
+      "weight": 8,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "geo18",
+      "name": "Hreflang Language and Region Targeting",
+      "family": "GEO",
+      "category": "ON-SITE",
+      "weight": 6,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "geo19",
+      "name": "Local Identity Citation Consistency",
+      "family": "GEO",
+      "category": "OFF-PAGE",
+      "weight": 6,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "geo20",
+      "name": "Google Business Profile Where Applicable",
+      "family": "GEO",
+      "category": "OFF-PAGE",
+      "weight": 7,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "geo21",
+      "name": "Named Entity Clarity",
+      "family": "GEO",
+      "category": "ON-PAGE",
+      "weight": 8,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "geo22",
+      "name": "Geographic Context Explicitness",
+      "family": "GEO",
+      "category": "ON-PAGE",
+      "weight": 6,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "geo23",
+      "name": "Open Graph Metadata Completeness",
+      "family": "GEO",
+      "category": "ON-PAGE",
+      "weight": 6,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "geo24",
+      "name": "Social Card Metadata Completeness",
+      "family": "GEO",
+      "category": "ON-PAGE",
+      "weight": 5,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "geo25",
+      "name": "Integrity Manifest Presence and Validity",
+      "family": "GEO",
+      "category": "ON-SITE",
+      "weight": 7,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "geo26",
+      "name": "Machine-Readable Change History",
+      "family": "GEO",
+      "category": "ON-SITE",
+      "weight": 6,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "geo27",
+      "name": "Dataset Structured Data Where Applicable",
+      "family": "GEO",
+      "category": "ON-PAGE",
+      "weight": 6,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "geo28",
+      "name": "External Entity Link Quality",
+      "family": "GEO",
+      "category": "OFF-PAGE",
+      "weight": 8,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aio1",
+      "name": "Topical Coverage Depth",
+      "family": "AIO",
+      "category": "ON-PAGE",
+      "weight": 10,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aio2",
+      "name": "Semantic Topic Cluster Coverage",
+      "family": "AIO",
+      "category": "ON-PAGE",
+      "weight": 9,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aio3",
+      "name": "Content Freshness Evidence",
+      "family": "AIO",
+      "category": "ON-PAGE",
+      "weight": 8,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aio4",
+      "name": "External Experience Expertise Authority Trust Evidence",
+      "family": "AIO",
+      "category": "OFF-PAGE",
+      "weight": 9,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aio5",
+      "name": "Expertise Evidence in Content",
+      "family": "AIO",
+      "category": "ON-PAGE",
+      "weight": 9,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aio6",
+      "name": "Information Density",
+      "family": "AIO",
+      "category": "ON-PAGE",
+      "weight": 8,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aio7",
+      "name": "Source Citation Quality",
+      "family": "AIO",
+      "category": "ON-PAGE",
+      "weight": 9,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aio8",
+      "name": "Explicit AI Crawler Access Policy",
+      "family": "AIO",
+      "category": "ON-SITE",
+      "weight": 9,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aio9",
+      "name": "Public Content AI Fetchability",
+      "family": "AIO",
+      "category": "ON-SITE",
+      "weight": 9,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aio10",
+      "name": "Perplexity Citation Observation",
+      "family": "AIO",
+      "category": "OFF-PAGE",
+      "weight": 7,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aio11",
+      "name": "ChatGPT Search Citation Observation",
+      "family": "AIO",
+      "category": "OFF-PAGE",
+      "weight": 8,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aio12",
+      "name": "Google AI Grounding Observation",
+      "family": "AIO",
+      "category": "OFF-PAGE",
+      "weight": 8,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aio13",
+      "name": "Claude Web Citation Observation",
+      "family": "AIO",
+      "category": "OFF-PAGE",
+      "weight": 7,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aio14",
+      "name": "AI Retrieval Discoverability Evidence",
+      "family": "AIO",
+      "category": "OFF-PAGE",
+      "weight": 7,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aio15",
+      "name": "Unique First-Party Data",
+      "family": "AIO",
+      "category": "ON-PAGE",
+      "weight": 10,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aio16",
+      "name": "Original Definition Evidence",
+      "family": "AIO",
+      "category": "ON-PAGE",
+      "weight": 8,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aio17",
+      "name": "Original Analysis and Thought Leadership Evidence",
+      "family": "AIO",
+      "category": "ON-PAGE",
+      "weight": 8,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aio18",
+      "name": "Topic Completeness",
+      "family": "AIO",
+      "category": "ON-PAGE",
+      "weight": 7,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aio19",
+      "name": "Internal Semantic Link Graph",
+      "family": "AIO",
+      "category": "ON-SITE",
+      "weight": 8,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aio20",
+      "name": "Concept Cluster Coverage",
+      "family": "AIO",
+      "category": "ON-PAGE",
+      "weight": 8,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aio21",
+      "name": "Comparative and Contrastive Analysis",
+      "family": "AIO",
+      "category": "ON-PAGE",
+      "weight": 7,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aio22",
+      "name": "Retrieval-Friendly Content Structure",
+      "family": "AIO",
+      "category": "ON-PAGE",
+      "weight": 9,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aio23",
+      "name": "Section-Level Summarizability",
+      "family": "AIO",
+      "category": "ON-PAGE",
+      "weight": 8,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aio24",
+      "name": "Table and List Extractability",
+      "family": "AIO",
+      "category": "ON-PAGE",
+      "weight": 7,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aio25",
+      "name": "Content Version and Date Traceability",
+      "family": "AIO",
+      "category": "ON-SITE",
+      "weight": 7,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aio26",
+      "name": "Machine-Extractable Summary",
+      "family": "AIO",
+      "category": "ON-PAGE",
+      "weight": 8,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aio27",
+      "name": "Descriptive Heading Efficiency",
+      "family": "AIO",
+      "category": "ON-PAGE",
+      "weight": 7,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aio28",
+      "name": "User Intent Explicitness",
+      "family": "AIO",
+      "category": "ON-PAGE",
+      "weight": 8,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aio29",
+      "name": "Cross-Page Factual Consistency",
+      "family": "AIO",
+      "category": "ON-PAGE",
+      "weight": 9,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aio30",
+      "name": "Machine-Readable AI Metadata",
+      "family": "AIO",
+      "category": "ON-SITE",
+      "weight": 8,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "aio31",
+      "name": "Machine Access Policy Declaration",
+      "family": "AIO",
+      "category": "ON-SITE",
+      "weight": 7,
+      "web": "AI_WEB"
+    },
+    {
+      "id": "seo1",
+      "name": "Title Element Quality",
+      "family": "SEO",
+      "category": "ON-PAGE",
+      "weight": 10,
+      "web": "HUMAN_WEB"
+    },
+    {
+      "id": "seo2",
+      "name": "Meta Description Quality",
+      "family": "SEO",
+      "category": "ON-PAGE",
+      "weight": 7,
+      "web": "HUMAN_WEB"
+    },
+    {
+      "id": "seo3",
+      "name": "Heading Hierarchy",
+      "family": "SEO",
+      "category": "ON-PAGE",
+      "weight": 9,
+      "web": "HUMAN_WEB"
+    },
+    {
+      "id": "seo4",
+      "name": "Primary Topic Relevance",
+      "family": "SEO",
+      "category": "ON-PAGE",
+      "weight": 8,
+      "web": "HUMAN_WEB"
+    },
+    {
+      "id": "seo5",
+      "name": "Semantic Term Coverage",
+      "family": "SEO",
+      "category": "ON-PAGE",
+      "weight": 7,
+      "web": "HUMAN_WEB"
+    },
+    {
+      "id": "seo6",
+      "name": "URL Structure",
+      "family": "SEO",
+      "category": "ON-SITE",
+      "weight": 7,
+      "web": "HUMAN_WEB"
+    },
+    {
+      "id": "seo7",
+      "name": "Image Alternative Text Coverage",
+      "family": "SEO",
+      "category": "ON-PAGE",
+      "weight": 7,
+      "web": "HUMAN_WEB"
+    },
+    {
+      "id": "seo8",
+      "name": "Internal Link Architecture",
+      "family": "SEO",
+      "category": "ON-SITE",
+      "weight": 9,
+      "web": "HUMAN_WEB"
+    },
+    {
+      "id": "seo9",
+      "name": "XML Sitemap Validity and Coverage",
+      "family": "SEO",
+      "category": "ON-SITE",
+      "weight": 9,
+      "web": "HUMAN_WEB"
+    },
+    {
+      "id": "seo10",
+      "name": "Core Web Vitals Overall Evidence",
+      "family": "SEO",
+      "category": "ON-SITE",
+      "weight": 10,
+      "web": "HUMAN_WEB"
+    },
+    {
+      "id": "seo11",
+      "name": "Mobile Usability",
+      "family": "SEO",
+      "category": "ON-SITE",
+      "weight": 10,
+      "web": "HUMAN_WEB"
+    },
+    {
+      "id": "seo12",
+      "name": "HTTPS Availability",
+      "family": "SEO",
+      "category": "ON-SITE",
+      "weight": 10,
+      "web": "HUMAN_WEB"
+    },
+    {
+      "id": "seo13",
+      "name": "Backlink Authority Evidence",
+      "family": "SEO",
+      "category": "OFF-PAGE",
+      "weight": 9,
+      "web": "HUMAN_WEB"
+    },
+    {
+      "id": "seo14",
+      "name": "Backlink Source Diversity",
+      "family": "SEO",
+      "category": "OFF-PAGE",
+      "weight": 8,
+      "web": "HUMAN_WEB"
+    },
+    {
+      "id": "seo15",
+      "name": "Referring Domain Evidence",
+      "family": "SEO",
+      "category": "OFF-PAGE",
+      "weight": 8,
+      "web": "HUMAN_WEB"
+    },
+    {
+      "id": "seo16",
+      "name": "Anchor Text Diversity",
+      "family": "SEO",
+      "category": "OFF-PAGE",
+      "weight": 7,
+      "web": "HUMAN_WEB"
+    },
+    {
+      "id": "seo17",
+      "name": "Independent Brand Mention Evidence",
+      "family": "SEO",
+      "category": "OFF-PAGE",
+      "weight": 8,
+      "web": "HUMAN_WEB"
+    },
+    {
+      "id": "seo18",
+      "name": "Duplicate Content Risk",
+      "family": "SEO",
+      "category": "ON-PAGE",
+      "weight": 8,
+      "web": "HUMAN_WEB"
+    },
+    {
+      "id": "seo19",
+      "name": "Canonical Link Elements",
+      "family": "SEO",
+      "category": "ON-SITE",
+      "weight": 9,
+      "web": "HUMAN_WEB"
+    },
+    {
+      "id": "seo20",
+      "name": "Structured Data Validity",
+      "family": "SEO",
+      "category": "ON-PAGE",
+      "weight": 9,
+      "web": "HUMAN_WEB"
+    },
+    {
+      "id": "seo21",
+      "name": "Crawl Path Efficiency",
+      "family": "SEO",
+      "category": "ON-SITE",
+      "weight": 7,
+      "web": "HUMAN_WEB"
+    },
+    {
+      "id": "seo22",
+      "name": "Broken Internal Links",
+      "family": "SEO",
+      "category": "ON-SITE",
+      "weight": 8,
+      "web": "HUMAN_WEB"
+    },
+    {
+      "id": "seo23",
+      "name": "Redirect Chain Quality",
+      "family": "SEO",
+      "category": "ON-SITE",
+      "weight": 7,
+      "web": "HUMAN_WEB"
+    },
+    {
+      "id": "seo24",
+      "name": "Content Sufficiency for Page Intent",
+      "family": "SEO",
+      "category": "ON-PAGE",
+      "weight": 7,
+      "web": "HUMAN_WEB"
+    },
+    {
+      "id": "seo25",
+      "name": "Outbound Source Quality",
+      "family": "SEO",
+      "category": "ON-PAGE",
+      "weight": 7,
+      "web": "HUMAN_WEB"
+    },
+    {
+      "id": "seo26",
+      "name": "Public Social Presence",
+      "family": "SEO",
+      "category": "OFF-PAGE",
+      "weight": 5,
+      "web": "HUMAN_WEB"
+    },
+    {
+      "id": "seo27",
+      "name": "Public Engagement Metrics Availability",
+      "family": "SEO",
+      "category": "OFF-PAGE",
+      "weight": 3,
+      "web": "HUMAN_WEB"
+    },
+    {
+      "id": "seo28",
+      "name": "Private Behavioral Analytics Availability",
+      "family": "SEO",
+      "category": "OFF-PAGE",
+      "weight": 2,
+      "web": "HUMAN_WEB"
+    },
+    {
+      "id": "seo29",
+      "name": "Organic Search CTR Evidence",
+      "family": "SEO",
+      "category": "OFF-PAGE",
+      "weight": 3,
+      "web": "HUMAN_WEB"
+    },
+    {
+      "id": "seo30",
+      "name": "Search Console Access Evidence",
+      "family": "SEO",
+      "category": "OFF-PAGE",
+      "weight": 2,
+      "web": "HUMAN_WEB"
+    },
+    {
+      "id": "seo31",
+      "name": "Private Search Index Coverage Evidence",
+      "family": "SEO",
+      "category": "OFF-PAGE",
+      "weight": 3,
+      "web": "HUMAN_WEB"
+    },
+    {
+      "id": "seo32",
+      "name": "Largest Contentful Paint",
+      "family": "SEO",
+      "category": "ON-SITE",
+      "weight": 9,
+      "web": "HUMAN_WEB"
+    },
+    {
+      "id": "seo33",
+      "name": "Cumulative Layout Shift",
+      "family": "SEO",
+      "category": "ON-SITE",
+      "weight": 8,
+      "web": "HUMAN_WEB"
+    },
+    {
+      "id": "seo34",
+      "name": "Interaction to Next Paint",
+      "family": "SEO",
+      "category": "ON-SITE",
+      "weight": 8,
+      "web": "HUMAN_WEB"
+    },
+    {
+      "id": "seo35",
+      "name": "HTTP to HTTPS Redirect",
+      "family": "SEO",
+      "category": "ON-SITE",
+      "weight": 7,
+      "web": "HUMAN_WEB"
+    },
+    {
+      "id": "seo36",
+      "name": "Hreflang Implementation Validity",
+      "family": "SEO",
+      "category": "ON-SITE",
+      "weight": 6,
+      "web": "HUMAN_WEB"
+    },
+    {
+      "id": "seo37",
+      "name": "Pagination Crawlability",
+      "family": "SEO",
+      "category": "ON-SITE",
+      "weight": 5,
+      "web": "HUMAN_WEB"
+    },
+    {
+      "id": "seo38",
+      "name": "Structured Data Warning and Error Severity",
+      "family": "SEO",
+      "category": "ON-PAGE",
+      "weight": 8,
+      "web": "HUMAN_WEB"
+    },
+    {
+      "id": "seo39",
+      "name": "Suspicious Backlink Risk",
+      "family": "SEO",
+      "category": "OFF-PAGE",
+      "weight": 6,
+      "web": "HUMAN_WEB"
+    },
+    {
+      "id": "seo40",
+      "name": "Domain History and Independent Authority Evidence",
+      "family": "SEO",
+      "category": "OFF-PAGE",
+      "weight": 7,
+      "web": "HUMAN_WEB"
+    },
+    {
+      "id": "seo41",
+      "name": "Content Modification Recency",
+      "family": "SEO",
+      "category": "ON-PAGE",
+      "weight": 7,
+      "web": "HUMAN_WEB"
+    },
+    {
+      "id": "seo42",
+      "name": "Document Structural Flow",
+      "family": "SEO",
+      "category": "ON-PAGE",
+      "weight": 7,
+      "web": "HUMAN_WEB"
+    },
+    {
+      "id": "ai19",
+      "name": "Agent Card Discoverable",
+      "family": "A2A",
+      "category": "ON-SITE",
+      "weight": 9,
+      "web": "MACHINE_WEB"
+    },
+    {
+      "id": "ai20",
+      "name": "Agent Card Structurally Valid",
+      "family": "A2A",
+      "category": "ON-SITE",
+      "weight": 9,
+      "web": "MACHINE_WEB"
+    },
+    {
+      "id": "ai21",
+      "name": "Capabilities Explicitly Declared",
+      "family": "A2A",
+      "category": "ON-SITE",
+      "weight": 8,
+      "web": "MACHINE_WEB"
+    },
+    {
+      "id": "ai22",
+      "name": "Capability Contract Valid",
+      "family": "A2A",
+      "category": "ON-SITE",
+      "weight": 9,
+      "web": "MACHINE_WEB"
+    },
+    {
+      "id": "ai23",
+      "name": "Declared Endpoint Reachable",
+      "family": "A2A",
+      "category": "ON-SITE",
+      "weight": 10,
+      "web": "MACHINE_WEB"
+    },
+    {
+      "id": "ai24",
+      "name": "Machine Protocol Response Valid",
+      "family": "A2A",
+      "category": "ON-SITE",
+      "weight": 10,
+      "web": "MACHINE_WEB"
+    },
+    {
+      "id": "ai25",
+      "name": "Capability Invocable Under Declared Contract",
+      "family": "A2A",
+      "category": "ON-SITE",
+      "weight": 10,
+      "web": "MACHINE_WEB"
+    },
+    {
+      "id": "ai26",
+      "name": "Capability Execution Verified",
+      "family": "A2A",
+      "category": "OFF-SITE",
+      "weight": 10,
+      "web": "MACHINE_WEB"
+    },
+    {
+      "id": "ai27",
+      "name": "Task Status Contract",
+      "family": "A2A",
+      "category": "ON-SITE",
+      "weight": 8,
+      "web": "MACHINE_WEB"
+    },
+    {
+      "id": "ai28",
+      "name": "Human Approval Boundary Declaration",
+      "family": "A2A",
+      "category": "ON-SITE",
+      "weight": 9,
+      "web": "MACHINE_WEB"
+    },
+    {
+      "id": "ai29",
+      "name": "Artifact Exchange and Provenance Contract",
+      "family": "A2A",
+      "category": "ON-SITE",
+      "weight": 8,
+      "web": "MACHINE_WEB"
+    },
+    {
+      "id": "ai30",
+      "name": "Cancellation and Resume Contract",
+      "family": "A2A",
+      "category": "ON-SITE",
+      "weight": 7,
+      "web": "MACHINE_WEB"
+    },
+    {
+      "id": "ai31",
+      "name": "Agent Activity Audit Trail",
+      "family": "A2A",
+      "category": "ON-SITE",
+      "weight": 9,
+      "web": "MACHINE_WEB"
+    }
+  ]
 }

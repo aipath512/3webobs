@@ -2434,7 +2434,7 @@ export default {
       const verRaw = String(request.headers.get('A2A-Version') || url.searchParams.get('A2A-Version') || '').trim();
       const wireVersion = verRaw === '' ? '0.3' : verRaw.split('.').slice(0, 2).join('.');
       if (!['0.3', '1.0'].includes(wireVersion)) {
-        return rpcErr(-32003, 'VersionNotSupportedError: this interface implements A2A 1.0 and 0.3',
+        return rpcErr(-32009, 'VersionNotSupportedError: this interface implements A2A 1.0 and 0.3',
           { requested: verRaw, supported: ['1.0', '0.3'] });
       }
       const isV1 = wireVersion === '1.0';
@@ -2478,11 +2478,13 @@ export default {
           sub.cancelledAt = new Date().toISOString();
           try { await env.RATE_KV.put('sub:' + taskId, JSON.stringify(sub)); } catch {}
         }
-        return json({ jsonrpc: '2.0', id, result: {
+        const taskObj = {
           id: sub.id, contextId: sub.id,
           status: { state: stateOf(sub.status), timestamp: sub.lastRunAt || sub.cancelledAt || sub.registeredAt },
           metadata: { url: sub.url, interval: sub.interval, lastScore: sub.lastScore ?? null, threshold: sub.threshold }
-        } });
+        };
+        /* Acelasi motiv ca la reply(): pe v1, Task se livreaza ca result.task. */
+        return json({ jsonrpc: '2.0', id, result: isV1 ? { task: taskObj } : taskObj });
       }
 
       if (method !== 'message/send') return rpcErr(-32601,
@@ -2511,11 +2513,18 @@ export default {
         return rpcErr(-32602, 'Invalid params: message.role must be ROLE_USER (v1) or "user" (v0.3)');
       }
 
+      /* Forma raspunsului la SendMessage. In A2A v1.0 `result` e o uniune si
+         trebuie sa poarte discriminantul: result.message sau result.task.
+         Pana acum trimiteam obiectul Message direct in `result`, ceea ce un
+         client permisiv accepta si unul strict respinge — si tocmai clientii
+         stricti sunt cei pentru care exista interfata.
+         Pe 0.3 forma plata cu kind:'message' ramane cea corecta, deci ramane
+         neschimbata; altfel am strica clientii existenti reparand standardul. */
       const reply = (obj) => json({
         jsonrpc: '2.0', id,
         result: isV1
-          ? { messageId: crypto.randomUUID(), role: 'ROLE_AGENT',
-              parts: [{ data: obj, mediaType: 'application/json' }] }
+          ? { message: { messageId: crypto.randomUUID(), role: 'ROLE_AGENT',
+                         parts: [{ data: obj, mediaType: 'application/json' }] } }
           : { kind: 'message', role: 'agent',
               messageId: crypto.randomUUID(),
               parts: [{ kind: 'data', data: obj }] }

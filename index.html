@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- ══ SEO META CORE ══ -->
 <title>3webs — what AI systems see on your site</title>
-<meta name="description" content="Diagnose how AI systems see your website. 167 signals across AI Signals, AEO, GEO, AIO and SEO — deterministic scoring on real evidence, not generated guesses.">
+<meta name="description" content="Diagnose how AI systems see your website. 167 signals across AI Signals, AEO, GEO, AIO, SEO and A2A — deterministic scoring on observed evidence, with an AI-written summary on top.">
 <link rel="canonical" href="https://3webobs.com/">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large">
@@ -227,6 +227,9 @@ header{padding:24px 0 20px;border-bottom:1px solid var(--border);display:flex;al
 html.dark .url-in:focus{box-shadow:0 0 0 4px rgba(94,180,255,.1),var(--sh1);}
 .url-go{position:absolute;right:6px;top:50%;transform:translateY(-50%);padding:11px 26px;background:var(--text);color:var(--bg);border:none;border-radius:100px;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;letter-spacing:.04em;cursor:pointer;transition:background .2s,color .2s,transform .15s;}
 .url-go:hover{transform:translateY(-50%) scale(1.03);}
+/* varianta in flux a butonului: fara offsetul vertical mostenit de la hero */
+.url-go[style*="position:static"]:hover{transform:scale(1.03);}
+.url-go[style*="position:static"]:disabled{transform:none;}
 .url-go:disabled{opacity:.35;cursor:not-allowed;transform:translateY(-50%);}
 
 /* ── DUAL CTA ROW ── */
@@ -923,11 +926,6 @@ opacity:.5;text-align:center;}
 }
 
 
-.pagenav{display:flex;flex-wrap:wrap;gap:6px 8px;justify-content:center;
-max-width:620px;margin:22px auto 0;padding:0 20px;}
-.pagenav a{font-size:11.5px;font-weight:500;padding:5px 11px;border-radius:100px;
-border:1px solid var(--border-md);text-decoration:none;color:var(--blue)!important;}
-.pagenav a:hover{border-color:var(--blue);text-decoration:none;}
 
 
 /* ══════════════════════════════════════════════════════════════
@@ -1014,14 +1012,6 @@ grid-template-columns:repeat(4,1fr);gap:18px 26px;}
 
 <!-- INPUT -->
 
-<nav class="pagenav" aria-label="On this page">
-  <a href="#run">Run an observation</a>
-  <a href="#pricing">Pricing</a>
-  <a href="#criteria">The 167 signals</a>
-  <a href="#glossary">Glossary</a>
-  <a href="#faq">FAQ</a>
-  <a href="#contact">Contact</a>
-</nav>
 <main id="main">
 <div id="input-zone">
   <span id="run"></span>
@@ -1179,7 +1169,7 @@ grid-template-columns:repeat(4,1fr);gap:18px 26px;}
   <!-- 167 CRITERIA — parent accordion, folded by default -->
   <section aria-labelledby="criteria-h">
   <h2 id="criteria-h" class="sec-h">The <em>Signal</em> Methodology</h2>
-  <p class="sec-s">Nine categories across five dimensions &mdash; AI Signals, AEO, GEO, AIO and SEO &mdash; each evaluated against publicly observable evidence.</p>
+  <p class="sec-s">Nine categories across five dimensions &mdash; AI Signals, AEO, GEO, AIO, SEO and A2A &mdash; each evaluated against publicly observable evidence.</p>
   <div class="pill-acc" id="pacc-criteria" style="max-width:620px;margin:0 auto 8px;scroll-margin-top:90px;">
     <span id="criteria" style="display:block;position:relative;top:-90px;visibility:hidden;"></span>
     <button class="pill-acc-header" onclick="togglePill('criteria')" style="border-radius:var(--rs)">
@@ -1278,7 +1268,7 @@ grid-template-columns:repeat(4,1fr);gap:18px 26px;}
       <button class="pill-acc-header" onclick="togglePill('onpage')">
         <span class="pill-acc-tag" style="color:var(--text)">On-Page</span>
         <span class="pill-acc-name">Content & markup signals</span>
-        <span class="pill-acc-count">67 signals</span>
+        <span class="pill-acc-count">68 signals</span>
         <span class="pill-acc-chev" id="pc-onpage">▼</span>
       </button>
       <div class="pill-acc-body" id="pb-onpage" style="display:none">
@@ -1291,7 +1281,7 @@ grid-template-columns:repeat(4,1fr);gap:18px 26px;}
       <button class="pill-acc-header" onclick="togglePill('offpage')">
         <span class="pill-acc-tag" style="color:var(--text)">Off-Page</span>
         <span class="pill-acc-name">Authority & citation signals</span>
-        <span class="pill-acc-count">54 signals</span>
+        <span class="pill-acc-count">31 signals</span>
         <span class="pill-acc-chev" id="pc-offpage">▼</span>
       </button>
       <div class="pill-acc-body" id="pb-offpage" style="display:none">
@@ -1304,7 +1294,7 @@ grid-template-columns:repeat(4,1fr);gap:18px 26px;}
       <button class="pill-acc-header" onclick="togglePill('onsite')">
         <span class="pill-acc-tag" style="color:var(--text)">On-Site</span>
         <span class="pill-acc-name">Technical infrastructure signals</span>
-        <span class="pill-acc-count">28 signals</span>
+        <span class="pill-acc-count">66 signals</span>
         <span class="pill-acc-chev" id="pc-onsite">▼</span>
       </button>
       <div class="pill-acc-body" id="pb-onsite" style="display:none">
@@ -1317,7 +1307,7 @@ grid-template-columns:repeat(4,1fr);gap:18px 26px;}
       <button class="pill-acc-header" onclick="togglePill('offsite')">
         <span class="pill-acc-tag" style="color:var(--text)">Off-Site</span>
         <span class="pill-acc-name">External AI ecosystem signals</span>
-        <span class="pill-acc-count">18 signals</span>
+        <span class="pill-acc-count">2 signals</span>
         <span class="pill-acc-chev" id="pc-offsite">▼</span>
       </button>
       <div class="pill-acc-body" id="pb-offsite" style="display:none">
@@ -1355,7 +1345,12 @@ grid-template-columns:repeat(4,1fr);gap:18px 26px;}
     <div id="checklist-form-row" style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;">
       <input type="email" id="checklist-email" placeholder="you@company.com" autocomplete="email"
         style="flex:1;min-width:220px;padding:10px 14px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--fg);font-size:14px;">
-      <button id="checklist-btn" onclick="unlockChecklist()" class="url-go" style="padding:10px 20px;">Get the checklist</button>
+      <!-- .url-go poarta position:absolute, pentru butonul din hero unde e ancorat
+           de .url-wrap. Reutilizata aici, intr-un flex fara position:relative,
+           scotea butonul din rand si il ancora la alt element. Il readucem in
+           flux explicit, pastrand stilul vizual. -->
+      <button id="checklist-btn" onclick="unlockChecklist()" class="url-go"
+        style="position:static;transform:none;padding:10px 20px;flex:0 0 auto;">Get the checklist</button>
     </div>
     <div id="checklist-msg" style="font-size:12px;opacity:.55;margin-top:10px;">No spam &mdash; we only use this to send occasional AI-visibility updates. Unsubscribe any time.</div>
   </div>
@@ -1389,14 +1384,14 @@ async function unlockChecklist(){
         <strong class="faq-qt">What exactly does an AI visibility audit measure?</strong>
         <span class="faq-chev" id="faq-c-1">&#9662;</span>
       </button>
-      <div class="faq-a" id="faq-a-1"><p>It measures how a website presents itself to AI systems, answer engines and search crawlers. The engine fetches the page, robots.txt, sitemap.xml and declared machine-readable signal files, then evaluates 167 signals across five dimensions: AI Signals, AEO, GEO, AIO and SEO.</p></div>
+      <div class="faq-a" id="faq-a-1"><p>It measures how a website presents itself to AI systems, answer engines and search crawlers. The engine fetches the page, robots.txt, sitemap.xml and declared machine-readable signal files, then evaluates 167 signals across five dimensions: AI Signals, AEO, GEO, AIO, SEO and A2A.</p></div>
     </div>
     <div class="faq-item">
       <button class="faq-q" onclick="toggleFaq(2)" aria-expanded="false" aria-controls="faq-a-2">
         <strong class="faq-qt">Is the score generated by an AI model?</strong>
         <span class="faq-chev" id="faq-c-2">&#9662;</span>
       </button>
-      <div class="faq-a" id="faq-a-2"><p>No. Every score is produced by deterministic rules applied to evidence actually observed on the website. The narrative summary is also generated deterministically from those same signal results — no language model is involved anywhere in producing a report. The same website in the same state always produces the same score and the same summary.</p></div>
+      <div class="faq-a" id="faq-a-2"><p>No, not the score. Every one of the 167 verdicts comes from deterministic rules applied to evidence actually observed on the site, and no language model takes part in scoring. The narrative summary at the top of the report is different: it is written by a language model from those same deterministic results, and it is labelled as such. If the model is unavailable, a fixed template takes its place. The scoring rules are deterministic, but the inputs are not always identical: an external measurement can be rate-limited, an endpoint can be slow, a resource can change between runs. Same site, same observed evidence, same score &mdash; and the report states how much of it could be observed.</p></div>
     </div>
     <div class="faq-item">
       <button class="faq-q" onclick="toggleFaq(3)" aria-expanded="false" aria-controls="faq-a-3">
@@ -1653,7 +1648,10 @@ function handleActionPlan(e){
   showComingToast();
 }
 function showComingToast(){
-  showToast('🚀','AI-READY — Coming Soon','The AI-READY deployment engine is on its way.');
+  /* pricing.json marcheaza AI-READY implementation ca InStock, pentru ca este:
+     se livreaza ca proiect, cu oferta. "Coming Soon" contrazicea propriul
+     contract machine-readable si trimitea la nimic un vizitator gata sa ceara. */
+  showToast('→','AI-READY implementation','Quoted per engagement. The pricing section below has the scope; contact us with your domain and we reply with an offer.');
 }
 document.getElementById('url-input').addEventListener('keypress',e=>{if(e.key==='Enter')startAudit();});
 function setP(p){document.getElementById('bar').style.width=p+'%';}
@@ -1988,6 +1986,29 @@ async function claudeScoreAllSignals(url){
   return out;
 }
 
+/* Sinteza e generata de un model pornind de la continutul site-ului AUDITAT.
+   Adica intrarea e controlata integral de o terta parte, care poate fi
+   adversariala: un site isi poate scrie in propriul HTML instructiuni pentru
+   model, iar textul intors ajungea direct in DOM prin innerHTML, cu un CSP
+   care permite unsafe-inline. Executie pe domeniul nostru, in sesiunea
+   vizitatorului.
+   Solutia nu e sa filtram tag-uri periculoase — lista aia e mereu incompleta.
+   Escapam tot, apoi reconstruim NOI singura formatare de care avem nevoie:
+   paragrafe din linii goale. Modelul nu mai poate produce markup, indiferent
+   ce i s-a cerut sa scrie. */
+function escapeSynth(str){
+  return String(str == null ? '' : str).replace(/[&<>"']/g, function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+  });
+}
+function renderSynth(str){
+  const safe = escapeSynth(str).trim();
+  if(!safe) return '';
+  return safe.split(/\n\s*\n/).map(function(par){
+    return '<p>' + par.replace(/\n/g, '<br>') + '</p>';
+  }).join('');
+}
+
 async function fetchSynth(d){
   try{
     const r = await fetch(WORKER_URL + '/synth', {
@@ -2008,8 +2029,8 @@ async function fetchAP(d){
 function fbSynth(d){
   const s=d.global;
   if(s>=75)return`${d.url} commands strong AI visibility at ${s}/100, with a well-built signal foundation that major LLMs can interpret and cite. The remaining exposure lies in GEO-layer entity anchoring — a fixable structural absence rather than a fundamental failure. Deploying proof.json with verified SHA-256 hashes and completing the entity graph will elevate this domain into top-tier AI answer-layer sovereignty.`;
-  if(s>=50)return`${d.url} occupies a contested middle ground at ${s}/100 — partially visible to AI discovery systems, yet absent in the decisive answer layers where purchasing decisions form. The core structural failure is the absence of a declared AI signal stack, leaving crawlers unable to resolve entity context with confidence. Deploying the Sacred Architecture signal suite will transform this domain from contested to cited within two weeks.`;
-  return`${d.url} is effectively invisible to AI systems at ${s}/100 — ChatGPT, Gemini, Claude, and Perplexity cannot reliably surface or attribute this brand in generated responses. The damage is structural: no AI governance files, no entity anchoring, no crawler permissions granted. Immediate deployment of the full Sacred Architecture stack is the only path to reclaiming answer-layer presence before competitors lock category ownership.`;
+  if(s>=50)return`${d.url} occupies a contested middle ground at ${s}/100 — partially visible to AI discovery systems, yet absent in the decisive answer layers where purchasing decisions form. The core structural failure is the absence of a declared AI signal stack, leaving crawlers unable to resolve entity context with confidence. Closing the missing signal layers is the highest-leverage work available here; the action plan lists them in order of weight.`;
+  return`${d.url} is effectively invisible to AI systems at ${s}/100 — ChatGPT, Gemini, Claude, and Perplexity cannot reliably surface or attribute this brand in generated responses. The damage is structural: no AI governance files, no entity anchoring, no crawler permissions granted. The action plan starts with the crawler permissions and the machine-readable declarations, since nothing downstream can be read without them.`;
 }
 
 
@@ -2179,7 +2200,7 @@ function render(d,synth,ap){
       color:'var(--blue)',
       colorBg:'var(--blue-bg)',
       defaultOpen:true,
-      content: () => `<div class="acc-synth-body">${synth||'<em style="opacity:.6">Generating…</em>'}</div>`
+      content: () => `<div class="acc-synth-body">${synth ? renderSynth(synth) : '<em style="opacity:.6">Generating…</em>'}</div>`
     },
     {
       id:'action-acc',
@@ -2791,7 +2812,7 @@ function buildGlossary(){
     {t:'Entity Graph',d:'A machine-readable map of your brand\'s entities, their relationships, and external identity anchors.'},
     {t:'E-E-A-T',d:'Experience, Expertise, Authoritativeness, Trustworthiness — Google and AI signals for content credibility.'},
     {t:'RAG-Ready',d:'Content structured for Retrieval-Augmented Generation — chunked, cited, and extractable by AI pipelines.'},
-    {t:'SHA-256',d:'Cryptographic hash function used to create immutable timestamps of intellectual property.'},
+    {t:'SHA-256',d:'Cryptographic hash function that fingerprints a file. It proves a file has not changed since the fingerprint was taken; it does not by itself prove when that was.'},
     {t:'Sacred Architecture',d:'5thElement.ai\'s proprietary AI-FIRST signal stack: 6-layer system from Edge to Predictive Mastery.'},
     {t:'sameAs',d:'Schema.org property linking your entity to external authority sources (Wikipedia, Wikidata, LinkedIn).'},
     {t:'Topical Authority',d:'The degree to which AI systems recognize your domain as a definitive source on a specific topic cluster.'},
