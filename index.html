@@ -1073,7 +1073,7 @@ grid-template-columns:repeat(4,1fr);gap:18px 26px;}
     <div class="cta-action-row">
       <div class="cta-action-label">
         <strong>Send Report</strong>
-        Share this observation &mdash; a permanent link, kept 90 days.
+        Email it, share the link, or send it to yourself &mdash; kept 90 days.
       </div>
       <button type="button" class="cta-action-btn" id="send-report-btn" onclick="toggleShare(event)">
         Send Report
@@ -1096,7 +1096,7 @@ grid-template-columns:repeat(4,1fr);gap:18px 26px;}
            avem si canalul. Textul spune exact asta, ca nimeni sa nu astepte
            un email care nu vine. -->
       <div class="cta-mail">
-        <div class="cta-mail-h">Or leave an address and what you want</div>
+        <div class="cta-mail-h">Or have it emailed</div>
         <div class="cta-mail-row">
           <input type="email" id="lead-email" placeholder="you@company.com"
                  autocomplete="email" inputmode="email" aria-label="Your email address">
@@ -1106,7 +1106,7 @@ grid-template-columns:repeat(4,1fr);gap:18px 26px;}
           <label><input type="checkbox" id="want-report" checked> The report</label>
           <label><input type="checkbox" id="want-plan"> The action plan</label>
         </div>
-        <p class="cta-share-note" id="lead-note">The audited address is saved with it, so we know which report you mean.</p>
+        <p class="cta-share-note" id="lead-note">We send it to that address. The audited site is saved with it, so we know which report you mean.</p>
       </div>
     </div>
 
@@ -1847,11 +1847,13 @@ async function submitLead(){
     var j = await r.json();
     if(!r.ok){ note.textContent = j.error || 'That could not be saved. Try again in a moment.'; return; }
 
-    var what = wants.length === 2 ? 'the report and the action plan'
-             : wants[0] === 'report' ? 'the report' : 'the action plan';
-    note.innerHTML = 'Saved &mdash; ' + what + ', against this observation. '
-      + 'We do not send email from here yet, so use the buttons above to send it now; '
-      + 'your address is on file for when we do.';
+    var what = wants.length === 2 ? 'The report and the action plan are'
+             : wants[0] === 'report' ? 'The report is' : 'The action plan is';
+    note.innerHTML = j.delivered
+      ? what + ' on the way to ' + email.replace(/[<>&]/g,'') + '. '
+        + 'If it is not there in a minute, check spam &mdash; and the link above works either way.'
+      : 'Saved, but the email could not be sent right now. '
+        + 'The link above still works, and we have your address on file.';
     input.value = '';
   } catch(e) {
     note.textContent = 'Network problem — nothing was saved. Try again in a moment.';

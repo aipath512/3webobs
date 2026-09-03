@@ -2474,6 +2474,116 @@ export default {
   }
 };
 
+
+/* ---------- trimiterea raportului prin Resend ----------
+   Cheia sta in env.RESEND_API_KEY. Daca lipseste, endpointul NU esueaza:
+   salveaza cererea cu delivered:false si spune omului ca nu a plecat nimic.
+   Alternativa — un "trimis!" cand nu s-a trimis — e exact genul de afirmatie
+   pe care produsul asta o vaneaza la altii.
+
+   Continutul e text simplu plus HTML minimal. Un raport de audit trimis ca
+   email cu layout complicat ajunge in spam mai des si arata prost in jumatate
+   din clienti; aici conteaza sa ajunga si sa fie citibil. */
+
+const MAIL_FROM = '3webs <contact@5thelement.ai>';
+
+function leadEmailBody(rec, report) {
+  const site = rec.url || 'your site';
+  const score = rec.score != null ? rec.score : null;
+  const link = rec.reportUrl || 'https://3webobs.com/';
+
+  /* Cele mai grele semnale picate — motivul pentru care omul a cerut raportul.
+     Fara ele, emailul e un link gol si nu merita deschis. */
+  let worst = [];
+  if (report && report.signals) {
+    for (const dim of Object.keys(report.signals)) {
+      for (const sg of report.signals[dim]) {
+        if (sg.status === 'fail' || sg.status === 'partial') worst.push({ ...sg, dim });
+      }
+    }
+    worst.sort((a, b) => (b.w || 0) - (a.w || 0));
+    worst = worst.slice(0, 5);
+  }
+
+  const esc = (x) => String(x == null ? '' : x)
+    .replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+  const wantsPlan = rec.wants.includes('action_plan');
+
+  const textLines = [
+    `AI visibility report — ${site}`,
+    score != null ? `Score: ${score}/100 across 167 signals` : '',
+    '',
+    `Full report: ${link}`,
+    '',
+    worst.length ? 'Highest-weight signals to fix:' : '',
+    ...worst.map(w => `  - ${w.n} (${w.dim}) — ${w.method || ''}`),
+    '',
+    'Every signal in the report carries its own evidence, and each dimension states how much of it could be observed from outside. Signals that could not be tested are marked not applicable, never counted as failures.',
+    '',
+    wantsPlan ? 'You asked about the action plan. Reply to this message with your domain and we will come back with scope and a price.' : '',
+    '',
+    'An audit does not guarantee citation or ranking.',
+    'AIVENTURE S.R.L. · Bucharest, Romania · CUI 51415878',
+    'https://3webobs.com'
+  ].filter(l => l !== '');
+
+  const html = `<div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:15px;line-height:1.6;color:#111;max-width:560px">
+<p style="margin:0 0 4px;font-size:13px;color:#666">AI visibility report</p>
+<p style="margin:0 0 18px;font-size:20px;font-weight:600">${esc(site)}</p>
+${score != null ? `<p style="margin:0 0 18px;font-size:38px;font-weight:700;line-height:1">${score}<span style="font-size:16px;font-weight:400;color:#666">/100 across 167 signals</span></p>` : ''}
+<p style="margin:0 0 22px"><a href="${esc(link)}" style="display:inline-block;padding:11px 22px;background:#111;color:#fff;text-decoration:none;border-radius:100px;font-weight:600;font-size:14px">Open the full report</a></p>
+${worst.length ? `<p style="margin:0 0 8px;font-weight:600;font-size:14px">Highest-weight signals to fix</p>
+<ul style="margin:0 0 20px;padding-left:18px">${worst.map(w => `<li style="margin-bottom:7px"><strong>${esc(w.n)}</strong> <span style="color:#666">(${esc(w.dim)})</span><br><span style="color:#666;font-size:13px">${esc(w.method || '')}</span></li>`).join('')}</ul>` : ''}
+<p style="margin:0 0 18px;color:#444;font-size:13.5px">Every signal carries its own evidence, and each dimension states how much of it could be observed from outside. Signals that could not be tested are marked not applicable &mdash; never counted as failures.</p>
+${wantsPlan ? `<p style="margin:0 0 18px;padding:13px 15px;background:#f5f5f7;border-radius:10px;font-size:13.5px">You asked about the <strong>action plan</strong>. Reply to this message with your domain and we will come back with scope and a price.</p>` : ''}
+<hr style="border:none;border-top:1px solid #e5e5e5;margin:22px 0 14px">
+<p style="margin:0;color:#888;font-size:11.5px">An audit does not guarantee citation or ranking.<br>
+AIVENTURE S.R.L. &middot; Bucharest, Romania &middot; CUI 51415878 &middot; <a href="https://3webobs.com" style="color:#888">3webobs.com</a></p>
+</div>`;
+
+  return {
+    subject: `AI visibility report — ${site}${score != null ? ` (${score}/100)` : ''}`,
+    text: textLines.join('\n'),
+    html
+  };
+}
+
+async function sendLeadEmail(env, rec, report) {
+  if (!env.RESEND_API_KEY) {
+    return { sent: false, reason: 'RESEND_API_KEY is not configured on this Worker' };
+  }
+  const body = leadEmailBody(rec, report);
+  try {
+    const r = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        authorization: `Bearer ${env.RESEND_API_KEY}`,
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({
+        from: MAIL_FROM,
+        to: [rec.email],
+        reply_to: 'contact@5thelement.ai',
+        subject: body.subject,
+        text: body.text,
+        html: body.html
+      })
+    });
+    const payload = await r.text();      // corpul se citeste mereu
+    if (!r.ok) {
+      console.error('resend failed', r.status, payload.slice(0, 400));
+      return { sent: false, reason: `provider returned ${r.status}` };
+    }
+    let id = null;
+    try { id = JSON.parse(payload).id || null; } catch {}
+    return { sent: true, id };
+  } catch (e) {
+    console.error('resend error', e.message);
+    return { sent: false, reason: e.message };
+  }
+}
+
 async function handleRequest(request, env, ctx, requestId) {
   {
     const url = new URL(request.url);
@@ -2637,6 +2747,21 @@ async function handleRequest(request, env, ctx, requestId) {
         source: '3webobs.com'
       };
 
+      /* Trimitem acum, nu "cand vom avea canal". Daca observatia mai e in KV,
+         emailul contine si semnalele picate cu greutate mare — altfel ramane
+         linkul, care e oricum lucrul util. */
+      let report = null;
+      if (record.observationId && env.RATE_KV) {
+        try {
+          const stored = await env.RATE_KV.get('obs:' + record.observationId);
+          if (stored) report = JSON.parse(stored);
+        } catch {}
+      }
+      const delivery = await sendLeadEmail(env, record, report);
+      record.delivered = delivery.sent;
+      record.deliveryId = delivery.id || null;
+      if (!delivery.sent) record.deliveryError = delivery.reason || null;
+
       if (env.RATE_KV) {
         try {
           const key = `lead:${Date.now()}:${email}`;
@@ -2657,8 +2782,11 @@ async function handleRequest(request, env, ctx, requestId) {
       return json({
         ok: true,
         saved: record.wants,
+        delivered: record.delivered,
         reportUrl: record.reportUrl,
-        note: 'Saved. We do not send email from here yet — the link above is the report, and it stays live for 90 days.'
+        note: record.delivered
+          ? 'Sent. Check your inbox — the report link stays live for 90 days.'
+          : 'Saved, but the email could not be sent right now. The report link above still works.'
       });
     }
 
