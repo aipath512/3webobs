@@ -1,0 +1,1361 @@
+{
+  "generated": "2026-09-03T08:35:29.647Z",
+  "method": "Structural validation against the schema.org vocabulary, performed by this repository. schema.org publishes no API for validator.schema.org, so these are our own checks applying the same rules: does the property exist on the type, does a reference resolve, does the target have the type the property expects. The vocabulary below is a subset covering the types this site uses; a type outside it is reported as unverified rather than valid or invalid.",
+  "validator": "https://validator.schema.org/#url=https%3A%2F%2F3webobs.com%2F",
+  "totals": {
+    "distinctObjects": 66,
+    "totalOccurrences": 544,
+    "valid": 66,
+    "warning": 0,
+    "error": 0,
+    "unverified": 0
+  },
+  "pages": {
+    "/167-signals": {
+      "objects": 30,
+      "valid": 30,
+      "warning": 0,
+      "error": 0,
+      "unverified": 0
+    },
+    "/404": {
+      "objects": 30,
+      "valid": 30,
+      "warning": 0,
+      "error": 0,
+      "unverified": 0
+    },
+    "/a2a-secrets": {
+      "objects": 30,
+      "valid": 30,
+      "warning": 0,
+      "error": 0,
+      "unverified": 0
+    },
+    "/agents": {
+      "objects": 30,
+      "valid": 30,
+      "warning": 0,
+      "error": 0,
+      "unverified": 0
+    },
+    "/ai-act": {
+      "objects": 30,
+      "valid": 30,
+      "warning": 0,
+      "error": 0,
+      "unverified": 0
+    },
+    "/contact": {
+      "objects": 30,
+      "valid": 30,
+      "warning": 0,
+      "error": 0,
+      "unverified": 0
+    },
+    "/cookies": {
+      "objects": 30,
+      "valid": 30,
+      "warning": 0,
+      "error": 0,
+      "unverified": 0
+    },
+    "/data-dictionary": {
+      "objects": 30,
+      "valid": 30,
+      "warning": 0,
+      "error": 0,
+      "unverified": 0
+    },
+    "/for-ai-teams": {
+      "objects": 30,
+      "valid": 30,
+      "warning": 0,
+      "error": 0,
+      "unverified": 0
+    },
+    "/for-compliance-consultants": {
+      "objects": 30,
+      "valid": 30,
+      "warning": 0,
+      "error": 0,
+      "unverified": 0
+    },
+    "/for-seo-agencies": {
+      "objects": 30,
+      "valid": 30,
+      "warning": 0,
+      "error": 0,
+      "unverified": 0
+    },
+    "/gdpr": {
+      "objects": 30,
+      "valid": 30,
+      "warning": 0,
+      "error": 0,
+      "unverified": 0
+    },
+    "/glossary": {
+      "objects": 30,
+      "valid": 30,
+      "warning": 0,
+      "error": 0,
+      "unverified": 0
+    },
+    "/": {
+      "objects": 29,
+      "valid": 29,
+      "warning": 0,
+      "error": 0,
+      "unverified": 0
+    },
+    "/policy": {
+      "objects": 30,
+      "valid": 30,
+      "warning": 0,
+      "error": 0,
+      "unverified": 0
+    },
+    "/pricing": {
+      "objects": 30,
+      "valid": 30,
+      "warning": 0,
+      "error": 0,
+      "unverified": 0
+    },
+    "/schema": {
+      "objects": 5,
+      "valid": 5,
+      "warning": 0,
+      "error": 0,
+      "unverified": 0
+    },
+    "/self-audit": {
+      "objects": 30,
+      "valid": 30,
+      "warning": 0,
+      "error": 0,
+      "unverified": 0
+    },
+    "/signal-detail": {
+      "objects": 0,
+      "valid": 0,
+      "warning": 0,
+      "error": 0,
+      "unverified": 0
+    },
+    "/terms": {
+      "objects": 30,
+      "valid": 30,
+      "warning": 0,
+      "error": 0,
+      "unverified": 0
+    }
+  },
+  "objects": [
+    {
+      "type": "AboutPage",
+      "id": "https://3webobs.com/contact#aboutpage",
+      "propertyCount": 4,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
+      "occurrences": 18
+    },
+    {
+      "type": "Brand",
+      "id": "https://3webobs.com/#brand",
+      "propertyCount": 5,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
+      "occurrences": 18
+    },
+    {
+      "type": "BreadcrumbList",
+      "id": "https://3webobs.com/167-signals#breadcrumb",
+      "propertyCount": 1,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/167-signals"
+      ],
+      "occurrences": 1
+    },
+    {
+      "type": "BreadcrumbList",
+      "id": "https://3webobs.com/404#breadcrumb",
+      "propertyCount": 1,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/404"
+      ],
+      "occurrences": 1
+    },
+    {
+      "type": "BreadcrumbList",
+      "id": "https://3webobs.com/a2a-secrets#breadcrumb",
+      "propertyCount": 1,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/a2a-secrets"
+      ],
+      "occurrences": 1
+    },
+    {
+      "type": "BreadcrumbList",
+      "id": "https://3webobs.com/agents#breadcrumb",
+      "propertyCount": 1,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/agents"
+      ],
+      "occurrences": 1
+    },
+    {
+      "type": "BreadcrumbList",
+      "id": "https://3webobs.com/ai-act#breadcrumb",
+      "propertyCount": 1,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/ai-act"
+      ],
+      "occurrences": 1
+    },
+    {
+      "type": "BreadcrumbList",
+      "id": "https://3webobs.com/contact#breadcrumb",
+      "propertyCount": 1,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/contact"
+      ],
+      "occurrences": 1
+    },
+    {
+      "type": "BreadcrumbList",
+      "id": "https://3webobs.com/cookies#breadcrumb",
+      "propertyCount": 1,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/cookies"
+      ],
+      "occurrences": 1
+    },
+    {
+      "type": "BreadcrumbList",
+      "id": "https://3webobs.com/data-dictionary#breadcrumb",
+      "propertyCount": 1,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/data-dictionary"
+      ],
+      "occurrences": 1
+    },
+    {
+      "type": "BreadcrumbList",
+      "id": "https://3webobs.com/for-ai-teams#breadcrumb",
+      "propertyCount": 1,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/for-ai-teams"
+      ],
+      "occurrences": 1
+    },
+    {
+      "type": "BreadcrumbList",
+      "id": "https://3webobs.com/for-compliance-consultants#breadcrumb",
+      "propertyCount": 1,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/for-compliance-consultants"
+      ],
+      "occurrences": 1
+    },
+    {
+      "type": "BreadcrumbList",
+      "id": "https://3webobs.com/for-seo-agencies#breadcrumb",
+      "propertyCount": 1,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/for-seo-agencies"
+      ],
+      "occurrences": 1
+    },
+    {
+      "type": "BreadcrumbList",
+      "id": "https://3webobs.com/gdpr#breadcrumb",
+      "propertyCount": 1,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/gdpr"
+      ],
+      "occurrences": 1
+    },
+    {
+      "type": "BreadcrumbList",
+      "id": "https://3webobs.com/glossary#breadcrumb",
+      "propertyCount": 1,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/glossary"
+      ],
+      "occurrences": 1
+    },
+    {
+      "type": "BreadcrumbList",
+      "id": "https://3webobs.com/policy#breadcrumb",
+      "propertyCount": 1,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/policy"
+      ],
+      "occurrences": 1
+    },
+    {
+      "type": "BreadcrumbList",
+      "id": "https://3webobs.com/pricing#breadcrumb",
+      "propertyCount": 1,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/pricing"
+      ],
+      "occurrences": 1
+    },
+    {
+      "type": "BreadcrumbList",
+      "id": "https://3webobs.com/schema#breadcrumb",
+      "propertyCount": 1,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/schema"
+      ],
+      "occurrences": 1
+    },
+    {
+      "type": "BreadcrumbList",
+      "id": "https://3webobs.com/self-audit#breadcrumb",
+      "propertyCount": 1,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/self-audit"
+      ],
+      "occurrences": 1
+    },
+    {
+      "type": "BreadcrumbList",
+      "id": "https://3webobs.com/terms#breadcrumb",
+      "propertyCount": 1,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/terms"
+      ],
+      "occurrences": 1
+    },
+    {
+      "type": "CollectionPage",
+      "id": "https://3webobs.com/167-signals#webpage",
+      "propertyCount": 13,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/167-signals"
+      ],
+      "occurrences": 1
+    },
+    {
+      "type": "CollectionPage",
+      "id": "https://3webobs.com/data-dictionary#webpage",
+      "propertyCount": 13,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/data-dictionary"
+      ],
+      "occurrences": 1
+    },
+    {
+      "type": "CollectionPage",
+      "id": "https://3webobs.com/glossary#webpage",
+      "propertyCount": 13,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/glossary"
+      ],
+      "occurrences": 1
+    },
+    {
+      "type": "ContactPage",
+      "id": "https://3webobs.com/contact#contactpage",
+      "propertyCount": 4,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
+      "occurrences": 18
+    },
+    {
+      "type": "ContactPage",
+      "id": "https://3webobs.com/contact#webpage",
+      "propertyCount": 13,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/contact"
+      ],
+      "occurrences": 1
+    },
+    {
+      "type": "CreativeWork",
+      "id": "https://3webobs.com/#methodology",
+      "propertyCount": 9,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
+      "occurrences": 18
+    },
+    {
+      "type": "Dataset",
+      "id": "https://3webobs.com/schema#dataset",
+      "propertyCount": 9,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/schema"
+      ],
+      "occurrences": 1
+    },
+    {
+      "type": "Dataset + DataCatalog",
+      "id": "https://3webobs.com/#signal-registry",
+      "propertyCount": 9,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
+      "occurrences": 18
+    },
+    {
+      "type": "Dataset + DataCatalog",
+      "id": "https://3webobs.com/#data-dictionary",
+      "propertyCount": 9,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
+      "occurrences": 18
+    },
+    {
+      "type": "DefinedTermSet",
+      "id": "https://3webobs.com/#glossary",
+      "propertyCount": 4,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
+      "occurrences": 18
+    },
+    {
+      "type": "DigitalDocument",
+      "id": "https://3webobs.com/#sample-report",
+      "propertyCount": 10,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
+      "occurrences": 18
+    },
+    {
+      "type": "DigitalDocument",
+      "id": "https://3webobs.com/#report",
+      "propertyCount": 7,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
+      "occurrences": 18
+    },
+    {
+      "type": "FAQPage",
+      "id": "https://3webobs.com/#faq",
+      "propertyCount": 1,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
+      "occurrences": 18
+    },
+    {
+      "type": "HowTo",
+      "id": "https://3webobs.com/#howto",
+      "propertyCount": 7,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
+      "occurrences": 18
+    },
+    {
+      "type": "ItemList",
+      "id": "https://3webobs.com/#dimensions",
+      "propertyCount": 4,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
+      "occurrences": 18
+    },
+    {
+      "type": "ItemList",
+      "id": "https://3webobs.com/#three-webs",
+      "propertyCount": 4,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
+      "occurrences": 18
+    },
+    {
+      "type": "Occupation",
+      "id": "https://3webobs.com/#occupation",
+      "propertyCount": 3,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
+      "occurrences": 18
+    },
+    {
+      "type": "OfferCatalog",
+      "id": "https://3webobs.com/#catalog",
+      "propertyCount": 3,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
+      "occurrences": 18
+    },
+    {
+      "type": "OnlineBusiness",
+      "id": "https://3webobs.com/#business",
+      "propertyCount": 6,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
+      "occurrences": 18
+    },
+    {
+      "type": "Organization + Corporation",
+      "id": "https://3webobs.com/#organization",
+      "propertyCount": 23,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/",
+        "/policy",
+        "/pricing",
+        "/schema",
+        "/self-audit",
+        "/terms"
+      ],
+      "occurrences": 19
+    },
+    {
+      "type": "Person",
+      "id": "https://3webobs.com/#founder",
+      "propertyCount": 11,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
+      "occurrences": 18
+    },
+    {
+      "type": "ProfilePage",
+      "id": "https://3webobs.com/#profilepage",
+      "propertyCount": 4,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
+      "occurrences": 18
+    },
+    {
+      "type": "Service",
+      "id": "https://3webobs.com/#service",
+      "propertyCount": 10,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
+      "occurrences": 18
+    },
+    {
+      "type": "SiteNavigationElement",
+      "id": "https://3webobs.com/#nav",
+      "propertyCount": 2,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
+      "occurrences": 18
+    },
+    {
+      "type": "SoftwareApplication + WebApplication",
+      "id": "https://3webobs.com/#app",
+      "propertyCount": 12,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
+      "occurrences": 18
+    },
+    {
+      "type": "SoftwareSourceCode",
+      "id": "https://3webobs.com/#source",
+      "propertyCount": 9,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
+      "occurrences": 18
+    },
+    {
+      "type": "TechArticle",
+      "id": "https://3webobs.com/ai-act#techarticle",
+      "propertyCount": 10,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
+      "occurrences": 18
+    },
+    {
+      "type": "TechArticle + APIReference",
+      "id": "https://3webobs.com/agents#techarticle",
+      "propertyCount": 10,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
+      "occurrences": 18
+    },
+    {
+      "type": "Thing",
+      "id": "https://3webobs.com/#machine-web",
+      "propertyCount": 3,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
+      "occurrences": 18
+    },
+    {
+      "type": "WebAPI + APIReference",
+      "id": "https://3webobs.com/#api",
+      "propertyCount": 7,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
+      "occurrences": 18
+    },
+    {
+      "type": "WebPage",
+      "id": "https://3webobs.com/404#webpage",
+      "propertyCount": 13,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/404"
+      ],
+      "occurrences": 1
+    },
+    {
+      "type": "WebPage",
+      "id": "https://3webobs.com/a2a-secrets#webpage",
+      "propertyCount": 13,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/a2a-secrets"
+      ],
+      "occurrences": 1
+    },
+    {
+      "type": "WebPage",
+      "id": "https://3webobs.com/agents#webpage",
+      "propertyCount": 13,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/agents"
+      ],
+      "occurrences": 1
+    },
+    {
+      "type": "WebPage",
+      "id": "https://3webobs.com/ai-act#webpage",
+      "propertyCount": 13,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/ai-act"
+      ],
+      "occurrences": 1
+    },
+    {
+      "type": "WebPage",
+      "id": "https://3webobs.com/cookies#webpage",
+      "propertyCount": 13,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/cookies"
+      ],
+      "occurrences": 1
+    },
+    {
+      "type": "WebPage",
+      "id": "https://3webobs.com/for-ai-teams#webpage",
+      "propertyCount": 13,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/for-ai-teams"
+      ],
+      "occurrences": 1
+    },
+    {
+      "type": "WebPage",
+      "id": "https://3webobs.com/for-compliance-consultants#webpage",
+      "propertyCount": 13,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/for-compliance-consultants"
+      ],
+      "occurrences": 1
+    },
+    {
+      "type": "WebPage",
+      "id": "https://3webobs.com/for-seo-agencies#webpage",
+      "propertyCount": 13,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/for-seo-agencies"
+      ],
+      "occurrences": 1
+    },
+    {
+      "type": "WebPage",
+      "id": "https://3webobs.com/gdpr#webpage",
+      "propertyCount": 13,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/gdpr"
+      ],
+      "occurrences": 1
+    },
+    {
+      "type": "WebPage",
+      "id": "https://3webobs.com/#webpage",
+      "propertyCount": 12,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/"
+      ],
+      "occurrences": 1
+    },
+    {
+      "type": "WebPage",
+      "id": "https://3webobs.com/policy#webpage",
+      "propertyCount": 13,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/policy"
+      ],
+      "occurrences": 1
+    },
+    {
+      "type": "WebPage",
+      "id": "https://3webobs.com/pricing#webpage",
+      "propertyCount": 13,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/pricing"
+      ],
+      "occurrences": 1
+    },
+    {
+      "type": "WebPage",
+      "id": "https://3webobs.com/schema#webpage",
+      "propertyCount": 8,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/schema"
+      ],
+      "occurrences": 1
+    },
+    {
+      "type": "WebPage",
+      "id": "https://3webobs.com/self-audit#webpage",
+      "propertyCount": 13,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/self-audit"
+      ],
+      "occurrences": 1
+    },
+    {
+      "type": "WebPage",
+      "id": "https://3webobs.com/terms#webpage",
+      "propertyCount": 13,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/terms"
+      ],
+      "occurrences": 1
+    },
+    {
+      "type": "WebSite",
+      "id": "https://3webobs.com/#website",
+      "propertyCount": 8,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/",
+        "/policy",
+        "/pricing",
+        "/schema",
+        "/self-audit",
+        "/terms"
+      ],
+      "occurrences": 19
+    }
+  ]
+}

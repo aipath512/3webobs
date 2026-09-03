@@ -181,15 +181,88 @@ const MAX_RESPONSE_BYTES = 3 * 1024 * 1024; // 3MB — suficient pentru HTML/JSO
    iar cand coada depasea timeout-ul de 8s rezultatul devenea status 0.
    Pool-ul de 4 lasa loc si pentru DNS/PageSpeed care ruleaza in paralel. */
 const MAX_CONCURRENT_FETCH = 4;
-let inFlight = 0;
-const fetchQueue = [];
-function acquireSlot() {
-  if (inFlight < MAX_CONCURRENT_FETCH) { inFlight++; return Promise.resolve(); }
-  return new Promise(resolve => fetchQueue.push(resolve));
+
+/* ---------- limiter, si de ce arata asa ----------
+   Un Worker nu are un isolate per cerere: acelasi isolate serveste cereri
+   diferite, simultan. Deci un limiter la nivel de modul e PARTAJAT intre
+   cereri care nu au nicio legatura una cu alta. Doua consecinte, ambele
+   observate in productie:
+
+   1. Interferenta. Patru /explain paralele isi iau reciproc sloturile si se
+      asteapta unele pe altele, desi sunt cereri independente.
+   2. Blocaj permanent. Daca o continuare e abandonata — invocatia s-a
+      terminat, clientul a inchis conexiunea, isolate-ul a fost reciclat —
+      `finally` din safeFetch nu mai ruleaza niciodata pentru ea. Slotul
+      ramane ocupat pe veci. Dupa patru astfel de abandonuri, inFlight e 4,
+      coada creste nelimitat, si ORICE cerere ulterioara asteapta la infinit
+      pana expira si intoarce 500.
+
+   Reparatia corecta ar fi un context per cerere, dus prin toate apelurile.
+   Ar insemna sa modific fiecare apel de safeFetch din 2700 de linii, cu risc
+   mare de regresie. In loc de asta, limiter-ul devine auto-vindecator:
+   fiecare slot are un termen de expirare, iar asteptarea in coada are si ea
+   unul. Cand ceva nu mai raspunde, sistemul isi revine singur in loc sa se
+   blocheze definitiv.
+
+   Principiul: mai bine o cerere in plus decat o coada blocata. Limiter-ul
+   exista ca sa protejeze pool-ul de conexiuni, nu ca sa garanteze un numar
+   exact — deci cand se strica, cedeaza in directia disponibilitatii. */
+
+const SLOT_MAX_HOLD_MS = 12000;   // timeout-ul unui fetch e 8s; peste 12s detinatorul nu mai exista
+const QUEUE_MAX_WAIT_MS = 10000;  // dupa atat, trecem fara slot, nu asteptam la infinit
+const QUEUE_MAX_LEN = 64;         // peste atat, nu mai punem la coada deloc
+
+let slotHolders = [];             // timestampuri; lungimea = sloturi ocupate
+let fetchQueue = [];
+
+function reclaimExpiredSlots() {
+  const cutoff = Date.now() - SLOT_MAX_HOLD_MS;
+  const before = slotHolders.length;
+  slotHolders = slotHolders.filter(t => t > cutoff);
+  const reclaimed = before - slotHolders.length;
+  if (reclaimed > 0) {
+    console.warn(`limiter: reclaimed ${reclaimed} slot(s) held past ${SLOT_MAX_HOLD_MS}ms`);
+    for (let i = 0; i < reclaimed; i++) {
+      const next = fetchQueue.shift();
+      if (next) { slotHolders.push(Date.now()); next(); }
+    }
+  }
 }
-function releaseSlot() {
+
+function acquireSlot() {
+  reclaimExpiredSlots();
+  if (slotHolders.length < MAX_CONCURRENT_FETCH) {
+    const token = Date.now();
+    slotHolders.push(token);
+    return Promise.resolve(token);
+  }
+  if (fetchQueue.length >= QUEUE_MAX_LEN) {
+    /* Coada e deja prea lunga. Nu o mai lungim: trecem fara slot. Un fetch
+       peste limita e mai putin daunator decat o cerere care asteapta minute. */
+    console.warn('limiter: queue full, proceeding without a slot');
+    return Promise.resolve(null);
+  }
+  return new Promise(resolve => {
+    let settled = false;
+    const done = (token) => { if (!settled) { settled = true; resolve(token); } };
+    fetchQueue.push(() => done(Date.now()));
+    setTimeout(() => {
+      if (!settled) {
+        console.warn(`limiter: waited ${QUEUE_MAX_WAIT_MS}ms for a slot, proceeding without one`);
+        fetchQueue = fetchQueue.filter(fn => fn !== undefined);
+        done(null);
+      }
+    }, QUEUE_MAX_WAIT_MS);
+  });
+}
+
+function releaseSlot(token) {
+  if (token === null || token === undefined) return;   // am trecut fara slot
+  const i = slotHolders.indexOf(token);
+  if (i === -1) return;                                 // deja reclamat de reclaimExpiredSlots
+  slotHolders.splice(i, 1);
   const next = fetchQueue.shift();
-  if (next) next(); else inFlight--;
+  if (next) { slotHolders.push(Date.now()); next(); }
 }
 
 /* Elibereaza conexiunea cand raspunsul nu e citit. Fara asta, orice raspuns
@@ -201,9 +274,9 @@ function discardBody(r) {
 }
 
 async function safeFetch(url, opts = {}, hops = 0) {
-  await acquireSlot();
+  const token = await acquireSlot();
   try { return await safeFetchInner(url, opts, hops); }
-  finally { releaseSlot(); }
+  finally { releaseSlot(token); }
 }
 
 async function safeFetchInner(url, opts = {}, hops = 0) {
@@ -265,13 +338,14 @@ async function safeFetchInner(url, opts = {}, hops = 0) {
 /* ---------- extrage toate blocurile JSON-LD si aplatizeaza @type ---------- */
 function extractJsonLd(html) {
   const blocks = [];
+  let invalidBlocks = 0;
   const re = /<script[^>]+type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi;
   let m;
   while ((m = re.exec(html))) {
     try {
       const parsed = JSON.parse(m[1].trim());
       blocks.push(parsed);
-    } catch { /* json-ld invalid, ignorat */ }
+    } catch { invalidBlocks++; }
   }
   const types = new Set();
   const nodes = [];
@@ -292,7 +366,7 @@ function extractJsonLd(html) {
     }
   }
   blocks.forEach(walk);
-  return { blocks, types, nodes };
+  return { blocks, types, nodes , invalidBlocks};
 }
 
 function getNode(nodes, type) {
@@ -621,7 +695,7 @@ async function gatherEvidence(target, opts) {
     llms: llms.ok ? llms.text : null,
     aitxt: aitxt.ok ? aitxt.text : null,
     jsonFiles, jsonBodies, safeInvocation,
-    ldTypes: ld.types, ldNodes: ld.nodes,
+    ldTypes: ld.types, ldNodes: ld.nodes, ldInvalidBlocks: ld.invalidBlocks,
     langAttr: (html.match(/<html[^>]+lang=["']([^"']+)["']/i) || [])[1] || null,
     canonical: (html.match(/<link[^>]+rel=["']canonical["'][^>]+href=["']([^"']+)["']/i) || [])[1] || null,
     viewport: !!html.match(/<meta[^>]+name=["']viewport["']/i),
@@ -1916,6 +1990,150 @@ function normalizeVerdict(r) {
   return { status: derived, score, method: r.method };
 }
 
+
+/* ---------- validare structurala schema.org pe site-ul AUDITAT ----------
+   Nu e o a saptea dimensiune si nu intra in cele 167. E un verdict separat,
+   despre singurul strat pe care un motor de cautare si un sistem AI il citesc
+   la fel. Un graf poate fi JSON valid si totusi gresit semantic: o proprietate
+   pusa pe un tip care nu o defineste, o referinta catre alt fel de obiect.
+   Pagina se randeaza, JSON-ul parseaza, sensul e rupt, si nimic nu avertizeaza.
+
+   Vocabularul e un subset. Un tip din afara lui nu e raportat ca gresit, ci
+   ca neverificat — absenta din lista noastra nu inseamna absenta din
+   schema.org. Aceeasi disciplina ca la `na`: nu inventam un verdict. */
+
+const SCHEMA_THING = ['name','url','description','image','identifier','sameAs','alternateName','additionalType','disambiguatingDescription','mainEntityOfPage','potentialAction','subjectOf'];
+const SCHEMA_CW = [...SCHEMA_THING,'about','author','creator','publisher','inLanguage','dateModified','datePublished','license','keywords','copyrightHolder','copyrightYear','isAccessibleForFree','encodingFormat','headline','isPartOf','hasPart','citation','version','abstract','text','audience','provider','isBasedOn','material','workExample'];
+const SCHEMA_WP = [...SCHEMA_CW,'breadcrumb','primaryImageOfPage','significantLink','relatedLink','speakable','lastReviewed','mainEntity','specialty'];
+const SCHEMA_ORG = [...SCHEMA_THING,'address','email','telephone','legalName','logo','brand','founder','foundingDate','foundingLocation','areaServed','contactPoint','employee','knowsAbout','knowsLanguage','taxID','vatID','duns','naics','location','parentOrganization','subOrganization','member','memberOf','numberOfEmployees','slogan','owns','makesOffer','hasOfferCatalog','seeks','award'];
+const SCHEMA_IL = [...SCHEMA_THING,'itemListElement','itemListOrder','numberOfItems'];
+
+const SCHEMA_VOCAB = {
+  Thing: SCHEMA_THING, CreativeWork: SCHEMA_CW,
+  WebPage: SCHEMA_WP, CollectionPage: SCHEMA_WP, ContactPage: SCHEMA_WP,
+  AboutPage: SCHEMA_WP, ProfilePage: SCHEMA_WP, FAQPage: SCHEMA_WP,
+  WebSite: [...SCHEMA_CW,'issn'],
+  Article: [...SCHEMA_CW,'articleBody','articleSection','wordCount','speakable'],
+  NewsArticle: [...SCHEMA_CW,'articleBody','articleSection','wordCount','speakable','dateline'],
+  BlogPosting: [...SCHEMA_CW,'articleBody','articleSection','wordCount'],
+  TechArticle: [...SCHEMA_CW,'proficiencyLevel','dependencies','articleBody','articleSection'],
+  APIReference: [...SCHEMA_CW,'proficiencyLevel','assemblyVersion','programmingModel','targetPlatform'],
+  SoftwareSourceCode: [...SCHEMA_CW,'codeRepository','codeSampleType','programmingLanguage','runtimePlatform','targetProduct'],
+  SoftwareApplication: [...SCHEMA_CW,'applicationCategory','applicationSubCategory','operatingSystem','browserRequirements','featureList','softwareVersion','offers','downloadUrl','screenshot','aggregateRating'],
+  WebApplication: [...SCHEMA_CW,'applicationCategory','applicationSubCategory','operatingSystem','browserRequirements','featureList','softwareVersion','offers'],
+  Dataset: [...SCHEMA_CW,'distribution','variableMeasured','measurementTechnique','includedInDataCatalog'],
+  DataCatalog: [...SCHEMA_CW,'dataset','measurementTechnique'],
+  DigitalDocument: [...SCHEMA_CW,'hasDigitalDocumentPermission'],
+  DefinedTermSet: [...SCHEMA_CW,'hasDefinedTerm'],
+  DefinedTerm: [...SCHEMA_THING,'termCode','inDefinedTermSet'],
+  HowTo: [...SCHEMA_CW,'step','supply','tool','totalTime','estimatedCost','prepTime','performTime','yield'],
+  ItemList: SCHEMA_IL, BreadcrumbList: SCHEMA_IL, OfferCatalog: SCHEMA_IL,
+  ListItem: [...SCHEMA_THING,'item','position','nextItem','previousItem'],
+  Organization: SCHEMA_ORG, Corporation: [...SCHEMA_ORG,'tickerSymbol'], OnlineBusiness: SCHEMA_ORG,
+  LocalBusiness: [...SCHEMA_ORG,'openingHoursSpecification','currenciesAccepted','paymentAccepted','priceRange','branchOf','geo'],
+  Brand: [...SCHEMA_THING,'logo','slogan','aggregateRating','review'],
+  Person: [...SCHEMA_THING,'affiliation','email','jobTitle','worksFor','knowsAbout','knowsLanguage','nationality','hasOccupation','address','telephone','birthDate','alumniOf','award','memberOf'],
+  Occupation: [...SCHEMA_THING,'occupationLocation','skills','responsibilities','qualifications','estimatedSalary','occupationalCategory'],
+  Service: [...SCHEMA_THING,'areaServed','audience','availableChannel','brand','provider','serviceType','termsOfService','hasOfferCatalog','offers','category','serviceOutput','hoursAvailable'],
+  WebAPI: [...SCHEMA_THING,'documentation','provider','termsOfService','areaServed','availableChannel','serviceType','assemblyVersion','programmingModel'],
+  Offer: [...SCHEMA_THING,'price','priceCurrency','availability','itemOffered','priceSpecification','eligibleQuantity','validFrom','validThrough','seller','category','acceptedPaymentMethod','areaServed'],
+  Product: [...SCHEMA_THING,'brand','offers','sku','gtin13','aggregateRating','review','category','model','manufacturer','material','color','weight'],
+  Question: [...SCHEMA_CW,'acceptedAnswer','suggestedAnswer','answerCount','upvoteCount'],
+  Answer: [...SCHEMA_CW,'upvoteCount'],
+  Review: [...SCHEMA_CW,'reviewRating','itemReviewed','reviewBody'],
+  AggregateRating: [...SCHEMA_THING,'ratingValue','reviewCount','ratingCount','bestRating','worstRating','itemReviewed'],
+  PostalAddress: [...SCHEMA_THING,'streetAddress','addressLocality','addressRegion','postalCode','addressCountry','postOfficeBoxNumber'],
+  Event: [...SCHEMA_THING,'startDate','endDate','location','organizer','performer','eventStatus','eventAttendanceMode','offers'],
+};
+
+const SCHEMA_RANGE = {
+  hasPart:         { expect: ['CreativeWork'], note: 'hasPart expects a CreativeWork' },
+  isPartOf:        { expect: ['CreativeWork'], note: 'isPartOf expects a CreativeWork' },
+  hasDefinedTerm:  { expect: ['DefinedTerm'], note: 'hasDefinedTerm expects a DefinedTerm' },
+  publisher:       { expect: ['Organization','Person'], note: 'publisher expects an Organization or Person' },
+  author:          { expect: ['Organization','Person'], note: 'author expects an Organization or Person' },
+  creator:         { expect: ['Organization','Person'], note: 'creator expects an Organization or Person' },
+  provider:        { expect: ['Organization','Person'], note: 'provider expects an Organization or Person' },
+  founder:         { expect: ['Person','Organization'], note: 'founder expects a Person' },
+  brand:           { expect: ['Brand','Organization'], note: 'brand expects a Brand or Organization' },
+  hasOfferCatalog: { expect: ['OfferCatalog'], note: 'hasOfferCatalog expects an OfferCatalog' },
+};
+
+const SCHEMA_PARENTS = {
+  Corporation:'Organization', OnlineBusiness:'Organization', LocalBusiness:'Organization',
+  WebPage:'CreativeWork', CollectionPage:'WebPage', ContactPage:'WebPage', AboutPage:'WebPage',
+  ProfilePage:'WebPage', FAQPage:'WebPage', WebSite:'CreativeWork', Article:'CreativeWork',
+  NewsArticle:'Article', BlogPosting:'Article', TechArticle:'Article', APIReference:'TechArticle',
+  SoftwareSourceCode:'CreativeWork', SoftwareApplication:'CreativeWork', WebApplication:'SoftwareApplication',
+  Dataset:'CreativeWork', DataCatalog:'CreativeWork', DigitalDocument:'CreativeWork',
+  DefinedTermSet:'CreativeWork', HowTo:'CreativeWork', BreadcrumbList:'ItemList', OfferCatalog:'ItemList',
+  WebAPI:'Service', Question:'CreativeWork', Answer:'CreativeWork', Review:'CreativeWork',
+};
+
+function schemaIsA(type, ancestor) {
+  let t = type; const seen = new Set();
+  while (t && !seen.has(t)) { if (t === ancestor) return true; seen.add(t); t = SCHEMA_PARENTS[t]; }
+  return ancestor === 'Thing';
+}
+
+function validateSchemaGraph(nodes, invalidBlocks) {
+  const out = { objects: 0, valid: 0, warning: 0, error: 0, unverified: 0,
+                invalidBlocks: invalidBlocks || 0, issues: [], types: [] };
+  if (invalidBlocks) {
+    out.issues.push({ level: 'error', type: '(block)', property: '@context',
+      message: `${invalidBlocks} JSON-LD block(s) do not parse as JSON` });
+    out.error += invalidBlocks;
+  }
+  if (!nodes || !nodes.length) { out.status = out.invalidBlocks ? 'error' : 'none'; return out; }
+
+  const byId = {};
+  for (const n of nodes) if (n['@id']) byId[n['@id']] = n;
+  const typeSet = new Set();
+
+  for (const o of nodes) {
+    out.objects++;
+    const types = Array.isArray(o['@type']) ? o['@type'] : [o['@type']];
+    types.forEach(t => typeSet.add(String(t)));
+    const allowed = new Set(); let known = false;
+    for (const t of types) { const v = SCHEMA_VOCAB[t]; if (v) { known = true; v.forEach(p => allowed.add(p)); } }
+
+    let objErr = 0, objWarn = 0;
+    for (const key of Object.keys(o)) {
+      if (key.startsWith('@')) continue;
+      if (known && !allowed.has(key)) {
+        objWarn++;
+        if (out.issues.length < 40) out.issues.push({ level: 'warning', type: types.join(' + '),
+          property: key, message: `"${key}" is not defined on ${types.join(' + ')}` });
+      }
+      const rule = SCHEMA_RANGE[key];
+      if (rule) {
+        const targets = Array.isArray(o[key]) ? o[key] : [o[key]];
+        for (const t of targets) {
+          if (!t || typeof t !== 'object') continue;
+          let tt = Array.isArray(t['@type']) ? t['@type'] : (t['@type'] ? [t['@type']] : []);
+          if (!tt.length && t['@id']) { const r = byId[t['@id']]; if (r) tt = Array.isArray(r['@type']) ? r['@type'] : [r['@type']]; }
+          if (!tt.length) continue;
+          if (!tt.some(x => rule.expect.some(e => schemaIsA(String(x), e)))) {
+            objErr++;
+            if (out.issues.length < 40) out.issues.push({ level: 'error', type: types.join(' + '),
+              property: key, message: `${rule.note}; target is ${tt.join(' + ')}` });
+          }
+        }
+      }
+    }
+    if (objErr) out.error++;
+    else if (objWarn) out.warning++;
+    else if (known) out.valid++;
+    else out.unverified++;
+  }
+
+  out.types = [...typeSet].sort();
+  const scored = out.valid + out.warning + out.error;
+  out.score = scored ? Math.round(((out.valid + out.warning * 0.5) / scored) * 100) : null;
+  out.status = out.error ? 'error' : out.warning ? 'warning' : out.valid ? 'valid' : 'none';
+  return out;
+}
+
 function evaluate(ev, psi) {
   const scores = {};
   const signals = {};
@@ -2012,7 +2230,11 @@ function evaluate(ev, psi) {
 
   const globalCoverage = (totalTested + totalNa) ? totalTested / (totalTested + totalNa) : 0;
 
-  return { scores, dimensions, categories, signals, global, tested: totalTested, na: totalNa,
+  /* Verdict separat, in afara celor 167. Nu intra in scorul global si nu e
+     o dimensiune: e starea stratului structurat al site-ului auditat. */
+  const schema = validateSchemaGraph(ev.ldNodes, ev.ldInvalidBlocks);
+
+  return { scores, dimensions, categories, signals, schema, global, tested: totalTested, na: totalNa,
            totalSignals: totalTested + totalNa,
            confidence: globalCoverage >= 0.8 ? 'high' : globalCoverage >= 0.5 ? 'medium' : 'low',
            scoringMethod: 'weighted-by-signal-weight',
@@ -2231,6 +2453,29 @@ export default {
     ctx.waitUntil(runScheduledObservations(env));
   },
   async fetch(request, env, ctx) {
+    /* Error boundary. Fara ea, orice exceptie nerezolvata iese ca pagina HTML
+       Cloudflare "error 1101", care unui client API sau unui agent nu ii spune
+       nimic si nu se poate parsa. Cu ea, primeste JSON, un status corect si un
+       requestId care apare si in loguri, deci un incident raportat se poate
+       cauta. Serveste si un Retry-After: un 503 fara el invita clientul sa
+       reincerce imediat, ceea ce amplifica exact incidentul care l-a produs. */
+    const requestId = crypto.randomUUID().slice(0, 8);
+    try {
+      return await handleRequest(request, env, ctx, requestId);
+    } catch (e) {
+      console.error(`[${requestId}] unhandled:`, e && (e.stack || e.message || String(e)));
+      return new Response(JSON.stringify({
+        error: 'engine_error',
+        detail: 'The request could not be completed. This is a fault on our side, not in the audited site.',
+        requestId,
+        retryAfterSeconds: 15
+      }), { status: 503, headers: { 'content-type': 'application/json', 'retry-after': '15', ...CORS } });
+    }
+  }
+};
+
+async function handleRequest(request, env, ctx, requestId) {
+  {
     const url = new URL(request.url);
     if (request.method === 'OPTIONS') return new Response(null, { headers: CORS });
 
@@ -2349,20 +2594,96 @@ export default {
       return json({ synthesis: synth, available: !!synth });
     }
 
+    /* /lead — captura de email legata de o observatie concreta.
+       Pana acum salva doar email + url, deci nu se stia ce a cerut omul si
+       nici la ce raport se referea. Acum retine si observationId, scorul si
+       ce a bifat: raportul, planul de actiune, sau amandoua. Un lead fara
+       contextul asta e un email pe care nu ai cu ce sa il continui.
+
+       Nu trimitem noi emailul: nu exista furnizor legat, iar butonul din
+       pagina foloseste clientul omului. Ce face endpointul e sa retina
+       cererea, ca sa existe cand exista si canalul. */
     if (url.pathname === '/lead' && request.method === 'POST') {
       let body;
       try { body = await request.json(); } catch { return json({ error: 'invalid json' }, 400); }
-      if (!body.email) return json({ error: 'email required' }, 400);
-      if (env.RATE_KV) {
-        try { await env.RATE_KV.put(`lead:${Date.now()}:${body.email}`, JSON.stringify({ email: body.email, url: body.url || '', ts: new Date().toISOString() })); } catch {}
+
+      const email = String(body.email || '').trim().slice(0, 200);
+      /* Validare deliberat permisiva: refuzam ce clar nu e o adresa, nu
+         incercam sa ghicim ce e valid. Un regex strict respinge adrese reale. */
+      if (!email || !/^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/.test(email)) {
+        return json({ error: 'a valid email address is required' }, 400);
       }
-      return json({ ok: true });
+
+      const wants = Array.isArray(body.wants) ? body.wants : [];
+      const wantReport = wants.includes('report') || body.wantReport === true;
+      const wantPlan   = wants.includes('action_plan') || body.wantActionPlan === true;
+      if (!wantReport && !wantPlan) {
+        return json({ error: 'choose at least one: report, action_plan' }, 400);
+      }
+
+      const record = {
+        email,
+        url: String(body.url || '').slice(0, 500),
+        observationId: String(body.observationId || '').slice(0, 60) || null,
+        score: Number.isFinite(Number(body.score)) ? Number(body.score) : null,
+        wants: [wantReport ? 'report' : null, wantPlan ? 'action_plan' : null].filter(Boolean),
+        reportUrl: body.observationId
+          ? `https://3webobs.com/signal-detail?obs=${encodeURIComponent(String(body.observationId))}&dim=AEO`
+          : null,
+        lang: String(body.lang || '').slice(0, 12) || null,
+        country: request.headers.get('cf-ipcountry') || null,   // tara, nu IP
+        ts: new Date().toISOString(),
+        delivered: false,     // devine true cand exista un canal care chiar trimite
+        source: '3webobs.com'
+      };
+
+      if (env.RATE_KV) {
+        try {
+          const key = `lead:${Date.now()}:${email}`;
+          await env.RATE_KV.put(key, JSON.stringify(record), { expirationTtl: 60 * 60 * 24 * 400 });
+          /* Index pe email, ca sa se vada daca cineva a cerut de mai multe ori
+             fara sa primeasca nimic. */
+          const idxKey = `leadidx:${email}`;
+          let idx = [];
+          try { idx = JSON.parse(await env.RATE_KV.get(idxKey) || '[]'); } catch {}
+          idx.push({ ts: record.ts, observationId: record.observationId, wants: record.wants, url: record.url });
+          await env.RATE_KV.put(idxKey, JSON.stringify(idx.slice(-25)), { expirationTtl: 60 * 60 * 24 * 400 });
+
+          const cnt = Number(await env.RATE_KV.get('lead_count') || 0) + 1;
+          await env.RATE_KV.put('lead_count', String(cnt));
+        } catch {}
+      }
+
+      return json({
+        ok: true,
+        saved: record.wants,
+        reportUrl: record.reportUrl,
+        note: 'Saved. We do not send email from here yet — the link above is the report, and it stays live for 90 days.'
+      });
+    }
+
+    /* /leads — citire, pentru panoul de control. Aceeasi parola ca restul. */
+    if (url.pathname === '/leads' && request.method === 'GET') {
+      const key = url.searchParams.get('key') || request.headers.get('x-cron-secret') || '';
+      if (!env.CRON_SECRET) return json({ error: 'no access password configured' }, 503);
+      if (key !== env.CRON_SECRET) return json({ error: 'unauthorized' }, 401);
+      if (!env.RATE_KV) return json({ error: 'storage not configured' }, 503);
+      const out = [];
+      try {
+        const listed = await env.RATE_KV.list({ prefix: 'lead:', limit: 1000 });
+        const keys = listed.keys.map(k => k.name).sort().reverse().slice(0, 200);
+        for (const k of keys) {
+          const v = await env.RATE_KV.get(k);
+          if (v) { try { out.push(JSON.parse(v)); } catch {} }
+        }
+      } catch (e) { return json({ error: 'read failed', detail: String(e) }, 500); }
+      return json({ total: out.length, leads: out });
     }
 
     if (url.pathname === '/stats') {
       let count = 0;
       if (env.RATE_KV) { try { count = Number(await env.RATE_KV.get('audit_count') || 0); } catch {} }
-      return json({ audits: count, version: '3.0', engine: 'evidence-based', signals: 167, external_sources: ['PageSpeed Insights (free)'], brand: '3webs', network: '5thElement.ai', a2a: '/a2a', agent_card: '/.well-known/agent-card.json' });
+      return json({ audits: count, version: '3.2.0', engine: 'evidence-based', signals: 167, external_sources: ['PageSpeed Insights (free)'], brand: '3webs', network: '5thElement.ai', a2a: '/a2a', agent_card: '/.well-known/agent-card.json' });
     }
 
 
@@ -2382,6 +2703,23 @@ export default {
       const v = evalSignal(found, ev, await fetchPageSpeed(target.href, env));
       return json({ url: target.href, signal: { id: found.id, name: found.n, dimension: dim, category: found.c, weight: found.w },
         verdict: v.status, score: v.score ?? null, evidence: v.method });
+    }
+
+    /* /observation — citire read-only a unui raport deja produs.
+       Cerut si de un audit extern: pana acum un raport nu putea fi reprodus
+       decat rerulandu-l, deci nici verificat de altcineva. Acum are un URL
+       stabil, iar paginile de detaliu se pot construi peste el in loc sa
+       ceara motorului sa refaca munca. */
+    if (url.pathname === '/observation' && request.method === 'GET') {
+      const id = url.searchParams.get('id');
+      if (!id) return json({ error: 'id is required' }, 400);
+      if (!env.RATE_KV) return json({ error: 'observation storage is not configured' }, 503);
+      let stored = null;
+      try { stored = await env.RATE_KV.get('obs:' + id); } catch {}
+      if (!stored) return json({ error: 'no stored observation with id ' + id,
+        detail: 'Observations are retained for 90 days.' }, 404);
+      return new Response(stored, { headers: { 'content-type': 'application/json',
+        'cache-control': 'public, max-age=300', ...CORS } });
     }
 
     /* /diff — REST twin of the a2a obs_diff skill */
@@ -2739,4 +3077,4 @@ export default {
 
     return env.ASSETS ? env.ASSETS.fetch(request) : new Response('3webs OBS engine — 3webobs.com', { headers: CORS });
   }
-};
+}

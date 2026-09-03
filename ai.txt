@@ -155,7 +155,7 @@
       "description": "Objectively testable signals are evaluated using deterministic rules against observed evidence."
     },
     "narrative_summary": {
-      "uses_language_model": true,
+      "uses_language_model": false,
       "purpose": "Narrative synthesis of already-observed evidence.",
       "affects_deterministic_signal_score": false
     },

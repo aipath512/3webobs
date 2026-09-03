@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- ══ SEO META CORE ══ -->
 <title>3webs — what AI systems see on your site</title>
-<meta name="description" content="Diagnose how AI systems see your website. 167 signals across AI Signals, AEO, GEO, AIO, SEO and A2A — deterministic scoring on observed evidence, with an AI-written summary on top.">
+<meta name="description" content="Diagnose how AI systems see your website. 167 signals across AI Signals, AEO, GEO, AIO, SEO and A2A — deterministic scoring on observed evidence, with no language model in the loop.">
 <link rel="canonical" href="https://3webobs.com/">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large">
@@ -47,7 +47,7 @@
 <meta name="twitter:image:alt" content="3webs &mdash; Human Web, AI Web and Machine Web visibility">
 
 <!-- ══ AI / AGENT DISCOVERY ══ -->
-<meta name="ai-content-declaration" content="human-authored; AI used only for narrative synthesis">
+<meta name="ai-content-declaration" content="human-authored; no language model used in scoring or synthesis">
 <link rel="alternate" type="application/json" href="https://3webobs.com/stats" title="Service metadata">
 <link rel="sitemap" type="application/xml" href="https://3webobs.com/sitemap.xml">
 <link rel="me" href="https://ro.linkedin.com/in/dan-ionesco-a856082a0">
@@ -240,6 +240,30 @@ html.dark .url-in:focus{box-shadow:0 0 0 4px rgba(94,180,255,.1),var(--sh1);}
 .cta-divider-line{flex:1;height:1px;background:var(--border);}
 .cta-divider-text{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--text);white-space:nowrap;}
 
+.cta-dual{max-width:620px;margin:0 auto;}
+.cta-dual .cta-action-row{margin-bottom:9px;}
+.cta-share{max-width:620px;margin:0 auto 12px;padding:14px 16px;border:1px solid var(--border);
+border-radius:var(--r);background:var(--bg2);}
+.cta-share-url{font-family:'SF Mono',ui-monospace,Menlo,monospace;font-size:11px;opacity:.65;
+word-break:break-all;margin-bottom:11px;}
+.cta-share-row{display:flex;flex-wrap:wrap;gap:8px;}
+.cta-share-btn{font-family:'Inter',sans-serif;font-size:12px;font-weight:600;padding:8px 15px;
+border-radius:100px;border:1px solid var(--border-md);background:transparent;color:var(--blue)!important;
+cursor:pointer;text-decoration:none;display:inline-block;}
+.cta-share-btn:hover{border-color:var(--blue);}
+.cta-mail{margin-top:14px;padding-top:14px;border-top:1px solid var(--border);}
+.cta-mail-h{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+opacity:.55;margin-bottom:9px;}
+.cta-mail-row{display:flex;gap:8px;flex-wrap:wrap;}
+.cta-mail-row input{flex:1;min-width:180px;padding:9px 13px;border-radius:100px;
+border:1px solid var(--border-md);background:var(--bg);color:var(--text);
+font-family:'Inter',sans-serif;font-size:13px;}
+.cta-mail-row input:focus{outline:none;border-color:var(--blue);}
+.cta-mail-go{flex-shrink:0;}
+.cta-mail-opts{display:flex;flex-wrap:wrap;gap:16px;margin-top:10px;font-size:12px;}
+.cta-mail-opts label{display:inline-flex;align-items:center;gap:6px;cursor:pointer;}
+.cta-mail-opts input{width:15px;height:15px;accent-color:var(--blue);}
+.cta-share-note{font-size:11px;opacity:.6;margin:10px 0 0;line-height:1.5;}
 .cta-action-row{
   max-width:620px;margin:0 auto 12px;
   display:flex;align-items:center;gap:12px;
@@ -309,6 +333,11 @@ html.dark .mod.active{box-shadow:0 0 0 3px rgba(94,180,255,.1);}
 
 /* SCORE HERO */
 .sh-grid{display:grid;grid-template-columns:240px 1fr;gap:52px;align-items:center;margin-bottom:60px;padding-bottom:60px;border-bottom:1px solid var(--border);}
+.dim-cov{font-size:9.5px;opacity:.55;margin-top:5px;line-height:1.35;}
+.dim-more{display:inline-block;margin-top:8px;font-size:10.5px;font-weight:600;
+text-decoration:none;color:var(--blue)!important;border-bottom:1px solid transparent;}
+.dim-more:hover{border-bottom-color:currentColor;}
+.d-schema .dim-bar-f{background:var(--green);}
 .ring-w{position:relative;display:flex;align-items:center;justify-content:center;}
 .ring-w svg{width:210px;height:210px;}
 .r-bg{fill:none;stroke:var(--bg3);stroke-width:10;}
@@ -985,9 +1014,7 @@ grid-template-columns:repeat(4,1fr);gap:18px 26px;}
 
 
 
-<script type="application/ld+json">
-{"@context":"https://schema.org","@graph":[{"@type":["Organization","Corporation"],"@id":"https://3webobs.com/#organization","name":"AIVENTURE S.R.L.","alternateName":["5thElement.ai","AiVenture"],"legalName":"AIVENTURE S.R.L.","url":"https://3webobs.com/","email":"contact@5thelement.ai","telephone":"+40737123540","vatID":"51415878","taxID":"51415878","foundingDate":"2025-03-07","foundingLocation":{"@type":"Place","name":"București, Romania"},"areaServed":[{"@type":"Country","name":"Romania"},{"@type":"AdministrativeArea","name":"European Union"},{"@type":"Place","name":"Worldwide"}],"knowsAbout":["AI Delivery Infrastructure","Answer Engine Optimization","Generative Engine Optimization","AI Optimization","Search Engine Optimization","EU AI Act compliance","machine-readable identity","agent-to-agent protocols"],"knowsLanguage":[{"@type":"Language","name":"English","alternateName":"en"},{"@type":"Language","name":"Romanian","alternateName":"ro"},{"@type":"Language","name":"French","alternateName":"fr"}],"identifier":[{"@type":"PropertyValue","name":"CUI","value":"51415878"},{"@type":"PropertyValue","name":"Nr. Registrul Comerțului","value":"J2025016406000"},{"@type":"PropertyValue","name":"EUID","value":"ROONRC.J2025016406000"},{"@type":"PropertyValue","name":"CAEN","value":"6210"}],"address":{"@type":"PostalAddress","streetAddress":"Drumul Pădurea Pustnicu, Nr. 141C, Corp A, Etaj 2","addressLocality":"București","addressRegion":"Sectorul 1","postalCode":"077190","addressCountry":{"@type":"Country","name":"RO"}},"location":{"@type":"Place","name":"AIVENTURE S.R.L. — registered office","address":{"@type":"PostalAddress","streetAddress":"Drumul Pădurea Pustnicu, Nr. 141C, Corp A, Etaj 2","addressLocality":"București","addressRegion":"Sectorul 1","postalCode":"077190","addressCountry":{"@type":"Country","name":"RO"}}},"logo":{"@type":"ImageObject","@id":"https://3webobs.com/#logo","url":"https://3webobs.com/assets/og-cover.png","width":1200,"height":630,"caption":"3webs by 5thElement.ai"},"image":{"@id":"https://3webobs.com/#logo"},"brand":{"@id":"https://3webobs.com/#brand"},"founder":{"@id":"https://3webobs.com/#founder"},"employee":{"@id":"https://3webobs.com/#founder"},"contactPoint":[{"@type":"ContactPoint","contactType":"customer support","email":"contact@5thelement.ai","availableLanguage":["English","Romanian","French"],"areaServed":"Worldwide"},{"@type":"ContactPoint","contactType":"sales","telephone":"+40737123540","email":"contact@5thelement.ai","availableLanguage":["English","Romanian","French"]},{"@type":"ContactPoint","contactType":"technical support","email":"contact@5thelement.ai","availableLanguage":["English","Romanian"]}],"sameAs":["https://5thelement.ai","https://aiventure.ro","https://1clic-ia.eu","https://www.linkedin.com/company/107338970","https://www.linkedin.com/showcase/5thelement-ai/","https://www.crunchbase.com/organization/aiventure-s-r-l","https://www.facebook.com/people/Aiventure/61573220584246/","https://x.com/aipath512","https://www.youtube.com/@AIVenture-q8u","https://medium.com/@aipath512"]},{"@type":"Brand","@id":"https://3webobs.com/#brand","name":"3webs","alternateName":"3WEBS","url":"https://3webobs.com/","logo":{"@id":"https://3webobs.com/#logo"},"slogan":"Your AI search visibility, diagnosed."},{"@type":"Person","@id":"https://3webobs.com/#founder","name":"Dan Ionesco","alternateName":"Dan Ionescu","jobTitle":"Founder & CEO","worksFor":{"@id":"https://3webobs.com/#organization"},"affiliation":{"@id":"https://3webobs.com/#organization"},"email":"contact@5thelement.ai","nationality":{"@type":"Country","name":"RO"},"hasOccupation":{"@id":"https://3webobs.com/#occupation"},"knowsAbout":["AI Delivery Infrastructure","enterprise IT architecture","EU AI Act","answer engine optimization","agent-to-agent protocols"],"knowsLanguage":[{"@type":"Language","name":"English"},{"@type":"Language","name":"Romanian"},{"@type":"Language","name":"French"}],"sameAs":["https://ro.linkedin.com/in/dan-ionesco-a856082a0","https://x.com/aipath512","https://medium.com/@aipath512"]},{"@type":"WebSite","@id":"https://3webobs.com/#website","url":"https://3webobs.com/","name":"3webs","description":"167-signal three-web visibility engine — human web, AI web and machine web.","publisher":{"@id":"https://3webobs.com/#organization"},"copyrightHolder":{"@id":"https://3webobs.com/#organization"},"inLanguage":"en","hasPart":[{"@id":"https://3webobs.com/#service"},{"@id":"https://3webobs.com/#api"},{"@id":"https://3webobs.com/#glossary"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://3webobs.com/?url={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"FAQPage","@id":"https://3webobs.com/#faq","mainEntity":[{"@type":"Question","name":"What exactly does an AI visibility audit measure?","acceptedAnswer":{"@type":"Answer","text":"It measures how a website presents itself to AI systems, answer engines and search crawlers. The engine fetches the page, robots.txt, sitemap.xml and the declared machine-readable signal files, then evaluates 167 signals across the human web, the AI web and the machine web."}},{"@type":"Question","name":"Is the score generated by an AI model?","acceptedAnswer":{"@type":"Answer","text":"No. Every score is produced by deterministic rules applied to evidence actually observed on the website. A language model writes only the short narrative summary. The same website in the same state always produces the same score."}},{"@type":"Question","name":"Why are some signals marked as not applicable instead of failed?","acceptedAnswer":{"@type":"Answer","text":"Because a signal that cannot be verified from public sources has not failed — it simply could not be tested. Marking it as failed would invent a verdict. Every report states how many signals were actually tested."}},{"@type":"Question","name":"What is the difference between AEO, GEO, AIO and SEO?","acceptedAnswer":{"@type":"Answer","text":"SEO is the technical and content foundation used by search engines. AEO structures content so assistants extract direct answers. GEO makes the brand entity discoverable and citable by generative systems. AIO covers how AI systems understand, rank and reproduce content across the full stack."}},{"@type":"Question","name":"Do I need to install anything on my website to be audited?","acceptedAnswer":{"@type":"Answer","text":"No. The audit inspects only publicly served resources. Nothing is installed, no tracking code is added, no authentication is attempted, and no private area is accessed."}},{"@type":"Question","name":"How much does an audit cost?","acceptedAnswer":{"@type":"Answer","text":"The first three reports per domain each calendar month are free. After that each report is EUR 19, excluding VAT. Monitoring one domain costs EUR 29 per month for a monthly interval, EUR 49 for weekly and EUR 99 for daily. Machine access for agents is EUR 0.50 per call on prepaid credit, EUR 0.40 in a 1,000-call pack and EUR 0.30 in a 5,000-call pack, with an enterprise tier on request. It returns raw JSON only, without the PDF, the shareable report URL, the signed report or the retained history that come with the EUR 19 report. Machine access is not open yet: it requires API keys and prepaid credit, both in preparation. Full pricing is published at 3webobs.com/pricing."}},{"@type":"Question","name":"Can AI agents call the audit engine directly?","acceptedAnswer":{"@type":"Answer","text":"Yes. The engine implements the Agent-to-Agent protocol at /a2a, in versions 1.0 and 0.3, with an agent card at /.well-known/agent-card.json. A REST endpoint at /audit accepts a URL and returns the same report as JSON. Worked examples are published at 3webobs.com/agents."}},{"@type":"Question","name":"Does a good score guarantee that ChatGPT or Gemini will cite my site?","acceptedAnswer":{"@type":"Answer","text":"No. Third-party AI systems change their behaviour without notice and no provider guarantees citation. The audit identifies observable technical signals within your control; it does not promise a ranking, a citation or a commercial outcome."}},{"@type":"Question","name":"Is this report a legal compliance certificate for the EU AI Act?","acceptedAnswer":{"@type":"Answer","text":"No. The report is a technical observation, not a certification and not a legal opinion. For a formal classification under Regulation (EU) 2024/1689, obtain independent legal analysis."}},{"@type":"Question","name":"Who operates this service?","acceptedAnswer":{"@type":"Answer","text":"AIVENTURE S.R.L., a company registered in Bucharest, Romania, European Union, operating under the 5thElement.ai brand. Registration details and the full legal documentation are published on the site."}}]},{"@type":"Service","@id":"https://3webobs.com/#service","name":"Three-Web Visibility Observation","serviceType":"AI visibility and answer-engine readiness diagnostic","provider":{"@id":"https://3webobs.com/#organization"},"brand":{"@id":"https://3webobs.com/#brand"},"areaServed":{"@type":"Place","name":"Worldwide"},"availableChannel":{"@type":"ServiceChannel","serviceUrl":"https://3webobs.com/","servicePhone":"+40737123540","availableLanguage":["English","Romanian","French"]},"audience":[{"@type":"BusinessAudience","audienceType":"B2B companies, agencies and consultants"},{"@type":"Audience","audienceType":"AI agents and autonomous systems"}],"description":"Diagnostic audit of how a website presents itself to AI systems, answer engines and search crawlers, across 167 signals.","termsOfService":"https://3webobs.com/terms","hasOfferCatalog":{"@id":"https://3webobs.com/#catalog"}},{"@type":"OfferCatalog","@id":"https://3webobs.com/#catalog","name":"3webs plans","url":"https://3webobs.com/pricing","itemListElement":[{"@type":"Offer","@id":"https://3webobs.com/#offer-free","name":"Free tier — 3 reports per domain per month","itemOffered":{"@id":"https://3webobs.com/#service"},"price":"0","priceCurrency":"EUR","availability":"https://schema.org/InStock","url":"https://3webobs.com/pricing","eligibleQuantity":{"@type":"QuantitativeValue","value":3,"unitText":"reports per month"}},{"@type":"Offer","@id":"https://3webobs.com/#offer-report","name":"Additional report","itemOffered":{"@id":"https://3webobs.com/#service"},"price":"19.00","priceCurrency":"EUR","availability":"https://schema.org/InStock","url":"https://3webobs.com/pricing","priceSpecification":{"@type":"UnitPriceSpecification","price":"19.00","priceCurrency":"EUR","unitText":"report","valueAddedTaxIncluded":false}},{"@type":"Offer","@id":"https://3webobs.com/#offer-monthly","name":"Monitoring — monthly interval","itemOffered":{"@id":"https://3webobs.com/#service"},"price":"29.00","priceCurrency":"EUR","availability":"https://schema.org/InStock","url":"https://3webobs.com/pricing","priceSpecification":{"@type":"UnitPriceSpecification","price":"29.00","priceCurrency":"EUR","unitText":"MONTH","valueAddedTaxIncluded":false}},{"@type":"Offer","@id":"https://3webobs.com/#offer-weekly","name":"Monitoring — weekly interval","itemOffered":{"@id":"https://3webobs.com/#service"},"price":"49.00","priceCurrency":"EUR","availability":"https://schema.org/InStock","url":"https://3webobs.com/pricing","priceSpecification":{"@type":"UnitPriceSpecification","price":"49.00","priceCurrency":"EUR","unitText":"MONTH","valueAddedTaxIncluded":false}},{"@type":"Offer","@id":"https://3webobs.com/#offer-daily","name":"Monitoring — daily interval","itemOffered":{"@id":"https://3webobs.com/#service"},"price":"99.00","priceCurrency":"EUR","availability":"https://schema.org/InStock","url":"https://3webobs.com/pricing","priceSpecification":{"@type":"UnitPriceSpecification","price":"99.00","priceCurrency":"EUR","unitText":"MONTH","valueAddedTaxIncluded":false}},{"@type":"Offer","@id":"https://3webobs.com/#offer-api","name":"Machine access — per call","description":"Raw JSON report: signal verdicts, evidence, scores, coverage and confidence. Does not include PDF export, a shareable report URL, a signed report or retained history.","itemOffered":{"@id":"https://3webobs.com/#service"},"price":"0.50","priceCurrency":"EUR","availability":"https://schema.org/PreOrder","url":"https://3webobs.com/pricing","priceSpecification":{"@type":"UnitPriceSpecification","price":"0.50","priceCurrency":"EUR","unitText":"call","valueAddedTaxIncluded":false}},{"@type":"Offer","@id":"https://3webobs.com/#offer-pack1000","name":"Machine access — 1,000 call credit pack","itemOffered":{"@id":"https://3webobs.com/#service"},"price":"400","priceCurrency":"EUR","availability":"https://schema.org/PreOrder","url":"https://3webobs.com/pricing","priceSpecification":{"@type":"UnitPriceSpecification","price":"0.40","priceCurrency":"EUR","unitText":"call","valueAddedTaxIncluded":false,"referenceQuantity":{"@type":"QuantitativeValue","value":1000,"unitText":"calls"}}},{"@type":"Offer","@id":"https://3webobs.com/#offer-pack5000","name":"Machine access — 5,000 call credit pack","itemOffered":{"@id":"https://3webobs.com/#service"},"price":"1500","priceCurrency":"EUR","availability":"https://schema.org/PreOrder","url":"https://3webobs.com/pricing","priceSpecification":{"@type":"UnitPriceSpecification","price":"0.30","priceCurrency":"EUR","unitText":"call","valueAddedTaxIncluded":false,"referenceQuantity":{"@type":"QuantitativeValue","value":5000,"unitText":"calls"}}}]},{"@type":["SoftwareApplication","WebApplication"],"@id":"https://3webobs.com/#app","name":"3webs Engine","applicationCategory":"BusinessApplication","applicationSubCategory":"SEO and AI visibility analysis","operatingSystem":"Any (browser-based)","browserRequirements":"Requires JavaScript","url":"https://3webobs.com/","author":{"@id":"https://3webobs.com/#organization"},"publisher":{"@id":"https://3webobs.com/#organization"},"softwareVersion":"3.0","featureList":["167-signal evaluation across the human, AI and machine webs","Deterministic rule-based scoring","Machine-readable JSON report","Prioritised action plan","A2A v1.0 agent interface","Before-and-after signal diff"],"offers":{"@id":"https://3webobs.com/#offer-free"},"isBasedOn":{"@id":"https://3webobs.com/#source"}},{"@type":"HowTo","@id":"https://3webobs.com/#howto","name":"How to run an AI visibility audit","description":"Three steps from a URL to a prioritised action plan.","totalTime":"PT2M","supply":{"@type":"HowToSupply","name":"The URL of the website to analyse"},"tool":{"@type":"HowToTool","name":"A web browser"},"estimatedCost":{"@type":"MonetaryAmount","currency":"EUR","value":"0"},"step":[{"@type":"HowToStep","position":1,"name":"Submit the URL","text":"Enter the address of the website you want analysed and start the audit.","url":"https://3webobs.com/#run"},{"@type":"HowToStep","position":2,"name":"Read the diagnostic","text":"Review the score across the three webs and inspect the evidence recorded for each signal.","url":"https://3webobs.com/167-signals"},{"@type":"HowToStep","position":3,"name":"Apply the action plan","text":"Work through the prioritised list of failed signals, ordered by weight, then re-run the audit to measure the delta.","url":"https://3webobs.com/pricing"}]},{"@type":"DefinedTermSet","@id":"https://3webobs.com/#glossary","name":"3webs Glossary","url":"https://3webobs.com/glossary","description":"The vocabulary used across the 3webs reports and documentation.","hasDefinedTerm":[{"@type":"DefinedTerm","@id":"https://3webobs.com/glossary#term-aeo","name":"AEO","description":"Answer Engine Optimization — structuring content so AI assistants extract it as a direct answer rather than a link.","inDefinedTermSet":{"@id":"https://3webobs.com/#glossary"}},{"@type":"DefinedTerm","@id":"https://3webobs.com/glossary#term-geo","name":"GEO","description":"Generative Engine Optimization — making a brand entity discoverable, resolvable and citable by generative AI systems.","inDefinedTermSet":{"@id":"https://3webobs.com/#glossary"}},{"@type":"DefinedTerm","@id":"https://3webobs.com/glossary#term-aio","name":"AIO","description":"AI Optimization — the full stack of signals determining how AI systems understand, rank and reproduce content.","inDefinedTermSet":{"@id":"https://3webobs.com/#glossary"}},{"@type":"DefinedTerm","@id":"https://3webobs.com/glossary#term-adi","name":"ADI","description":"AI Delivery Infrastructure — the machine-readable layer through which a company is discovered, understood and verified by AI systems and agents.","inDefinedTermSet":{"@id":"https://3webobs.com/#glossary"}},{"@type":"DefinedTerm","@id":"https://3webobs.com/glossary#term-a2a","name":"A2A","description":"Agent-to-Agent — the open protocol by which autonomous agents discover each other's capabilities and invoke them, without a human in the loop.","inDefinedTermSet":{"@id":"https://3webobs.com/#glossary"}},{"@type":"DefinedTerm","@id":"https://3webobs.com/glossary#term-agent-card","name":"Agent card","description":"A JSON document at /.well-known/agent-card.json describing an agent's identity, transport interfaces and callable skills.","inDefinedTermSet":{"@id":"https://3webobs.com/#glossary"}},{"@type":"DefinedTerm","@id":"https://3webobs.com/glossary#term-llms-txt","name":"llms.txt","description":"A plain-text file at the site root declaring, for AI systems, what a site is and which resources matter.","inDefinedTermSet":{"@id":"https://3webobs.com/#glossary"}},{"@type":"DefinedTerm","@id":"https://3webobs.com/glossary#term-machine-web","name":"Machine web","description":"The layer in which agents discover capabilities, verify evidence and execute tasks without a human click.","inDefinedTermSet":{"@id":"https://3webobs.com/#glossary"}},{"@type":"DefinedTerm","@id":"https://3webobs.com/glossary#term-ai-web","name":"AI web","description":"The layer read by answer engines and assistants: structured content, entities and declared meaning, rather than rendered pages.","inDefinedTermSet":{"@id":"https://3webobs.com/#glossary"}},{"@type":"DefinedTerm","@id":"https://3webobs.com/glossary#term-human-web","name":"Human web","description":"The layer a person sees in a browser: pages, layout and navigation.","inDefinedTermSet":{"@id":"https://3webobs.com/#glossary"}},{"@type":"DefinedTerm","@id":"https://3webobs.com/glossary#term-proof-manifest","name":"Proof manifest","description":"A published list of SHA-256 hashes for a site's own files, letting any third party verify that what is served matches what was signed.","inDefinedTermSet":{"@id":"https://3webobs.com/#glossary"}},{"@type":"DefinedTerm","@id":"https://3webobs.com/glossary#term-not-applicable","name":"Not applicable","description":"A verdict for a signal that could not be tested from public sources. It is never counted as a failure, and the report states how many signals it applies to.","inDefinedTermSet":{"@id":"https://3webobs.com/#glossary"}}]},{"@type":["WebAPI","APIReference"],"@id":"https://3webobs.com/#api","name":"3webs HTTP and A2A API","documentation":"https://3webobs.com/agents","provider":{"@id":"https://3webobs.com/#organization"},"termsOfService":"https://3webobs.com/terms","programmingModel":"JSON-RPC 2.0 and REST over HTTPS","assemblyVersion":"3.0","potentialAction":[{"@type":"AssessAction","name":"Audit a website","target":{"@type":"EntryPoint","urlTemplate":"https://3webobs.com/audit","httpMethod":"POST","contentType":"application/json","encodingType":"application/json"}},{"@type":"AssessAction","name":"Call a skill over A2A","target":{"@type":"EntryPoint","urlTemplate":"https://3webobs.com/a2a","httpMethod":"POST","contentType":"application/json","encodingType":"application/json"}},{"@type":"ViewAction","name":"Service metadata","target":{"@type":"EntryPoint","urlTemplate":"https://3webobs.com/stats","httpMethod":"GET","contentType":"application/json"}}]},{"@type":["Dataset","DataCatalog"],"@id":"https://3webobs.com/#signal-registry","name":"3webs Signal Registry","url":"https://3webobs.com/167-signals","description":"The catalogue of 167 signals evaluated by the engine, grouped by dimension and by web.","creator":{"@id":"https://3webobs.com/#organization"},"license":"https://3webobs.com/terms","isAccessibleForFree":true,"inLanguage":"en","distribution":{"@type":"DataDownload","encodingFormat":"application/json","contentUrl":"https://3webobs.com/signals"},"variableMeasured":[{"@type":"PropertyValue","name":"AI Signals","value":32,"description":"Crawler permissions, machine-readable trust files and A2A interfaces"},{"@type":"PropertyValue","name":"AEO","value":34,"description":"Answer engine optimization"},{"@type":"PropertyValue","name":"GEO","value":28,"description":"Generative engine and entity signals"},{"@type":"PropertyValue","name":"AIO","value":31,"description":"AI optimization and retrieval readiness"},{"@type":"PropertyValue","name":"SEO","value":42,"description":"Technical and content foundation"}]},{"@type":"ItemList","@id":"https://3webobs.com/#dimensions","name":"The five audit dimensions","numberOfItems":5,"itemListOrder":"https://schema.org/ItemListOrderAscending","itemListElement":[{"@type":"ListItem","position":1,"name":"AI Signals","description":"32 signals — Crawler permissions, machine-readable trust files and A2A interfaces"},{"@type":"ListItem","position":2,"name":"AEO","description":"34 signals — Answer engine optimization"},{"@type":"ListItem","position":3,"name":"GEO","description":"28 signals — Generative engine and entity signals"},{"@type":"ListItem","position":4,"name":"AIO","description":"31 signals — AI optimization and retrieval readiness"},{"@type":"ListItem","position":5,"name":"SEO","description":"42 signals — Technical and content foundation"}]},{"@type":"ItemList","@id":"https://3webobs.com/#three-webs","name":"The three webs","numberOfItems":3,"itemListOrder":"https://schema.org/ItemListOrderAscending","itemListElement":[{"@type":"ListItem","position":1,"name":"Human web","description":"What a person sees in a browser. Measured by the SEO dimension."},{"@type":"ListItem","position":2,"name":"AI web","description":"What an answer engine sees. Measured by AEO, GEO and AIO."},{"@type":"ListItem","position":3,"name":"Machine web","description":"What an autonomous agent sees. Measured by AI Signals and A2A."}]},{"@type":"AboutPage","@id":"https://3webobs.com/contact#aboutpage","url":"https://3webobs.com/contact","name":"About AIVENTURE S.R.L.","mainEntity":{"@id":"https://3webobs.com/#organization"},"isPartOf":{"@id":"https://3webobs.com/#website"}},{"@type":"ContactPage","@id":"https://3webobs.com/contact#contactpage","url":"https://3webobs.com/contact","name":"Contact","mainEntity":{"@id":"https://3webobs.com/#organization"},"isPartOf":{"@id":"https://3webobs.com/#website"}},{"@type":"ProfilePage","@id":"https://3webobs.com/#profilepage","url":"https://3webobs.com/contact#entity","name":"Dan Ionesco — Founder","mainEntity":{"@id":"https://3webobs.com/#founder"},"isPartOf":{"@id":"https://3webobs.com/#website"}},{"@type":"SiteNavigationElement","@id":"https://3webobs.com/#nav","name":["Run an audit","Pricing","The 167 signals","Glossary","Data dictionary","For agents","Self audit","For SEO agencies","For AI teams","For compliance consultants","Contact","Terms & Conditions","Acceptable Use","GDPR & Privacy","Cookies","EU AI Act"],"url":["https://3webobs.com/","https://3webobs.com/pricing","https://3webobs.com/167-signals","https://3webobs.com/glossary","https://3webobs.com/data-dictionary","https://3webobs.com/agents","https://3webobs.com/self-audit","https://3webobs.com/for-seo-agencies","https://3webobs.com/for-ai-teams","https://3webobs.com/for-compliance-consultants","https://3webobs.com/contact","https://3webobs.com/terms","https://3webobs.com/policy","https://3webobs.com/gdpr","https://3webobs.com/cookies","https://3webobs.com/ai-act"]},{"@type":"TechArticle","@id":"https://3webobs.com/ai-act#techarticle","url":"https://3webobs.com/ai-act","headline":"EU AI Act Transparency Statement","description":"Where AI is used in the 3webs service, and where it is not, under Regulation (EU) 2024/1689.","author":{"@id":"https://3webobs.com/#founder"},"publisher":{"@id":"https://3webobs.com/#organization"},"datePublished":"2026-08-25","dateModified":"2026-08-31","inLanguage":"en","proficiencyLevel":"Expert","about":{"@type":"Legislation","@id":"https://3webobs.com/#ai-act","name":"Regulation (EU) 2024/1689 — Artificial Intelligence Act","legislationIdentifier":"Regulation (EU) 2024/1689","legislationJurisdiction":{"@type":"AdministrativeArea","name":"European Union"},"legislationDate":"2024-08-01"}},{"@type":["TechArticle","APIReference"],"@id":"https://3webobs.com/agents#techarticle","url":"https://3webobs.com/agents","headline":"Agent-to-Agent on our own domain — a live case study","description":"How 3webs implements A2A v1.0 and v0.3: the live agent card, version negotiation and a worked request and response for every declared skill.","author":{"@id":"https://3webobs.com/#founder"},"publisher":{"@id":"https://3webobs.com/#organization"},"datePublished":"2026-08-31","dateModified":"2026-08-31","inLanguage":"en","proficiencyLevel":"Expert","about":{"@id":"https://3webobs.com/#api"}},{"@type":"DigitalDocument","@id":"https://3webobs.com/#sample-report","name":"3webs Sample Report","description":"An illustrative example of the report the engine returns: global score, per-dimension scores, per-signal evidence and the prioritised action plan.","url":"https://3webobs.com/assets/3webs-sample-report.pdf","encodingFormat":"application/pdf","inLanguage":"en","isAccessibleForFree":true,"creator":{"@id":"https://3webobs.com/#app"},"publisher":{"@id":"https://3webobs.com/#organization"},"about":{"@id":"https://3webobs.com/#service"}},{"@type":"DigitalDocument","@id":"https://3webobs.com/#report","name":"3webs Report","description":"The structured diagnostic produced for a submitted URL, containing per-signal verdicts, evidence and a prioritised action plan.","creator":{"@id":"https://3webobs.com/#app"},"encodingFormat":["text/html","application/json"],"inLanguage":"en","hasDigitalDocumentPermission":{"@type":"DigitalDocumentPermission","permissionType":"https://schema.org/ReadPermission","grantee":{"@type":"Audience","audienceType":"The party who commissioned the report"}}},{"@type":"CreativeWork","@id":"https://3webobs.com/#methodology","name":"The 167-Signal Methodology","url":"https://3webobs.com/167-signals","description":"The evaluation framework applied by the engine, grouped by dimension and by web.","creator":{"@id":"https://3webobs.com/#organization"},"copyrightHolder":{"@id":"https://3webobs.com/#organization"},"copyrightYear":2026,"license":"https://3webobs.com/terms","inLanguage":"en","keywords":"AEO, GEO, AIO, SEO, AI Signals, A2A, AI visibility, answer engine, machine readability"},{"@type":"OnlineBusiness","@id":"https://3webobs.com/#business","name":"3webs","parentOrganization":{"@id":"https://3webobs.com/#organization"},"url":"https://3webobs.com/","email":"contact@5thelement.ai","currenciesAccepted":"EUR","paymentAccepted":"Invoice, bank transfer","openingHoursSpecification":{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday"],"opens":"09:00","closes":"18:00"},"address":{"@type":"PostalAddress","streetAddress":"Drumul Pădurea Pustnicu, Nr. 141C, Corp A, Etaj 2","addressLocality":"București","addressRegion":"Sectorul 1","postalCode":"077190","addressCountry":{"@type":"Country","name":"RO"}},"sameAs":["https://5thelement.ai","https://aiventure.ro","https://1clic-ia.eu","https://www.linkedin.com/company/107338970","https://www.linkedin.com/showcase/5thelement-ai/","https://www.crunchbase.com/organization/aiventure-s-r-l","https://www.facebook.com/people/Aiventure/61573220584246/","https://x.com/aipath512","https://www.youtube.com/@AIVenture-q8u","https://medium.com/@aipath512"]},{"@type":"Occupation","@id":"https://3webobs.com/#occupation","name":"AI Delivery Infrastructure architect","occupationLocation":{"@type":"City","name":"București"},"skills":"AEO, GEO, AIO, SEO, machine-readable identity, EU AI Act transparency"},{"@type":"Thing","@id":"https://3webobs.com/#machine-web","name":"The Machine Web","description":"The emerging layer in which autonomous agents discover capabilities, verify evidence and execute tasks without a human click.","url":"https://3webobs.com/agents"},{"@type":"SoftwareSourceCode","@id":"https://3webobs.com/#source","name":"3webs engine source","description":"The scoring engine is published as source. Every rule that produces a verdict can be read.","codeRepository":"https://github.com/aipath512/3webobs","programmingLanguage":{"@type":"ComputerLanguage","name":"JavaScript"},"runtimePlatform":"Cloudflare Workers","targetProduct":{"@id":"https://3webobs.com/#app"},"author":{"@id":"https://3webobs.com/#organization"},"license":"https://3webobs.com/terms","codeSampleType":"full solution"},{"@type":["Dataset","DataCatalog"],"@id":"https://3webobs.com/#data-dictionary","name":"3webs data dictionary","url":"https://3webobs.com/data-dictionary","description":"The entity-relation model behind the site: every entity, every typed relation in both directions, with cardinalities, and the inter-page link graph. Generated from the structured-data graph that is actually served.","creator":{"@id":"https://3webobs.com/#organization"},"license":"https://3webobs.com/terms","isAccessibleForFree":true,"inLanguage":"en","distribution":{"@type":"DataDownload","encodingFormat":"application/json","contentUrl":"https://3webobs.com/data-dictionary.json"},"about":{"@id":"https://3webobs.com/#website"}},{"@type":"WebPage","@id":"https://3webobs.com/#webpage","url":"https://3webobs.com/","name":"AI visibility audit across the human, AI and machine webs","description":"Find out what AI systems, answer engines and agents actually see on your site. 167 signals, evidence for every verdict, three free reports per domain each month.","isPartOf":{"@id":"https://3webobs.com/#website"},"about":{"@id":"https://3webobs.com/#organization"},"publisher":{"@id":"https://3webobs.com/#organization"},"breadcrumb":{"@id":"https://3webobs.com/#breadcrumb"},"primaryImageOfPage":{"@id":"https://3webobs.com/#logo"},"inLanguage":"en","datePublished":"2026-08-25","dateModified":"2026-08-31","significantLink":["https://3webobs.com/pricing","https://3webobs.com/167-signals","https://3webobs.com/glossary","https://3webobs.com/agents"],"potentialAction":{"@type":"ReadAction","target":{"@type":"EntryPoint","urlTemplate":"https://3webobs.com/"}}},{"@type":"BreadcrumbList","@id":"https://3webobs.com/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"3webs","item":"https://3webobs.com/"}]}]}
-</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["Organization","Corporation"],"@id":"https://3webobs.com/#organization","name":"AIVENTURE S.R.L.","alternateName":["5thElement.ai","AiVenture"],"legalName":"AIVENTURE S.R.L.","url":"https://3webobs.com/","email":"contact@5thelement.ai","telephone":"+40737123540","vatID":"51415878","taxID":"51415878","foundingDate":"2025-03-07","foundingLocation":{"@type":"Place","name":"București, Romania"},"areaServed":[{"@type":"Country","name":"Romania"},{"@type":"AdministrativeArea","name":"European Union"},{"@type":"Place","name":"Worldwide"}],"knowsAbout":["AI Delivery Infrastructure","Answer Engine Optimization","Generative Engine Optimization","AI Optimization","Search Engine Optimization","EU AI Act compliance","machine-readable identity","agent-to-agent protocols"],"knowsLanguage":[{"@type":"Language","name":"English","alternateName":"en"},{"@type":"Language","name":"Romanian","alternateName":"ro"},{"@type":"Language","name":"French","alternateName":"fr"}],"identifier":[{"@type":"PropertyValue","name":"CUI","value":"51415878"},{"@type":"PropertyValue","name":"Nr. Registrul Comerțului","value":"J2025016406000"},{"@type":"PropertyValue","name":"EUID","value":"ROONRC.J2025016406000"},{"@type":"PropertyValue","name":"CAEN","value":"6210"}],"address":{"@type":"PostalAddress","streetAddress":"Drumul Pădurea Pustnicu, Nr. 141C, Corp A, Etaj 2","addressLocality":"București","addressRegion":"Sectorul 1","postalCode":"077190","addressCountry":{"@type":"Country","name":"RO"}},"location":{"@type":"Place","name":"AIVENTURE S.R.L. — registered office","address":{"@type":"PostalAddress","streetAddress":"Drumul Pădurea Pustnicu, Nr. 141C, Corp A, Etaj 2","addressLocality":"București","addressRegion":"Sectorul 1","postalCode":"077190","addressCountry":{"@type":"Country","name":"RO"}}},"logo":{"@type":"ImageObject","@id":"https://3webobs.com/#logo","url":"https://3webobs.com/assets/og-cover.png","width":1200,"height":630,"caption":"3webs by 5thElement.ai"},"image":{"@id":"https://3webobs.com/#logo"},"brand":{"@id":"https://3webobs.com/#brand"},"founder":{"@id":"https://3webobs.com/#founder"},"employee":{"@id":"https://3webobs.com/#founder"},"contactPoint":[{"@type":"ContactPoint","contactType":"customer support","email":"contact@5thelement.ai","availableLanguage":["English","Romanian","French"],"areaServed":"Worldwide"},{"@type":"ContactPoint","contactType":"sales","telephone":"+40737123540","email":"contact@5thelement.ai","availableLanguage":["English","Romanian","French"]},{"@type":"ContactPoint","contactType":"technical support","email":"contact@5thelement.ai","availableLanguage":["English","Romanian"]}],"sameAs":["https://5thelement.ai","https://aiventure.ro","https://1clic-ia.eu","https://www.linkedin.com/company/107338970","https://www.linkedin.com/showcase/5thelement-ai/","https://www.crunchbase.com/organization/aiventure-s-r-l","https://www.facebook.com/people/Aiventure/61573220584246/","https://x.com/aipath512","https://www.youtube.com/@AIVenture-q8u","https://medium.com/@aipath512"]},{"@type":"Brand","@id":"https://3webobs.com/#brand","name":"3webs","alternateName":"3WEBS","url":"https://3webobs.com/","logo":{"@id":"https://3webobs.com/#logo"},"slogan":"Your AI search visibility, diagnosed."},{"@type":"Person","@id":"https://3webobs.com/#founder","name":"Dan Ionesco","alternateName":"Dan Ionescu","jobTitle":"Founder & CEO","worksFor":{"@id":"https://3webobs.com/#organization"},"affiliation":{"@id":"https://3webobs.com/#organization"},"email":"contact@5thelement.ai","nationality":{"@type":"Country","name":"RO"},"hasOccupation":{"@id":"https://3webobs.com/#occupation"},"knowsAbout":["AI Delivery Infrastructure","enterprise IT architecture","EU AI Act","answer engine optimization","agent-to-agent protocols"],"knowsLanguage":[{"@type":"Language","name":"English"},{"@type":"Language","name":"Romanian"},{"@type":"Language","name":"French"}],"sameAs":["https://ro.linkedin.com/in/dan-ionesco-a856082a0","https://x.com/aipath512","https://medium.com/@aipath512"]},{"@type":"WebSite","@id":"https://3webobs.com/#website","url":"https://3webobs.com/","name":"3webs","description":"167-signal three-web visibility engine — human web, AI web and machine web.","publisher":{"@id":"https://3webobs.com/#organization"},"copyrightHolder":{"@id":"https://3webobs.com/#organization"},"inLanguage":"en","hasPart":[{"@id":"https://3webobs.com/#api"},{"@id":"https://3webobs.com/#glossary"}],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://3webobs.com/?url={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"FAQPage","@id":"https://3webobs.com/#faq","mainEntity":[{"@type":"Question","name":"What exactly does an AI visibility audit measure?","acceptedAnswer":{"@type":"Answer","text":"It measures how a website presents itself to AI systems, answer engines and search crawlers. The engine fetches the page, robots.txt, sitemap.xml and the declared machine-readable signal files, then evaluates 167 signals across the human web, the AI web and the machine web."}},{"@type":"Question","name":"Is the score generated by an AI model?","acceptedAnswer":{"@type":"Answer","text":"No. Every score is produced by deterministic rules applied to evidence actually observed on the website, and the narrative summary is assembled from those same results by fixed templates. No language model is involved at any point, and no audit data is sent to an LLM provider. The rules are deterministic; observed evidence can change between runs, and each report states how much of it could be observed."}},{"@type":"Question","name":"Why are some signals marked as not applicable instead of failed?","acceptedAnswer":{"@type":"Answer","text":"Because a signal that cannot be verified from public sources has not failed — it simply could not be tested. Marking it as failed would invent a verdict. Every report states how many signals were actually tested."}},{"@type":"Question","name":"What is the difference between AEO, GEO, AIO and SEO?","acceptedAnswer":{"@type":"Answer","text":"SEO is the technical and content foundation used by search engines. AEO structures content so assistants extract direct answers. GEO makes the brand entity discoverable and citable by generative systems. AIO covers how AI systems understand, rank and reproduce content across the full stack."}},{"@type":"Question","name":"Do I need to install anything on my website to be audited?","acceptedAnswer":{"@type":"Answer","text":"No. The audit inspects only publicly served resources. Nothing is installed, no tracking code is added, no authentication is attempted, and no private area is accessed."}},{"@type":"Question","name":"How much does an audit cost?","acceptedAnswer":{"@type":"Answer","text":"The first three reports per domain each calendar month are free. After that each report is EUR 19, excluding VAT. Monitoring one domain costs EUR 29 per month for a monthly interval, EUR 49 for weekly and EUR 99 for daily. Machine access for agents is EUR 0.50 per call on prepaid credit, EUR 0.40 in a 1,000-call pack and EUR 0.30 in a 5,000-call pack, with an enterprise tier on request. It returns raw JSON only, without the PDF, the shareable report URL, the signed report or the retained history that come with the EUR 19 report. Machine access is not open yet: it requires API keys and prepaid credit, both in preparation. Full pricing is published at 3webobs.com/pricing."}},{"@type":"Question","name":"Can AI agents call the audit engine directly?","acceptedAnswer":{"@type":"Answer","text":"Yes. The engine implements the Agent-to-Agent protocol at /a2a, in versions 1.0 and 0.3, with an agent card at /.well-known/agent-card.json. A REST endpoint at /audit accepts a URL and returns the same report as JSON. Worked examples are published at 3webobs.com/agents."}},{"@type":"Question","name":"Does a good score guarantee that ChatGPT or Gemini will cite my site?","acceptedAnswer":{"@type":"Answer","text":"No. Third-party AI systems change their behaviour without notice and no provider guarantees citation. The audit identifies observable technical signals within your control; it does not promise a ranking, a citation or a commercial outcome."}},{"@type":"Question","name":"Is this report a legal compliance certificate for the EU AI Act?","acceptedAnswer":{"@type":"Answer","text":"No. The report is a technical observation, not a certification and not a legal opinion. For a formal classification under Regulation (EU) 2024/1689, obtain independent legal analysis."}},{"@type":"Question","name":"Who operates this service?","acceptedAnswer":{"@type":"Answer","text":"AIVENTURE S.R.L., a company registered in Bucharest, Romania, European Union, operating under the 5thElement.ai brand. Registration details and the full legal documentation are published on the site."}}]},{"@type":"Service","@id":"https://3webobs.com/#service","name":"Three-Web Visibility Observation","serviceType":"AI visibility and answer-engine readiness diagnostic","provider":{"@id":"https://3webobs.com/#organization"},"brand":{"@id":"https://3webobs.com/#brand"},"areaServed":{"@type":"Place","name":"Worldwide"},"availableChannel":{"@type":"ServiceChannel","serviceUrl":"https://3webobs.com/","servicePhone":"+40737123540","availableLanguage":["English","Romanian","French"]},"audience":[{"@type":"BusinessAudience","audienceType":"B2B companies, agencies and consultants"},{"@type":"Audience","audienceType":"AI agents and autonomous systems"}],"description":"Diagnostic audit of how a website presents itself to AI systems, answer engines and search crawlers, across 167 signals.","termsOfService":"https://3webobs.com/terms","hasOfferCatalog":{"@id":"https://3webobs.com/#catalog"}},{"@type":"OfferCatalog","@id":"https://3webobs.com/#catalog","name":"3webs plans","url":"https://3webobs.com/pricing","itemListElement":[{"@type":"Offer","@id":"https://3webobs.com/#offer-free","name":"Free tier — 3 reports per domain per month","itemOffered":{"@id":"https://3webobs.com/#service"},"price":"0","priceCurrency":"EUR","availability":"https://schema.org/InStock","url":"https://3webobs.com/pricing","eligibleQuantity":{"@type":"QuantitativeValue","value":3,"unitText":"reports per month"}},{"@type":"Offer","@id":"https://3webobs.com/#offer-report","name":"Additional report","itemOffered":{"@id":"https://3webobs.com/#service"},"price":"19.00","priceCurrency":"EUR","availability":"https://schema.org/InStock","url":"https://3webobs.com/pricing","priceSpecification":{"@type":"UnitPriceSpecification","price":"19.00","priceCurrency":"EUR","unitText":"report","valueAddedTaxIncluded":false}},{"@type":"Offer","@id":"https://3webobs.com/#offer-monthly","name":"Monitoring — monthly interval","itemOffered":{"@id":"https://3webobs.com/#service"},"price":"29.00","priceCurrency":"EUR","availability":"https://schema.org/InStock","url":"https://3webobs.com/pricing","priceSpecification":{"@type":"UnitPriceSpecification","price":"29.00","priceCurrency":"EUR","unitText":"MONTH","valueAddedTaxIncluded":false}},{"@type":"Offer","@id":"https://3webobs.com/#offer-weekly","name":"Monitoring — weekly interval","itemOffered":{"@id":"https://3webobs.com/#service"},"price":"49.00","priceCurrency":"EUR","availability":"https://schema.org/InStock","url":"https://3webobs.com/pricing","priceSpecification":{"@type":"UnitPriceSpecification","price":"49.00","priceCurrency":"EUR","unitText":"MONTH","valueAddedTaxIncluded":false}},{"@type":"Offer","@id":"https://3webobs.com/#offer-daily","name":"Monitoring — daily interval","itemOffered":{"@id":"https://3webobs.com/#service"},"price":"99.00","priceCurrency":"EUR","availability":"https://schema.org/InStock","url":"https://3webobs.com/pricing","priceSpecification":{"@type":"UnitPriceSpecification","price":"99.00","priceCurrency":"EUR","unitText":"MONTH","valueAddedTaxIncluded":false}},{"@type":"Offer","@id":"https://3webobs.com/#offer-api","name":"Machine access — per call","description":"Raw JSON report: signal verdicts, evidence, scores, coverage and confidence. Does not include PDF export, a shareable report URL, a signed report or retained history.","itemOffered":{"@id":"https://3webobs.com/#service"},"price":"0.50","priceCurrency":"EUR","availability":"https://schema.org/PreOrder","url":"https://3webobs.com/pricing","priceSpecification":{"@type":"UnitPriceSpecification","price":"0.50","priceCurrency":"EUR","unitText":"call","valueAddedTaxIncluded":false}},{"@type":"Offer","@id":"https://3webobs.com/#offer-pack1000","name":"Machine access — 1,000 call credit pack","itemOffered":{"@id":"https://3webobs.com/#service"},"price":"400","priceCurrency":"EUR","availability":"https://schema.org/PreOrder","url":"https://3webobs.com/pricing","priceSpecification":{"@type":"UnitPriceSpecification","price":"0.40","priceCurrency":"EUR","unitText":"call","valueAddedTaxIncluded":false,"referenceQuantity":{"@type":"QuantitativeValue","value":1000,"unitText":"calls"}}},{"@type":"Offer","@id":"https://3webobs.com/#offer-pack5000","name":"Machine access — 5,000 call credit pack","itemOffered":{"@id":"https://3webobs.com/#service"},"price":"1500","priceCurrency":"EUR","availability":"https://schema.org/PreOrder","url":"https://3webobs.com/pricing","priceSpecification":{"@type":"UnitPriceSpecification","price":"0.30","priceCurrency":"EUR","unitText":"call","valueAddedTaxIncluded":false,"referenceQuantity":{"@type":"QuantitativeValue","value":5000,"unitText":"calls"}}}]},{"@type":["SoftwareApplication","WebApplication"],"@id":"https://3webobs.com/#app","name":"3webs Engine","applicationCategory":"BusinessApplication","applicationSubCategory":"SEO and AI visibility analysis","operatingSystem":"Any (browser-based)","browserRequirements":"Requires JavaScript","url":"https://3webobs.com/","author":{"@id":"https://3webobs.com/#organization"},"publisher":{"@id":"https://3webobs.com/#organization"},"softwareVersion":"3.2.0","featureList":["167-signal evaluation across the human, AI and machine webs","Deterministic rule-based scoring","Machine-readable JSON report","Prioritised action plan","A2A v1.0 agent interface","Before-and-after signal diff"],"offers":{"@id":"https://3webobs.com/#offer-free"},"isBasedOn":{"@id":"https://3webobs.com/#source"}},{"@type":"HowTo","@id":"https://3webobs.com/#howto","name":"How to run an AI visibility audit","description":"Three steps from a URL to a prioritised action plan.","totalTime":"PT2M","supply":{"@type":"HowToSupply","name":"The URL of the website to analyse"},"tool":{"@type":"HowToTool","name":"A web browser"},"estimatedCost":{"@type":"MonetaryAmount","currency":"EUR","value":"0"},"step":[{"@type":"HowToStep","position":1,"name":"Submit the URL","text":"Enter the address of the website you want analysed and start the audit.","url":"https://3webobs.com/#run"},{"@type":"HowToStep","position":2,"name":"Read the diagnostic","text":"Review the score across the three webs and inspect the evidence recorded for each signal.","url":"https://3webobs.com/167-signals"},{"@type":"HowToStep","position":3,"name":"Apply the action plan","text":"Work through the prioritised list of failed signals, ordered by weight, then re-run the audit to measure the delta.","url":"https://3webobs.com/pricing"}]},{"@type":"DefinedTermSet","@id":"https://3webobs.com/#glossary","name":"3webs Glossary","url":"https://3webobs.com/glossary","description":"The vocabulary used across the 3webs reports and documentation.","hasDefinedTerm":[{"@type":"DefinedTerm","@id":"https://3webobs.com/glossary#term-aeo","name":"AEO","description":"Answer Engine Optimization — structuring content so AI assistants extract it as a direct answer rather than a link.","inDefinedTermSet":{"@id":"https://3webobs.com/#glossary"}},{"@type":"DefinedTerm","@id":"https://3webobs.com/glossary#term-geo","name":"GEO","description":"Generative Engine Optimization — making a brand entity discoverable, resolvable and citable by generative AI systems.","inDefinedTermSet":{"@id":"https://3webobs.com/#glossary"}},{"@type":"DefinedTerm","@id":"https://3webobs.com/glossary#term-aio","name":"AIO","description":"AI Optimization — the full stack of signals determining how AI systems understand, rank and reproduce content.","inDefinedTermSet":{"@id":"https://3webobs.com/#glossary"}},{"@type":"DefinedTerm","@id":"https://3webobs.com/glossary#term-adi","name":"ADI","description":"AI Delivery Infrastructure — the machine-readable layer through which a company is discovered, understood and verified by AI systems and agents.","inDefinedTermSet":{"@id":"https://3webobs.com/#glossary"}},{"@type":"DefinedTerm","@id":"https://3webobs.com/glossary#term-a2a","name":"A2A","description":"Agent-to-Agent — the open protocol by which autonomous agents discover each other's capabilities and invoke them, without a human in the loop.","inDefinedTermSet":{"@id":"https://3webobs.com/#glossary"}},{"@type":"DefinedTerm","@id":"https://3webobs.com/glossary#term-agent-card","name":"Agent card","description":"A JSON document at /.well-known/agent-card.json describing an agent's identity, transport interfaces and callable skills.","inDefinedTermSet":{"@id":"https://3webobs.com/#glossary"}},{"@type":"DefinedTerm","@id":"https://3webobs.com/glossary#term-llms-txt","name":"llms.txt","description":"A plain-text file at the site root declaring, for AI systems, what a site is and which resources matter.","inDefinedTermSet":{"@id":"https://3webobs.com/#glossary"}},{"@type":"DefinedTerm","@id":"https://3webobs.com/glossary#term-machine-web","name":"Machine web","description":"The layer in which agents discover capabilities, verify evidence and execute tasks without a human click.","inDefinedTermSet":{"@id":"https://3webobs.com/#glossary"}},{"@type":"DefinedTerm","@id":"https://3webobs.com/glossary#term-ai-web","name":"AI web","description":"The layer read by answer engines and assistants: structured content, entities and declared meaning, rather than rendered pages.","inDefinedTermSet":{"@id":"https://3webobs.com/#glossary"}},{"@type":"DefinedTerm","@id":"https://3webobs.com/glossary#term-human-web","name":"Human web","description":"The layer a person sees in a browser: pages, layout and navigation.","inDefinedTermSet":{"@id":"https://3webobs.com/#glossary"}},{"@type":"DefinedTerm","@id":"https://3webobs.com/glossary#term-proof-manifest","name":"Proof manifest","description":"A published list of SHA-256 hashes for a site's own files, letting any third party verify that what is served matches what was signed.","inDefinedTermSet":{"@id":"https://3webobs.com/#glossary"}},{"@type":"DefinedTerm","@id":"https://3webobs.com/glossary#term-not-applicable","name":"Not applicable","description":"A verdict for a signal that could not be tested from public sources. It is never counted as a failure, and the report states how many signals it applies to.","inDefinedTermSet":{"@id":"https://3webobs.com/#glossary"}}]},{"@type":["WebAPI","APIReference"],"@id":"https://3webobs.com/#api","name":"3webs HTTP and A2A API","documentation":"https://3webobs.com/agents","provider":{"@id":"https://3webobs.com/#organization"},"termsOfService":"https://3webobs.com/terms","programmingModel":"JSON-RPC 2.0 and REST over HTTPS","assemblyVersion":"3.2.0","potentialAction":[{"@type":"AssessAction","name":"Audit a website","target":{"@type":"EntryPoint","urlTemplate":"https://3webobs.com/audit","httpMethod":"POST","contentType":"application/json","encodingType":"application/json"}},{"@type":"AssessAction","name":"Call a skill over A2A","target":{"@type":"EntryPoint","urlTemplate":"https://3webobs.com/a2a","httpMethod":"POST","contentType":"application/json","encodingType":"application/json"}},{"@type":"ViewAction","name":"Service metadata","target":{"@type":"EntryPoint","urlTemplate":"https://3webobs.com/stats","httpMethod":"GET","contentType":"application/json"}}]},{"@type":["Dataset","DataCatalog"],"@id":"https://3webobs.com/#signal-registry","name":"3webs Signal Registry","url":"https://3webobs.com/167-signals","description":"The catalogue of 167 signals evaluated by the engine, grouped by dimension and by web.","creator":{"@id":"https://3webobs.com/#organization"},"license":"https://3webobs.com/terms","isAccessibleForFree":true,"inLanguage":"en","distribution":{"@type":"DataDownload","encodingFormat":"application/json","contentUrl":"https://3webobs.com/signals"},"variableMeasured":[{"@type":"PropertyValue","name":"AI Signals","value":32,"description":"Crawler permissions, machine-readable trust files and A2A interfaces"},{"@type":"PropertyValue","name":"AEO","value":34,"description":"Answer engine optimization"},{"@type":"PropertyValue","name":"GEO","value":28,"description":"Generative engine and entity signals"},{"@type":"PropertyValue","name":"AIO","value":31,"description":"AI optimization and retrieval readiness"},{"@type":"PropertyValue","name":"SEO","value":42,"description":"Technical and content foundation"}]},{"@type":"ItemList","@id":"https://3webobs.com/#dimensions","name":"The five audit dimensions","numberOfItems":5,"itemListOrder":"https://schema.org/ItemListOrderAscending","itemListElement":[{"@type":"ListItem","position":1,"name":"AI Signals","description":"19 signals — Crawler permissions, machine-readable trust files and A2A interfaces"},{"@type":"ListItem","position":2,"name":"AEO","description":"34 signals — Answer engine optimization"},{"@type":"ListItem","position":3,"name":"GEO","description":"28 signals — Generative engine and entity signals"},{"@type":"ListItem","position":4,"name":"AIO","description":"31 signals — AI optimization and retrieval readiness"},{"@type":"ListItem","position":5,"name":"SEO","description":"42 signals — Technical and content foundation"}]},{"@type":"ItemList","@id":"https://3webobs.com/#three-webs","name":"The three webs","numberOfItems":3,"itemListOrder":"https://schema.org/ItemListOrderAscending","itemListElement":[{"@type":"ListItem","position":1,"name":"Human web","description":"What a person sees in a browser. Measured by the SEO dimension."},{"@type":"ListItem","position":2,"name":"AI web","description":"What an answer engine sees. Measured by AEO, GEO and AIO."},{"@type":"ListItem","position":3,"name":"Machine web","description":"What an autonomous agent sees. Measured by AI Signals and A2A."}]},{"@type":"AboutPage","@id":"https://3webobs.com/contact#aboutpage","url":"https://3webobs.com/contact","name":"About AIVENTURE S.R.L.","mainEntity":{"@id":"https://3webobs.com/#organization"},"isPartOf":{"@id":"https://3webobs.com/#website"}},{"@type":"ContactPage","@id":"https://3webobs.com/contact#contactpage","url":"https://3webobs.com/contact","name":"Contact","mainEntity":{"@id":"https://3webobs.com/#organization"},"isPartOf":{"@id":"https://3webobs.com/#website"}},{"@type":"ProfilePage","@id":"https://3webobs.com/#profilepage","url":"https://3webobs.com/contact#entity","name":"Dan Ionesco — Founder","mainEntity":{"@id":"https://3webobs.com/#founder"},"isPartOf":{"@id":"https://3webobs.com/#website"}},{"@type":"SiteNavigationElement","@id":"https://3webobs.com/#nav","name":["Run an audit","Pricing","The 167 signals","Glossary","Data dictionary","For agents","Self audit","For SEO agencies","For AI teams","For compliance consultants","Contact","Terms & Conditions","Acceptable Use","GDPR & Privacy","Cookies","EU AI Act"],"url":["https://3webobs.com/","https://3webobs.com/pricing","https://3webobs.com/167-signals","https://3webobs.com/glossary","https://3webobs.com/data-dictionary","https://3webobs.com/agents","https://3webobs.com/self-audit","https://3webobs.com/for-seo-agencies","https://3webobs.com/for-ai-teams","https://3webobs.com/for-compliance-consultants","https://3webobs.com/contact","https://3webobs.com/terms","https://3webobs.com/policy","https://3webobs.com/gdpr","https://3webobs.com/cookies","https://3webobs.com/ai-act"]},{"@type":"TechArticle","@id":"https://3webobs.com/ai-act#techarticle","url":"https://3webobs.com/ai-act","headline":"EU AI Act Transparency Statement","description":"Where AI is used in the 3webs service, and where it is not, under Regulation (EU) 2024/1689.","author":{"@id":"https://3webobs.com/#founder"},"publisher":{"@id":"https://3webobs.com/#organization"},"datePublished":"2026-08-25","dateModified":"2026-08-31","inLanguage":"en","proficiencyLevel":"Expert","about":{"@type":"Legislation","@id":"https://3webobs.com/#ai-act","name":"Regulation (EU) 2024/1689 — Artificial Intelligence Act","legislationIdentifier":"Regulation (EU) 2024/1689","legislationJurisdiction":{"@type":"AdministrativeArea","name":"European Union"},"legislationDate":"2024-08-01"}},{"@type":["TechArticle","APIReference"],"@id":"https://3webobs.com/agents#techarticle","url":"https://3webobs.com/agents","headline":"Agent-to-Agent on our own domain — a live case study","description":"How 3webs implements A2A v1.0 and v0.3: the live agent card, version negotiation and a worked request and response for every declared skill.","author":{"@id":"https://3webobs.com/#founder"},"publisher":{"@id":"https://3webobs.com/#organization"},"datePublished":"2026-08-31","dateModified":"2026-08-31","inLanguage":"en","proficiencyLevel":"Expert","about":{"@id":"https://3webobs.com/#api"}},{"@type":"DigitalDocument","@id":"https://3webobs.com/#sample-report","name":"3webs Sample Report","description":"An illustrative example of the report the engine returns: global score, per-dimension scores, per-signal evidence and the prioritised action plan.","url":"https://3webobs.com/assets/3webs-sample-report.pdf","encodingFormat":"application/pdf","inLanguage":"en","isAccessibleForFree":true,"creator":{"@id":"https://3webobs.com/#organization"},"publisher":{"@id":"https://3webobs.com/#organization"},"about":{"@id":"https://3webobs.com/#service"},"isBasedOn":{"@id":"https://3webobs.com/#app"}},{"@type":"DigitalDocument","@id":"https://3webobs.com/#report","name":"3webs Report","description":"The structured diagnostic produced for a submitted URL, containing per-signal verdicts, evidence and a prioritised action plan.","creator":{"@id":"https://3webobs.com/#organization"},"encodingFormat":["text/html","application/json"],"inLanguage":"en","hasDigitalDocumentPermission":{"@type":"DigitalDocumentPermission","permissionType":"https://schema.org/ReadPermission","grantee":{"@type":"Audience","audienceType":"The party who commissioned the report"}},"isBasedOn":{"@id":"https://3webobs.com/#app"}},{"@type":"CreativeWork","@id":"https://3webobs.com/#methodology","name":"The 167-Signal Methodology","url":"https://3webobs.com/167-signals","description":"The evaluation framework applied by the engine, grouped by dimension and by web.","creator":{"@id":"https://3webobs.com/#organization"},"copyrightHolder":{"@id":"https://3webobs.com/#organization"},"copyrightYear":2026,"license":"https://3webobs.com/terms","inLanguage":"en","keywords":"AEO, GEO, AIO, SEO, AI Signals, A2A, AI visibility, answer engine, machine readability"},{"@type":"OnlineBusiness","@id":"https://3webobs.com/#business","name":"3webs","parentOrganization":{"@id":"https://3webobs.com/#organization"},"url":"https://3webobs.com/","email":"contact@5thelement.ai","address":{"@type":"PostalAddress","streetAddress":"Drumul Pădurea Pustnicu, Nr. 141C, Corp A, Etaj 2","addressLocality":"București","addressRegion":"Sectorul 1","postalCode":"077190","addressCountry":{"@type":"Country","name":"RO"}},"sameAs":["https://5thelement.ai","https://aiventure.ro","https://1clic-ia.eu","https://www.linkedin.com/company/107338970","https://www.linkedin.com/showcase/5thelement-ai/","https://www.crunchbase.com/organization/aiventure-s-r-l","https://www.facebook.com/people/Aiventure/61573220584246/","https://x.com/aipath512","https://www.youtube.com/@AIVenture-q8u","https://medium.com/@aipath512"]},{"@type":"Occupation","@id":"https://3webobs.com/#occupation","name":"AI Delivery Infrastructure architect","occupationLocation":{"@type":"City","name":"București"},"skills":"AEO, GEO, AIO, SEO, machine-readable identity, EU AI Act transparency"},{"@type":"Thing","@id":"https://3webobs.com/#machine-web","name":"The Machine Web","description":"The emerging layer in which autonomous agents discover capabilities, verify evidence and execute tasks without a human click.","url":"https://3webobs.com/agents"},{"@type":"SoftwareSourceCode","@id":"https://3webobs.com/#source","name":"3webs engine source","description":"The scoring engine is published as source. Every rule that produces a verdict can be read.","codeRepository":"https://github.com/aipath512/3webobs","programmingLanguage":{"@type":"ComputerLanguage","name":"JavaScript"},"runtimePlatform":"Cloudflare Workers","targetProduct":{"@id":"https://3webobs.com/#app"},"author":{"@id":"https://3webobs.com/#organization"},"license":"https://3webobs.com/terms","codeSampleType":"full solution"},{"@type":["Dataset","DataCatalog"],"@id":"https://3webobs.com/#data-dictionary","name":"3webs data dictionary","url":"https://3webobs.com/data-dictionary","description":"The entity-relation model behind the site: every entity, every typed relation in both directions, with cardinalities, and the inter-page link graph. Generated from the structured-data graph that is actually served.","creator":{"@id":"https://3webobs.com/#organization"},"license":"https://3webobs.com/terms","isAccessibleForFree":true,"inLanguage":"en","distribution":{"@type":"DataDownload","encodingFormat":"application/json","contentUrl":"https://3webobs.com/data-dictionary.json"},"about":{"@id":"https://3webobs.com/#website"}},{"@type":"WebPage","@id":"https://3webobs.com/#webpage","url":"https://3webobs.com/","name":"AI visibility audit across the human, AI and machine webs","description":"Find out what AI systems, answer engines and agents actually see on your site. 167 signals, evidence for every verdict, three free reports per domain each month.","isPartOf":{"@id":"https://3webobs.com/#website"},"about":{"@id":"https://3webobs.com/#organization"},"publisher":{"@id":"https://3webobs.com/#organization"},"primaryImageOfPage":{"@id":"https://3webobs.com/#logo"},"inLanguage":"en","datePublished":"2026-08-25","dateModified":"2026-08-31","significantLink":["https://3webobs.com/pricing","https://3webobs.com/167-signals","https://3webobs.com/glossary","https://3webobs.com/agents"],"potentialAction":{"@type":"ReadAction","target":{"@type":"EntryPoint","urlTemplate":"https://3webobs.com/"}}}]}</script>
 </head>
 <body>
 
@@ -1003,7 +1030,7 @@ grid-template-columns:repeat(4,1fr);gap:18px 26px;}
     <button id="toggle" onclick="toggleTheme()"><span id="ti">☾</span><span id="tl">Dark</span></button>
   </div>
   <div style="display:flex;align-items:center;gap:14px;">
-    <div class="hd-meta">V 3.0 · AI-FIRST<br><span style="opacity:.5;font-size:9px">Human-Web · Human-AI · A2A</span><br><span class="hd-clock" id="gmt-clock">—</span></div>
+    <div class="hd-meta">V 3.2 · AI-FIRST<br><span style="opacity:.5;font-size:9px">Human-Web · Human-AI · A2A</span><br><span class="hd-clock" id="gmt-clock">—</span></div>
     <button id="menu-btn" onclick="openMenu()" aria-label="Menu">
     <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
   </button>
@@ -1035,18 +1062,74 @@ grid-template-columns:repeat(4,1fr);gap:18px 26px;}
     <div class="cta-divider-line"></div>
   </div>
 
-  <!-- CTA 2 — Action Plan → AI-READY -->
-  <div class="cta-action-row">
-    <div class="cta-action-label">
-      <strong>Run Action Plan</strong>
-      Deploy your AI visibility fix — step by step.
+  <!-- CTA — doua actiuni, nu una.
+       "Send Report" nu trimite un email de la noi: nu exista furnizor de email
+       legat, si un buton care ar pretinde ca trimite ar fi o promisiune goala.
+       Trimite cu adevarat, dar din clientul omului — mailto sau WhatsApp — si
+       peste un link permanent catre observatie, care exista de cand raportul
+       are un URL stabil. Ce face butonul e exact ce scrie pe el. -->
+  <div class="cta-dual">
+
+    <div class="cta-action-row">
+      <div class="cta-action-label">
+        <strong>Send Report</strong>
+        Share this observation &mdash; a permanent link, kept 90 days.
+      </div>
+      <button type="button" class="cta-action-btn" id="send-report-btn" onclick="toggleShare(event)">
+        Send Report
+        <span style="font-size:15px;line-height:1">&rarr;</span>
+      </button>
     </div>
-    <a href="#pricing" class="cta-action-btn" onclick="handleActionPlan(event)">
-      Action Plan
-      <span style="font-size:15px;line-height:1">→</span>
-      <span class="cta-soon">AI-READY</span>
-    </a>
+
+    <div class="cta-share" id="share-panel" hidden>
+      <div class="cta-share-url" id="share-url"></div>
+      <div class="cta-share-row">
+        <button type="button" class="cta-share-btn" onclick="shareCopy()">Copy link</button>
+        <a class="cta-share-btn" id="share-mail" href="#">Email it</a>
+        <a class="cta-share-btn" id="share-wa" href="#" target="_blank" rel="noopener">WhatsApp</a>
+        <a class="cta-share-btn" id="share-json" href="#" target="_blank" rel="noopener">Raw JSON</a>
+      </div>
+      <p class="cta-share-note" id="share-note"></p>
+
+      <!-- Captura de email. Nu inlocuieste butoanele de mai sus: alea trimit
+           acum, din clientul omului. Asta retine cererea, ca sa existe cand
+           avem si canalul. Textul spune exact asta, ca nimeni sa nu astepte
+           un email care nu vine. -->
+      <div class="cta-mail">
+        <div class="cta-mail-h">Or leave an address and what you want</div>
+        <div class="cta-mail-row">
+          <input type="email" id="lead-email" placeholder="you@company.com"
+                 autocomplete="email" inputmode="email" aria-label="Your email address">
+          <button type="button" class="cta-share-btn cta-mail-go" id="lead-go" onclick="submitLead()">Save</button>
+        </div>
+        <div class="cta-mail-opts">
+          <label><input type="checkbox" id="want-report" checked> The report</label>
+          <label><input type="checkbox" id="want-plan"> The action plan</label>
+        </div>
+        <p class="cta-share-note" id="lead-note">The audited address is saved with it, so we know which report you mean.</p>
+      </div>
+    </div>
+
+    <div class="cta-action-row">
+      <div class="cta-action-label">
+        <strong>Run Action Plan</strong>
+        Deploy your AI visibility fix &mdash; step by step.
+      </div>
+      <a href="#pricing" class="cta-action-btn" onclick="handleActionPlan(event)">
+        Action Plan
+        <span style="font-size:15px;line-height:1">&rarr;</span>
+        <span class="cta-soon">AI-READY</span>
+      </a>
+    </div>
+
   </div>
+
+  <!-- RESULTS — mutate sus, imediat sub campul de input.
+       Rezultatul unui audit e motivul pentru care omul a venit pe pagina.
+       Cand aparea la 51 KB mai jos, dupa exemplu, testimonial, preturi si
+       metodologie, trebuia derulat prin tot ce nu il intereseaza in acel
+       moment. Acum apare acolo unde s-a uitat deja. -->
+  <div id="results-zone"></div>
 
   <!-- EXAMPLE REPORT — static, labeled sample, not a live audit -->
   <section aria-labelledby="example-h" style="margin:36px auto 8px;max-width:640px;">
@@ -1169,7 +1252,7 @@ grid-template-columns:repeat(4,1fr);gap:18px 26px;}
   <!-- 167 CRITERIA — parent accordion, folded by default -->
   <section aria-labelledby="criteria-h">
   <h2 id="criteria-h" class="sec-h">The <em>Signal</em> Methodology</h2>
-  <p class="sec-s">Nine categories across five dimensions &mdash; AI Signals, AEO, GEO, AIO, SEO and A2A &mdash; each evaluated against publicly observable evidence.</p>
+  <p class="sec-s">Nine categories across six dimensions &mdash; AI Signals, AEO, GEO, AIO, SEO and A2A &mdash; each evaluated against publicly observable evidence.</p>
   <div class="pill-acc" id="pacc-criteria" style="max-width:620px;margin:0 auto 8px;scroll-margin-top:90px;">
     <span id="criteria" style="display:block;position:relative;top:-90px;visibility:hidden;"></span>
     <button class="pill-acc-header" onclick="togglePill('criteria')" style="border-radius:var(--rs)">
@@ -1188,7 +1271,7 @@ grid-template-columns:repeat(4,1fr);gap:18px 26px;}
           <button class="pill-acc-header" onclick="togglePill('ai')">
             <span class="pill-acc-tag" style="color:var(--red)">AI Signals</span>
             <span class="pill-acc-name">Crawler & Trust Layer</span>
-            <span class="pill-acc-count">32 signals</span>
+            <span class="pill-acc-count">19 signals</span>
             <span class="pill-acc-chev" id="pc-ai">▼</span>
           </button>
           <div class="pill-acc-body" id="pb-ai" style="display:none">
@@ -1316,6 +1399,28 @@ grid-template-columns:repeat(4,1fr);gap:18px 26px;}
       </div>
     </div>
 
+
+    <!-- Schema.org — nu e o a saptea dimensiune. Semnalele de schema sunt deja
+         in cele 167, distribuite pe AEO, GEO si AIO. Ce e nou aici e ca ne
+         publicam propriul graf verificat, obiect cu obiect. Un card care ar
+         pretinde semnale noi ar crea exact inconsecventa pe care produsul o
+         masoara la altii. -->
+    <div class="pill-acc" id="pacc-schema">
+      <button class="pill-acc-header" onclick="togglePill('schema')">
+        <span class="pill-acc-tag" style="color:var(--green)">Schema.org</span>
+        <span class="pill-acc-name">The layer both webs read</span>
+        <span class="pill-acc-count">66 / 66 valid</span>
+        <span class="pill-acc-chev" id="pc-schema">&#9660;</span>
+      </button>
+      <div class="pill-acc-body" id="pb-schema" style="display:none">
+        <p class="pill-acc-def"><strong>What it is:</strong> Structured data is the one layer a search engine and an AI system read the same way. Googlebot uses it to understand a page; an answer engine uses it to resolve an entity; an agent uses it to find out what a service does. Everything else is read differently by each.</p>
+        <p class="pill-acc-eg"><strong>Why it is easy to miss:</strong> markup can be present, well-formed, and still wrong &mdash; a property placed on a type that does not define it, or a reference pointing at the wrong kind of object. The JSON parses, the page renders, and the meaning is broken. Nothing warns you.</p>
+        <p class="pill-acc-eg"><strong>On this site:</strong> 66 distinct objects across 19 pages, each one checked: 66 valid, 0 warnings, 0 errors. Published in full, object by object, including anything that fails.</p>
+        <p class="pill-acc-eg" style="opacity:.65">Schema signals are already part of the 167, inside AEO, GEO and AIO. This page is not a new dimension &mdash; it is our own graph, opened up.</p>
+        <p style="margin-top:12px;"><a href="/schema" style="font-weight:600;">See every object and its status &rarr;</a></p>
+      </div>
+    </div>
+
       </div><!-- /pill-accordions inner -->
     </div><!-- /pb-criteria -->
   </div><!-- /pacc-criteria -->
@@ -1384,14 +1489,14 @@ async function unlockChecklist(){
         <strong class="faq-qt">What exactly does an AI visibility audit measure?</strong>
         <span class="faq-chev" id="faq-c-1">&#9662;</span>
       </button>
-      <div class="faq-a" id="faq-a-1"><p>It measures how a website presents itself to AI systems, answer engines and search crawlers. The engine fetches the page, robots.txt, sitemap.xml and declared machine-readable signal files, then evaluates 167 signals across five dimensions: AI Signals, AEO, GEO, AIO, SEO and A2A.</p></div>
+      <div class="faq-a" id="faq-a-1"><p>It measures how a website presents itself to AI systems, answer engines and search crawlers. The engine fetches the page, robots.txt, sitemap.xml and declared machine-readable signal files, then evaluates 167 signals across six dimensions: AI Signals, AEO, GEO, AIO, SEO and A2A.</p></div>
     </div>
     <div class="faq-item">
       <button class="faq-q" onclick="toggleFaq(2)" aria-expanded="false" aria-controls="faq-a-2">
         <strong class="faq-qt">Is the score generated by an AI model?</strong>
         <span class="faq-chev" id="faq-c-2">&#9662;</span>
       </button>
-      <div class="faq-a" id="faq-a-2"><p>No, not the score. Every one of the 167 verdicts comes from deterministic rules applied to evidence actually observed on the site, and no language model takes part in scoring. The narrative summary at the top of the report is different: it is written by a language model from those same deterministic results, and it is labelled as such. If the model is unavailable, a fixed template takes its place. The scoring rules are deterministic, but the inputs are not always identical: an external measurement can be rate-limited, an endpoint can be slow, a resource can change between runs. Same site, same observed evidence, same score &mdash; and the report states how much of it could be observed.</p></div>
+      <div class="faq-a" id="faq-a-2"><p>No. Every one of the 167 verdicts comes from deterministic rules applied to evidence observed on the site, and the narrative summary is assembled from those same results by fixed templates. No language model is involved at any point, and no audit data is sent to an LLM provider. The rules are deterministic; the inputs are not always identical, because an external measurement can be rate-limited, an endpoint can be slow, or a resource can change between runs. Same site, same observed evidence, same score &mdash; and every report states how much could be observed.</p></div>
     </div>
     <div class="faq-item">
       <button class="faq-q" onclick="toggleFaq(3)" aria-expanded="false" aria-controls="faq-a-3">
@@ -1524,6 +1629,7 @@ async function unlockChecklist(){
     <li><a href="/167-signals">The 167 signals</a><span>The full catalogue, with weights</span></li>
     <li><a href="/glossary">Glossary</a><span>AEO, GEO, AIO, A2A and the three webs</span></li>
     <li><a href="/data-dictionary">Data dictionary</a><span>Entities, relations and cardinalities</span></li>
+    <li><a href="/schema">Schema.org validity</a><span>Every structured object, checked &mdash; the layer humans’ search engines and AI systems both read</span></li>
     <li><a href="/agents">For agents</a><span>A2A v1.0, live, with worked examples</span></li>
     <li><a href="/ai-act">EU AI Act</a><span>Where AI is used here, and where it is not</span></li>
     <li><a href="/gdpr">GDPR &amp; Privacy</a><span>What data is processed and why</span></li>
@@ -1562,6 +1668,7 @@ async function unlockChecklist(){
       <li><a href="/167-signals">The 167 Signals</a></li>
       <li><a href="/#faq">FAQ</a></li>
       <li><a href="/self-audit">AI Readiness of 3webobs.com</a></li>
+<li><a href="/schema">Schema.org validity</a></li>
       <li><a href="/for-seo-agencies">For SEO Agencies</a></li>
       <li><a href="/for-ai-teams">For AI Teams</a></li>
       <li><a href="/for-compliance-consultants">For Compliance Consultants</a></li>
@@ -1619,14 +1726,12 @@ async function unlockChecklist(){
     <div class="mod" id="m-ai"><div class="mod-lbl">AI Signals</div><div class="mod-cnt" id="c-ai">0 / 19</div><div class="mod-bar" id="b-ai"></div></div>
     <div class="mod" id="m-a2a"><div class="mod-lbl">A2A</div><div class="mod-cnt" id="c-a2a">0 / 13</div><div class="mod-bar" id="b-a2a"></div></div>
     <div class="mod" id="m-tot"><div class="mod-lbl">Total</div><div class="mod-cnt" id="c-tot">0 / 167</div><div class="mod-bar" id="b-tot"></div></div>
-    <div class="mod" id="m-op"><div class="mod-lbl">On-Page</div><div class="mod-cnt" id="c-op">0 / 67</div><div class="mod-bar" id="b-op"></div></div>
-    <div class="mod" id="m-off"><div class="mod-lbl">Off-Page</div><div class="mod-cnt" id="c-off">0 / 54</div><div class="mod-bar" id="b-off"></div></div>
+    <div class="mod" id="m-op"><div class="mod-lbl">On-Page</div><div class="mod-cnt" id="c-op">0 / 68</div><div class="mod-bar" id="b-op"></div></div>
+    <div class="mod" id="m-off"><div class="mod-lbl">Off-Page</div><div class="mod-cnt" id="c-off">0 / 31</div><div class="mod-bar" id="b-off"></div></div>
   </div>
   <div class="stream fu2" id="stream"></div>
 </div>
 
-<!-- RESULTS -->
-<div id="results-zone"></div>
 
 </div>
 
@@ -1642,6 +1747,133 @@ function toggleTheme(){
 }
 
 /* ACTION PLAN CTA — redirects to /ai-ready (coming soon: show toast) */
+/* ---------- Send Report ----------
+   Un raport are de acum un URL permanent, deci se poate trimite ca link, nu
+   ca fisier. Trimiterea propriu-zisa se face din clientul omului: mailto
+   deschide programul lui de email, WhatsApp deschide WhatsApp. Nimic nu
+   pretinde ca livram noi mesajul, pentru ca nu avem furnizor de email legat
+   si nu vreau un buton care minte.
+   Inainte de a rula un audit nu exista nimic de trimis, asa ca butonul duce
+   inapoi la campul de URL in loc sa deschida un panou gol. */
+function reportShareUrl(){
+  if(!REPORT_V2 || !REPORT_V2.observationId) return null;
+  return location.origin + '/signal-detail?obs=' + encodeURIComponent(REPORT_V2.observationId) + '&dim=AEO';
+}
+
+function shareDefaultNote(){
+  return 'The link opens the full report for anyone who has it. Observations are kept for 90 days.';
+}
+
+function toggleShare(event){
+  if(event) event.preventDefault();
+  var panel = document.getElementById('share-panel');
+  var row   = document.querySelector('.cta-share-row');
+  var note  = document.getElementById('share-note');
+  var url   = reportShareUrl();
+
+  if(!url){
+    var input = document.querySelector('#input-zone input[type="text"], #input-zone input');
+    if(input){ input.focus(); input.scrollIntoView({behavior:'smooth', block:'center'}); }
+    panel.hidden = false;
+    document.getElementById('share-url').textContent = '';
+    if(row) row.style.display = 'none';
+    note.textContent = 'Run an audit first — then this becomes a link you can send.';
+    return;
+  }
+
+  if(row) row.style.display = '';
+  if(!panel.hidden){ panel.hidden = true; return; }
+
+  var score = REPORT_V2.global != null ? REPORT_V2.global : '';
+  var site  = REPORT_V2.url || '';
+  var subject = 'AI visibility report' + (site ? ' — ' + site : '');
+  var text = 'AI visibility report' + (site ? ' for ' + site : '')
+           + (score !== '' ? ' — ' + score + '/100 across 167 signals' : '')
+           + '\n' + url
+           + '\n\nEvery signal is listed with its verdict, and the report states how much of it could be observed from outside.';
+
+  document.getElementById('share-url').textContent = url;
+  document.getElementById('share-mail').href = 'mailto:?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(text);
+  document.getElementById('share-wa').href   = 'https://api.whatsapp.com/send?text=' + encodeURIComponent(text);
+  document.getElementById('share-json').href = '/observation?id=' + encodeURIComponent(REPORT_V2.observationId);
+  note.textContent = shareDefaultNote();
+  panel.hidden = false;
+}
+
+/* ---------- captura de email ----------
+   Salveaza adresa impreuna cu observatia la care se refera si cu ce a bifat
+   omul. Fara observationId, un lead e un email pe care nu ai cu ce sa il
+   continui: nu stii ce site, ce scor, ce a cerut.
+   Nu promitem livrare. Endpointul retine cererea; canalul de email nu exista
+   inca, iar mesajul de confirmare spune asta in loc sa lase pe cineva sa
+   astepte degeaba. */
+async function submitLead(){
+  var input = document.getElementById('lead-email');
+  var note  = document.getElementById('lead-note');
+  var btn   = document.getElementById('lead-go');
+  var email = (input.value || '').trim();
+
+  var wants = [];
+  if(document.getElementById('want-report').checked) wants.push('report');
+  if(document.getElementById('want-plan').checked)   wants.push('action_plan');
+
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/.test(email)){
+    note.textContent = 'That does not look like an email address.';
+    input.focus();
+    return;
+  }
+  if(!wants.length){
+    note.textContent = 'Tick at least one — the report, the plan, or both.';
+    return;
+  }
+
+  btn.disabled = true;
+  var original = btn.textContent;
+  btn.textContent = 'Saving…';
+
+  try {
+    var r = await fetch('/lead', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        email: email,
+        url: (REPORT_V2 && REPORT_V2.url) || '',
+        observationId: (REPORT_V2 && REPORT_V2.observationId) || null,
+        score: (REPORT_V2 && REPORT_V2.global != null) ? REPORT_V2.global : null,
+        wants: wants,
+        lang: document.documentElement.lang || 'en'
+      })
+    });
+    var j = await r.json();
+    if(!r.ok){ note.textContent = j.error || 'That could not be saved. Try again in a moment.'; return; }
+
+    var what = wants.length === 2 ? 'the report and the action plan'
+             : wants[0] === 'report' ? 'the report' : 'the action plan';
+    note.innerHTML = 'Saved &mdash; ' + what + ', against this observation. '
+      + 'We do not send email from here yet, so use the buttons above to send it now; '
+      + 'your address is on file for when we do.';
+    input.value = '';
+  } catch(e) {
+    note.textContent = 'Network problem — nothing was saved. Try again in a moment.';
+  } finally {
+    btn.disabled = false;
+    btn.textContent = original;
+  }
+}
+
+function shareCopy(){
+  var url = reportShareUrl();
+  if(!url) return;
+  var note = document.getElementById('share-note');
+  function done(ok){
+    note.textContent = ok ? 'Link copied.' : 'Could not copy automatically — select the address above.';
+    setTimeout(function(){ note.textContent = shareDefaultNote(); }, 2600);
+  }
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(url).then(function(){ done(true); }, function(){ done(false); });
+  } else { done(false); }
+}
+
 function handleActionPlan(e){
   e.preventDefault();
   // When AI-READY is live, replace this block with: window.location.href = '/ai-ready';
@@ -1873,10 +2105,10 @@ async function runAudit(url){
   AUD={url,scores:{},signals:{},siteData:{},ts:new Date().toISOString()};
 
   // ── SINGLE CALL: Claude scores all 167 signals from real domain knowledge ──
-  log('Claude analyzing real AI visibility signals…','sl-info');
+  log('Building synthesis real AI visibility signals…','sl-info');
   let allScores = null;
   try {
-    allScores = await claudeScoreAllSignals(url);
+    allScores = await scoreAllSignals(url);
     if(REPORT_V2 && REPORT_V2.signals && Object.keys(REPORT_V2.signals).length){
       SRC = REPORT_V2.signals;   // nume, categorii si stari reale, direct din motor
       dims = Object.keys(SRC)
@@ -1965,7 +2197,7 @@ async function runAudit(url){
 const WORKER_URL = 'https://3webobs.com';
 let REPORT_V2 = null;
 
-async function claudeScoreAllSignals(url){
+async function scoreAllSignals(url){
   const r = await fetch(WORKER_URL + '/audit', {
     method: 'POST',
     headers: {'Content-Type':'application/json'},
@@ -1976,6 +2208,12 @@ async function claudeScoreAllSignals(url){
   if(rep.error) throw new Error(rep.detail || rep.error);
 
   REPORT_V2 = rep;
+  /* Raportul exista acum, deci Send Report are ce trimite. Daca panoul era
+     deschis cu mesajul "ruleaza intai un audit", il reimprospatam. */
+  try {
+    var sp = document.getElementById('share-panel');
+    if (sp && !sp.hidden) { sp.hidden = true; toggleShare(); }
+  } catch(e){}
   if (window.aivStats) window.aivStats.ping('audit_complete');
 
   const out = {};
@@ -2099,42 +2337,62 @@ function render(d,synth,ap){
       <div class="sh-url">${d.url}</div>
       <div class="sh-ts">${gmtStamp(new Date(d.ts))}</div>
       <div class="dim-grid">
-        <div class="dim d-aeo">
-          <div class="dim-lbl">AEO</div><div class="dim-name">Answer Engine Optimization</div>
-          <div class="dim-val">${d.scores.AEO}</div>
-          <div class="dim-delta" style="background:${d.scores.AEO>=70?'var(--green-bg)':'var(--red-bg)'};color:${d.scores.AEO>=70?'var(--green)':'var(--red)'}">${d.scores.AEO>=70?'▲ Strong':'▼ Weak'}</div>
-          <div class="dim-bar"><div class="dim-bar-f" style="width:${d.scores.AEO}%"></div></div>
-        </div>
-        <div class="dim d-geo">
-          <div class="dim-lbl">GEO</div><div class="dim-name">Generative Engine Optimization</div>
-          <div class="dim-val">${d.scores.GEO}</div>
-          <div class="dim-delta" style="background:${d.scores.GEO>=70?'var(--green-bg)':'var(--red-bg)'};color:${d.scores.GEO>=70?'var(--green)':'var(--red)'}">${d.scores.GEO>=70?'▲ Strong':'▼ Weak'}</div>
-          <div class="dim-bar"><div class="dim-bar-f" style="width:${d.scores.GEO}%"></div></div>
-        </div>
-        <div class="dim d-aio">
-          <div class="dim-lbl">AIO</div><div class="dim-name">AI Optimization</div>
-          <div class="dim-val">${d.scores.AIO}</div>
-          <div class="dim-delta" style="background:${d.scores.AIO>=70?'var(--green-bg)':'var(--red-bg)'};color:${d.scores.AIO>=70?'var(--green)':'var(--red)'}">${d.scores.AIO>=70?'▲ Strong':'▼ Weak'}</div>
-          <div class="dim-bar"><div class="dim-bar-f" style="width:${d.scores.AIO}%"></div></div>
-        </div>
-        <div class="dim d-seo">
-          <div class="dim-lbl">SEO</div><div class="dim-name">Search Engine Optimization</div>
-          <div class="dim-val">${d.scores.SEO}</div>
-          <div class="dim-delta" style="background:${d.scores.SEO>=70?'var(--green-bg)':'var(--red-bg)'};color:${d.scores.SEO>=70?'var(--green)':'var(--red)'}">${d.scores.SEO>=70?'▲ Strong':'▼ Weak'}</div>
-          <div class="dim-bar"><div class="dim-bar-f" style="width:${d.scores.SEO}%"></div></div>
-        </div>
-        ${d.scores.AI_SIGNALS==null?'':`<div class="dim d-ai">
-          <div class="dim-lbl">AI SIGNALS</div><div class="dim-name">Machine Trust Signals</div>
-          <div class="dim-val">${d.scores.AI_SIGNALS}</div>
-          <div class="dim-delta" style="background:${d.scores.AI_SIGNALS>=70?'var(--green-bg)':'var(--red-bg)'};color:${d.scores.AI_SIGNALS>=70?'var(--green)':'var(--red)'}">${d.scores.AI_SIGNALS>=70?'\u25b2 Strong':'\u25bc Weak'}</div>
-          <div class="dim-bar"><div class="dim-bar-f" style="width:${d.scores.AI_SIGNALS}%"></div></div>
-        </div>`}
-        ${d.scores.A2A==null?'':`<div class="dim d-a2a">
-          <div class="dim-lbl">A2A</div><div class="dim-name">Agent-to-Agent Signals</div>
-          <div class="dim-val">${d.scores.A2A}</div>
-          <div class="dim-delta" style="background:${d.scores.A2A>=70?'var(--green-bg)':'var(--red-bg)'};color:${d.scores.A2A>=70?'var(--green)':'var(--red)'}">${d.scores.A2A>=70?'\u25b2 Strong':'\u25bc Weak'}</div>
-          <div class="dim-bar"><div class="dim-bar-f" style="width:${d.scores.A2A}%"></div></div>
-        </div>`}
+        ${[
+          ['AEO','aeo','Answer Engine Optimization'],
+          ['GEO','geo','Generative Engine Optimization'],
+          ['AIO','aio','AI Optimization'],
+          ['SEO','seo','Search Engine Optimization'],
+          ['AI_SIGNALS','ai','Machine Trust Signals'],
+          ['A2A','a2a','Agent-to-Agent Signals']
+        ].map(function(x){
+          var key=x[0], cls=x[1], label=x[2];
+          var sc=d.scores[key];
+          if(sc===undefined||sc===null) return '';
+          var dim = d.dimensions ? d.dimensions[key] : null;
+          var strong = sc>=70;
+          var cov = dim ? ' &middot; '+Math.round(dim.coverage)+'% coverage' : '';
+          var detail = d.observationId
+            ? '<a class="dim-more" href="/signal-detail?obs='+encodeURIComponent(d.observationId)+'&amp;dim='+key+'">See detail &rarr;</a>'
+            : '';
+          return '<div class="dim d-'+cls+'">'
+            + '<div class="dim-lbl">'+key.replace('_',' ')+'</div>'
+            + '<div class="dim-name">'+label+'</div>'
+            + '<div class="dim-val">'+sc+'</div>'
+            + '<div class="dim-delta" style="background:'+(strong?'var(--green-bg)':'var(--red-bg)')+';color:'+(strong?'var(--green)':'var(--red)')+'">'
+            +   (strong?'&#9650; Strong':'&#9660; Weak')+'</div>'
+            + '<div class="dim-bar"><div class="dim-bar-f" style="width:'+sc+'%"></div></div>'
+            + (dim?'<div class="dim-cov">'+dim.tested+'/'+dim.total+' tested'+cov+'</div>':'')
+            + detail
+            + '</div>';
+        }).join('')}
+        ${(function(){
+          /* Al saptelea card. Nu e o dimensiune si nu intra in scorul global:
+             semnalele de schema sunt deja in cele 167, distribuite pe AEO, GEO
+             si AIO. Ce arata aici e altceva — daca graful structurat al
+             site-ului e coerent semantic, nu doar valid ca JSON. E singurul
+             strat pe care un motor de cautare si un sistem AI il citesc la fel,
+             de unde si numele. */
+          var sch = d.schema;
+          if(!sch) return '';
+          var color = sch.status==='error'?'var(--red)':sch.status==='warning'?'var(--gold)':sch.status==='valid'?'var(--green)':'var(--light)';
+          var bg    = sch.status==='error'?'var(--red-bg)':sch.status==='warning'?'var(--gold-bg)':sch.status==='valid'?'var(--green-bg)':'var(--bg3)';
+          var mark  = sch.status==='error'?'&#10007; Errors':sch.status==='warning'?'&#9679; Warnings':sch.status==='valid'?'&#10003; Valid':'&#9679; None found';
+          var val   = sch.score===null||sch.score===undefined ? '&mdash;' : sch.score;
+          var line  = sch.objects
+            ? sch.objects+' objects &middot; '+sch.valid+' valid, '+sch.warning+' warning, '+sch.error+' error'
+            : 'no structured data found on the page';
+          return '<div class="dim d-schema">'
+            + '<div class="dim-lbl" style="color:'+color+'">MIXED SIGNALS</div>'
+            + '<div class="dim-name">Schema.org &mdash; read by both webs</div>'
+            + '<div class="dim-val" style="color:'+color+'">'+val+'</div>'
+            + '<div class="dim-delta" style="background:'+bg+';color:'+color+'">'+mark+'</div>'
+            + '<div class="dim-bar"><div class="dim-bar-f" style="width:'+(sch.score||0)+'%;background:'+color+'"></div></div>'
+            + '<div class="dim-cov">'+line+'</div>'
+            + (d.observationId
+                ? '<a class="dim-more" href="/signal-detail?obs='+encodeURIComponent(d.observationId)+'&amp;dim=SCHEMA">See detail &rarr;</a>'
+                : '<a class="dim-more" href="/schema">See detail &rarr;</a>')
+            + '</div>';
+        })()}
       </div>
       ${!d.categories?'':`<div class="cat-block">
         <div class="cat-title">Where the work sits</div>
@@ -2180,7 +2438,7 @@ function render(d,synth,ap){
   zone.insertAdjacentHTML('beforeend',`
   <div class="ai-band fu2">
     <div>
-      <div class="aib-lbl">AI Signals Layer · 32 Signals</div>
+      <div class="aib-lbl">AI Signals Layer · 19 Signals</div>
       <div class="aib-val">${ais}<span> / 100</span></div>
       <div class="aib-bar"><div class="aib-bar-f" style="width:${ais}%"></div></div>
     </div>

@@ -155,11 +155,13 @@
       "description": "Objectively testable signals are evaluated using deterministic rules against observed evidence."
     },
     "narrative_summary": {
-      "uses_language_model": true,
+      "uses_language_model": false,
       "purpose": "Narrative synthesis of already-observed evidence.",
+      "method": "Fixed templates selected by score bands and by which signals failed. No generation, no external model call.",
       "affects_deterministic_signal_score": false
     },
-    "training_on_submitted_private_data": false
+    "training_on_submitted_private_data": false,
+    "audit_data_sent_to_llm_provider": false
   },
   "transparency": {
     "eu_ai_act": {
