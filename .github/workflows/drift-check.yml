@@ -1,0 +1,137 @@
+name: Drift check
+
+# Ruleaza pe site-ul LIVE, nu pe repo. Diferenta conteaza: proof.json dovedeste
+# ca fisierele din repo sunt intacte, dar nu vede ce serveste Cloudflare. Cele
+# doua incidente reale — un lot de fisiere care nu ajunsese sus, si un folder
+# pages/ care servea o copie veche — erau invizibile din repo si evidente de
+# afara.
+
+on:
+  schedule:
+    # 06:00 UTC zilnic. Ora e aleasa ca raportul sa fie deja acolo dimineata,
+    # nu ca sa prinda ceva anume.
+    - cron: "0 6 * * *"
+  push:
+    branches: [main]
+    paths-ignore:
+      - "proof.json"
+      - "ai-proof.json"
+      - ".drift/**"
+  workflow_dispatch:
+    inputs:
+      update_baseline:
+        description: "Accepta starea curenta ca noua referinta"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: drift-check
+  cancel-in-progress: false
+
+jobs:
+  drift:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      # Dupa un push, Cloudflare Pages are nevoie de timp sa publice. Fara
+      # asta am compara cu versiunea veche si am raporta un drift inexistent,
+      # care s-ar repara singur la urmatoarea rulare — adica exact tipul de
+      # alerta falsa care te invata sa ignori alertele.
+      - name: Wait for deployment
+        if: github.event_name == 'push'
+        run: sleep 90
+
+      - name: Consistency checks on the repo
+        run: |
+          node build/generate-signals.js --check
+          node build/generate-pricing.js --check || true
+          # Regenereaza raportul schema.org si pica daca a aparut o eroare.
+          # Fara asta, pagina /schema ar putea afisa verde in timp ce graful
+          # are deja o eroare introdusa de ultimul commit.
+          node scripts/validate-schema.mjs
+
+      - name: Update baseline
+        if: github.event.inputs.update_baseline == 'true'
+        run: node scripts/check-drift.mjs --update
+
+      - name: Check live site for drift
+        if: github.event.inputs.update_baseline != 'true'
+        id: drift
+        run: |
+          set +e
+          node scripts/check-drift.mjs | tee drift-report.txt
+          echo "exit_code=$?" >> "$GITHUB_OUTPUT"
+          set -e
+
+      - name: Commit baseline if updated
+        if: github.event.inputs.update_baseline == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .drift/baseline.json
+          git diff --cached --quiet || git commit -m "chore: update drift baseline"
+          git push
+
+      # Un issue, nu un email. Ramane deschis pana il inchizi, are istoric, si
+      # nu se pierde intr-un inbox.
+      - name: Open or update an issue
+        if: steps.drift.outputs.exit_code == '1'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const report = fs.readFileSync('drift-report.txt', 'utf8');
+            const title = 'Drift detected on the live site';
+            const body = [
+              'The live site no longer matches the recorded baseline.',
+              '',
+              '```',
+              report.trim().slice(0, 55000),
+              '```',
+              '',
+              '**If these changes were intended**, run the workflow manually with',
+              '`update_baseline` enabled to accept the current state as the new reference.',
+              '',
+              '**If they were not**, something is serving content the repository does not contain.',
+              '',
+              `Run: ${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`
+            ].join('\n');
+
+            const existing = await github.rest.issues.listForRepo({
+              owner: context.repo.owner, repo: context.repo.repo,
+              state: 'open', labels: 'drift'
+            });
+
+            if (existing.data.length) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner, repo: context.repo.repo,
+                issue_number: existing.data[0].number, body
+              });
+            } else {
+              await github.rest.issues.create({
+                owner: context.repo.owner, repo: context.repo.repo,
+                title, body, labels: ['drift']
+              });
+            }
+
+      - name: Fail the run when the site is unreachable
+        if: steps.drift.outputs.exit_code == '2'
+        run: |
+          echo "The site did not respond on enough paths to compare anything."
+          exit 1
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: drift-report
+          path: drift-report.txt
+          retention-days: 30
