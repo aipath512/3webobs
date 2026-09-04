@@ -244,6 +244,15 @@ grid-template-columns:repeat(4,1fr);gap:18px 26px;}
 .hub-list span{font-size:11.5px;line-height:1.5;opacity:.55;}
 @media(max-width:860px){.hub-list{grid-template-columns:repeat(2,1fr);}}
 @media(max-width:460px){.hub-list{grid-template-columns:1fr;}}
+.hd-sess{font-family:'SF Mono',ui-monospace,Menlo,monospace;font-weight:700;letter-spacing:.05em;
+padding:1px 6px;border-radius:100px;border:1px solid var(--border-md);cursor:help;font-size:9.5px;}
+.hd-sess[data-kind="H"]{color:var(--gold);border-color:var(--gold);}
+.hd-sess[data-kind="T"]{color:var(--blue);border-color:var(--blue);}
+.crumb-sess{margin-left:auto;font-family:'SF Mono',ui-monospace,Menlo,monospace;font-size:10px;
+font-weight:700;letter-spacing:.05em;padding:2px 8px;border-radius:100px;
+border:1px solid var(--border-md);opacity:.8;cursor:help;}
+.crumb-sess[data-kind="H"]{color:var(--gold);border-color:var(--gold);}
+.crumb-sess[data-kind="T"]{color:var(--blue);border-color:var(--blue);}
 </style>
 
 
@@ -258,7 +267,7 @@ grid-template-columns:repeat(4,1fr);gap:18px 26px;}
     <button id="toggle" onclick="toggleTheme()"><span id="ti">&#9790;</span><span id="tl">Dark</span></button>
   </div>
   <div style="display:flex;align-items:center;gap:14px;">
-    <div class="hd-meta">LEGAL &middot; AI-FIRST<br><span style="opacity:.5;font-size:9px">EU &middot; GDPR &middot; AI Act</span></div>
+    <div class="hd-meta">LEGAL &middot; AI-FIRST &middot; <span class="hd-sess" data-session-badge title="Operating session">0001C</span><br><span style="opacity:.5;font-size:9px">EU &middot; GDPR &middot; AI Act</span></div>
     <button id="menu-btn" onclick="openMenu()" aria-label="Menu">
     <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
   </button>
@@ -785,6 +794,30 @@ function toggleFaq(n){
 <script>
 function tf(b){var a=b.nextElementSibling,c=b.querySelector('.faq-chev'),o=a.classList.contains('open');
 a.classList.toggle('open');c.classList.toggle('open');b.setAttribute('aria-expanded',!o);}
+</script>
+
+<script>
+/* Sesiunea, pe fiecare ecran. Nu exista entitate sau relatie fara referinta
+   de sesiune, deci nici pagina care sa nu o arate: daca datele poarta
+   eticheta iar interfata nu, omul nu poate sti in ce perioada se uita.
+   Valoarea scrisa in HTML e o rezerva; adevarul vine din /session. */
+(function(){
+  var els = document.querySelectorAll('[data-session-badge]');
+  if(!els.length) return;
+  fetch('/session').then(function(r){ return r.ok ? r.json() : null; }).then(function(j){
+    if(!j || !j.current) return;
+    var k = j.current.slice(-1);
+    var label = k === 'H' ? 'frozen reference, never changes'
+              : k === 'T' ? 'derived from a frozen reference'
+              : 'current working line';
+    var opened = (j.stamp && j.stamp.sessionOpenedAt) ? ', opened ' + j.stamp.sessionOpenedAt.slice(0,10) : '';
+    for (var i = 0; i < els.length; i++) {
+      els[i].textContent = j.current;
+      els[i].setAttribute('data-kind', k);
+      els[i].title = 'Operating session ' + j.current + ' — ' + label + opened;
+    }
+  }).catch(function(){});
+})();
 </script>
 </body>
 </html>

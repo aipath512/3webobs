@@ -2584,6 +2584,204 @@ async function sendLeadEmail(env, rec, report) {
   }
 }
 
+
+/* ═══════════ SESIUNI — ancorare in timp ═══════════
+
+   Un numar de sesiune e o eticheta de patru cifre plus o litera, care spune
+   in ce perioada de lucru a fost creat, modificat sau anulat un lucru.
+   Fara ea, singurul mod de a compara starea de azi cu cea de acum doua zile
+   e sa fi retinut un observationId — adica sa fi stiut dinainte ca vei avea
+   nevoie de el.
+
+     0042C   linia principala. C = current. Se incrementeaza la fiecare
+             sesiune noua de exploatare. C si spatiu inseamna acelasi lucru:
+             "0042 " si "0042C" sunt aceeasi sesiune, dar la scriere se
+             normalizeaza mereu la C, ca sa nu existe doua chei pentru
+             acelasi lucru.
+
+     0042H   fotografie inghetata, facuta cand ceva trece dintr-un mediu in
+             altul. Nu se mai schimba niciodata — asta e tot rostul ei.
+             Optionala: cine nu are separare de medii nu o foloseste deloc.
+
+     0042T   singura copie cu drept de scriere, derivata dintr-un H anume.
+             Corecturi peste referinta inghetata, fara sa o atinga. Una
+             singura deschisa la un moment dat, in tot sistemul.
+
+   Unde traieste numarul. In KV, nu intr-un fisier din repo. Un fisier ar
+   fi o a doua sursa care se contrazice cu runtime-ul in ziua in care cineva
+   uita sa il regenereze — exact problema pe care pricing.json si
+   signals.json o rezolva prin a fi singura sursa. Aici sursa e KV, iar
+   /session o publica.
+
+   Relatia cu observationId: sesiunea NU inlocuieste observationId. Il
+   grupeaza. O sesiune contine una sau mai multe observatii; observatia
+   ramane identificatorul unei rulari, sesiunea spune cand a fost facuta si
+   in ce context. */
+
+const SESSION_KEY   = 'session:current';
+const SESSION_LOG   = 'session:log';
+const SESSION_RE    = /^(\d{4})\s*([CHT ]?)$/i;
+
+function normalizeSession(raw) {
+  if (raw === null || raw === undefined) return null;
+  const m = String(raw).trim().match(SESSION_RE);
+  if (!m) return null;
+  const kind = (m[2] || 'C').trim().toUpperCase() || 'C';
+  return m[1] + kind;
+}
+
+function sessionParts(id) {
+  const m = String(id || '').match(/^(\d{4})([CHT])$/);
+  return m ? { n: Number(m[1]), kind: m[2], id } : null;
+}
+
+/* Sesiunea curenta. Daca nu exista niciuna — prima rulare dupa deploy —
+   o cream la 0001C in loc sa esuam: un sistem de ancorare care refuza sa
+   porneasca pana il initializeaza cineva manual nu ancoreaza nimic. */
+async function getSession(env) {
+  if (!env.RATE_KV) return { id: '0001C', n: 1, kind: 'C', openedAt: null, storage: false };
+  let raw = null;
+  try { raw = await env.RATE_KV.get(SESSION_KEY); } catch {}
+  if (!raw) {
+    const nowIso = new Date().toISOString();
+    const fresh = { id: '0001C', n: 1, kind: 'C', openedAt: nowIso, day: nowIso.slice(0, 10),
+                    note: 'opened automatically on first use' };
+    try { await env.RATE_KV.put(SESSION_KEY, JSON.stringify(fresh)); } catch {}
+    return { ...fresh, storage: true };
+  }
+  try { return { ...JSON.parse(raw), storage: true }; }
+  catch { return { id: '0001C', n: 1, kind: 'C', openedAt: null, storage: true }; }
+}
+
+/* Ce se ataseaza fiecarei inregistrari. Nu doar id-ul: si momentul, pentru
+   ca o sesiune tine mai multe zile si "in ce sesiune" nu raspunde la
+   "cand exact". */
+/* Ancorarea in timp. Trei momente, nu unul, pentru ca raspund la intrebari
+   diferite si le-am confundat destul cat sa merite scrise separat:
+
+     sessionOpenedAt  cand a inceput perioada de lucru
+     at               cand exact s-a produs lucrul asta
+     sessionDay       ziua sesiunii, ca sa poti grupa fara sa parsezi ore
+
+   O sesiune tine mai multe zile. "In ce sesiune" nu raspunde la "cand
+   exact", iar "cand exact" nu raspunde la "din ce perioada face parte".
+   Amandoua sunt necesare ca sa poti compara doua sesiuni si sa stii ce
+   s-a schimbat intre ele si cand anume. */
+async function sessionStamp(env) {
+  const s = await getSession(env);
+  const now = new Date();
+  return {
+    session: s.id,
+    sessionKind: s.kind || 'C',
+    sessionOpenedAt: s.openedAt || null,
+    sessionDay: (s.openedAt || now.toISOString()).slice(0, 10),
+    at: now.toISOString(),
+    /* Cate secunde de la deschiderea sesiunii. Raspunde la "cat de tarziu
+       in sesiune s-a intamplat", fara scaderi de date la fiecare citire. */
+    atOffsetSec: s.openedAt ? Math.round((now - new Date(s.openedAt)) / 1000) : null
+  };
+}
+
+/* Toate sesiunile cunoscute, in ordine, cu datele lor. Baza comparatiei:
+   fara ea nu poti alege doua sesiuni, pentru ca nu stii care exista. */
+async function listSessions(env) {
+  if (!env.RATE_KV) return { current: null, sessions: [] };
+  const current = await getSession(env);
+  const out = [{ ...current, isCurrent: true }];
+  try {
+    const listed = await env.RATE_KV.list({ prefix: 'session:', limit: 500 });
+    for (const k of listed.keys) {
+      const name = k.name.slice('session:'.length);
+      if (name === 'current' || name === 'log' || name === 'openT') continue;
+      const raw = await env.RATE_KV.get(k.name);
+      if (!raw) continue;
+      try { out.push({ ...JSON.parse(raw), isCurrent: false }); } catch {}
+    }
+  } catch {}
+  out.sort((a, b) => (b.n - a.n) || a.kind.localeCompare(b.kind));
+  return { current: current.id, sessions: out };
+}
+
+async function advanceSession(env, { kind = 'C', from = null, note = null } = {}) {
+  if (!env.RATE_KV) return { error: 'session storage is not configured' };
+  const cur = await getSession(env);
+
+  if (kind === 'C') {
+    const nowIso = new Date().toISOString();
+    const next = { id: String(cur.n + 1).padStart(4, '0') + 'C', n: cur.n + 1, kind: 'C',
+                   openedAt: nowIso, day: nowIso.slice(0, 10),
+                   previous: cur.id, previousClosedAt: nowIso, note };
+    await env.RATE_KV.put(SESSION_KEY, JSON.stringify(next));
+    await appendSessionLog(env, { ...next, event: 'opened' });
+    return next;
+  }
+
+  if (kind === 'H') {
+    /* Inghetare: eticheteaza starea sesiunii curente si o face permanenta.
+       Nu schimba sesiunea curenta — munca pe C continua. */
+    const nowIso = new Date().toISOString();
+    const frozen = { id: String(cur.n).padStart(4, '0') + 'H', n: cur.n, kind: 'H',
+                     openedAt: nowIso, day: nowIso.slice(0, 10),
+                     frozenAt: nowIso, frozenFrom: cur.id,
+                     frozenFromOpenedAt: cur.openedAt || null, note };
+    await env.RATE_KV.put('session:' + frozen.id, JSON.stringify(frozen));
+    await appendSessionLog(env, { ...frozen, event: 'frozen' });
+    return frozen;
+  }
+
+  if (kind === 'T') {
+    /* Una singura deschisa la un moment dat, in tot sistemul. Daca exista
+       deja una, o refuzam explicit in loc sa o inlocuim tacut: doua linii
+       de mentenanta simultane sunt exact ce regula asta interzice. */
+    let openT = null;
+    try { openT = await env.RATE_KV.get('session:openT'); } catch {}
+    if (openT) {
+      return { error: 'a T session is already open: ' + openT,
+               detail: 'Only one may be open at a time. Close it before deriving another.' };
+    }
+    const src = normalizeSession(from);
+    if (!src || !src.endsWith('H')) {
+      return { error: 'a T session must be derived from a specific H session',
+               detail: 'Pass from=NNNNH. Without a frozen reference there is nothing to derive from.' };
+    }
+    let exists = null;
+    try { exists = await env.RATE_KV.get('session:' + src); } catch {}
+    if (!exists) return { error: 'no frozen session ' + src };
+
+    const nowIso = new Date().toISOString();
+    let srcFrozenAt = null;
+    try { srcFrozenAt = JSON.parse(exists).frozenAt || null; } catch {}
+    const t = { id: src.slice(0, 4) + 'T', n: Number(src.slice(0, 4)), kind: 'T',
+                derivedFrom: src, derivedFromFrozenAt: srcFrozenAt,
+                openedAt: nowIso, day: nowIso.slice(0, 10), note };
+    await env.RATE_KV.put('session:' + t.id, JSON.stringify(t));
+    await env.RATE_KV.put('session:openT', t.id);
+    await appendSessionLog(env, { ...t, event: 'derived' });
+    return t;
+  }
+
+  return { error: 'kind must be C, H or T' };
+}
+
+async function closeT(env) {
+  if (!env.RATE_KV) return { error: 'session storage is not configured' };
+  let openT = null;
+  try { openT = await env.RATE_KV.get('session:openT'); } catch {}
+  if (!openT) return { error: 'no T session is open' };
+  await env.RATE_KV.delete('session:openT');
+  await appendSessionLog(env, { id: openT, kind: 'T', event: 'closed', closedAt: new Date().toISOString() });
+  return { closed: openT };
+}
+
+async function appendSessionLog(env, entry) {
+  try {
+    let log = [];
+    try { log = JSON.parse(await env.RATE_KV.get(SESSION_LOG) || '[]'); } catch {}
+    log.push(entry);
+    await env.RATE_KV.put(SESSION_LOG, JSON.stringify(log.slice(-500)));
+  } catch {}
+}
+
 async function handleRequest(request, env, ctx, requestId) {
   {
     const url = new URL(request.url);
@@ -2666,6 +2864,11 @@ async function handleRequest(request, env, ctx, requestId) {
       report.plan = buildActionPlan(report);
       report.sources = { pagespeed: psi ? psi.source : 'unavailable' };
       report.observationId = 'obs_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+      /* Ancorarea in timp. Un observationId spune CARE rulare; sesiunea spune
+         DIN CE perioada face parte, iar cele trei momente spun cand exact.
+         Fara sesiune, doua rapoarte se pot compara doar daca ai retinut
+         amandoua id-urile — adica daca ai stiut dinainte ca vei avea nevoie. */
+      Object.assign(report, await sessionStamp(env));
 
       /* provenance: fara asta, doua rapoarte nu pot fi comparate corect —
          nu stii ce versiune de reguli le-a produs sau cata acoperire au avut. */
@@ -2731,7 +2934,9 @@ async function handleRequest(request, env, ctx, requestId) {
         return json({ error: 'choose at least one: report, action_plan' }, 400);
       }
 
+      const stamp = await sessionStamp(env);
       const record = {
+        ...stamp,
         email,
         url: String(body.url || '').slice(0, 500),
         observationId: String(body.observationId || '').slice(0, 60) || null,
@@ -2831,6 +3036,130 @@ async function handleRequest(request, env, ctx, requestId) {
       const v = evalSignal(found, ev, await fetchPageSpeed(target.href, env));
       return json({ url: target.href, signal: { id: found.id, name: found.n, dimension: dim, category: found.c, weight: found.w },
         verdict: v.status, score: v.score ?? null, evidence: v.method });
+    }
+
+    /* ---------- /session — citire ----------
+       Publica sesiunea curenta si toate cele cunoscute, cu datele lor.
+       Public: numarul de sesiune nu e un secret, e o eticheta de timp, iar
+       interfata are nevoie de el ca sa umple campul de alegere. */
+    if (url.pathname === '/session' && request.method === 'GET') {
+      const all = await listSessions(env);
+      return json({
+        current: all.current,
+        stamp: await sessionStamp(env),
+        format: {
+          pattern: 'NNNN + C | H | T',
+          C: 'current — the working line; incremented on each new operating session. A trailing space means the same as C.',
+          H: 'frozen — a reference taken when work moves between environments. Never changes. Optional.',
+          T: 'derived — the one writable copy of a frozen H. Only one may be open at a time.'
+        },
+        sessions: all.sessions
+      });
+    }
+
+    /* ---------- /session — avansare, inghetare, derivare ----------
+       Protejat cu aceeasi parola ca panoul de control. A deschide o sesiune
+       noua e o decizie, nu un efect secundar al traficului: daca oricine ar
+       putea incrementa C, numarul n-ar mai ancora nimic. */
+    if (url.pathname === '/session' && request.method === 'POST') {
+      const key = url.searchParams.get('key') || request.headers.get('x-cron-secret') || '';
+      if (!env.CRON_SECRET) return json({ error: 'no access password configured' }, 503);
+      if (key !== env.CRON_SECRET) return json({ error: 'unauthorized' }, 401);
+
+      let body = {};
+      try { body = await request.json(); } catch {}
+      const action = String(body.action || 'open').toLowerCase();
+
+      if (action === 'close-t') return json(await closeT(env));
+
+      /* ---------- promote: inghetare + deschiderea liniei urmatoare ----------
+         Un push in GitHub e chiar bascularea dintr-un mediu in altul, deci e
+         momentul in care se face fotografia. Dar H primeste numarul sesiunii
+         curente: din 0001C iese 0001H. Daca fiecare push ar doar congela, al
+         doilea push din aceeasi sesiune ar produce tot 0001H si l-ar
+         suprascrie pe primul — iar H e definit ca ceva ce nu se schimba
+         niciodata.
+         De aceea promote face doua lucruri deodata: ingheata C curent ca H,
+         si deschide C urmator ca linie de lucru. Fiecare H ramane unic si
+         corespunde exact unui deploy. */
+      if (action === 'promote') {
+        const frozen = await advanceSession(env, { kind: 'H', note: body.note || null });
+        if (frozen.error) return json({ ...frozen, ok: false }, 409);
+        const next = await advanceSession(env, { kind: 'C', note: 'opened after ' + frozen.id });
+        return json({ ok: true, frozen, current: next,
+          note: `${frozen.id} is now a permanent reference; work continues on ${next.id}.` });
+      }
+
+      const kind = String(body.kind || 'C').toUpperCase();
+      if (!['C', 'H', 'T'].includes(kind)) return json({ error: 'kind must be C, H or T' }, 400);
+
+      const result = await advanceSession(env, { kind, from: body.from || null, note: body.note || null });
+      return json(result.error ? { ...result, ok: false } : { ok: true, session: result }, result.error ? 409 : 200);
+    }
+
+    /* ---------- /session/log ---------- */
+    if (url.pathname === '/session/log' && request.method === 'GET') {
+      if (!env.RATE_KV) return json({ error: 'storage not configured' }, 503);
+      let log = [];
+      try { log = JSON.parse(await env.RATE_KV.get('session:log') || '[]'); } catch {}
+      return json({ total: log.length, events: log.slice(-200).reverse() });
+    }
+
+    /* ---------- /session/compare ----------
+       Compara doua sesiuni prin observatiile facute in fiecare. Asta e
+       motivul pentru care exista numerele: doua etichete, alese dintr-o
+       lista, in loc de doua id-uri pe care trebuia sa le fi retinut.
+       "C" si spatiu se normalizeaza la fel, deci ?a=0041&b=0042C merge. */
+    if (url.pathname === '/session/compare' && request.method === 'GET') {
+      if (!env.RATE_KV) return json({ error: 'storage not configured' }, 503);
+      const cur = await getSession(env);
+      const a = normalizeSession(url.searchParams.get('a')) || cur.id;
+      const b = normalizeSession(url.searchParams.get('b')) || cur.id;
+      const target = url.searchParams.get('url') || null;
+      if (!a || !b) return json({ error: 'sessions must look like NNNN followed by C, H or T' }, 400);
+
+      const collect = async (sid) => {
+        const found = [];
+        try {
+          const listed = await env.RATE_KV.list({ prefix: 'obs:', limit: 1000 });
+          for (const k of listed.keys) {
+            const raw = await env.RATE_KV.get(k.name);
+            if (!raw) continue;
+            let r; try { r = JSON.parse(raw); } catch { continue; }
+            if (r.session !== sid) continue;
+            if (target && r.url !== target) continue;
+            found.push({ observationId: r.observationId, url: r.url, at: r.at || r.ts,
+                         global: r.global, scores: r.scores, tested: r.tested, na: r.na });
+          }
+        } catch {}
+        found.sort((x, y) => String(x.at).localeCompare(String(y.at)));
+        return found;
+      };
+
+      const [obsA, obsB] = [await collect(a), await collect(b)];
+      const lastOf = (arr) => arr.length ? arr[arr.length - 1] : null;
+      const la = lastOf(obsA), lb = lastOf(obsB);
+
+      /* Delta numai daca ambele exista SI privesc acelasi site. Altfel am
+         scadea scoruri a doua domenii diferite si am numi-o evolutie. */
+      let delta = null;
+      if (la && lb && la.url === lb.url) {
+        delta = { url: la.url, global: (lb.global ?? 0) - (la.global ?? 0), scores: {} };
+        for (const dim of Object.keys(lb.scores || {})) {
+          const before = la.scores ? la.scores[dim] : null;
+          const after = lb.scores[dim];
+          if (before != null && after != null) delta.scores[dim] = after - before;
+        }
+      }
+
+      return json({
+        a: { session: a, observations: obsA.length, latest: la },
+        b: { session: b, observations: obsB.length, latest: lb },
+        delta,
+        note: delta ? null
+          : (la && lb ? 'The two sessions observed different sites; pass ?url= to compare the same one.'
+                      : 'One of the sessions has no stored observation to compare.')
+      });
     }
 
     /* /observation — citire read-only a unui raport deja produs.
@@ -3043,12 +3372,14 @@ async function handleRequest(request, env, ctx, requestId) {
         };
 
         const observationId = 'obs_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+        const a2aStamp = await sessionStamp(env);
         const registryResult = await logToRegistry(ctx, report.url, 'audit_a2a');
         if (env.RATE_KV) {
           try {
             const n = Number(await env.RATE_KV.get('audit_count') || 0) + 1;
             await env.RATE_KV.put('audit_count', String(n));
             // persist the full report so obs_diff / REST-diff can find this as a baseline later
+            Object.assign(report, a2aStamp);
             await env.RATE_KV.put('obs:' + observationId, JSON.stringify(report), { expirationTtl: 60 * 60 * 24 * 90 });
           } catch {}
         }
@@ -3072,7 +3403,7 @@ async function handleRequest(request, env, ctx, requestId) {
           if (!existing) return reply({ skill: 'obs_permanent', action: 'cancel', subscriptionId: cancelId, status: 'not_found' });
           existing.status = 'cancelled';
           existing.cancelledAt = new Date().toISOString();
-          try { await env.RATE_KV.put('sub:' + cancelId, JSON.stringify(existing)); } catch {}
+          try { Object.assign(existing, { cancelledIn: (await sessionStamp(env)) }); await env.RATE_KV.put('sub:' + cancelId, JSON.stringify(existing)); } catch {}
           return reply({ skill: 'obs_permanent', action: 'cancel', subscriptionId: cancelId, status: 'cancelled' });
         }
         const target = normalizeUrl(String(payload.url || '').trim());
@@ -3098,6 +3429,7 @@ async function handleRequest(request, env, ctx, requestId) {
           return rpcErr(-32603, 'Internal error: subscription storage is not configured on this deployment, so the subscription cannot be persisted. Nothing was registered.');
         }
         try {
+          Object.assign(sub, { createdIn: (await sessionStamp(env)) });
           await env.RATE_KV.put('sub:' + subId, JSON.stringify(sub));
         } catch (e) {
           return rpcErr(-32603, 'Internal error: failed to persist the subscription. Nothing was registered — please retry.');
