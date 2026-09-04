@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- ══ SEO META CORE ══ -->
-<title>Schema.org validity — every structured object on this site | 3webs</title>
+<title>Schema.org structural validity | 3webs</title>
 <meta name="description" content="Every schema.org object published on 3webobs.com, with its validation status: valid, warning or error. The structured layer both search engines and AI systems read.">
-<link rel="canonical" href="https://3webobs.com/schema">
+<link rel="canonical" href="https://3webobs.com/schema-validity">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large">
 <meta name="author" content="Dan Ionesco">
@@ -28,7 +28,7 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="3webs | 3webs Visibility Engine">
-<meta property="og:url" content="https://3webobs.com/schema">
+<meta property="og:url" content="https://3webobs.com/schema-validity">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="en_US">
 <meta property="og:locale:alternate" content="ro_RO">
@@ -286,171 +286,102 @@ padding:15px 17px;margin:0 0 30px;font-size:12.5px;line-height:1.7;background:va
 .sch-legend span{display:inline-flex;align-items:center;gap:6px;}
 .sch-legend i{width:9px;height:9px;border-radius:50%;display:inline-block;}
 </style>
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://3webobs.com/schema#webpage","name":"Schema.org validity","description":"Every structured object published on 3webobs.com, with its validation status.","url":"https://3webobs.com/schema","inLanguage":"en","isPartOf":{"@id":"https://3webobs.com/#website"},"publisher":{"@id":"https://3webobs.com/#organization"},"breadcrumb":{"@id":"https://3webobs.com/schema#breadcrumb"},"about":{"@id":"https://3webobs.com/schema#dataset"}},{"@type":"BreadcrumbList","@id":"https://3webobs.com/schema#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"3webs","item":"https://3webobs.com/"},{"@type":"ListItem","position":2,"name":"Schema.org validity","item":"https://3webobs.com/schema"}]},{"@type":"Dataset","@id":"https://3webobs.com/schema#dataset","name":"3webs schema.org validation report","description":"Validation status of every schema.org object published across the site: which properties belong to their type, and whether each reference resolves to the type the property expects.","url":"https://3webobs.com/schema-report.json","encodingFormat":"application/json","inLanguage":"en","isAccessibleForFree":true,"license":"https://3webobs.com/terms","creator":{"@id":"https://3webobs.com/#organization"},"publisher":{"@id":"https://3webobs.com/#organization"}},{"@type":["Organization","Corporation"],"@id":"https://3webobs.com/#organization","name":"AIVENTURE S.R.L.","legalName":"AIVENTURE S.R.L.","url":"https://3webobs.com/","identifier":"CUI 51415878"},{"@type":"WebSite","@id":"https://3webobs.com/#website","name":"3webs","url":"https://3webobs.com/","inLanguage":"en","publisher":{"@id":"https://3webobs.com/#organization"}}]}</script>
-
-<style>
-.s1-sum{display:grid;grid-template-columns:repeat(auto-fit,minmax(104px,1fr));gap:10px;margin:22px 0 26px;}
-.s1-card{border:1px solid var(--border);border-radius:var(--r);padding:14px 15px;background:var(--bg2);text-align:center;}
-.s1-card .n{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;line-height:1;}
-.s1-card .l{font-size:9.5px;text-transform:uppercase;letter-spacing:.07em;opacity:.55;margin-top:6px;}
-.s1-green .n{color:var(--green);} .s1-yellow .n{color:var(--gold);}
-.s1-red .n{color:var(--red);} .s1-grey .n{opacity:.4;}
-.s1-bar{display:flex;height:8px;border-radius:100px;overflow:hidden;margin:0 0 22px;border:1px solid var(--border);}
-.s1-bar i{display:block;height:100%;}
-.s1-filter{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 16px;}
-.s1-filter button{font-family:inherit;font-size:11.5px;font-weight:500;padding:6px 13px;border-radius:100px;
-border:1px solid var(--border-md);background:transparent;color:var(--text);cursor:pointer;}
-.s1-filter button[aria-pressed="true"]{background:var(--text);color:var(--bg);border-color:var(--text);}
-.s1-grp{font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
-opacity:.45;margin:22px 0 8px;}
-.s1-row{display:flex;gap:11px;align-items:flex-start;padding:11px 13px;border:1px solid var(--border);
-border-radius:var(--rs);margin-bottom:6px;background:var(--bg);}
-.s1-hook{flex-shrink:0;width:17px;text-align:center;font-size:14px;line-height:1.35;}
-.h-green{color:var(--green);} .h-yellow{color:var(--gold);} .h-red{color:var(--red);} .h-grey{opacity:.3;}
-.s1-n{font-size:9.5px;opacity:.35;font-family:'SF Mono',ui-monospace,Menlo,monospace;flex-shrink:0;width:22px;}
-.s1-name{font-family:'SF Mono',ui-monospace,Menlo,monospace;font-size:13px;font-weight:600;word-break:break-word;}
-.s1-kind{font-size:9.5px;opacity:.4;margin-left:6px;text-transform:uppercase;letter-spacing:.05em;}
-.s1-why{font-size:11.5px;opacity:.6;margin-top:3px;line-height:1.6;}
-.s1-reason{font-size:11px;margin-top:4px;font-family:'SF Mono',ui-monospace,Menlo,monospace;opacity:.75;}
-.s1-req{display:inline-block;font-size:9px;text-transform:uppercase;letter-spacing:.05em;
-padding:1px 7px;border-radius:100px;border:1px solid var(--border-md);opacity:.6;margin-left:7px;}
-.s1-note{border:1px solid var(--border);border-left:3px solid var(--blue);border-radius:var(--rs);
-padding:15px 17px;margin:0 0 24px;font-size:12.5px;line-height:1.7;background:var(--bg2);}
-.s1-legend{display:flex;flex-wrap:wrap;gap:15px;font-size:11.5px;margin:0 0 20px;}
-.s1-legend span{display:inline-flex;align-items:center;gap:6px;}
-.s1-target{font-family:'SF Mono',ui-monospace,Menlo,monospace;font-size:12px;opacity:.6;
-margin-bottom:20px;word-break:break-all;}
-</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://3webobs.com/schema-validity#webpage","name":"Schema.org validity","description":"Every structured object published on 3webobs.com, with its validation status.","url":"https://3webobs.com/schema-validity","inLanguage":"en","isPartOf":{"@id":"https://3webobs.com/#website"},"publisher":{"@id":"https://3webobs.com/#organization"},"breadcrumb":{"@id":"https://3webobs.com/schema-validity#breadcrumb"},"about":{"@id":"https://3webobs.com/schema-validity#dataset"}},{"@type":"BreadcrumbList","@id":"https://3webobs.com/schema-validity#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"3webs","item":"https://3webobs.com/"},{"@type":"ListItem","position":2,"name":"Schema.org validity","item":"https://3webobs.com/schema-validity"}]},{"@type":"Dataset","@id":"https://3webobs.com/schema-validity#dataset","name":"3webs schema.org validation report","description":"Validation status of every schema.org object published across the site: which properties belong to their type, and whether each reference resolves to the type the property expects.","url":"https://3webobs.com/schema-report.json","encodingFormat":"application/json","inLanguage":"en","isAccessibleForFree":true,"license":"https://3webobs.com/terms","creator":{"@id":"https://3webobs.com/#organization"},"publisher":{"@id":"https://3webobs.com/#organization"}},{"@type":["Organization","Corporation"],"@id":"https://3webobs.com/#organization","name":"AIVENTURE S.R.L.","legalName":"AIVENTURE S.R.L.","url":"https://3webobs.com/","identifier":"CUI 51415878"},{"@type":"WebSite","@id":"https://3webobs.com/#website","name":"3webs","url":"https://3webobs.com/","inLanguage":"en","publisher":{"@id":"https://3webobs.com/#organization"}}]}</script>
 <body>
 <div class="wrap">
-  <nav class="crumb" aria-label="Breadcrumb"><span class="crumb-sess" data-session-badge title="Operating session">0001C</span><a href="/">3webs</a><span class="sep">&rsaquo;</span><span class="here" aria-current="page">Schema.org</span></nav>
 
-  <h1 class="page-title">The 100 schema.org <em>elements that matter</em></h1>
+  <nav class="crumb" aria-label="Breadcrumb"><span class="crumb-sess" data-session-badge title="Operating session">0001C</span><a href="/">3webs</a><span class="sep">&rsaquo;</span><span class="here" aria-current="page">Structural validity</span></nav>
 
-  <p class="sec-s">Structured data is the one layer a search engine and an AI system read the same way. A human looking for you and a model deciding whether to cite you both start here. That is why this list serves both webs, and why the card on the report is called Mixed Signals.</p>
+  <h1 class="page-title">Schema.org <em>validity</em></h1>
 
-  <div class="s1-note" id="s1-note"></div>
-  <div class="s1-target" id="s1-target"></div>
-  <div class="s1-sum" id="s1-sum"></div>
-  <div class="s1-bar" id="s1-bar"></div>
+  <p class="sec-s">Every structured object this site publishes, with its status. This is the layer both a search engine and an AI system read to work out what a page is &mdash; so an object that does not validate is not a cosmetic defect. It is a sentence neither can parse.</p>
 
-  <div class="s1-legend">
-    <span><span class="h-green">&#10003;</span> Present, and complete</span>
-    <span><span class="h-yellow">&#9679;</span> Present but incomplete, or recommended and absent</span>
-    <span><span class="h-red">&#10007;</span> Required and missing</span>
-    <span><span class="h-grey">&minus;</span> Not applicable to this site</span>
+  <div class="sch-note" id="sch-note"></div>
+
+  <div class="sch-sum" id="sch-sum"></div>
+
+  <div class="sch-legend">
+    <span><i class="dot-valid"></i> Valid &mdash; every property belongs to the type, every reference resolves</span>
+    <span><i class="dot-warning"></i> Warning &mdash; tolerated, but not what the type defines</span>
+    <span><i class="dot-error"></i> Error &mdash; a consumer can misread this</span>
+    <span><i class="dot-unverified"></i> Unverified &mdash; type outside the checked vocabulary</span>
   </div>
 
-  <div class="s1-filter" id="s1-filter">
-    <button data-f="all" aria-pressed="true">All 100</button>
-    <button data-f="red" aria-pressed="false">Missing</button>
-    <button data-f="yellow" aria-pressed="false">Incomplete</button>
-    <button data-f="green" aria-pressed="false">Present</button>
-    <button data-f="grey" aria-pressed="false">Not applicable</button>
+  <div class="sch-filter" id="sch-filter">
+    <button data-f="all" aria-pressed="true">All</button>
+    <button data-f="error" aria-pressed="false">Errors</button>
+    <button data-f="warning" aria-pressed="false">Warnings</button>
+    <button data-f="valid" aria-pressed="false">Valid</button>
   </div>
 
-  <div id="s1-list"><p class="sec-s">Loading&hellip;</p></div>
+  <div id="sch-list"><p class="sec-s">Loading&hellip;</p></div>
 
-  <p class="sec-s" style="margin-top:32px;">
-    The registry itself is published at <a href="/schema-100.json">/schema-100.json</a>.
-    Our own graph, checked for structural validity rather than coverage, is at <a href="/schema-validity">schema validity</a>.
+  <p class="sec-s" style="margin-top:34px;">
+    This page checks whether our own graph is structurally correct. For the checklist of the 100 elements that matter, see <a href="/schema">the schema.org page</a>. Check independently at <a href="https://validator.schema.org/#url=https%3A%2F%2F3webobs.com%2F" rel="noopener">validator.schema.org</a>,
+    or read the raw report at <a href="/schema-report.json">/schema-report.json</a>.
   </p>
+
 </div>
 
 <script>
 (async function(){
-  var q = new URLSearchParams(location.search);
-  var obs = q.get('obs');
-  var list = document.getElementById('s1-list');
+  var list = document.getElementById('sch-list');
+  var rep;
+  try {
+    var r = await fetch('/schema-report.json');
+    rep = await r.json();
+  } catch (e) {
+    list.innerHTML = '<p class="sec-s">The report could not be loaded. It is published at <a href="/schema-report.json">/schema-report.json</a>.</p>';
+    return;
+  }
 
-  function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){
+  var t = rep.totals;
+  document.getElementById('sch-sum').innerHTML =
+      card(t.valid, 'Valid', 'sch-green')
+    + card(t.warning, 'Warnings', 'sch-orange')
+    + card(t.error, 'Errors', 'sch-red')
+    + card(t.distinctObjects, 'Distinct objects', '')
+    + card(Object.keys(rep.pages).length, 'Pages', '');
+
+  document.getElementById('sch-note').innerHTML =
+    '<strong>How this is checked.</strong> ' + esc(rep.method)
+    + ' <span style="opacity:.6">Generated ' + esc(rep.generated.slice(0,10)) + '.</span>';
+
+  function card(n, label, cls){
+    return '<div class="sch-card ' + cls + '"><div class="n">' + n + '</div><div class="l">' + label + '</div></div>';
+  }
+  function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){
     return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
 
-  var data = null, target = null, source = '';
-
-  /* Cu ?obs= aratam rezultatul unei observatii concrete. Fara, aratam
-     registrul in sine — ce se verifica, nu ce a iesit — ca pagina sa fie
-     utila si cand nimeni n-a rulat inca un audit. */
-  if (obs) {
-    try {
-      var r = await fetch('/observation?id=' + encodeURIComponent(obs));
-      if (r.ok) {
-        var rep = await r.json();
-        if (rep.schema && rep.schema.checklist) { data = rep.schema.checklist; target = rep.url; source = 'observation'; }
-      }
-    } catch(e){}
-  }
-  if (!data) {
-    try {
-      var rr = await fetch('/schema-100.json');
-      var reg = await rr.json();
-      data = { total: reg.total, green:0, yellow:0, red:0, grey:0, score:null,
-               elements: reg.elements.map(function(e){ return Object.assign({}, e, { mark:'registry', reason:'' }); }) };
-      source = 'registry';
-    } catch(e) {
-      list.innerHTML = '<p class="sec-s">The registry could not be loaded.</p>';
-      return;
-    }
-  }
-
-  document.getElementById('s1-note').innerHTML = source === 'observation'
-    ? '<strong>What the marks mean.</strong> Each element is checked against the structured data actually published on the audited site. '
-      + 'An element whose condition is not met on that site is marked not applicable &mdash; never a failure. '
-      + 'The same discipline as the 167 signals: we do not penalise a site for not selling products.'
-    : '<strong>This is the registry, not a result.</strong> It lists what gets checked and why each element carries weight. '
-      + 'Run an audit from the <a href="/">home page</a> and open Mixed Signals to see these marked against a real site.';
-
-  document.getElementById('s1-target').textContent = target ? target : '';
-
-  if (source === 'observation') {
-    document.getElementById('s1-sum').innerHTML =
-        card(data.green,'Present','s1-green') + card(data.yellow,'Incomplete','s1-yellow')
-      + card(data.red,'Missing','s1-red') + card(data.grey,'N/A','s1-grey')
-      + card(data.score != null ? data.score : '—','Score','');
-    var tot = data.green + data.yellow + data.red + data.grey || 1;
-    document.getElementById('s1-bar').innerHTML =
-        seg(data.green,tot,'var(--green)') + seg(data.yellow,tot,'var(--gold)')
-      + seg(data.red,tot,'var(--red)') + seg(data.grey,tot,'var(--border-md)');
-  } else {
-    document.getElementById('s1-sum').innerHTML = card(data.total,'Elements checked','');
-    document.getElementById('s1-bar').style.display = 'none';
-    document.getElementById('s1-filter').style.display = 'none';
-  }
-
-  function card(n,l,c){ return '<div class="s1-card '+c+'"><div class="n">'+n+'</div><div class="l">'+l+'</div></div>'; }
-  function seg(n,t,c){ return n ? '<i style="width:'+(n/t*100)+'%;background:'+c+'"></i>' : ''; }
-
-  var HOOK = { green:'<span class="s1-hook h-green">&#10003;</span>',
-               yellow:'<span class="s1-hook h-yellow">&#9679;</span>',
-               red:'<span class="s1-hook h-red">&#10007;</span>',
-               grey:'<span class="s1-hook h-grey">&minus;</span>',
-               registry:'<span class="s1-hook h-grey">&middot;</span>' };
-
-  function render(f){
-    var items = data.elements.filter(function(e){ return f==='all' || e.mark===f; });
+  function render(filter){
+    var items = rep.objects.filter(function(o){ return filter === 'all' || o.status === filter; });
     if (!items.length) { list.innerHTML = '<p class="sec-s">Nothing in this category.</p>'; return; }
-    var html = '', lastGroup = null;
-    items.forEach(function(e){
-      if (e.group !== lastGroup) { html += '<div class="s1-grp">' + esc(e.group) + '</div>'; lastGroup = e.group; }
-      html += '<div class="s1-row">'
-        + (HOOK[e.mark] || HOOK.grey)
-        + '<span class="s1-n">' + e.n + '</span>'
-        + '<div><div><span class="s1-name">' + esc(e.label) + '</span>'
-        +   '<span class="s1-kind">' + esc(e.kind) + '</span>'
-        +   '<span class="s1-req">' + esc(e.requirement) + '</span></div>'
-        + (e.why ? '<div class="s1-why">' + esc(e.why) + '</div>' : '')
-        + (e.reason ? '<div class="s1-reason">' + esc(e.reason) + '</div>' : '')
-        + '</div></div>';
-    });
-    list.innerHTML = html;
+    list.innerHTML = items.map(function(o, i){
+      var issues = (o.issues || []).map(function(x){
+        return '<div class="sch-issue ' + esc(x.level) + '"><code>' + esc(x.property) + '</code> &mdash; ' + esc(x.message) + '</div>';
+      }).join('');
+      var pages = [...new Set(o.pages || [])];
+      return '<div class="sch-item">'
+        + '<div class="sch-head" onclick="this.nextElementSibling.hidden=!this.nextElementSibling.hidden">'
+        +   '<span class="sch-dot dot-' + esc(o.status) + '"></span>'
+        +   '<span><span class="sch-type">' + esc(o.type) + '</span>'
+        +     '<span class="sch-meta">' + (o.id ? esc(o.id) : 'no @id')
+        +     ' &middot; ' + o.propertyCount + ' properties &middot; on ' + pages.length + (pages.length === 1 ? ' page' : ' pages') + '</span></span>'
+        + '</div>'
+        + '<div class="sch-body" hidden>'
+        +   (issues || '<p style="opacity:.6">No issue found. Every property belongs to this type and every reference resolves to the type it expects.</p>')
+        +   '<div class="sch-pages">Appears on: ' + pages.map(esc).join(', ') + '</div>'
+        + '</div>'
+        + '</div>';
+    }).join('');
   }
 
-  var fl = document.getElementById('s1-filter');
-  if (fl) fl.addEventListener('click', function(ev){
-    var b = ev.target.closest('button'); if (!b) return;
-    [].forEach.call(this.querySelectorAll('button'), function(x){ x.setAttribute('aria-pressed', String(x===b)); });
+  document.getElementById('sch-filter').addEventListener('click', function(e){
+    var b = e.target.closest('button'); if (!b) return;
+    [...this.querySelectorAll('button')].forEach(function(x){ x.setAttribute('aria-pressed', String(x === b)); });
     render(b.dataset.f);
   });
+
   render('all');
 })();
 </script>

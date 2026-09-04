@@ -1666,7 +1666,8 @@ async function unlockChecklist(){
     <li><a href="/167-signals">The 167 signals</a><span>The full catalogue, with weights</span></li>
     <li><a href="/glossary">Glossary</a><span>AEO, GEO, AIO, A2A and the three webs</span></li>
     <li><a href="/data-dictionary">Data dictionary</a><span>Entities, relations and cardinalities</span></li>
-    <li><a href="/schema">Schema.org validity</a><span>Every structured object, checked &mdash; the layer humans’ search engines and AI systems both read</span></li>
+    <li><a href="/schema">Schema.org &mdash; the 100 that matter</a><span>Every element both webs read, marked present, incomplete or missing</span></li>
+    <li><a href="/schema-validity">Schema.org structural validity</a><span>Whether our own graph is correct, object by object</span></li>
     <li><a href="/agents">For agents</a><span>A2A v1.0, live, with worked examples</span></li>
     <li><a href="/ai-act">EU AI Act</a><span>Where AI is used here, and where it is not</span></li>
     <li><a href="/gdpr">GDPR &amp; Privacy</a><span>What data is processed and why</span></li>
@@ -1705,7 +1706,8 @@ async function unlockChecklist(){
       <li><a href="/167-signals">The 167 Signals</a></li>
       <li><a href="/#faq">FAQ</a></li>
       <li><a href="/self-audit">AI Readiness of 3webobs.com</a></li>
-<li><a href="/schema">Schema.org validity</a></li>
+<li><a href="/schema">Schema.org &mdash; the 100</a></li>
+<li><a href="/schema-validity">Structural validity</a></li>
       <li><a href="/for-seo-agencies">For SEO Agencies</a></li>
       <li><a href="/for-ai-teams">For AI Teams</a></li>
       <li><a href="/for-compliance-consultants">For Compliance Consultants</a></li>
@@ -2498,23 +2500,34 @@ function render(d,synth,ap){
              de unde si numele. */
           var sch = d.schema;
           if(!sch) return '';
-          var color = sch.status==='error'?'var(--red)':sch.status==='warning'?'var(--gold)':sch.status==='valid'?'var(--green)':'var(--light)';
-          var bg    = sch.status==='error'?'var(--red-bg)':sch.status==='warning'?'var(--gold-bg)':sch.status==='valid'?'var(--green-bg)':'var(--bg3)';
-          var mark  = sch.status==='error'?'&#10007; Errors':sch.status==='warning'?'&#9679; Warnings':sch.status==='valid'?'&#10003; Valid':'&#9679; None found';
-          var val   = sch.score===null||sch.score===undefined ? '&mdash;' : sch.score;
-          var line  = sch.objects
-            ? sch.objects+' objects &middot; '+sch.valid+' valid, '+sch.warning+' warning, '+sch.error+' error'
-            : 'no structured data found on the page';
+          /* Cardul arata acoperirea celor 100 de elemente, nu validitatea
+             structurala a grafului. Sunt intrebari diferite: una e "ai
+             declarat ce conteaza", cealalta e "e corect ce ai declarat".
+             Cumparatorul o pune pe prima. */
+          var ck = sch.checklist;
+          var st    = ck ? ck.status : sch.status;
+          var color = st==='error'?'var(--red)':st==='warning'?'var(--gold)':st==='valid'?'var(--green)':'var(--light)';
+          var bg    = st==='error'?'var(--red-bg)':st==='warning'?'var(--gold-bg)':st==='valid'?'var(--green-bg)':'var(--bg3)';
+          var mark  = st==='error'?('&#10007; '+(ck?ck.red:0)+' missing')
+                    : st==='warning'?'&#9679; Incomplete'
+                    : st==='valid'?'&#10003; Complete':'&#9679; None found';
+          var val   = (ck && ck.score != null) ? ck.score
+                    : (sch.score==null ? '&mdash;' : sch.score);
+          var line  = ck
+            ? ck.green+' present &middot; '+ck.yellow+' incomplete &middot; '+ck.red+' missing &middot; '+ck.grey+' n/a'
+            : (sch.objects
+                ? sch.objects+' objects &middot; '+sch.valid+' valid, '+sch.warning+' warning'
+                : 'no structured data found on the page');
           return '<div class="dim d-schema">'
             + '<div class="dim-lbl" style="color:'+color+'">MIXED SIGNALS</div>'
-            + '<div class="dim-name">Schema.org &mdash; read by both webs</div>'
+            + '<div class="dim-name">Schema.org &mdash; 100 elements both webs read</div>'
             + '<div class="dim-val" style="color:'+color+'">'+val+'</div>'
             + '<div class="dim-delta" style="background:'+bg+';color:'+color+'">'+mark+'</div>'
             + '<div class="dim-bar"><div class="dim-bar-f" style="width:'+(sch.score||0)+'%;background:'+color+'"></div></div>'
             + '<div class="dim-cov">'+line+'</div>'
             + (d.observationId
-                ? '<a class="dim-more" href="/signal-detail?obs='+encodeURIComponent(d.observationId)+'&amp;dim=SCHEMA">See detail &rarr;</a>'
-                : '<a class="dim-more" href="/schema">See detail &rarr;</a>')
+                ? '<a class="dim-more" href="/schema?obs='+encodeURIComponent(d.observationId)+'">See all 100 &rarr;</a>'
+                : '<a class="dim-more" href="/schema">See all 100 &rarr;</a>')
             + '</div>';
         })()}
       </div>

@@ -302,4 +302,5 @@
   </url>
 
   <url><loc>https://3webobs.com/schema</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://3webobs.com/schema-validity</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
 </urlset>

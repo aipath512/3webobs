@@ -1,11 +1,11 @@
 {
-  "generated": "2026-09-03T15:30:19.263Z",
+  "generated": "2026-09-04T09:39:27.172Z",
   "method": "Structural validation against the schema.org vocabulary, performed by this repository. schema.org publishes no API for validator.schema.org, so these are our own checks applying the same rules: does the property exist on the type, does a reference resolve, does the target have the type the property expects. The vocabulary below is a subset covering the types this site uses; a type outside it is reported as unverified rather than valid or invalid.",
   "validator": "https://validator.schema.org/#url=https%3A%2F%2F3webobs.com%2F",
   "totals": {
-    "distinctObjects": 66,
-    "totalOccurrences": 544,
-    "valid": 66,
+    "distinctObjects": 69,
+    "totalOccurrences": 549,
+    "valid": 69,
     "warning": 0,
     "error": 0,
     "unverified": 0
@@ -119,6 +119,13 @@
     "/pricing": {
       "objects": 30,
       "valid": 30,
+      "warning": 0,
+      "error": 0,
+      "unverified": 0
+    },
+    "/schema-validity": {
+      "objects": 5,
+      "valid": 5,
       "warning": 0,
       "error": 0,
       "unverified": 0
@@ -376,6 +383,17 @@
     },
     {
       "type": "BreadcrumbList",
+      "id": "https://3webobs.com/schema-validity#breadcrumb",
+      "propertyCount": 1,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/schema-validity"
+      ],
+      "occurrences": 1
+    },
+    {
+      "type": "BreadcrumbList",
       "id": "https://3webobs.com/schema#breadcrumb",
       "propertyCount": 1,
       "status": "valid",
@@ -506,6 +524,17 @@
         "/terms"
       ],
       "occurrences": 18
+    },
+    {
+      "type": "Dataset",
+      "id": "https://3webobs.com/schema-validity#dataset",
+      "propertyCount": 9,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/schema-validity"
+      ],
+      "occurrences": 1
     },
     {
       "type": "Dataset",
@@ -877,11 +906,12 @@
         "/",
         "/policy",
         "/pricing",
+        "/schema-validity",
         "/schema",
         "/self-audit",
         "/terms"
       ],
-      "occurrences": 19
+      "occurrences": 20
     },
     {
       "type": "Person",
@@ -1297,6 +1327,17 @@
     },
     {
       "type": "WebPage",
+      "id": "https://3webobs.com/schema-validity#webpage",
+      "propertyCount": 8,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/schema-validity"
+      ],
+      "occurrences": 1
+    },
+    {
+      "type": "WebPage",
       "id": "https://3webobs.com/schema#webpage",
       "propertyCount": 8,
       "status": "valid",
@@ -1351,11 +1392,12 @@
         "/",
         "/policy",
         "/pricing",
+        "/schema-validity",
         "/schema",
         "/self-audit",
         "/terms"
       ],
-      "occurrences": 19
+      "occurrences": 20
     }
   ]
 }

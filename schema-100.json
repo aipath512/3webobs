@@ -1,0 +1,1429 @@
+{
+  "schema_version": "1.0",
+  "canonical_url": "https://3webobs.com/schema-100.json",
+  "title": "The 100 schema.org elements that matter",
+  "role": "Canonical checklist of the schema.org types and properties that carry weight for both the human web and the AI web. Structured data is the one layer a search engine and an AI system read the same way, which is why a single list serves both.",
+  "not_a_standard": "This is a curated selection, not a schema.org specification. schema.org defines thousands of terms; these are the ones that change whether an entity can be resolved, an offer read, or a page understood.",
+  "marks": {
+    "green": "Present, and complete where completeness is defined.",
+    "yellow": "Present but incomplete, or recommended and absent. Worth doing, not urgent.",
+    "red": "Required for any site and missing. A consumer cannot do its job without it.",
+    "grey": "Not applicable — the condition that would make it relevant is not met on this site."
+  },
+  "requirements": {
+    "required": "Every site needs it, whatever the sector.",
+    "recommended": "Materially improves how the entity is understood.",
+    "conditional": "Only relevant when its condition is met. Absent condition means not applicable, never a failure.",
+    "optional": "Useful in some sectors, harmless to omit."
+  },
+  "total": 100,
+  "by_requirement": {
+    "required": 11,
+    "conditional": 31,
+    "recommended": 28,
+    "optional": 30
+  },
+  "elements": [
+    {
+      "n": 1,
+      "label": "Organization",
+      "kind": "type",
+      "group": "Core entities",
+      "requirement": "required",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "The anchor of your identity. Without it, an AI system has no node to attach anything else to.",
+      "completeness": [
+        "name",
+        "url",
+        "logo",
+        "sameAs"
+      ]
+    },
+    {
+      "n": 2,
+      "label": "LocalBusiness",
+      "kind": "type",
+      "group": "Core entities",
+      "requirement": "conditional",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "Only for a business with a physical place customers visit.",
+      "completeness": [
+        "address",
+        "telephone",
+        "openingHoursSpecification"
+      ],
+      "condition": "the business has a physical location"
+    },
+    {
+      "n": 3,
+      "label": "Person",
+      "kind": "type",
+      "group": "Core entities",
+      "requirement": "recommended",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "Attributes authorship and expertise to a human, which is what E-E-A-T rests on.",
+      "completeness": [
+        "name",
+        "jobTitle"
+      ]
+    },
+    {
+      "n": 4,
+      "label": "Product",
+      "kind": "type",
+      "group": "Core entities",
+      "requirement": "conditional",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "Only where an actual purchasable item exists on the page.",
+      "completeness": [
+        "name",
+        "offers"
+      ],
+      "condition": "the page sells a product"
+    },
+    {
+      "n": 5,
+      "label": "Article",
+      "kind": "type",
+      "group": "Core entities",
+      "requirement": "conditional",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "Editorial content only. Declaring it on a commercial page misrepresents the page.",
+      "completeness": [
+        "headline",
+        "author",
+        "datePublished"
+      ],
+      "condition": "the page is editorial"
+    },
+    {
+      "n": 6,
+      "label": "BlogPosting",
+      "kind": "type",
+      "group": "Core entities",
+      "requirement": "conditional",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "A blog post, more specific than Article.",
+      "completeness": [
+        "headline",
+        "author",
+        "datePublished"
+      ],
+      "condition": "the page is a blog post"
+    },
+    {
+      "n": 7,
+      "label": "WebSite",
+      "kind": "type",
+      "group": "Core entities",
+      "requirement": "required",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "Declares the site as a whole, and carries the search action.",
+      "completeness": [
+        "name",
+        "url"
+      ]
+    },
+    {
+      "n": 8,
+      "label": "WebPage",
+      "kind": "type",
+      "group": "Core entities",
+      "requirement": "required",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "Declares what this particular page is. Without it, every page looks the same to a machine.",
+      "completeness": [
+        "name",
+        "url",
+        "isPartOf"
+      ]
+    },
+    {
+      "n": 9,
+      "label": "BreadcrumbList",
+      "kind": "type",
+      "group": "Core entities",
+      "requirement": "recommended",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "Shows where the page sits in the hierarchy. Needs at least two items to mean anything.",
+      "completeness": [
+        "itemListElement"
+      ]
+    },
+    {
+      "n": 10,
+      "label": "Event",
+      "kind": "type",
+      "group": "Core entities",
+      "requirement": "conditional",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "Only for a dated event with a location.",
+      "completeness": [
+        "startDate",
+        "location"
+      ],
+      "condition": "the page announces an event"
+    },
+    {
+      "n": 11,
+      "label": "Offer",
+      "kind": "type",
+      "group": "Commerce",
+      "requirement": "conditional",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "Turns a service or product into something with a price an agent can read.",
+      "completeness": [
+        "price",
+        "priceCurrency",
+        "availability"
+      ],
+      "condition": "something is sold"
+    },
+    {
+      "n": 12,
+      "label": "AggregateRating",
+      "kind": "type",
+      "group": "Commerce",
+      "requirement": "optional",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "Only where real ratings exist. Inventing them is markup fraud."
+    },
+    {
+      "n": 13,
+      "label": "Review",
+      "kind": "type",
+      "group": "Commerce",
+      "requirement": "optional",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "A single review, with its rating and author."
+    },
+    {
+      "n": 14,
+      "label": "price",
+      "kind": "property",
+      "group": "Commerce",
+      "requirement": "conditional",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "The number itself. An agent cannot buy what has no declared price.",
+      "condition": "an Offer exists",
+      "on": [
+        "Offer"
+      ]
+    },
+    {
+      "n": 15,
+      "label": "priceCurrency",
+      "kind": "property",
+      "group": "Commerce",
+      "requirement": "conditional",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "A price without a currency is ambiguous across markets.",
+      "condition": "an Offer exists",
+      "on": [
+        "Offer"
+      ]
+    },
+    {
+      "n": 16,
+      "label": "availability",
+      "kind": "property",
+      "group": "Commerce",
+      "requirement": "conditional",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "InStock or PreOrder. Selling something whose mechanism does not run is the most common lie in markup.",
+      "condition": "an Offer exists",
+      "on": [
+        "Offer"
+      ]
+    },
+    {
+      "n": 17,
+      "label": "sku",
+      "kind": "property",
+      "group": "Commerce",
+      "requirement": "optional",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "Internal identifier, useful for catalogue matching.",
+      "on": [
+        "Product",
+        "Offer"
+      ]
+    },
+    {
+      "n": 18,
+      "label": "brand",
+      "kind": "property",
+      "group": "Commerce",
+      "requirement": "recommended",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "Ties a product to its maker, which is how entity resolution starts.",
+      "on": [
+        "Product",
+        "Organization"
+      ]
+    },
+    {
+      "n": 19,
+      "label": "gtin13",
+      "kind": "property",
+      "group": "Commerce",
+      "requirement": "optional",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "Global trade number. Only for physical goods with one.",
+      "on": [
+        "Product"
+      ]
+    },
+    {
+      "n": 20,
+      "label": "itemCondition",
+      "kind": "property",
+      "group": "Commerce",
+      "requirement": "optional",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "New, used, refurbished.",
+      "on": [
+        "Product",
+        "Offer"
+      ]
+    },
+    {
+      "n": 21,
+      "label": "@context",
+      "kind": "property",
+      "group": "Identity & graph",
+      "requirement": "required",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "Without it, the JSON is not linked data at all — just a JSON blob nobody interprets."
+    },
+    {
+      "n": 22,
+      "label": "@type",
+      "kind": "property",
+      "group": "Identity & graph",
+      "requirement": "required",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "An object with no type is an object with no meaning."
+    },
+    {
+      "n": 23,
+      "label": "@id",
+      "kind": "property",
+      "group": "Identity & graph",
+      "requirement": "required",
+      "reads": [
+        "ai"
+      ],
+      "why": "The stable handle that lets objects reference each other instead of repeating themselves. This is what turns a list into a graph."
+    },
+    {
+      "n": 24,
+      "label": "name",
+      "kind": "property",
+      "group": "Identity & graph",
+      "requirement": "required",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "The single most-read property. Everything else hangs off knowing what a thing is called."
+    },
+    {
+      "n": 25,
+      "label": "url",
+      "kind": "property",
+      "group": "Identity & graph",
+      "requirement": "required",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "Where the thing lives. Without it, a reference cannot be resolved."
+    },
+    {
+      "n": 26,
+      "label": "sameAs",
+      "kind": "property",
+      "group": "Identity & graph",
+      "requirement": "required",
+      "reads": [
+        "ai"
+      ],
+      "why": "Links your entity to Wikidata, LinkedIn, registries. This is the strongest signal against being confused with someone else."
+    },
+    {
+      "n": 27,
+      "label": "logo",
+      "kind": "property",
+      "group": "Identity & graph",
+      "requirement": "recommended",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "Visual identity, used in knowledge panels.",
+      "on": [
+        "Organization"
+      ]
+    },
+    {
+      "n": 28,
+      "label": "description",
+      "kind": "property",
+      "group": "Identity & graph",
+      "requirement": "required",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "The sentence an AI system reuses when it summarises you. If you do not write it, it writes one."
+    },
+    {
+      "n": 29,
+      "label": "image",
+      "kind": "property",
+      "group": "Identity & graph",
+      "requirement": "recommended",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "What gets shown alongside you in a result."
+    },
+    {
+      "n": 30,
+      "label": "mainEntityOfPage",
+      "kind": "property",
+      "group": "Identity & graph",
+      "requirement": "recommended",
+      "reads": [
+        "ai"
+      ],
+      "why": "Says which object this page is actually about, when several are declared."
+    },
+    {
+      "n": 31,
+      "label": "PostalAddress",
+      "kind": "type",
+      "group": "Location & contact",
+      "requirement": "recommended",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "A structured address, not a string. Registries match on the structure.",
+      "completeness": [
+        "streetAddress",
+        "addressLocality",
+        "addressCountry"
+      ]
+    },
+    {
+      "n": 32,
+      "label": "streetAddress",
+      "kind": "property",
+      "group": "Location & contact",
+      "requirement": "conditional",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "",
+      "condition": "an address is declared",
+      "on": [
+        "PostalAddress"
+      ]
+    },
+    {
+      "n": 33,
+      "label": "addressLocality",
+      "kind": "property",
+      "group": "Location & contact",
+      "requirement": "conditional",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "City. Used for local matching.",
+      "condition": "an address is declared",
+      "on": [
+        "PostalAddress"
+      ]
+    },
+    {
+      "n": 34,
+      "label": "addressCountry",
+      "kind": "property",
+      "group": "Location & contact",
+      "requirement": "conditional",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "Country. Determines jurisdiction and market.",
+      "condition": "an address is declared",
+      "on": [
+        "PostalAddress"
+      ]
+    },
+    {
+      "n": 35,
+      "label": "postalCode",
+      "kind": "property",
+      "group": "Location & contact",
+      "requirement": "optional",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "",
+      "on": [
+        "PostalAddress"
+      ]
+    },
+    {
+      "n": 36,
+      "label": "geo",
+      "kind": "property",
+      "group": "Location & contact",
+      "requirement": "optional",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "Coordinates, for map and proximity queries.",
+      "on": [
+        "LocalBusiness",
+        "Place"
+      ]
+    },
+    {
+      "n": 37,
+      "label": "telephone",
+      "kind": "property",
+      "group": "Location & contact",
+      "requirement": "recommended",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "A machine-readable way to be reached."
+    },
+    {
+      "n": 38,
+      "label": "email",
+      "kind": "property",
+      "group": "Location & contact",
+      "requirement": "recommended",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "The channel an agent can actually use."
+    },
+    {
+      "n": 39,
+      "label": "openingHoursSpecification",
+      "kind": "property",
+      "group": "Location & contact",
+      "requirement": "conditional",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "Only for a business with hours. On a service that runs continuously it means nothing.",
+      "condition": "the business has opening hours",
+      "on": [
+        "LocalBusiness"
+      ]
+    },
+    {
+      "n": 40,
+      "label": "contactPoint",
+      "kind": "property",
+      "group": "Location & contact",
+      "requirement": "recommended",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "Structured contact, with its purpose declared — sales, support, press.",
+      "on": [
+        "Organization"
+      ]
+    },
+    {
+      "n": 41,
+      "label": "FAQPage",
+      "kind": "type",
+      "group": "Rich content",
+      "requirement": "recommended",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "Question and answer pairs an answer engine can lift directly. Requires the questions to be visible in the HTML, not only in markup.",
+      "completeness": [
+        "mainEntity"
+      ]
+    },
+    {
+      "n": 42,
+      "label": "Question",
+      "kind": "type",
+      "group": "Rich content",
+      "requirement": "conditional",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "",
+      "condition": "a FAQPage exists"
+    },
+    {
+      "n": 43,
+      "label": "Answer",
+      "kind": "type",
+      "group": "Rich content",
+      "requirement": "conditional",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "",
+      "condition": "a FAQPage exists"
+    },
+    {
+      "n": 44,
+      "label": "HowTo",
+      "kind": "type",
+      "group": "Rich content",
+      "requirement": "conditional",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "Step-by-step procedures only.",
+      "completeness": [
+        "step"
+      ],
+      "condition": "the page describes a procedure"
+    },
+    {
+      "n": 45,
+      "label": "VideoObject",
+      "kind": "type",
+      "group": "Rich content",
+      "requirement": "conditional",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "",
+      "condition": "the page carries video"
+    },
+    {
+      "n": 46,
+      "label": "SoftwareApplication",
+      "kind": "type",
+      "group": "Rich content",
+      "requirement": "conditional",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "For software products.",
+      "completeness": [
+        "applicationCategory"
+      ],
+      "condition": "the page describes software"
+    },
+    {
+      "n": 47,
+      "label": "JobPosting",
+      "kind": "type",
+      "group": "Rich content",
+      "requirement": "conditional",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "",
+      "condition": "the page is a job advert"
+    },
+    {
+      "n": 48,
+      "label": "Course",
+      "kind": "type",
+      "group": "Rich content",
+      "requirement": "conditional",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "",
+      "condition": "the page offers a course"
+    },
+    {
+      "n": 49,
+      "label": "author",
+      "kind": "property",
+      "group": "Rich content",
+      "requirement": "conditional",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "Who wrote it. Expects an Organization or Person, never a piece of software.",
+      "condition": "the page is editorial"
+    },
+    {
+      "n": 50,
+      "label": "publisher",
+      "kind": "property",
+      "group": "Rich content",
+      "requirement": "recommended",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "Who stands behind it."
+    },
+    {
+      "n": 51,
+      "label": "ProfessionalService",
+      "kind": "type",
+      "group": "Services & corporate",
+      "requirement": "conditional",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "",
+      "condition": "the business is a professional service"
+    },
+    {
+      "n": 52,
+      "label": "Corporation",
+      "kind": "type",
+      "group": "Services & corporate",
+      "requirement": "recommended",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "More specific than Organization, for a registered company."
+    },
+    {
+      "n": 53,
+      "label": "Service",
+      "kind": "type",
+      "group": "Services & corporate",
+      "requirement": "recommended",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "What you actually sell, as an object an agent can read.",
+      "completeness": [
+        "name",
+        "provider"
+      ]
+    },
+    {
+      "n": 54,
+      "label": "TechArticle",
+      "kind": "type",
+      "group": "Services & corporate",
+      "requirement": "conditional",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "Technical documentation.",
+      "condition": "the page is technical documentation"
+    },
+    {
+      "n": 55,
+      "label": "Dataset",
+      "kind": "type",
+      "group": "Services & corporate",
+      "requirement": "conditional",
+      "reads": [
+        "ai"
+      ],
+      "why": "Published data, with its format and licence.",
+      "completeness": [
+        "distribution"
+      ],
+      "condition": "the page publishes data"
+    },
+    {
+      "n": 56,
+      "label": "Recipe",
+      "kind": "type",
+      "group": "Guides & navigation",
+      "requirement": "optional",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": ""
+    },
+    {
+      "n": 57,
+      "label": "Step",
+      "kind": "type",
+      "group": "Guides & navigation",
+      "requirement": "conditional",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "",
+      "condition": "a HowTo exists"
+    },
+    {
+      "n": 58,
+      "label": "ListItem",
+      "kind": "type",
+      "group": "Guides & navigation",
+      "requirement": "conditional",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "The element of any ordered list, including breadcrumbs.",
+      "condition": "a list or breadcrumb exists"
+    },
+    {
+      "n": 59,
+      "label": "ItemList",
+      "kind": "type",
+      "group": "Guides & navigation",
+      "requirement": "recommended",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "An ordered collection an agent can walk."
+    },
+    {
+      "n": 60,
+      "label": "SpeakableSpecification",
+      "kind": "type",
+      "group": "Guides & navigation",
+      "requirement": "optional",
+      "reads": [
+        "ai"
+      ],
+      "why": "A limited feature, restricted to news publishers in a few markets. Not a general requirement."
+    },
+    {
+      "n": 61,
+      "label": "legalName",
+      "kind": "property",
+      "group": "Legal & identifiers",
+      "requirement": "required",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "The registered name. What a registry matches on, not your brand name.",
+      "on": [
+        "Organization"
+      ]
+    },
+    {
+      "n": 62,
+      "label": "vatID",
+      "kind": "property",
+      "group": "Legal & identifiers",
+      "requirement": "recommended",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "Tax identifier. In the EU, the strongest single proof that a company exists.",
+      "on": [
+        "Organization"
+      ]
+    },
+    {
+      "n": 63,
+      "label": "taxID",
+      "kind": "property",
+      "group": "Legal & identifiers",
+      "requirement": "optional",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "",
+      "on": [
+        "Organization"
+      ]
+    },
+    {
+      "n": 64,
+      "label": "duns",
+      "kind": "property",
+      "group": "Legal & identifiers",
+      "requirement": "optional",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "",
+      "on": [
+        "Organization"
+      ]
+    },
+    {
+      "n": 65,
+      "label": "naics",
+      "kind": "property",
+      "group": "Legal & identifiers",
+      "requirement": "optional",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "Industry classification.",
+      "on": [
+        "Organization"
+      ]
+    },
+    {
+      "n": 66,
+      "label": "founder",
+      "kind": "property",
+      "group": "Semantic validation",
+      "requirement": "recommended",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "Expects a Person. Links the company to a human identity.",
+      "on": [
+        "Organization"
+      ]
+    },
+    {
+      "n": 67,
+      "label": "foundingDate",
+      "kind": "property",
+      "group": "Semantic validation",
+      "requirement": "recommended",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "Age is a trust signal, and it is verifiable against registries.",
+      "on": [
+        "Organization"
+      ]
+    },
+    {
+      "n": 68,
+      "label": "knowsAbout",
+      "kind": "property",
+      "group": "Semantic validation",
+      "requirement": "recommended",
+      "reads": [
+        "ai"
+      ],
+      "why": "Declares your topics explicitly, instead of hoping a model infers them.",
+      "on": [
+        "Organization",
+        "Person"
+      ]
+    },
+    {
+      "n": 69,
+      "label": "alumniOf",
+      "kind": "property",
+      "group": "Semantic validation",
+      "requirement": "optional",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "",
+      "on": [
+        "Person"
+      ]
+    },
+    {
+      "n": 70,
+      "label": "parentOrganization",
+      "kind": "property",
+      "group": "Semantic validation",
+      "requirement": "optional",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "Corporate hierarchy.",
+      "on": [
+        "Organization"
+      ]
+    },
+    {
+      "n": 71,
+      "label": "AudioObject",
+      "kind": "type",
+      "group": "Media",
+      "requirement": "optional",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": ""
+    },
+    {
+      "n": 72,
+      "label": "ImageObject",
+      "kind": "type",
+      "group": "Media",
+      "requirement": "recommended",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "An image with dimensions and licence, not a bare URL."
+    },
+    {
+      "n": 73,
+      "label": "thumbnailUrl",
+      "kind": "property",
+      "group": "Media",
+      "requirement": "optional",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": ""
+    },
+    {
+      "n": 74,
+      "label": "aggregateRating",
+      "kind": "property",
+      "group": "Media",
+      "requirement": "optional",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "Only where real ratings exist.",
+      "on": [
+        "Service",
+        "Product",
+        "Organization"
+      ]
+    },
+    {
+      "n": 75,
+      "label": "hasOfferCatalog",
+      "kind": "property",
+      "group": "Media",
+      "requirement": "recommended",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "The full list of what you sell, in one object.",
+      "on": [
+        "Organization",
+        "Service"
+      ]
+    },
+    {
+      "n": 76,
+      "label": "MerchantReturnPolicy",
+      "kind": "type",
+      "group": "Commerce policies",
+      "requirement": "conditional",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "",
+      "condition": "goods are sold"
+    },
+    {
+      "n": 77,
+      "label": "OfferShippingDetails",
+      "kind": "type",
+      "group": "Commerce policies",
+      "requirement": "conditional",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "",
+      "condition": "physical goods are shipped"
+    },
+    {
+      "n": 78,
+      "label": "shippingRate",
+      "kind": "property",
+      "group": "Commerce policies",
+      "requirement": "optional",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": ""
+    },
+    {
+      "n": 79,
+      "label": "deliveryTime",
+      "kind": "property",
+      "group": "Commerce policies",
+      "requirement": "optional",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": ""
+    },
+    {
+      "n": 80,
+      "label": "returnPolicyCategory",
+      "kind": "property",
+      "group": "Commerce policies",
+      "requirement": "optional",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": ""
+    },
+    {
+      "n": 81,
+      "label": "priceValidUntil",
+      "kind": "property",
+      "group": "Commerce policies",
+      "requirement": "optional",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "A price with no expiry is assumed stale after a while.",
+      "on": [
+        "Offer"
+      ]
+    },
+    {
+      "n": 82,
+      "label": "itemOffered",
+      "kind": "property",
+      "group": "Commerce policies",
+      "requirement": "conditional",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "What the Offer is actually for.",
+      "condition": "an Offer exists",
+      "on": [
+        "Offer"
+      ]
+    },
+    {
+      "n": 83,
+      "label": "copyrightHolder",
+      "kind": "property",
+      "group": "Attribution & licensing",
+      "requirement": "recommended",
+      "reads": [
+        "ai"
+      ],
+      "why": "Who owns it. Matters more now that content is training data."
+    },
+    {
+      "n": 84,
+      "label": "copyrightYear",
+      "kind": "property",
+      "group": "Attribution & licensing",
+      "requirement": "optional",
+      "reads": [
+        "ai"
+      ],
+      "why": ""
+    },
+    {
+      "n": 85,
+      "label": "license",
+      "kind": "property",
+      "group": "Attribution & licensing",
+      "requirement": "recommended",
+      "reads": [
+        "ai"
+      ],
+      "why": "The terms under which a machine may reuse this. Without it, the answer is guessed."
+    },
+    {
+      "n": 86,
+      "label": "creditText",
+      "kind": "property",
+      "group": "Attribution & licensing",
+      "requirement": "optional",
+      "reads": [
+        "ai"
+      ],
+      "why": "How you want to be credited when cited."
+    },
+    {
+      "n": 87,
+      "label": "acquireLicensePage",
+      "kind": "property",
+      "group": "Attribution & licensing",
+      "requirement": "optional",
+      "reads": [
+        "ai"
+      ],
+      "why": ""
+    },
+    {
+      "n": 88,
+      "label": "reviewedBy",
+      "kind": "property",
+      "group": "Trust & E-E-A-T",
+      "requirement": "recommended",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "Who checked this. A strong expertise signal."
+    },
+    {
+      "n": 89,
+      "label": "citation",
+      "kind": "property",
+      "group": "Trust & E-E-A-T",
+      "requirement": "recommended",
+      "reads": [
+        "ai"
+      ],
+      "why": "What you rely on. Claims with sources survive verification."
+    },
+    {
+      "n": 90,
+      "label": "correction",
+      "kind": "property",
+      "group": "Trust & E-E-A-T",
+      "requirement": "optional",
+      "reads": [
+        "ai"
+      ],
+      "why": "Published corrections are a credibility signal, not an embarrassment."
+    },
+    {
+      "n": 91,
+      "label": "fundedBy",
+      "kind": "property",
+      "group": "Trust & E-E-A-T",
+      "requirement": "optional",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": ""
+    },
+    {
+      "n": 92,
+      "label": "publishingPrinciples",
+      "kind": "property",
+      "group": "Trust & E-E-A-T",
+      "requirement": "recommended",
+      "reads": [
+        "ai"
+      ],
+      "why": "Your editorial standards, machine-readable."
+    },
+    {
+      "n": 93,
+      "label": "ownershipFundingInfo",
+      "kind": "property",
+      "group": "B2B & institutional",
+      "requirement": "optional",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "",
+      "on": [
+        "Organization"
+      ]
+    },
+    {
+      "n": 94,
+      "label": "memberOf",
+      "kind": "property",
+      "group": "B2B & institutional",
+      "requirement": "optional",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "Associations and bodies you belong to.",
+      "on": [
+        "Organization",
+        "Person"
+      ]
+    },
+    {
+      "n": 95,
+      "label": "areaServed",
+      "kind": "property",
+      "group": "B2B & institutional",
+      "requirement": "recommended",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "Where you operate. An agent filtering by market needs this.",
+      "on": [
+        "Organization",
+        "Service"
+      ]
+    },
+    {
+      "n": 96,
+      "label": "seeks",
+      "kind": "property",
+      "group": "B2B & institutional",
+      "requirement": "optional",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "What you are looking for — the other side of an offer.",
+      "on": [
+        "Organization"
+      ]
+    },
+    {
+      "n": 97,
+      "label": "DataDownload",
+      "kind": "type",
+      "group": "Applications & APIs",
+      "requirement": "optional",
+      "reads": [
+        "ai"
+      ],
+      "why": ""
+    },
+    {
+      "n": 98,
+      "label": "operatingSystem",
+      "kind": "property",
+      "group": "Applications & APIs",
+      "requirement": "conditional",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "",
+      "condition": "software is described",
+      "on": [
+        "SoftwareApplication"
+      ]
+    },
+    {
+      "n": 99,
+      "label": "applicationCategory",
+      "kind": "property",
+      "group": "Applications & APIs",
+      "requirement": "conditional",
+      "reads": [
+        "human",
+        "ai"
+      ],
+      "why": "",
+      "condition": "software is described",
+      "on": [
+        "SoftwareApplication"
+      ]
+    },
+    {
+      "n": 100,
+      "label": "entryPoint",
+      "kind": "property",
+      "group": "Applications & APIs",
+      "requirement": "recommended",
+      "reads": [
+        "ai"
+      ],
+      "why": "The URL an agent actually calls. This is where markup stops describing and starts enabling."
+    }
+  ]
+}

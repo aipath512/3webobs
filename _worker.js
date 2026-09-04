@@ -695,7 +695,7 @@ async function gatherEvidence(target, opts) {
     llms: llms.ok ? llms.text : null,
     aitxt: aitxt.ok ? aitxt.text : null,
     jsonFiles, jsonBodies, safeInvocation,
-    ldTypes: ld.types, ldNodes: ld.nodes, ldInvalidBlocks: ld.invalidBlocks,
+    ldTypes: ld.types, ldNodes: ld.nodes, ldBlocks: ld.blocks, ldInvalidBlocks: ld.invalidBlocks,
     langAttr: (html.match(/<html[^>]+lang=["']([^"']+)["']/i) || [])[1] || null,
     canonical: (html.match(/<link[^>]+rel=["']canonical["'][^>]+href=["']([^"']+)["']/i) || [])[1] || null,
     viewport: !!html.match(/<meta[^>]+name=["']viewport["']/i),
@@ -2134,6 +2134,192 @@ function validateSchemaGraph(nodes, invalidBlocks) {
   return out;
 }
 
+
+/* ═══════════ CELE 100 DE ELEMENTE SCHEMA.ORG ═══════════
+
+   Structured data e singurul strat pe care un motor de cautare si un sistem
+   AI il citesc la fel. De aceea o singura lista serveste ambele web-uri, si
+   de aceea cardul se numeste Mixed Signals.
+
+   Registrul e o selectie, nu specificatia schema.org — care are mii de
+   termeni. Astea sunt cele care schimba daca o entitate poate fi rezolvata,
+   o oferta citita, o pagina inteleasa.
+
+   Verdictele:
+     green   prezent, si complet unde completitudinea e definita
+     yellow  prezent dar incomplet, sau recomandat si absent
+     red     obligatoriu pentru orice site si lipseste
+     grey    neaplicabil — conditia care l-ar face relevant nu e indeplinita
+
+   `conditional` absent NU e esec. E aceeasi disciplina ca `na` la cele 167:
+   nu penalizam un site pentru ca nu vinde produse. */
+
+const SCHEMA100 = [{"n":1,"label":"Organization","kind":"type","group":"Core entities","requirement":"required","reads":["human","ai"],"completeness":["name","url","logo","sameAs"]},{"n":2,"label":"LocalBusiness","kind":"type","group":"Core entities","requirement":"conditional","reads":["human","ai"],"completeness":["address","telephone","openingHoursSpecification"],"condition":"the business has a physical location"},{"n":3,"label":"Person","kind":"type","group":"Core entities","requirement":"recommended","reads":["human","ai"],"completeness":["name","jobTitle"]},{"n":4,"label":"Product","kind":"type","group":"Core entities","requirement":"conditional","reads":["human","ai"],"completeness":["name","offers"],"condition":"the page sells a product"},{"n":5,"label":"Article","kind":"type","group":"Core entities","requirement":"conditional","reads":["human","ai"],"completeness":["headline","author","datePublished"],"condition":"the page is editorial"},{"n":6,"label":"BlogPosting","kind":"type","group":"Core entities","requirement":"conditional","reads":["human","ai"],"completeness":["headline","author","datePublished"],"condition":"the page is a blog post"},{"n":7,"label":"WebSite","kind":"type","group":"Core entities","requirement":"required","reads":["human","ai"],"completeness":["name","url"]},{"n":8,"label":"WebPage","kind":"type","group":"Core entities","requirement":"required","reads":["human","ai"],"completeness":["name","url","isPartOf"]},{"n":9,"label":"BreadcrumbList","kind":"type","group":"Core entities","requirement":"recommended","reads":["human","ai"],"completeness":["itemListElement"]},{"n":10,"label":"Event","kind":"type","group":"Core entities","requirement":"conditional","reads":["human","ai"],"completeness":["startDate","location"],"condition":"the page announces an event"},{"n":11,"label":"Offer","kind":"type","group":"Commerce","requirement":"conditional","reads":["human","ai"],"completeness":["price","priceCurrency","availability"],"condition":"something is sold"},{"n":12,"label":"AggregateRating","kind":"type","group":"Commerce","requirement":"optional","reads":["human","ai"]},{"n":13,"label":"Review","kind":"type","group":"Commerce","requirement":"optional","reads":["human","ai"]},{"n":14,"label":"price","kind":"property","group":"Commerce","requirement":"conditional","reads":["human","ai"],"condition":"an Offer exists","on":["Offer"]},{"n":15,"label":"priceCurrency","kind":"property","group":"Commerce","requirement":"conditional","reads":["human","ai"],"condition":"an Offer exists","on":["Offer"]},{"n":16,"label":"availability","kind":"property","group":"Commerce","requirement":"conditional","reads":["human","ai"],"condition":"an Offer exists","on":["Offer"]},{"n":17,"label":"sku","kind":"property","group":"Commerce","requirement":"optional","reads":["human","ai"],"on":["Product","Offer"]},{"n":18,"label":"brand","kind":"property","group":"Commerce","requirement":"recommended","reads":["human","ai"],"on":["Product","Organization"]},{"n":19,"label":"gtin13","kind":"property","group":"Commerce","requirement":"optional","reads":["human","ai"],"on":["Product"]},{"n":20,"label":"itemCondition","kind":"property","group":"Commerce","requirement":"optional","reads":["human","ai"],"on":["Product","Offer"]},{"n":21,"label":"@context","kind":"property","group":"Identity & graph","requirement":"required","reads":["human","ai"]},{"n":22,"label":"@type","kind":"property","group":"Identity & graph","requirement":"required","reads":["human","ai"]},{"n":23,"label":"@id","kind":"property","group":"Identity & graph","requirement":"required","reads":["ai"]},{"n":24,"label":"name","kind":"property","group":"Identity & graph","requirement":"required","reads":["human","ai"]},{"n":25,"label":"url","kind":"property","group":"Identity & graph","requirement":"required","reads":["human","ai"]},{"n":26,"label":"sameAs","kind":"property","group":"Identity & graph","requirement":"required","reads":["ai"]},{"n":27,"label":"logo","kind":"property","group":"Identity & graph","requirement":"recommended","reads":["human","ai"],"on":["Organization"]},{"n":28,"label":"description","kind":"property","group":"Identity & graph","requirement":"required","reads":["human","ai"]},{"n":29,"label":"image","kind":"property","group":"Identity & graph","requirement":"recommended","reads":["human","ai"]},{"n":30,"label":"mainEntityOfPage","kind":"property","group":"Identity & graph","requirement":"recommended","reads":["ai"]},{"n":31,"label":"PostalAddress","kind":"type","group":"Location & contact","requirement":"recommended","reads":["human","ai"],"completeness":["streetAddress","addressLocality","addressCountry"]},{"n":32,"label":"streetAddress","kind":"property","group":"Location & contact","requirement":"conditional","reads":["human","ai"],"condition":"an address is declared","on":["PostalAddress"]},{"n":33,"label":"addressLocality","kind":"property","group":"Location & contact","requirement":"conditional","reads":["human","ai"],"condition":"an address is declared","on":["PostalAddress"]},{"n":34,"label":"addressCountry","kind":"property","group":"Location & contact","requirement":"conditional","reads":["human","ai"],"condition":"an address is declared","on":["PostalAddress"]},{"n":35,"label":"postalCode","kind":"property","group":"Location & contact","requirement":"optional","reads":["human","ai"],"on":["PostalAddress"]},{"n":36,"label":"geo","kind":"property","group":"Location & contact","requirement":"optional","reads":["human","ai"],"on":["LocalBusiness","Place"]},{"n":37,"label":"telephone","kind":"property","group":"Location & contact","requirement":"recommended","reads":["human","ai"]},{"n":38,"label":"email","kind":"property","group":"Location & contact","requirement":"recommended","reads":["human","ai"]},{"n":39,"label":"openingHoursSpecification","kind":"property","group":"Location & contact","requirement":"conditional","reads":["human","ai"],"condition":"the business has opening hours","on":["LocalBusiness"]},{"n":40,"label":"contactPoint","kind":"property","group":"Location & contact","requirement":"recommended","reads":["human","ai"],"on":["Organization"]},{"n":41,"label":"FAQPage","kind":"type","group":"Rich content","requirement":"recommended","reads":["human","ai"],"completeness":["mainEntity"]},{"n":42,"label":"Question","kind":"type","group":"Rich content","requirement":"conditional","reads":["human","ai"],"condition":"a FAQPage exists"},{"n":43,"label":"Answer","kind":"type","group":"Rich content","requirement":"conditional","reads":["human","ai"],"condition":"a FAQPage exists"},{"n":44,"label":"HowTo","kind":"type","group":"Rich content","requirement":"conditional","reads":["human","ai"],"completeness":["step"],"condition":"the page describes a procedure"},{"n":45,"label":"VideoObject","kind":"type","group":"Rich content","requirement":"conditional","reads":["human","ai"],"condition":"the page carries video"},{"n":46,"label":"SoftwareApplication","kind":"type","group":"Rich content","requirement":"conditional","reads":["human","ai"],"completeness":["applicationCategory"],"condition":"the page describes software"},{"n":47,"label":"JobPosting","kind":"type","group":"Rich content","requirement":"conditional","reads":["human","ai"],"condition":"the page is a job advert"},{"n":48,"label":"Course","kind":"type","group":"Rich content","requirement":"conditional","reads":["human","ai"],"condition":"the page offers a course"},{"n":49,"label":"author","kind":"property","group":"Rich content","requirement":"conditional","reads":["human","ai"],"condition":"the page is editorial"},{"n":50,"label":"publisher","kind":"property","group":"Rich content","requirement":"recommended","reads":["human","ai"]},{"n":51,"label":"ProfessionalService","kind":"type","group":"Services & corporate","requirement":"conditional","reads":["human","ai"],"condition":"the business is a professional service"},{"n":52,"label":"Corporation","kind":"type","group":"Services & corporate","requirement":"recommended","reads":["human","ai"]},{"n":53,"label":"Service","kind":"type","group":"Services & corporate","requirement":"recommended","reads":["human","ai"],"completeness":["name","provider"]},{"n":54,"label":"TechArticle","kind":"type","group":"Services & corporate","requirement":"conditional","reads":["human","ai"],"condition":"the page is technical documentation"},{"n":55,"label":"Dataset","kind":"type","group":"Services & corporate","requirement":"conditional","reads":["ai"],"completeness":["distribution"],"condition":"the page publishes data"},{"n":56,"label":"Recipe","kind":"type","group":"Guides & navigation","requirement":"optional","reads":["human","ai"]},{"n":57,"label":"Step","kind":"type","group":"Guides & navigation","requirement":"conditional","reads":["human","ai"],"condition":"a HowTo exists"},{"n":58,"label":"ListItem","kind":"type","group":"Guides & navigation","requirement":"conditional","reads":["human","ai"],"condition":"a list or breadcrumb exists"},{"n":59,"label":"ItemList","kind":"type","group":"Guides & navigation","requirement":"recommended","reads":["human","ai"]},{"n":60,"label":"SpeakableSpecification","kind":"type","group":"Guides & navigation","requirement":"optional","reads":["ai"]},{"n":61,"label":"legalName","kind":"property","group":"Legal & identifiers","requirement":"required","reads":["human","ai"],"on":["Organization"]},{"n":62,"label":"vatID","kind":"property","group":"Legal & identifiers","requirement":"recommended","reads":["human","ai"],"on":["Organization"]},{"n":63,"label":"taxID","kind":"property","group":"Legal & identifiers","requirement":"optional","reads":["human","ai"],"on":["Organization"]},{"n":64,"label":"duns","kind":"property","group":"Legal & identifiers","requirement":"optional","reads":["human","ai"],"on":["Organization"]},{"n":65,"label":"naics","kind":"property","group":"Legal & identifiers","requirement":"optional","reads":["human","ai"],"on":["Organization"]},{"n":66,"label":"founder","kind":"property","group":"Semantic validation","requirement":"recommended","reads":["human","ai"],"on":["Organization"]},{"n":67,"label":"foundingDate","kind":"property","group":"Semantic validation","requirement":"recommended","reads":["human","ai"],"on":["Organization"]},{"n":68,"label":"knowsAbout","kind":"property","group":"Semantic validation","requirement":"recommended","reads":["ai"],"on":["Organization","Person"]},{"n":69,"label":"alumniOf","kind":"property","group":"Semantic validation","requirement":"optional","reads":["human","ai"],"on":["Person"]},{"n":70,"label":"parentOrganization","kind":"property","group":"Semantic validation","requirement":"optional","reads":["human","ai"],"on":["Organization"]},{"n":71,"label":"AudioObject","kind":"type","group":"Media","requirement":"optional","reads":["human","ai"]},{"n":72,"label":"ImageObject","kind":"type","group":"Media","requirement":"recommended","reads":["human","ai"]},{"n":73,"label":"thumbnailUrl","kind":"property","group":"Media","requirement":"optional","reads":["human","ai"]},{"n":74,"label":"aggregateRating","kind":"property","group":"Media","requirement":"optional","reads":["human","ai"],"on":["Service","Product","Organization"]},{"n":75,"label":"hasOfferCatalog","kind":"property","group":"Media","requirement":"recommended","reads":["human","ai"],"on":["Organization","Service"]},{"n":76,"label":"MerchantReturnPolicy","kind":"type","group":"Commerce policies","requirement":"conditional","reads":["human","ai"],"condition":"goods are sold"},{"n":77,"label":"OfferShippingDetails","kind":"type","group":"Commerce policies","requirement":"conditional","reads":["human","ai"],"condition":"physical goods are shipped"},{"n":78,"label":"shippingRate","kind":"property","group":"Commerce policies","requirement":"optional","reads":["human","ai"]},{"n":79,"label":"deliveryTime","kind":"property","group":"Commerce policies","requirement":"optional","reads":["human","ai"]},{"n":80,"label":"returnPolicyCategory","kind":"property","group":"Commerce policies","requirement":"optional","reads":["human","ai"]},{"n":81,"label":"priceValidUntil","kind":"property","group":"Commerce policies","requirement":"optional","reads":["human","ai"],"on":["Offer"]},{"n":82,"label":"itemOffered","kind":"property","group":"Commerce policies","requirement":"conditional","reads":["human","ai"],"condition":"an Offer exists","on":["Offer"]},{"n":83,"label":"copyrightHolder","kind":"property","group":"Attribution & licensing","requirement":"recommended","reads":["ai"]},{"n":84,"label":"copyrightYear","kind":"property","group":"Attribution & licensing","requirement":"optional","reads":["ai"]},{"n":85,"label":"license","kind":"property","group":"Attribution & licensing","requirement":"recommended","reads":["ai"]},{"n":86,"label":"creditText","kind":"property","group":"Attribution & licensing","requirement":"optional","reads":["ai"]},{"n":87,"label":"acquireLicensePage","kind":"property","group":"Attribution & licensing","requirement":"optional","reads":["ai"]},{"n":88,"label":"reviewedBy","kind":"property","group":"Trust & E-E-A-T","requirement":"recommended","reads":["human","ai"]},{"n":89,"label":"citation","kind":"property","group":"Trust & E-E-A-T","requirement":"recommended","reads":["ai"]},{"n":90,"label":"correction","kind":"property","group":"Trust & E-E-A-T","requirement":"optional","reads":["ai"]},{"n":91,"label":"fundedBy","kind":"property","group":"Trust & E-E-A-T","requirement":"optional","reads":["human","ai"]},{"n":92,"label":"publishingPrinciples","kind":"property","group":"Trust & E-E-A-T","requirement":"recommended","reads":["ai"]},{"n":93,"label":"ownershipFundingInfo","kind":"property","group":"B2B & institutional","requirement":"optional","reads":["human","ai"],"on":["Organization"]},{"n":94,"label":"memberOf","kind":"property","group":"B2B & institutional","requirement":"optional","reads":["human","ai"],"on":["Organization","Person"]},{"n":95,"label":"areaServed","kind":"property","group":"B2B & institutional","requirement":"recommended","reads":["human","ai"],"on":["Organization","Service"]},{"n":96,"label":"seeks","kind":"property","group":"B2B & institutional","requirement":"optional","reads":["human","ai"],"on":["Organization"]},{"n":97,"label":"DataDownload","kind":"type","group":"Applications & APIs","requirement":"optional","reads":["ai"]},{"n":98,"label":"operatingSystem","kind":"property","group":"Applications & APIs","requirement":"conditional","reads":["human","ai"],"condition":"software is described","on":["SoftwareApplication"]},{"n":99,"label":"applicationCategory","kind":"property","group":"Applications & APIs","requirement":"conditional","reads":["human","ai"],"condition":"software is described","on":["SoftwareApplication"]},{"n":100,"label":"entryPoint","kind":"property","group":"Applications & APIs","requirement":"recommended","reads":["ai"]}];
+
+/* Conditiile, evaluate din graful real. Fiecare intoarce true daca elementul
+   devine relevant pentru site-ul asta. */
+function schema100Conditions(nodes) {
+  nodes = nodes || [];
+  const types = new Set();
+  const props = new Set();
+  for (const o of nodes) {
+    const t = Array.isArray(o['@type']) ? o['@type'] : (o['@type'] ? [o['@type']] : []);
+    t.forEach(x => types.add(String(x)));
+    Object.keys(o).forEach(k => props.add(k));
+  }
+  const has = (...t) => t.some(x => schema100TypeSatisfied(x, types));
+  return {
+    types, props,
+    /* Nu testam prin LocalBusiness — ar fi circular: elementul cerut ar fi
+       propria lui conditie.
+       Si nu testam prin adresa: orice firma din UE isi publica sediul social,
+       pentru ca legea o cere. Un sediu nu e un magazin. Semnul unui loc unde
+       vin clienti e programul de functionare sau coordonatele — lucruri pe
+       care un serviciu pur online nu are motiv sa le declare.
+       Cand nu putem sti din exterior, marcam gri, nu rosu. Un fals rosu
+       trimite clientul sa repare ceva ce nu e stricat. */
+    'the business has a physical location':
+      nodes.some(o => o.openingHoursSpecification) || props.has('geo') || props.has('openingHours'),
+    'the page sells a product': has('Product'),
+    'the page is editorial': has('Article','NewsArticle','BlogPosting','TechArticle'),
+    'the page is a blog post': has('BlogPosting'),
+    'the page announces an event': has('Event'),
+    'something is sold': has('Offer','Product','Service','OfferCatalog'),
+    'an Offer exists': has('Offer'),
+    'an address is declared': has('PostalAddress') || props.has('address'),
+    'the business has opening hours': nodes.some(o => o.openingHoursSpecification) || props.has('openingHours'),
+    'a FAQPage exists': has('FAQPage'),
+    'the page describes a procedure': has('HowTo'),
+    'the page carries video': has('VideoObject'),
+    'the page describes software': has('SoftwareApplication','WebApplication'),
+    'the page is a job advert': has('JobPosting'),
+    'the page offers a course': has('Course'),
+    'the business is a professional service': has('ProfessionalService'),
+    'the page is technical documentation': has('TechArticle','APIReference'),
+    'the page publishes data': has('Dataset','DataCatalog'),
+    'a HowTo exists': has('HowTo'),
+    'a list or breadcrumb exists': has('ItemList','BreadcrumbList','OfferCatalog'),
+    'goods are sold': has('Product'),
+    'physical goods are shipped': has('Product'),
+    'software is described': has('SoftwareApplication','WebApplication')
+  };
+}
+
+/* Un subtip satisface tipul parinte: daca pagina declara TechArticle, ea
+   ARE markup de articol. Fara regula asta, checkerul cerea Article pe o
+   pagina care il avea deja, sub alt nume — exact genul de fals pozitiv care
+   trimite clientul sa repare ceva ce nu e stricat. */
+const SCHEMA100_SUBTYPES = {
+  Article: ['NewsArticle','BlogPosting','TechArticle','APIReference','Report','ScholarlyArticle'],
+  Organization: ['Corporation','OnlineBusiness','LocalBusiness','ProfessionalService','NGO','EducationalOrganization'],
+  WebPage: ['CollectionPage','ContactPage','AboutPage','ProfilePage','FAQPage','ItemPage','SearchResultsPage'],
+  CreativeWork: ['WebPage','Article','Dataset','SoftwareApplication','DigitalDocument','HowTo','WebSite'],
+  ItemList: ['BreadcrumbList','OfferCatalog'],
+  LocalBusiness: ['Store','Restaurant','ProfessionalService'],
+  SoftwareApplication: ['WebApplication','MobileApplication'],
+  Step: ['HowToStep','HowToSection'],
+  Person: [],
+  ImageObject: [],
+};
+
+function schema100TypeSatisfied(label, declaredTypes) {
+  if (declaredTypes.has(label)) return true;
+  const subs = SCHEMA100_SUBTYPES[label];
+  return subs ? subs.some(x => declaredTypes.has(x)) : false;
+}
+
+function checkSchema100(nodes, rawBlocks) {
+  nodes = nodes || [];
+  const ctx = schema100Conditions(nodes);
+  const results = [];
+
+  /* Pentru un tip: prezent daca vreun nod il declara. Pentru o proprietate:
+     prezenta daca vreun nod o poarta — restransa la tipurile din `on`, daca
+     e declarat, ca sa nu numaram un `name` de pe alt obiect drept dovada ca
+     Organization are nume. */
+  for (const e of SCHEMA100) {
+    let present = false, incomplete = null, carriers = [];
+
+    /* @context traieste pe blocul JSON-LD, nu pe noduri. Cautat printre
+       noduri, ar fi mereu raportat lipsa — pe orice site din lume. */
+    if (e.label === '@context') {
+      const ok = (rawBlocks || []).some(b => b && b['@context']);
+      results.push({ ...e, mark: ok ? 'green' : 'red',
+        reason: ok ? 'declared on the JSON-LD block'
+                   : 'no JSON-LD block declares @context, so nothing here is linked data' });
+      continue;
+    }
+    if (e.label === '@type') {
+      const ok = nodes.length > 0;
+      results.push({ ...e, mark: ok ? 'green' : 'red',
+        reason: ok ? `${nodes.length} typed objects` : 'no typed object found' });
+      continue;
+    }
+    if (e.label === '@id') {
+      const withId = nodes.filter(o => o['@id']);
+      results.push({ ...e, mark: withId.length ? 'green' : 'yellow',
+        reason: withId.length ? `${withId.length} of ${nodes.length} objects carry an @id`
+                              : 'no object carries an @id, so nothing can reference anything else' });
+      continue;
+    }
+
+    if (e.kind === 'type') {
+      const accepted = new Set([e.label, ...(SCHEMA100_SUBTYPES[e.label] || [])]);
+      carriers = nodes.filter(o => {
+        const t = Array.isArray(o['@type']) ? o['@type'] : [o['@type']];
+        return t.map(String).some(x => accepted.has(x));
+      });
+      present = carriers.length > 0;
+      if (present && e.completeness) {
+        const missing = e.completeness.filter(p => !carriers.some(o => o[p] !== undefined && o[p] !== null && o[p] !== ''));
+        if (missing.length) incomplete = 'missing ' + missing.join(', ');
+      }
+    } else {
+      const scope = e.on
+        ? nodes.filter(o => {
+            const t = Array.isArray(o['@type']) ? o['@type'] : [o['@type']];
+            return t.map(String).some(x => e.on.includes(x));
+          })
+        : nodes;
+      carriers = scope.filter(o => o[e.label] !== undefined && o[e.label] !== null && o[e.label] !== '');
+      present = carriers.length > 0;
+      if (!present && e.on && scope.length === 0) {
+        /* Tipul care ar purta proprietatea nu exista deloc pe site. Nu e
+           absenta proprietatii, e absenta contextului ei. */
+        results.push({ ...e, mark: 'grey', reason: `no ${e.on.join(' or ')} declared on this site` });
+        continue;
+      }
+    }
+
+    if (e.requirement === 'conditional') {
+      const met = e.condition ? ctx[e.condition] : true;
+      if (!met) { results.push({ ...e, mark: 'grey', reason: `not applicable — ${e.condition}` }); continue; }
+    }
+
+    let mark, reason;
+    if (present && incomplete)      { mark = 'yellow'; reason = 'present but ' + incomplete; }
+    else if (present)                { mark = 'green';  reason = 'present' + (carriers.length > 1 ? ` on ${carriers.length} objects` : ''); }
+    else if (e.requirement === 'required')    { mark = 'red';    reason = 'required on every site and missing'; }
+    else if (e.requirement === 'conditional') { mark = 'red';    reason = 'its condition is met on this site, but it is missing'; }
+    else if (e.requirement === 'recommended') { mark = 'yellow'; reason = 'recommended and missing'; }
+    else                                       { mark = 'grey';   reason = 'optional, not present'; }
+
+    results.push({ ...e, mark, reason });
+  }
+
+  const tally = { green: 0, yellow: 0, red: 0, grey: 0 };
+  results.forEach(r => tally[r.mark]++);
+  const graded = tally.green + tally.yellow + tally.red;
+  return {
+    total: results.length,
+    ...tally,
+    graded,
+    score: graded ? Math.round(((tally.green + tally.yellow * 0.5) / graded) * 100) : null,
+    status: tally.red ? 'error' : tally.yellow ? 'warning' : tally.green ? 'valid' : 'none',
+    elements: results
+  };
+}
+
 function evaluate(ev, psi) {
   const scores = {};
   const signals = {};
@@ -2233,6 +2419,10 @@ function evaluate(ev, psi) {
   /* Verdict separat, in afara celor 167. Nu intra in scorul global si nu e
      o dimensiune: e starea stratului structurat al site-ului auditat. */
   const schema = validateSchemaGraph(ev.ldNodes, ev.ldInvalidBlocks);
+  /* Cele 100 de elemente, verificate pe graful site-ului auditat. Separat de
+     validarea structurala de mai sus: aia intreaba "e corect ce ai declarat",
+     asta intreaba "ai declarat ce conteaza". */
+  schema.checklist = checkSchema100(ev.ldNodes, ev.ldBlocks);
 
   return { scores, dimensions, categories, signals, schema, global, tested: totalTested, na: totalNa,
            totalSignals: totalTested + totalNa,
