@@ -1,0 +1,92 @@
+name: Freeze session on deploy
+
+# Un push in main e bascularea dintr-un mediu in altul: ce era in lucru devine
+# ce ruleaza. Exact momentul pentru care exista H.
+#
+# De ce doua actiuni si nu una. H primeste numarul sesiunii curente: din 0001C
+# iese 0001H. Daca un push ar doar congela, al doilea push din aceeasi sesiune
+# ar produce tot 0001H si l-ar suprascrie — iar H e definit ca ceva ce nu se
+# schimba niciodata. Asa ca la fiecare push: se ingheata C curent ca H, si se
+# deschide C urmator ca linie de lucru. Fiecare H ramane unic si corespunde
+# exact unui deploy.
+#
+# Ce trebuie o singura data, in repo: Settings -> Secrets and variables ->
+# Actions -> New repository secret, cu numele SESSION_KEY si valoarea
+# CRON_SECRET de pe Worker. Fara el, pasul se opreste si spune de ce, in loc
+# sa esueze tacut.
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - "proof.json"
+      - "ai-proof.json"
+      - ".drift/**"
+  workflow_dispatch:
+    inputs:
+      note:
+        description: "What this deploy is"
+        required: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: freeze-session
+  cancel-in-progress: false
+
+jobs:
+  freeze:
+    runs-on: ubuntu-latest
+    steps:
+      # Cloudflare Pages are nevoie de timp sa publice. Fara asta am ingheta o
+      # referinta catre o stare care inca nu e live.
+      - name: Wait for deployment
+        run: sleep 90
+
+      - name: Freeze the current session and open the next
+        env:
+          SESSION_KEY: ${{ secrets.SESSION_KEY }}
+        run: |
+          if [ -z "$SESSION_KEY" ]; then
+            echo "SESSION_KEY is not set in this repository's secrets."
+            echo "Add it under Settings > Secrets and variables > Actions,"
+            echo "with the same value as CRON_SECRET on the Worker."
+            exit 1
+          fi
+
+          NOTE="${{ github.event.inputs.note }}"
+          if [ -z "$NOTE" ]; then
+            NOTE="deploy ${{ github.sha }} — ${{ github.event.head_commit.message }}"
+          fi
+          NOTE=$(printf '%s' "$NOTE" | head -c 300 | tr -d '\r\n"')
+
+          RESPONSE=$(curl -sS -w "\n%{http_code}" \
+            -X POST "https://3webobs.com/session?key=$SESSION_KEY" \
+            -H "content-type: application/json" \
+            -d "{\"action\":\"promote\",\"note\":\"$NOTE\"}")
+
+          BODY=$(printf '%s' "$RESPONSE" | sed '$d')
+          CODE=$(printf '%s' "$RESPONSE" | tail -n1)
+
+          echo "$BODY"
+
+          if [ "$CODE" != "200" ]; then
+            echo "The session was not advanced (HTTP $CODE)."
+            exit 1
+          fi
+
+          FROZEN=$(printf '%s' "$BODY" | grep -o '"frozen":{"id":"[^"]*"' | grep -o '[0-9]\{4\}[CHT]' | head -1)
+          CURRENT=$(printf '%s' "$BODY" | grep -o '"current":{"id":"[^"]*"' | grep -o '[0-9]\{4\}[CHT]' | head -1)
+
+          echo "### Session advanced" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Frozen: \`$FROZEN\` — a permanent reference to what went live in this deploy" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Working line: \`$CURRENT\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Commit: \`${{ github.sha }}\`" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Confirm the live site reports the new session
+        run: |
+          sleep 5
+          LIVE=$(curl -sS https://3webobs.com/session | grep -o '"current":"[0-9]\{4\}[CHT]"' | grep -o '[0-9]\{4\}[CHT]')
+          echo "The live site now reports session $LIVE"
