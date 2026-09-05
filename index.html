@@ -329,8 +329,8 @@ html.dark .cta-action-btn:hover{box-shadow:0 4px 16px rgba(94,180,255,.2);}
 .pill b{color:var(--text);font-weight:600;}
 
 /* LOADING */
-#loading-zone{display:none;padding:80px 0;}
-.ld-head{text-align:center;margin-bottom:48px;}
+#loading-zone{display:none;padding:18px 0 26px;margin-top:10px;}
+.ld-head{text-align:center;margin-bottom:18px;}
 .ld-tag{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--blue);margin-bottom:14px;}
 .ld-title{font-family:'Playfair Display',serif;font-weight:700;font-size:30px;letter-spacing:-.02em;margin-bottom:8px;}
 .ld-url{font-size:13px;color:var(--text);font-family:'Inter',monospace;}
@@ -342,12 +342,12 @@ html.dark .cta-action-btn:hover{box-shadow:0 4px 16px rgba(94,180,255,.2);}
 .metro-copy{min-width:0;}
 .metro-stage{display:block;font-size:13px;font-weight:800;line-height:1.3;}
 .metro-note{display:block;margin-top:3px;font-size:10.5px;line-height:1.4;opacity:.68;font-variant-numeric:tabular-nums;}
-.metro-percent{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:28px;line-height:1;font-weight:900;font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--blue)!important;}
+.metro-percent{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:46px;line-height:1;font-weight:900;font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--blue)!important;min-width:110px;text-align:right;}
 .metro-wrap{overflow-x:auto;padding:6px 4px 5px;scrollbar-width:thin;}
 .metro-line{display:grid;grid-template-columns:repeat(9,minmax(86px,1fr));min-width:790px;align-items:start;position:relative;padding-top:1px;}
 .metro-line::before{content:"";position:absolute;top:17px;left:5.4%;right:5.4%;height:8px;background:var(--bg3);border:1px solid var(--border-md);border-radius:999px;z-index:0;}
 .metro-progress-rail{position:absolute;top:17px;left:5.4%;height:8px;width:var(--metro-progress,2%);max-width:89.2%;border-radius:999px;background:var(--blue);z-index:1;transition:width .65s linear;overflow:hidden;}
-.metro-progress-rail::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(115deg,transparent 0 12px,rgba(255,255,255,.38) 12px 21px);animation:metroFlow .8s linear infinite;}
+.metro-progress-rail::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(115deg,transparent 0 12px,rgba(255,255,255,.58) 12px 21px);animation:metroFlow .45s linear infinite;}
 @keyframes metroFlow{from{transform:translateX(-22px)}to{transform:translateX(22px)}}
 .metro-stop{position:relative;z-index:2;text-align:center;min-width:0;}
 .metro-dot{width:22px;height:22px;margin:6px auto 8px;border-radius:50%;border:3px solid var(--xlight);background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;transition:border-color .2s,background .2s,box-shadow .2s,transform .2s;}
@@ -1662,6 +1662,57 @@ async function unlockChecklist(){
   </div>
 
 </div>
+
+<div id="loading-zone">
+  <div class="ld-head fu">
+    <div class="ld-tag">Scanning</div>
+    <div class="ld-title">Analyzing AI Visibility</div>
+    <div class="ld-url" id="ld-url"></div>
+    <div class="audit-progress" id="audit-progress" role="status" aria-live="polite">
+      <div class="metro-meta">
+        <div class="metro-copy">
+          <span class="metro-stage" id="audit-progress-stage">Starting observation…</span>
+          <span class="metro-note" id="audit-progress-note">Estimated progress · 0 sec elapsed</span>
+        </div>
+        <strong class="metro-percent" id="audit-progress-percent">2%</strong>
+      </div>
+      <div class="metro-wrap">
+        <div class="metro-line" id="metro-line" style="--metro-progress:2%">
+          <div class="metro-progress-rail" id="metro-progress-rail" aria-hidden="true"></div>
+          <div class="metro-stop active" data-stop="0"><div class="metro-dot"></div><div class="metro-label">START</div></div>
+          <div class="metro-stop pending" data-stop="1"><div class="metro-dot"></div><div class="metro-label">CONNECT</div></div>
+          <div class="metro-stop pending" data-stop="2"><div class="metro-dot"></div><div class="metro-label">EVIDENCE</div></div>
+          <div class="metro-stop pending" data-stop="3"><div class="metro-dot"></div><div class="metro-label">LINKS</div></div>
+          <div class="metro-stop pending" data-stop="4"><div class="metro-dot"></div><div class="metro-label">SITEMAP</div></div>
+          <div class="metro-stop pending" data-stop="5"><div class="metro-dot"></div><div class="metro-label">PERF</div></div>
+          <div class="metro-stop pending" data-stop="6"><div class="metro-dot"></div><div class="metro-label">167 SIGNALS</div></div>
+          <div class="metro-stop pending" data-stop="7"><div class="metro-dot"></div><div class="metro-label">REPORT</div></div>
+          <div class="metro-stop pending" data-stop="8"><div class="metro-dot"></div><div class="metro-label">COMPLETE</div></div>
+        </div>
+      </div>
+      <div class="metro-time" id="audit-progress-time">~30 sec remaining</div>
+    </div>
+  </div>
+  <div class="mod-grid fu1">
+    <div class="mod" id="m-aeo"><div class="mod-lbl">AEO</div><div class="mod-cnt" id="c-aeo">0 / 34</div><div class="mod-bar" id="b-aeo"></div></div>
+    <div class="mod" id="m-geo"><div class="mod-lbl">GEO</div><div class="mod-cnt" id="c-geo">0 / 28</div><div class="mod-bar" id="b-geo"></div></div>
+    <div class="mod" id="m-aio"><div class="mod-lbl">AIO</div><div class="mod-cnt" id="c-aio">0 / 31</div><div class="mod-bar" id="b-aio"></div></div>
+    <div class="mod" id="m-seo"><div class="mod-lbl">SEO</div><div class="mod-cnt" id="c-seo">0 / 42</div><div class="mod-bar" id="b-seo"></div></div>
+    <div class="mod" id="m-ai"><div class="mod-lbl">AI Signals</div><div class="mod-cnt" id="c-ai">0 / 19</div><div class="mod-bar" id="b-ai"></div></div>
+    <div class="mod" id="m-a2a"><div class="mod-lbl">A2A</div><div class="mod-cnt" id="c-a2a">0 / 13</div><div class="mod-bar" id="b-a2a"></div></div>
+    <div class="mod" id="m-tot"><div class="mod-lbl">Total</div><div class="mod-cnt" id="c-tot">0 / 167</div><div class="mod-bar" id="b-tot"></div></div>
+    <div class="mod" id="m-op"><div class="mod-lbl">On-Page</div><div class="mod-cnt" id="c-op">0 / 68</div><div class="mod-bar" id="b-op"></div></div>
+    <div class="mod" id="m-off"><div class="mod-lbl">Off-Page</div><div class="mod-cnt" id="c-off">0 / 31</div><div class="mod-bar" id="b-off"></div></div>
+  </div>
+  <div class="stream fu2" id="stream"></div>
+</div>
+
+
+
+
+
+</div>
+
 </main>
 
 <!-- RESULTS — la nivelul de sus al paginii, in afara lui <main>.
@@ -1779,54 +1830,6 @@ async function unlockChecklist(){
     Reports are technical observations, not certifications or legal opinions.
   </p>
 </footer>
-
-<div id="loading-zone">
-  <div class="ld-head fu">
-    <div class="ld-tag">Scanning</div>
-    <div class="ld-title">Analyzing AI Visibility</div>
-    <div class="ld-url" id="ld-url"></div>
-    <div class="audit-progress" id="audit-progress" role="status" aria-live="polite">
-      <div class="metro-meta">
-        <div class="metro-copy">
-          <span class="metro-stage" id="audit-progress-stage">Starting observation…</span>
-          <span class="metro-note" id="audit-progress-note">Estimated progress · 0 sec elapsed</span>
-        </div>
-        <strong class="metro-percent" id="audit-progress-percent">2%</strong>
-      </div>
-      <div class="metro-wrap">
-        <div class="metro-line" id="metro-line" style="--metro-progress:2%">
-          <div class="metro-progress-rail" id="metro-progress-rail" aria-hidden="true"></div>
-          <div class="metro-stop active" data-stop="0"><div class="metro-dot"></div><div class="metro-label">START</div></div>
-          <div class="metro-stop pending" data-stop="1"><div class="metro-dot"></div><div class="metro-label">CONNECT</div></div>
-          <div class="metro-stop pending" data-stop="2"><div class="metro-dot"></div><div class="metro-label">EVIDENCE</div></div>
-          <div class="metro-stop pending" data-stop="3"><div class="metro-dot"></div><div class="metro-label">LINKS</div></div>
-          <div class="metro-stop pending" data-stop="4"><div class="metro-dot"></div><div class="metro-label">SITEMAP</div></div>
-          <div class="metro-stop pending" data-stop="5"><div class="metro-dot"></div><div class="metro-label">PERFORMANCE</div></div>
-          <div class="metro-stop pending" data-stop="6"><div class="metro-dot"></div><div class="metro-label">167 SIGNALS</div></div>
-          <div class="metro-stop pending" data-stop="7"><div class="metro-dot"></div><div class="metro-label">REPORT</div></div>
-          <div class="metro-stop pending" data-stop="8"><div class="metro-dot"></div><div class="metro-label">COMPLETE</div></div>
-        </div>
-      </div>
-      <div class="metro-time" id="audit-progress-time">~30 sec remaining</div>
-    </div>
-  </div>
-  <div class="mod-grid fu1">
-    <div class="mod" id="m-aeo"><div class="mod-lbl">AEO</div><div class="mod-cnt" id="c-aeo">0 / 34</div><div class="mod-bar" id="b-aeo"></div></div>
-    <div class="mod" id="m-geo"><div class="mod-lbl">GEO</div><div class="mod-cnt" id="c-geo">0 / 28</div><div class="mod-bar" id="b-geo"></div></div>
-    <div class="mod" id="m-aio"><div class="mod-lbl">AIO</div><div class="mod-cnt" id="c-aio">0 / 31</div><div class="mod-bar" id="b-aio"></div></div>
-    <div class="mod" id="m-seo"><div class="mod-lbl">SEO</div><div class="mod-cnt" id="c-seo">0 / 42</div><div class="mod-bar" id="b-seo"></div></div>
-    <div class="mod" id="m-ai"><div class="mod-lbl">AI Signals</div><div class="mod-cnt" id="c-ai">0 / 19</div><div class="mod-bar" id="b-ai"></div></div>
-    <div class="mod" id="m-a2a"><div class="mod-lbl">A2A</div><div class="mod-cnt" id="c-a2a">0 / 13</div><div class="mod-bar" id="b-a2a"></div></div>
-    <div class="mod" id="m-tot"><div class="mod-lbl">Total</div><div class="mod-cnt" id="c-tot">0 / 167</div><div class="mod-bar" id="b-tot"></div></div>
-    <div class="mod" id="m-op"><div class="mod-lbl">On-Page</div><div class="mod-cnt" id="c-op">0 / 68</div><div class="mod-bar" id="b-op"></div></div>
-    <div class="mod" id="m-off"><div class="mod-lbl">Off-Page</div><div class="mod-cnt" id="c-off">0 / 31</div><div class="mod-bar" id="b-off"></div></div>
-  </div>
-  <div class="stream fu2" id="stream"></div>
-</div>
-
-
-</div>
-
 <script>
 /* THEME */
 function toggleTheme(){
@@ -2084,10 +2087,10 @@ const METRO_STOPS = [
 ];
 
 function estimatedAuditPercent(elapsed){
-  if(elapsed<=0) return 2;
+  if(elapsed<=0) return 1;
   if(elapsed>=AUDIT_ESTIMATE_SEC) return 95;
   // Continuous movement: quick visible start, then gradual approach to 95%.
-  return Math.max(2,Math.min(95,Math.round(2 + 93*(elapsed/AUDIT_ESTIMATE_SEC))));
+  return Math.max(1,Math.min(95,Math.round(1 + 94*(elapsed/AUDIT_ESTIMATE_SEC))));
 }
 
 function metroIndexForPercent(pct){
@@ -2145,10 +2148,10 @@ function startAuditProgress(){
   if(stage) stage.textContent='Starting observation';
   if(time) time.textContent='~'+AUDIT_ESTIMATE_SEC+' sec remaining';
   if(note) note.textContent='Estimated progress · 0 sec elapsed';
-  if(percent) percent.textContent='2%';
-  paintMetro(2,false);
+  if(percent) percent.textContent='1%';
+  paintMetro(1,false);
   updateAuditProgress();
-  auditProgressTimer=setInterval(updateAuditProgress,500);
+  auditProgressTimer=setInterval(updateAuditProgress,250);
 }
 
 function completeAuditProgress(){
@@ -2171,8 +2174,8 @@ function stopAuditProgress(reset=true){
   auditProgressStarted=0;
   if(reset){
     const percent=document.getElementById('audit-progress-percent');
-    if(percent) percent.textContent='2%';
-    paintMetro(2,false);
+    if(percent) percent.textContent='1%';
+    paintMetro(1,false);
   }
 }
 
@@ -2373,6 +2376,7 @@ async function startAudit(){
   let url='https://'+clean;
   document.getElementById('input-zone').style.display='none';
   document.getElementById('loading-zone').style.display='block';
+  document.getElementById('loading-zone').scrollIntoView({behavior:'smooth',block:'center'});
   document.getElementById('ld-url').textContent=url;
   startAuditProgress();
   document.getElementById('results-zone').innerHTML='';
