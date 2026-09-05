@@ -1,371 +1,3480 @@
 {
-  "$schema": "https://3webobs.com/schemas/intents.json",
-  "version": "1.2",
-  "generated": "2026-08-25",
-  "service": {
-    "name": "3webs",
-    "domain": "https://3webobs.com/",
-    "operator": "AIVENTURE S.R.L."
-  },
-  "purpose": "Declares the tasks that 3webs can perform and the Machine Web / A2A intent vocabulary that 3webs can observe, classify and evaluate on public machine-facing interfaces.",
-  "interpretation": {
-    "intent_is_capability_proof": false,
-    "intent_vocabulary_is_service_capability": false,
-    "statement": "A declared intent describes a requested or advertised machine action. Its presence does not by itself prove that the corresponding capability is reachable, invocable or operational.",
-    "capability_states": [
-      "declared",
-      "valid",
-      "reachable",
-      "invocable",
-      "verified"
-    ]
-  },
-  "service_intents": [
-    {
-      "id": "observe_once",
-      "name": "Observe a domain once",
-      "description": "Perform a point-in-time observation of publicly accessible evidence for a domain.",
-      "utterances": [
-        "audit this website",
-        "observe this website",
-        "observe this domain",
-        "how visible is this domain to AI",
-        "check this site's AI visibility",
-        "check my AI readiness",
-        "what do AI systems see on this site",
-        "what does a crawler see on this website",
-        "check the human web, AI web and machine web for this domain"
-      ],
-      "capability": "obs.one_shot",
-      "input": {
-        "required": [
-          "url"
-        ],
-        "optional": []
-      },
-      "output": {
-        "type": "observation",
-        "description": "Point-in-time evidence and signal results for the submitted public domain."
-      },
-      "commercial": {
-        "pricing": "See current service terms.",
-        "terms": "https://3webobs.com/terms.html"
-      }
+  "schema_version": "2.0",
+  "market": "US",
+  "language": "en-US",
+  "name": "3WEBOBS Intent Taxonomy",
+  "purpose": "Map search and optimization intents across the Human Web and AI-search disciplines to TOF, MOF and BOF.",
+  "funnel": {
+    "TOF": {
+      "name": "Top of Funnel",
+      "meaning": "Learn, discover, understand, diagnose or explore."
     },
-    {
-      "id": "observe_permanent",
-      "name": "Observe a domain continuously",
-      "description": "Re-observe a public domain over time and detect material changes in observable signals.",
-      "utterances": [
-        "monitor this domain",
-        "monitor this website",
-        "watch this domain",
-        "watch for regressions",
-        "tell me when something changes",
-        "tell me when my score drops",
-        "keep observing this website",
-        "track changes in AI visibility",
-        "monitor the human web, AI web and machine web"
-      ],
-      "capability": "obs.permanent",
-      "input": {
-        "required": [
-          "url",
-          "interval"
-        ],
-        "optional": [
-          "change_threshold"
-        ]
-      },
-      "output": {
-        "type": "observation_series",
-        "description": "A sequence of observations and detected changes over time."
-      },
-      "commercial": {
-        "pricing": "See current service terms.",
-        "terms": "https://3webobs.com/terms.html"
-      }
+    "MOF": {
+      "name": "Middle of Funnel",
+      "meaning": "Compare, investigate, evaluate, validate or shortlist."
     },
-    {
-      "id": "compare_before_after",
-      "name": "Compare two observations",
-      "description": "Compare a current observation with an identified baseline observation and report the observable delta.",
-      "utterances": [
-        "did my changes work",
-        "compare before and after",
-        "compare these observations",
-        "what changed since my last observation",
-        "show the delta since last month",
-        "did my AI visibility improve",
-        "which signals changed"
-      ],
-      "capability": "obs.diff",
-      "input": {
-        "required": [
-          "url",
-          "baseline_id"
-        ],
-        "optional": []
-      },
-      "output": {
-        "type": "observation_diff",
-        "description": "Signal-level differences between the baseline and current observation."
-      }
-    },
-    {
-      "id": "explain_signal",
-      "name": "Explain a signal result",
-      "description": "Return the observable evidence and evaluation rationale for a specific signal.",
-      "utterances": [
-        "why did this signal fail",
-        "why did this signal pass",
-        "why is this signal partial",
-        "why is this signal unverified",
-        "what evidence did you find",
-        "show me the evidence for this signal",
-        "explain the llms.txt result",
-        "explain this score"
-      ],
-      "capability": "obs.explain",
-      "input": {
-        "required": [
-          "url",
-          "signal_id"
-        ],
-        "optional": [
-          "observation_id"
-        ]
-      },
-      "output": {
-        "type": "signal_explanation",
-        "description": "Signal state, test method, observable evidence and explanation."
-      }
-    },
-    {
-      "id": "list_signals",
-      "name": "List the signal catalogue",
-      "description": "Return the current 3webs observation signal catalogue and associated metadata.",
-      "utterances": [
-        "what do you measure",
-        "show me the 167 signals",
-        "list the signals",
-        "show the signal catalogue",
-        "what is in the methodology",
-        "what does 3webs test",
-        "which SEO AEO GEO AIO and AI signals do you measure"
-      ],
-      "capability": "obs.catalogue",
-      "input": {
-        "required": [],
-        "optional": [
-          "discipline",
-          "web_layer"
-        ]
-      },
-      "output": {
-        "type": "signal_catalogue",
-        "description": "Current signal definitions and available methodological metadata."
-      }
+    "BOF": {
+      "name": "Bottom of Funnel",
+      "meaning": "Navigate to a brand, check price, contact, hire, sign up, buy or transact."
     }
-  ],
-  "machine_web_intent_vocabulary": {
-    "namespace": "agent",
-    "range": "36-50",
-    "count": 15,
-    "purpose": "Machine Web and A2A intent vocabulary used by 3webs to identify, classify and describe agent capabilities observed on public machine-facing interfaces.",
-    "important": "These intents describe capabilities that 3webs may observe on another domain or agent. Their inclusion does not mean that 3webs itself performs these actions.",
-    "intents": [
-      {
-        "number": 36,
-        "id": "agent.discover",
-        "name": "Discover agent",
-        "human_request": "Find an agent that can compare flights.",
-        "expected_machine_behavior": "Discover one or more agents whose declared or verified capabilities match the requested task.",
-        "example_response": "Found FlightSearch, an agent declaring flight search and comparison capabilities."
-      },
-      {
-        "number": 37,
-        "id": "agent.capability_check",
-        "name": "Check agent capability",
-        "human_request": "Can this agent make reservations?",
-        "expected_machine_behavior": "Inspect the agent's declared capability, applicable policy, constraints, reachability and confirmation requirements.",
-        "example_response": "The agent declares reservation capability and requires human confirmation before execution."
-      },
-      {
-        "number": 38,
-        "id": "agent.delegate",
-        "name": "Delegate task",
-        "human_request": "Send the hotel search to the specialized agent.",
-        "expected_machine_behavior": "Delegate a defined task to another compatible agent and return a task identifier or execution state.",
-        "example_response": "Task delegated. Status: working."
-      },
-      {
-        "number": 39,
-        "id": "agent.orchestrate",
-        "name": "Orchestrate agents",
-        "human_request": "Organize a complete trip.",
-        "expected_machine_behavior": "Coordinate multiple agents or capabilities toward a shared higher-level objective.",
-        "example_response": "Coordinating flight, accommodation and local transport capabilities."
-      },
-      {
-        "number": 40,
-        "id": "agent.parallelize",
-        "name": "Parallelize tasks",
-        "human_request": "Search for the flight, hotel and transfer simultaneously.",
-        "expected_machine_behavior": "Create independent subtasks that may execute concurrently.",
-        "example_response": "Three independent subtasks were created for parallel execution."
-      },
-      {
-        "number": 41,
-        "id": "agent.plan_execute",
-        "name": "Plan and execute",
-        "human_request": "Plan and execute the equipment purchase.",
-        "expected_machine_behavior": "Create an execution plan, identify approval boundaries and execute only actions permitted by policy.",
-        "example_response": "The plan is prepared. Purchase execution requires human approval."
-      },
-      {
-        "number": 42,
-        "id": "agent.request_quote",
-        "name": "Request quote",
-        "human_request": "Request quotes from three agents.",
-        "expected_machine_behavior": "Request structured commercial proposals from compatible providers or agents.",
-        "example_response": "Three quote requests were submitted; two responses have been received."
-      },
-      {
-        "number": 43,
-        "id": "agent.negotiate",
-        "name": "Negotiate",
-        "human_request": "Try to obtain a better price.",
-        "expected_machine_behavior": "Conduct negotiation within explicitly declared authority, policy and economic boundaries.",
-        "example_response": "A 10% discount was requested; the provider countered with 5%."
-      },
-      {
-        "number": 44,
-        "id": "agent.validate_result",
-        "name": "Validate result",
-        "human_request": "Verify the result received from the agent.",
-        "expected_machine_behavior": "Evaluate the returned result against available evidence, provenance, constraints or independent sources.",
-        "example_response": "The result was validated against available evidence; two independent sources support the principal claims."
-      },
-      {
-        "number": 45,
-        "id": "agent.request_human",
-        "name": "Request human intervention",
-        "human_request": "Ask for my approval before payment.",
-        "expected_machine_behavior": "Pause execution at a defined human-oversight boundary and request explicit authorization.",
-        "example_response": "Human approval is required before the payment can proceed."
-      },
-      {
-        "number": 46,
-        "id": "agent.resume_task",
-        "name": "Resume task",
-        "human_request": "Continue the interrupted task.",
-        "expected_machine_behavior": "Resume an existing task from a recoverable execution state.",
-        "example_response": "The task resumed from the last confirmed execution state."
-      },
-      {
-        "number": 47,
-        "id": "agent.cancel_task",
-        "name": "Cancel task",
-        "human_request": "Cancel the search.",
-        "expected_machine_behavior": "Request cancellation of an active task and propagate cancellation to delegated agents where supported.",
-        "example_response": "Cancellation requested. Delegated agents will stop where cancellation is supported."
-      },
-      {
-        "number": 48,
-        "id": "agent.get_status",
-        "name": "Get task status",
-        "human_request": "What is the status of the task?",
-        "expected_machine_behavior": "Return the current machine-readable execution state of a task.",
-        "example_response": "Status: working. The accommodation capability is checking availability."
-      },
-      {
-        "number": 49,
-        "id": "agent.share_artifact",
-        "name": "Share artifact",
-        "human_request": "Send the report to the financial agent.",
-        "expected_machine_behavior": "Transfer or reference a task artifact to another authorized agent while preserving applicable metadata and provenance.",
-        "example_response": "The report artifact was made available to the authorized financial agent."
-      },
-      {
-        "number": 50,
-        "id": "agent.audit",
-        "name": "Audit agent activity",
-        "human_request": "Show me which agents were used and what they did.",
-        "expected_machine_behavior": "Return available execution history, participating agents, actions, artifacts, evidence and provenance information.",
-        "example_response": "Three agents participated. Available task history identifies their actions, artifacts and evidence."
-      }
-    ]
   },
-  "intent_resolution": {
-    "strategy": "Match the caller's requested outcome to the most specific supported service intent or recognized Machine Web intent.",
-    "ambiguity": "If required parameters cannot be inferred reliably, request the missing parameter rather than inventing it.",
-    "unknown_intent": "Return unsupported_intent and, where possible, identify the closest recognized intents.",
-    "do_not_infer_private_access": true
-  },
-  "machine_web_evaluation": {
-    "principle": "Declaration is not proof of operational capability.",
-    "states": [
-      {
-        "id": "declared",
-        "description": "The intent or capability is publicly declared."
-      },
-      {
-        "id": "valid",
-        "description": "The declaration is syntactically and structurally valid."
-      },
-      {
-        "id": "reachable",
-        "description": "The declared machine interface can be reached."
-      },
-      {
-        "id": "invocable",
-        "description": "The capability exposes an interface that can be invoked under its declared contract."
-      },
-      {
-        "id": "verified",
-        "description": "Observed execution evidence supports the claimed capability."
-      }
-    ]
-  },
-  "not_supported": [
-    {
-      "id": "legal_certification",
-      "description": "Issuing a legal or regulatory compliance certification."
+  "counts": {
+    "total": 382,
+    "by_funnel_stage": {
+      "TOF": 286,
+      "BOF": 32,
+      "MOF": 64
     },
-    {
-      "id": "ranking_guarantee",
-      "description": "Guaranteeing ranking, indexing, citation, recommendation or inclusion by a search or AI system."
-    },
-    {
-      "id": "private_access",
-      "description": "Accessing authenticated, restricted or private areas of a website without explicit supported authorization."
-    },
-    {
-      "id": "access_control_bypass",
-      "description": "Bypassing authentication, technical access controls or crawler exclusions."
-    },
-    {
-      "id": "private_person_investigation",
-      "description": "Analysing a website for the purpose of constructing a case against a private natural person."
-    },
-    {
-      "id": "invent_private_metrics",
-      "description": "Inventing or estimating private analytics, Search Console data, traffic, conversion or engagement metrics when they are not observable."
+    "by_discipline": {
+      "SEO": 50,
+      "AEO": 54,
+      "GEO": 55,
+      "AIO": 54,
+      "SEO-AI": 50,
+      "On-Page SEO": 55,
+      "On-Site SEO": 6,
+      "Off-Page SEO": 50,
+      "Technical SEO": 8
     }
-  ],
-  "machine_interfaces": {
-    "capabilities": "https://3webobs.com/capabilities.json",
-    "actions": "https://3webobs.com/actions.json",
-    "agent_card": "https://3webobs.com/.well-known/agent-card.json",
-    "a2a_endpoint": "https://3webobs.com/a2a"
   },
-  "related_resources": {
-    "identity": "https://3webobs.com/ai.json",
-    "entities": "https://3webobs.com/entities.json",
-    "governance": "https://3webobs.com/governance.json",
-    "policy": "https://3webobs.com/policy.json",
-    "allow_lane_matrix": "https://3webobs.com/allow-lane-matrix.json",
-    "proof": "https://3webobs.com/proof.json"
-  }
+  "intents": [
+    {
+      "discipline": "SEO",
+      "subcategory": "Informational",
+      "intent": "how",
+      "example": "how to do keyword research",
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_de3040e6ae8c"
+    },
+    {
+      "discipline": "SEO",
+      "subcategory": "Informational",
+      "intent": "what",
+      "example": "what is an AI Overview",
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_0f4591018e9b"
+    },
+    {
+      "discipline": "SEO",
+      "subcategory": "Informational",
+      "intent": "why",
+      "example": "why is my site not ranking",
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_e3becbdd987f"
+    },
+    {
+      "discipline": "SEO",
+      "subcategory": "Informational",
+      "intent": "when",
+      "example": "when to hire a CFO",
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_846d309f2826"
+    },
+    {
+      "discipline": "SEO",
+      "subcategory": "Informational",
+      "intent": "who",
+      "example": "who invented [produs]",
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_3761028b58a2"
+    },
+    {
+      "discipline": "SEO",
+      "subcategory": "Informational",
+      "intent": "guide / tutorial",
+      "example": "SEO guide 2026",
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_95f4ccb57386"
+    },
+    {
+      "discipline": "SEO",
+      "subcategory": "Informational",
+      "intent": "explained",
+      "example": "structured data explained",
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_5a9e46722226"
+    },
+    {
+      "discipline": "SEO",
+      "subcategory": "Informational",
+      "intent": "tips",
+      "example": "email marketing tips",
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_81229cfbd6a5"
+    },
+    {
+      "discipline": "SEO",
+      "subcategory": "Informational",
+      "intent": "examples",
+      "example": "meta description examples",
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_359f221cd255"
+    },
+    {
+      "discipline": "SEO",
+      "subcategory": "Informational",
+      "intent": "definition",
+      "example": "what does CPC mean",
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_5de0df595920"
+    },
+    {
+      "discipline": "SEO",
+      "subcategory": "Informational",
+      "intent": "meaning",
+      "example": "SERP meaning",
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_98e301e16c27"
+    },
+    {
+      "discipline": "SEO",
+      "subcategory": "Informational",
+      "intent": "benefits of",
+      "example": "benefits of project management tools",
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_4efe00668807"
+    },
+    {
+      "discipline": "SEO",
+      "subcategory": "Informational",
+      "intent": "symptoms of",
+      "example": "symptoms of flu",
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_7528c05cf1a3"
+    },
+    {
+      "discipline": "SEO",
+      "subcategory": "Informational",
+      "intent": "history of",
+      "example": "history of [brand]",
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_a6d4ccc87720"
+    },
+    {
+      "discipline": "SEO",
+      "subcategory": "Informational",
+      "intent": "statistics / stats",
+      "example": "email marketing statistics 2026",
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_ca06a4e8927c"
+    },
+    {
+      "discipline": "SEO",
+      "subcategory": "Informational",
+      "intent": "formula",
+      "example": "ROI formula",
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_ea9b58cefdff"
+    },
+    {
+      "discipline": "SEO",
+      "subcategory": "Informational",
+      "intent": "calculator",
+      "example": "mortgage calculator",
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_2474471635db"
+    },
+    {
+      "discipline": "SEO",
+      "subcategory": "Informational",
+      "intent": "template",
+      "example": "content calendar template",
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_f3cbc8d3085c"
+    },
+    {
+      "discipline": "SEO",
+      "subcategory": "Informational",
+      "intent": "checklist",
+      "example": "SEO audit checklist",
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_62f176c350f7"
+    },
+    {
+      "discipline": "SEO",
+      "subcategory": "Navigational",
+      "intent": "[brand] login",
+      "example": "Facebook login",
+      "funnel_stage": "BOF",
+      "source_type": "search_intent",
+      "id": "intent_85d1523132ca"
+    },
+    {
+      "discipline": "SEO",
+      "subcategory": "Navigational",
+      "intent": "[brand] official site",
+      "example": "Nike official site",
+      "funnel_stage": "BOF",
+      "source_type": "search_intent",
+      "id": "intent_8a3187b02903"
+    },
+    {
+      "discipline": "SEO",
+      "subcategory": "Navigational",
+      "intent": "[brand] website",
+      "example": "HP website",
+      "funnel_stage": "BOF",
+      "source_type": "search_intent",
+      "id": "intent_e9ea0c426f71"
+    },
+    {
+      "discipline": "SEO",
+      "subcategory": "Navigational",
+      "intent": "[brand] app",
+      "example": "Trello app",
+      "funnel_stage": "BOF",
+      "source_type": "search_intent",
+      "id": "intent_4c6ab566d7ce"
+    },
+    {
+      "discipline": "SEO",
+      "subcategory": "Navigational",
+      "intent": "[brand] pricing",
+      "example": "Semrush pricing",
+      "funnel_stage": "BOF",
+      "source_type": "search_intent",
+      "id": "intent_1882438f5463"
+    },
+    {
+      "discipline": "SEO",
+      "subcategory": "Navigational",
+      "intent": "[brand] support",
+      "example": "Apple support",
+      "funnel_stage": "BOF",
+      "source_type": "search_intent",
+      "id": "intent_1baae739126c"
+    },
+    {
+      "discipline": "SEO",
+      "subcategory": "Navigational",
+      "intent": "[brand] returns",
+      "example": "Acme Shoes returns",
+      "funnel_stage": "BOF",
+      "source_type": "search_intent",
+      "id": "intent_b39f5de03da2"
+    },
+    {
+      "discipline": "SEO",
+      "subcategory": "Navigational",
+      "intent": "[brand] careers",
+      "example": "Google careers",
+      "funnel_stage": "BOF",
+      "source_type": "search_intent",
+      "id": "intent_8561e41bcef0"
+    },
+    {
+      "discipline": "SEO",
+      "subcategory": "Navigational",
+      "intent": "[brand] contact",
+      "example": "[brand] contact number",
+      "funnel_stage": "BOF",
+      "source_type": "search_intent",
+      "id": "intent_4e394a1f30ff"
+    },
+    {
+      "discipline": "SEO",
+      "subcategory": "Navigational",
+      "intent": "[brand] near me",
+      "example": "Starbucks near me",
+      "funnel_stage": "BOF",
+      "source_type": "search_intent",
+      "id": "intent_f04142dc0af6"
+    },
+    {
+      "discipline": "SEO",
+      "subcategory": "Commercial",
+      "intent": "best",
+      "example": "best gaming computers",
+      "funnel_stage": "MOF",
+      "source_type": "search_intent",
+      "id": "intent_5f3d124397ec"
+    },
+    {
+      "discipline": "SEO",
+      "subcategory": "Commercial",
+      "intent": "top",
+      "example": "top 10 CRM software",
+      "funnel_stage": "MOF",
+      "source_type": "search_intent",
+      "id": "intent_14c9dcedb3d2"
+    },
+    {
+      "discipline": "SEO",
+      "subcategory": "Commercial",
+      "intent": "vs",
+      "example": "iPhone vs Samsung",
+      "funnel_stage": "MOF",
+      "source_type": "search_intent",
+      "id": "intent_be53ed3d27b7"
+    },
+    {
+      "discipline": "SEO",
+      "subcategory": "Commercial",
+      "intent": "alternatives",
+      "example": "Ahrefs alternatives",
+      "funnel_stage": "MOF",
+      "source_type": "search_intent",
+      "id": "intent_55e52c841e0a"
+    },
+    {
+      "discipline": "SEO",
+      "subcategory": "Commercial",
+      "intent": "review",
+      "example": "Logitech Brio webcam review",
+      "funnel_stage": "MOF",
+      "source_type": "search_intent",
+      "id": "intent_e0936fbdcbd6"
+    },
+    {
+      "discipline": "SEO",
+      "subcategory": "Commercial",
+      "intent": "comparison",
+      "example": "HubSpot vs Salesforce comparison",
+      "funnel_stage": "MOF",
+      "source_type": "search_intent",
+      "id": "intent_5adba4370a61"
+    },
+    {
+      "discipline": "SEO",
+      "subcategory": "Commercial",
+      "intent": "cheapest",
+      "example": "cheapest web hosting",
+      "funnel_stage": "MOF",
+      "source_type": "search_intent",
+      "id": "intent_976032c2cea9"
+    },
+    {
+      "discipline": "SEO",
+      "subcategory": "Commercial",
+      "intent": "[product] 2026",
+      "example": "best smartphones 2026",
+      "funnel_stage": "MOF",
+      "source_type": "search_intent",
+      "id": "intent_d345377b4430"
+    },
+    {
+      "discipline": "SEO",
+      "subcategory": "Commercial",
+      "intent": "buying guide",
+      "example": "laptop buying guide",
+      "funnel_stage": "MOF",
+      "source_type": "search_intent",
+      "id": "intent_9cb004b9c144"
+    },
+    {
+      "discipline": "SEO",
+      "subcategory": "Commercial",
+      "intent": "pros and cons",
+      "example": "outsourcing CFO pros and cons",
+      "funnel_stage": "MOF",
+      "source_type": "search_intent",
+      "id": "intent_5df81bfd3b5d"
+    },
+    {
+      "discipline": "SEO",
+      "subcategory": "Commercial",
+      "intent": "is [X] worth it",
+      "example": "is Semrush worth it",
+      "funnel_stage": "MOF",
+      "source_type": "search_intent",
+      "id": "intent_b33993b736bd"
+    },
+    {
+      "discipline": "SEO",
+      "subcategory": "Commercial",
+      "intent": "[brand] vs [brand]",
+      "example": "Trello vs Asana",
+      "funnel_stage": "MOF",
+      "source_type": "search_intent",
+      "id": "intent_9b5f4e0d31c4"
+    },
+    {
+      "discipline": "SEO",
+      "subcategory": "Transactional",
+      "intent": "buy",
+      "example": "buy Logitech Brio webcam",
+      "funnel_stage": "BOF",
+      "source_type": "search_intent",
+      "id": "intent_ae226452e17b"
+    },
+    {
+      "discipline": "SEO",
+      "subcategory": "Transactional",
+      "intent": "order",
+      "example": "order pizza online",
+      "funnel_stage": "BOF",
+      "source_type": "search_intent",
+      "id": "intent_2afb99bf07f8"
+    },
+    {
+      "discipline": "SEO",
+      "subcategory": "Transactional",
+      "intent": "price / cost",
+      "example": "iPhone 16 price",
+      "funnel_stage": "BOF",
+      "source_type": "search_intent",
+      "id": "intent_e7b8331f2517"
+    },
+    {
+      "discipline": "SEO",
+      "subcategory": "Transactional",
+      "intent": "discount / coupon",
+      "example": "Nike discount code",
+      "funnel_stage": "BOF",
+      "source_type": "search_intent",
+      "id": "intent_bf571b7eaa0e"
+    },
+    {
+      "discipline": "SEO",
+      "subcategory": "Transactional",
+      "intent": "sale",
+      "example": "Black Friday sale",
+      "funnel_stage": "BOF",
+      "source_type": "search_intent",
+      "id": "intent_0edfcd14fc24"
+    },
+    {
+      "discipline": "SEO",
+      "subcategory": "Transactional",
+      "intent": "book",
+      "example": "book flight to Paris",
+      "funnel_stage": "BOF",
+      "source_type": "search_intent",
+      "id": "intent_3172d85de9e3"
+    },
+    {
+      "discipline": "SEO",
+      "subcategory": "Transactional",
+      "intent": "hire",
+      "example": "hire SEO consultant",
+      "funnel_stage": "BOF",
+      "source_type": "search_intent",
+      "id": "intent_97aa36a2c011"
+    },
+    {
+      "discipline": "SEO",
+      "subcategory": "Transactional",
+      "intent": "get a quote",
+      "example": "car insurance quote",
+      "funnel_stage": "BOF",
+      "source_type": "search_intent",
+      "id": "intent_48e056f9602b"
+    },
+    {
+      "discipline": "SEO",
+      "subcategory": "Transactional",
+      "intent": "sign up / try free / download",
+      "example": "try free / download Slack",
+      "funnel_stage": "BOF",
+      "source_type": "search_intent",
+      "id": "intent_865d9f9ad81d"
+    },
+    {
+      "discipline": "AEO",
+      "subcategory": "Definitions",
+      "intent": "what is [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_bb6c1da572d4"
+    },
+    {
+      "discipline": "AEO",
+      "subcategory": "Definitions",
+      "intent": "what does [X] mean",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_73999031d2e7"
+    },
+    {
+      "discipline": "AEO",
+      "subcategory": "Definitions",
+      "intent": "definition of [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_949385c02ef0"
+    },
+    {
+      "discipline": "AEO",
+      "subcategory": "Definitions",
+      "intent": "[X] meaning",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_dccca8cd18d2"
+    },
+    {
+      "discipline": "AEO",
+      "subcategory": "Definitions",
+      "intent": "explain [X] in simple terms",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_8dce704485a7"
+    },
+    {
+      "discipline": "AEO",
+      "subcategory": "Definitions",
+      "intent": "[X] explained",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_7afbe4ea4ada"
+    },
+    {
+      "discipline": "AEO",
+      "subcategory": "Definitions",
+      "intent": "difference between [A] and [B]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_ce676249e3a1"
+    },
+    {
+      "discipline": "AEO",
+      "subcategory": "Definitions",
+      "intent": "is [X] the same as [Y]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_eb700d698a42"
+    },
+    {
+      "discipline": "AEO",
+      "subcategory": "Definitions",
+      "intent": "what does [X] stand for",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_0288de0ce98e"
+    },
+    {
+      "discipline": "AEO",
+      "subcategory": "Definitions",
+      "intent": "[A] vs [B]",
+      "example": null,
+      "funnel_stage": "MOF",
+      "source_type": "search_intent",
+      "id": "intent_b0ba23a7376f"
+    },
+    {
+      "discipline": "AEO",
+      "subcategory": "How-to",
+      "intent": "how to [task]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_d84f639a7d7a"
+    },
+    {
+      "discipline": "AEO",
+      "subcategory": "How-to",
+      "intent": "how do I [action]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_ef4ee078896b"
+    },
+    {
+      "discipline": "AEO",
+      "subcategory": "How-to",
+      "intent": "how does [X] work",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_e8030e99968a"
+    },
+    {
+      "discipline": "AEO",
+      "subcategory": "How-to",
+      "intent": "how long does [X] take",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_0b9cff41ea6b"
+    },
+    {
+      "discipline": "AEO",
+      "subcategory": "How-to",
+      "intent": "how much does [X] cost",
+      "example": null,
+      "funnel_stage": "BOF",
+      "source_type": "search_intent",
+      "id": "intent_517aea116e7a"
+    },
+    {
+      "discipline": "AEO",
+      "subcategory": "How-to",
+      "intent": "how many [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_a672905cbb7b"
+    },
+    {
+      "discipline": "AEO",
+      "subcategory": "How-to",
+      "intent": "step by step [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_32ebb6793128"
+    },
+    {
+      "discipline": "AEO",
+      "subcategory": "How-to",
+      "intent": "can I [action]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_81beb799e409"
+    },
+    {
+      "discipline": "AEO",
+      "subcategory": "How-to",
+      "intent": "how to fix [problem]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_3faa95bc0abb"
+    },
+    {
+      "discipline": "AEO",
+      "subcategory": "How-to",
+      "intent": "how to check [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_b8ffc32567ad"
+    },
+    {
+      "discipline": "AEO",
+      "subcategory": "Why",
+      "intent": "why is [X] important",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_7444e1820edf"
+    },
+    {
+      "discipline": "AEO",
+      "subcategory": "Why",
+      "intent": "why does [X] happen",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_9892b523a6d2"
+    },
+    {
+      "discipline": "AEO",
+      "subcategory": "Why",
+      "intent": "why should I [action]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_68e0f1fe106e"
+    },
+    {
+      "discipline": "AEO",
+      "subcategory": "Why",
+      "intent": "why is [X] better than [Y]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_3c3a34dcfe55"
+    },
+    {
+      "discipline": "AEO",
+      "subcategory": "Why",
+      "intent": "why did [X] change",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_f81aca2817fd"
+    },
+    {
+      "discipline": "AEO",
+      "subcategory": "When/Where/Who",
+      "intent": "when did [event] happen",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_ccdf7f2cb3ff"
+    },
+    {
+      "discipline": "AEO",
+      "subcategory": "When/Where/Who",
+      "intent": "when to [action]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_d1370f9e14e1"
+    },
+    {
+      "discipline": "AEO",
+      "subcategory": "When/Where/Who",
+      "intent": "where is [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_0b8a620b2268"
+    },
+    {
+      "discipline": "AEO",
+      "subcategory": "When/Where/Who",
+      "intent": "who is [person]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_db92c566a74a"
+    },
+    {
+      "discipline": "AEO",
+      "subcategory": "When/Where/Who",
+      "intent": "who owns [brand]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_711aacd68327"
+    },
+    {
+      "discipline": "AEO",
+      "subcategory": "When/Where/Who",
+      "intent": "when is [X] available",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_544153f73eb0"
+    },
+    {
+      "discipline": "AEO",
+      "subcategory": "When/Where/Who",
+      "intent": "where can I [action]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_9ea7d0a9d1ae"
+    },
+    {
+      "discipline": "AEO",
+      "subcategory": "Lists",
+      "intent": "what are the best [X]",
+      "example": null,
+      "funnel_stage": "MOF",
+      "source_type": "search_intent",
+      "id": "intent_67f89db9ee25"
+    },
+    {
+      "discipline": "AEO",
+      "subcategory": "Lists",
+      "intent": "list of [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_2f9c7a9c9368"
+    },
+    {
+      "discipline": "AEO",
+      "subcategory": "Lists",
+      "intent": "top [N] [X]",
+      "example": null,
+      "funnel_stage": "MOF",
+      "source_type": "search_intent",
+      "id": "intent_4b424b957b1c"
+    },
+    {
+      "discipline": "AEO",
+      "subcategory": "Lists",
+      "intent": "examples of [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_1ee809271a9f"
+    },
+    {
+      "discipline": "AEO",
+      "subcategory": "Lists",
+      "intent": "types of [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_53242d9e6f28"
+    },
+    {
+      "discipline": "AEO",
+      "subcategory": "Lists",
+      "intent": "benefits of [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_5c22b6a2edd4"
+    },
+    {
+      "discipline": "AEO",
+      "subcategory": "Lists",
+      "intent": "pros and cons of [X]",
+      "example": null,
+      "funnel_stage": "MOF",
+      "source_type": "search_intent",
+      "id": "intent_e598c6920bfd"
+    },
+    {
+      "discipline": "AEO",
+      "subcategory": "Voice",
+      "intent": "what's the weather in [place]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_b0a4aa3e5be4"
+    },
+    {
+      "discipline": "AEO",
+      "subcategory": "Voice",
+      "intent": "how late is [place] open",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_2bb4e3900274"
+    },
+    {
+      "discipline": "AEO",
+      "subcategory": "Voice",
+      "intent": "where's the nearest [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_97e4123a0284"
+    },
+    {
+      "discipline": "AEO",
+      "subcategory": "Voice",
+      "intent": "set a timer for [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_e3551e3347da"
+    },
+    {
+      "discipline": "AEO",
+      "subcategory": "Voice",
+      "intent": "call [contact]",
+      "example": null,
+      "funnel_stage": "BOF",
+      "source_type": "search_intent",
+      "id": "intent_9f13fa751f7d"
+    },
+    {
+      "discipline": "AEO",
+      "subcategory": "Voice",
+      "intent": "remind me to [action]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_942c014a43a0"
+    },
+    {
+      "discipline": "AEO",
+      "subcategory": "Commercial",
+      "intent": "which [X] is best for [use case]",
+      "example": null,
+      "funnel_stage": "MOF",
+      "source_type": "search_intent",
+      "id": "intent_be7ea4d5b57f"
+    },
+    {
+      "discipline": "AEO",
+      "subcategory": "Commercial",
+      "intent": "should I choose [A] or [B]",
+      "example": null,
+      "funnel_stage": "MOF",
+      "source_type": "search_intent",
+      "id": "intent_048ac7e6b5da"
+    },
+    {
+      "discipline": "AEO",
+      "subcategory": "Commercial",
+      "intent": "is [X] worth it",
+      "example": null,
+      "funnel_stage": "BOF",
+      "source_type": "search_intent",
+      "id": "intent_9dba2db437ec"
+    },
+    {
+      "discipline": "AEO",
+      "subcategory": "Commercial",
+      "intent": "reviews of [X]",
+      "example": null,
+      "funnel_stage": "BOF",
+      "source_type": "search_intent",
+      "id": "intent_e68ba87f0c39"
+    },
+    {
+      "discipline": "AEO",
+      "subcategory": "Commercial",
+      "intent": "alternatives to [X]",
+      "example": null,
+      "funnel_stage": "MOF",
+      "source_type": "search_intent",
+      "id": "intent_f63a00f4dd4a"
+    },
+    {
+      "discipline": "AEO",
+      "subcategory": "Optimization",
+      "intent": "Use concise one- or two-sentence definitions at the start",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_a921fea236aa"
+    },
+    {
+      "discipline": "AEO",
+      "subcategory": "Optimization",
+      "intent": "Use FAQ sections with natural-language questions",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_cfac4433c424"
+    },
+    {
+      "discipline": "AEO",
+      "subcategory": "Optimization",
+      "intent": "Use factual answers in a neutral tone",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_cccb5e100202"
+    },
+    {
+      "discipline": "AEO",
+      "subcategory": "Optimization",
+      "intent": "Use FAQPage structured data where appropriate",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_d4d2a44e1353"
+    },
+    {
+      "discipline": "GEO",
+      "subcategory": "Discovery",
+      "intent": "what is [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_075979d2a74f"
+    },
+    {
+      "discipline": "GEO",
+      "subcategory": "Discovery",
+      "intent": "explain [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_ec96f7608646"
+    },
+    {
+      "discipline": "GEO",
+      "subcategory": "Discovery",
+      "intent": "tell me about [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_4ee742e86925"
+    },
+    {
+      "discipline": "GEO",
+      "subcategory": "Discovery",
+      "intent": "overview of [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_5e4c06f987fb"
+    },
+    {
+      "discipline": "GEO",
+      "subcategory": "Discovery",
+      "intent": "how does [X] work",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_f8ac442f9593"
+    },
+    {
+      "discipline": "GEO",
+      "subcategory": "Discovery",
+      "intent": "introduce me to [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_b33720721664"
+    },
+    {
+      "discipline": "GEO",
+      "subcategory": "Discovery",
+      "intent": "summarize [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_c5ccb0dd4ca9"
+    },
+    {
+      "discipline": "GEO",
+      "subcategory": "Discovery",
+      "intent": "define [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_2e8c11c6ad4c"
+    },
+    {
+      "discipline": "GEO",
+      "subcategory": "Discovery",
+      "intent": "background on [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_6912dc19a097"
+    },
+    {
+      "discipline": "GEO",
+      "subcategory": "Discovery",
+      "intent": "learn [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_87ccd3d3c4b2"
+    },
+    {
+      "discipline": "GEO",
+      "subcategory": "Use-case",
+      "intent": "I run [business] and need [solution]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_c55b51897663"
+    },
+    {
+      "discipline": "GEO",
+      "subcategory": "Use-case",
+      "intent": "for my [use case], what do you recommend",
+      "example": null,
+      "funnel_stage": "MOF",
+      "source_type": "search_intent",
+      "id": "intent_772decb3af04"
+    },
+    {
+      "discipline": "GEO",
+      "subcategory": "Use-case",
+      "intent": "help me choose [X]",
+      "example": null,
+      "funnel_stage": "MOF",
+      "source_type": "search_intent",
+      "id": "intent_f60162525fd4"
+    },
+    {
+      "discipline": "GEO",
+      "subcategory": "Use-case",
+      "intent": "which [X] fits [constraint]",
+      "example": null,
+      "funnel_stage": "MOF",
+      "source_type": "search_intent",
+      "id": "intent_84649a3df6fc"
+    },
+    {
+      "discipline": "GEO",
+      "subcategory": "Use-case",
+      "intent": "recommend [X] for [audience]",
+      "example": null,
+      "funnel_stage": "MOF",
+      "source_type": "search_intent",
+      "id": "intent_9119477966d6"
+    },
+    {
+      "discipline": "GEO",
+      "subcategory": "Use-case",
+      "intent": "best [X] for [specific need]",
+      "example": null,
+      "funnel_stage": "MOF",
+      "source_type": "search_intent",
+      "id": "intent_579b2455ec65"
+    },
+    {
+      "discipline": "GEO",
+      "subcategory": "Use-case",
+      "intent": "I have [problem], what should I do",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_223f2dec4f47"
+    },
+    {
+      "discipline": "GEO",
+      "subcategory": "Use-case",
+      "intent": "step-by-step [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_ce8d67150d9a"
+    },
+    {
+      "discipline": "GEO",
+      "subcategory": "Use-case",
+      "intent": "walk me through [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_f7ac89e1c9df"
+    },
+    {
+      "discipline": "GEO",
+      "subcategory": "Use-case",
+      "intent": "how do I [task]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_425ab187debf"
+    },
+    {
+      "discipline": "GEO",
+      "subcategory": "Comparison",
+      "intent": "compare [A] and [B]",
+      "example": null,
+      "funnel_stage": "MOF",
+      "source_type": "search_intent",
+      "id": "intent_54e34a8390e4"
+    },
+    {
+      "discipline": "GEO",
+      "subcategory": "Comparison",
+      "intent": "[A] vs [B] for [use case]",
+      "example": null,
+      "funnel_stage": "MOF",
+      "source_type": "search_intent",
+      "id": "intent_f05f27d91190"
+    },
+    {
+      "discipline": "GEO",
+      "subcategory": "Comparison",
+      "intent": "[A] or [B]",
+      "example": null,
+      "funnel_stage": "MOF",
+      "source_type": "search_intent",
+      "id": "intent_ec5802555eb0"
+    },
+    {
+      "discipline": "GEO",
+      "subcategory": "Comparison",
+      "intent": "alternatives to [X]",
+      "example": null,
+      "funnel_stage": "MOF",
+      "source_type": "search_intent",
+      "id": "intent_45c567ebb273"
+    },
+    {
+      "discipline": "GEO",
+      "subcategory": "Comparison",
+      "intent": "[A] vs [B] vs [C]",
+      "example": null,
+      "funnel_stage": "MOF",
+      "source_type": "search_intent",
+      "id": "intent_398d6923f98a"
+    },
+    {
+      "discipline": "GEO",
+      "subcategory": "Comparison",
+      "intent": "pros and cons of [X]",
+      "example": null,
+      "funnel_stage": "MOF",
+      "source_type": "search_intent",
+      "id": "intent_89d2d1b5a36f"
+    },
+    {
+      "discipline": "GEO",
+      "subcategory": "Comparison",
+      "intent": "is [X] better than [Y]",
+      "example": null,
+      "funnel_stage": "MOF",
+      "source_type": "search_intent",
+      "id": "intent_7a259cff9200"
+    },
+    {
+      "discipline": "GEO",
+      "subcategory": "Comparison",
+      "intent": "why choose [X] over [Y]",
+      "example": null,
+      "funnel_stage": "MOF",
+      "source_type": "search_intent",
+      "id": "intent_5a5fb17264db"
+    },
+    {
+      "discipline": "GEO",
+      "subcategory": "Comparison",
+      "intent": "difference between [A] and [B]",
+      "example": null,
+      "funnel_stage": "MOF",
+      "source_type": "search_intent",
+      "id": "intent_0371ee981ee0"
+    },
+    {
+      "discipline": "GEO",
+      "subcategory": "Comparison",
+      "intent": "[X] vs [Y] pricing",
+      "example": null,
+      "funnel_stage": "BOF",
+      "source_type": "search_intent",
+      "id": "intent_80f207bc14c1"
+    },
+    {
+      "discipline": "GEO",
+      "subcategory": "Generative",
+      "intent": "create [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_1ba82076b400"
+    },
+    {
+      "discipline": "GEO",
+      "subcategory": "Generative",
+      "intent": "generate [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_94a3171f0194"
+    },
+    {
+      "discipline": "GEO",
+      "subcategory": "Generative",
+      "intent": "write [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_12d1a8ca06df"
+    },
+    {
+      "discipline": "GEO",
+      "subcategory": "Generative",
+      "intent": "draft [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_05cecb4ec00e"
+    },
+    {
+      "discipline": "GEO",
+      "subcategory": "Generative",
+      "intent": "calculate [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_cf69dbe9cc42"
+    },
+    {
+      "discipline": "GEO",
+      "subcategory": "Generative",
+      "intent": "build [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_36eaac09b6b4"
+    },
+    {
+      "discipline": "GEO",
+      "subcategory": "Generative",
+      "intent": "make [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_55588b086052"
+    },
+    {
+      "discipline": "GEO",
+      "subcategory": "Generative",
+      "intent": "summarize this [content]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_ba9df3477dff"
+    },
+    {
+      "discipline": "GEO",
+      "subcategory": "Generative",
+      "intent": "translate [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_4bc07ab5057c"
+    },
+    {
+      "discipline": "GEO",
+      "subcategory": "Generative",
+      "intent": "rewrite [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_7e2578880cf2"
+    },
+    {
+      "discipline": "GEO",
+      "subcategory": "Grounding",
+      "intent": "what are the latest stats on [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_8c09ef01a514"
+    },
+    {
+      "discipline": "GEO",
+      "subcategory": "Grounding",
+      "intent": "cite sources for [X]",
+      "example": null,
+      "funnel_stage": "MOF",
+      "source_type": "search_intent",
+      "id": "intent_637ac1817e6f"
+    },
+    {
+      "discipline": "GEO",
+      "subcategory": "Grounding",
+      "intent": "who said [quote]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_7abcbd56dffb"
+    },
+    {
+      "discipline": "GEO",
+      "subcategory": "Grounding",
+      "intent": "when did [event] happen",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_0d462ee830fb"
+    },
+    {
+      "discipline": "GEO",
+      "subcategory": "Grounding",
+      "intent": "is [claim] true",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_1bd3303d21d6"
+    },
+    {
+      "discipline": "GEO",
+      "subcategory": "Grounding",
+      "intent": "verify [X]",
+      "example": null,
+      "funnel_stage": "MOF",
+      "source_type": "search_intent",
+      "id": "intent_40a98f890d1b"
+    },
+    {
+      "discipline": "GEO",
+      "subcategory": "Grounding",
+      "intent": "data on [X]",
+      "example": null,
+      "funnel_stage": "MOF",
+      "source_type": "search_intent",
+      "id": "intent_1ee978d07e72"
+    },
+    {
+      "discipline": "GEO",
+      "subcategory": "Grounding",
+      "intent": "forecast / predictions for [X]",
+      "example": null,
+      "funnel_stage": "MOF",
+      "source_type": "search_intent",
+      "id": "intent_fd2e45a0ef8f"
+    },
+    {
+      "discipline": "GEO",
+      "subcategory": "Grounding",
+      "intent": "news about [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_07b7b37c5958"
+    },
+    {
+      "discipline": "GEO",
+      "subcategory": "Grounding",
+      "intent": "current state of [X]",
+      "example": null,
+      "funnel_stage": "MOF",
+      "source_type": "search_intent",
+      "id": "intent_8df2ee315f3a"
+    },
+    {
+      "discipline": "GEO",
+      "subcategory": "Optimization",
+      "intent": "Add quantitative statistics",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_bb6d4d2c17e0"
+    },
+    {
+      "discipline": "GEO",
+      "subcategory": "Optimization",
+      "intent": "Add quotations from credible sources",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_b190aad2f8fd"
+    },
+    {
+      "discipline": "GEO",
+      "subcategory": "Optimization",
+      "intent": "Use an authoritative style",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_00cda2539d60"
+    },
+    {
+      "discipline": "GEO",
+      "subcategory": "Optimization",
+      "intent": "Cite sources",
+      "example": null,
+      "funnel_stage": "MOF",
+      "source_type": "optimization_activity",
+      "id": "intent_8298fc5f1823"
+    },
+    {
+      "discipline": "GEO",
+      "subcategory": "Optimization",
+      "intent": "Use clear, fluent language",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_88f0a22d60a6"
+    },
+    {
+      "discipline": "AIO",
+      "subcategory": "Multi-condition",
+      "intent": "best [X] that [condition]",
+      "example": null,
+      "funnel_stage": "MOF",
+      "source_type": "search_intent",
+      "id": "intent_2f64560fd966"
+    },
+    {
+      "discipline": "AIO",
+      "subcategory": "Multi-condition",
+      "intent": "[X] for [specific audience]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_a69195c44a59"
+    },
+    {
+      "discipline": "AIO",
+      "subcategory": "Multi-condition",
+      "intent": "[X] with [feature]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_55a2353c6ca6"
+    },
+    {
+      "discipline": "AIO",
+      "subcategory": "Multi-condition",
+      "intent": "[X] near [location]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_6e9a9d3780ee"
+    },
+    {
+      "discipline": "AIO",
+      "subcategory": "Multi-condition",
+      "intent": "[X] without [constraint]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_3d4580f7b1a0"
+    },
+    {
+      "discipline": "AIO",
+      "subcategory": "Multi-condition",
+      "intent": "[X] for [season]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_a4cbfd904acf"
+    },
+    {
+      "discipline": "AIO",
+      "subcategory": "Multi-condition",
+      "intent": "[X] for [skill level]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_1487aacb2e20"
+    },
+    {
+      "discipline": "AIO",
+      "subcategory": "Multi-condition",
+      "intent": "[X] under [price]",
+      "example": null,
+      "funnel_stage": "BOF",
+      "source_type": "search_intent",
+      "id": "intent_8d33557b41ba"
+    },
+    {
+      "discipline": "AIO",
+      "subcategory": "Multi-condition",
+      "intent": "[X] over [age]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_d77a83b113d1"
+    },
+    {
+      "discipline": "AIO",
+      "subcategory": "Multi-condition",
+      "intent": "how to [X] while [Y]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_95940053231e"
+    },
+    {
+      "discipline": "AIO",
+      "subcategory": "How-to",
+      "intent": "how to [task]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_20e83c98716e"
+    },
+    {
+      "discipline": "AIO",
+      "subcategory": "How-to",
+      "intent": "how do I [action]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_e6daf3da864c"
+    },
+    {
+      "discipline": "AIO",
+      "subcategory": "How-to",
+      "intent": "how does [X] work",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_a3ccba92e3fc"
+    },
+    {
+      "discipline": "AIO",
+      "subcategory": "How-to",
+      "intent": "how to fix [problem]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_5baa61d57d3a"
+    },
+    {
+      "discipline": "AIO",
+      "subcategory": "How-to",
+      "intent": "how long does [X] take",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_2f14fb7e9907"
+    },
+    {
+      "discipline": "AIO",
+      "subcategory": "How-to",
+      "intent": "how much does [X] cost",
+      "example": null,
+      "funnel_stage": "BOF",
+      "source_type": "search_intent",
+      "id": "intent_2d199d82f84e"
+    },
+    {
+      "discipline": "AIO",
+      "subcategory": "How-to",
+      "intent": "how many [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_46ac308b9576"
+    },
+    {
+      "discipline": "AIO",
+      "subcategory": "How-to",
+      "intent": "how to make [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_af7fe390938b"
+    },
+    {
+      "discipline": "AIO",
+      "subcategory": "How-to",
+      "intent": "how to remove [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_b01b5ebe8170"
+    },
+    {
+      "discipline": "AIO",
+      "subcategory": "How-to",
+      "intent": "how to get [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_9c3dd543d94e"
+    },
+    {
+      "discipline": "AIO",
+      "subcategory": "What is",
+      "intent": "what is [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_4e6a948c4f8e"
+    },
+    {
+      "discipline": "AIO",
+      "subcategory": "What is",
+      "intent": "what does [X] mean",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_5e703bfbf07d"
+    },
+    {
+      "discipline": "AIO",
+      "subcategory": "What is",
+      "intent": "what are [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_2a338d3e6a84"
+    },
+    {
+      "discipline": "AIO",
+      "subcategory": "What is",
+      "intent": "what causes [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_ee9a81a321b9"
+    },
+    {
+      "discipline": "AIO",
+      "subcategory": "What is",
+      "intent": "what is the difference between [A] and [B]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_0040fa00067d"
+    },
+    {
+      "discipline": "AIO",
+      "subcategory": "What is",
+      "intent": "what are the symptoms of [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_65ee96cdd18f"
+    },
+    {
+      "discipline": "AIO",
+      "subcategory": "What is",
+      "intent": "what are the benefits of [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_ec3b91496270"
+    },
+    {
+      "discipline": "AIO",
+      "subcategory": "What is",
+      "intent": "what are the types of [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_9158e362dae5"
+    },
+    {
+      "discipline": "AIO",
+      "subcategory": "What is",
+      "intent": "what is [X] used for",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_e03605092993"
+    },
+    {
+      "discipline": "AIO",
+      "subcategory": "What is",
+      "intent": "what happens if [condition]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_55ee4abfecbc"
+    },
+    {
+      "discipline": "AIO",
+      "subcategory": "Why",
+      "intent": "why is [X] important",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_7b3540c9ec1e"
+    },
+    {
+      "discipline": "AIO",
+      "subcategory": "Why",
+      "intent": "why does [X] happen",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_75fd2098e83f"
+    },
+    {
+      "discipline": "AIO",
+      "subcategory": "Why",
+      "intent": "why is [X] [adjective]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_4b03b7ce55d1"
+    },
+    {
+      "discipline": "AIO",
+      "subcategory": "Why",
+      "intent": "why should I [action]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_f72b43e5a8d9"
+    },
+    {
+      "discipline": "AIO",
+      "subcategory": "Why",
+      "intent": "why do [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_2a113d99861b"
+    },
+    {
+      "discipline": "AIO",
+      "subcategory": "Comparative",
+      "intent": "best [X]",
+      "example": null,
+      "funnel_stage": "MOF",
+      "source_type": "search_intent",
+      "id": "intent_7bf0086f7302"
+    },
+    {
+      "discipline": "AIO",
+      "subcategory": "Comparative",
+      "intent": "top [N] [X]",
+      "example": null,
+      "funnel_stage": "MOF",
+      "source_type": "search_intent",
+      "id": "intent_d276cbd16012"
+    },
+    {
+      "discipline": "AIO",
+      "subcategory": "Comparative",
+      "intent": "[A] vs [B]",
+      "example": null,
+      "funnel_stage": "MOF",
+      "source_type": "search_intent",
+      "id": "intent_1ddeff5c917f"
+    },
+    {
+      "discipline": "AIO",
+      "subcategory": "Comparative",
+      "intent": "alternatives to [X]",
+      "example": null,
+      "funnel_stage": "MOF",
+      "source_type": "search_intent",
+      "id": "intent_ac3cd52d6743"
+    },
+    {
+      "discipline": "AIO",
+      "subcategory": "Comparative",
+      "intent": "[X] reviews",
+      "example": null,
+      "funnel_stage": "BOF",
+      "source_type": "search_intent",
+      "id": "intent_664c5fabe968"
+    },
+    {
+      "discipline": "AIO",
+      "subcategory": "When/Where/Who",
+      "intent": "when did [event] happen",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_cb78f7fa0dc0"
+    },
+    {
+      "discipline": "AIO",
+      "subcategory": "When/Where/Who",
+      "intent": "when is [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_441f59dd280b"
+    },
+    {
+      "discipline": "AIO",
+      "subcategory": "When/Where/Who",
+      "intent": "where is [place]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_7c8b08284c0e"
+    },
+    {
+      "discipline": "AIO",
+      "subcategory": "When/Where/Who",
+      "intent": "who invented [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_e3d1bca03865"
+    },
+    {
+      "discipline": "AIO",
+      "subcategory": "When/Where/Who",
+      "intent": "who is [person]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_b75aa9e03a7e"
+    },
+    {
+      "discipline": "AIO",
+      "subcategory": "Lists",
+      "intent": "list of [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_be479e351bc1"
+    },
+    {
+      "discipline": "AIO",
+      "subcategory": "Lists",
+      "intent": "examples of [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_79d3de7a76ee"
+    },
+    {
+      "discipline": "AIO",
+      "subcategory": "Lists",
+      "intent": "facts about [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_1cb2e9686fb1"
+    },
+    {
+      "discipline": "AIO",
+      "subcategory": "Lists",
+      "intent": "stats on [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_95a10fb6505d"
+    },
+    {
+      "discipline": "AIO",
+      "subcategory": "Lists",
+      "intent": "history of [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_5fa8a97d4ac0"
+    },
+    {
+      "discipline": "AIO",
+      "subcategory": "Optimization",
+      "intent": "Use concise definitions at the start",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_2c9728aa0c16"
+    },
+    {
+      "discipline": "AIO",
+      "subcategory": "Optimization",
+      "intent": "Use bullet lists",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_a97009c7d2d0"
+    },
+    {
+      "discipline": "AIO",
+      "subcategory": "Optimization",
+      "intent": "Use subheadings that mirror real user questions",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_e638206a2518"
+    },
+    {
+      "discipline": "AIO",
+      "subcategory": "Optimization",
+      "intent": "Demonstrate strong experience, expertise, authoritativeness, and trust signals",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_9e4154e9248e"
+    },
+    {
+      "discipline": "SEO-AI",
+      "subcategory": "Exploratory",
+      "intent": "I want to [goal] but I'm overwhelmed",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_00ef3cc66e7e"
+    },
+    {
+      "discipline": "SEO-AI",
+      "subcategory": "Exploratory",
+      "intent": "help me figure out [problem]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_4b3d2fc0313a"
+    },
+    {
+      "discipline": "SEO-AI",
+      "subcategory": "Exploratory",
+      "intent": "walk me through the options for [X]",
+      "example": null,
+      "funnel_stage": "MOF",
+      "source_type": "search_intent",
+      "id": "intent_a5c24e31ab8b"
+    },
+    {
+      "discipline": "SEO-AI",
+      "subcategory": "Exploratory",
+      "intent": "I don't know if I need [A] or [B]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_dfc7e1696f04"
+    },
+    {
+      "discipline": "SEO-AI",
+      "subcategory": "Exploratory",
+      "intent": "where do I start with [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_564c40d33944"
+    },
+    {
+      "discipline": "SEO-AI",
+      "subcategory": "Exploratory",
+      "intent": "I'm new to [X], help me understand",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_c4e433a821a2"
+    },
+    {
+      "discipline": "SEO-AI",
+      "subcategory": "Exploratory",
+      "intent": "guide me through [decision]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_0f1010eeef4b"
+    },
+    {
+      "discipline": "SEO-AI",
+      "subcategory": "Exploratory",
+      "intent": "what should I look for in [X]",
+      "example": null,
+      "funnel_stage": "MOF",
+      "source_type": "search_intent",
+      "id": "intent_d90e28a76962"
+    },
+    {
+      "discipline": "SEO-AI",
+      "subcategory": "Exploratory",
+      "intent": "help me diagnose [problem]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_9d45cb86dea4"
+    },
+    {
+      "discipline": "SEO-AI",
+      "subcategory": "Exploratory",
+      "intent": "what are my options for [X]",
+      "example": null,
+      "funnel_stage": "MOF",
+      "source_type": "search_intent",
+      "id": "intent_9f5f1c6b2d05"
+    },
+    {
+      "discipline": "SEO-AI",
+      "subcategory": "Comparative",
+      "intent": "compare [A] vs [B] for [situation]",
+      "example": null,
+      "funnel_stage": "MOF",
+      "source_type": "search_intent",
+      "id": "intent_35a66c55d39c"
+    },
+    {
+      "discipline": "SEO-AI",
+      "subcategory": "Comparative",
+      "intent": "[A] vs [B] vs [C] for [context]",
+      "example": null,
+      "funnel_stage": "MOF",
+      "source_type": "search_intent",
+      "id": "intent_dea67f53fd7c"
+    },
+    {
+      "discipline": "SEO-AI",
+      "subcategory": "Comparative",
+      "intent": "what are the real tradeoffs between [A] and [B]",
+      "example": null,
+      "funnel_stage": "MOF",
+      "source_type": "search_intent",
+      "id": "intent_cf1e2914737b"
+    },
+    {
+      "discipline": "SEO-AI",
+      "subcategory": "Comparative",
+      "intent": "[X] vs [Y] focusing on [dimension]",
+      "example": null,
+      "funnel_stage": "MOF",
+      "source_type": "search_intent",
+      "id": "intent_6fc36880bd7c"
+    },
+    {
+      "discipline": "SEO-AI",
+      "subcategory": "Comparative",
+      "intent": "which [X] makes sense for [situation]",
+      "example": null,
+      "funnel_stage": "MOF",
+      "source_type": "search_intent",
+      "id": "intent_d7891638ed7c"
+    },
+    {
+      "discipline": "SEO-AI",
+      "subcategory": "Comparative",
+      "intent": "what are the actual gotchas of [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_41323612e514"
+    },
+    {
+      "discipline": "SEO-AI",
+      "subcategory": "Comparative",
+      "intent": "[A] vs [B] for someone who [context]",
+      "example": null,
+      "funnel_stage": "MOF",
+      "source_type": "search_intent",
+      "id": "intent_e34915ad127a"
+    },
+    {
+      "discipline": "SEO-AI",
+      "subcategory": "Comparative",
+      "intent": "is [X] worth it for [situation]",
+      "example": null,
+      "funnel_stage": "BOF",
+      "source_type": "search_intent",
+      "id": "intent_874452c6cba4"
+    },
+    {
+      "discipline": "SEO-AI",
+      "subcategory": "Comparative",
+      "intent": "pros and cons of [X] for [use case]",
+      "example": null,
+      "funnel_stage": "MOF",
+      "source_type": "search_intent",
+      "id": "intent_e26c818dc979"
+    },
+    {
+      "discipline": "SEO-AI",
+      "subcategory": "Comparative",
+      "intent": "[A] or [B] given [constraint]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_347c986e64f3"
+    },
+    {
+      "discipline": "SEO-AI",
+      "subcategory": "Synthesis",
+      "intent": "what's the consensus on [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_af74ca8fcfdd"
+    },
+    {
+      "discipline": "SEO-AI",
+      "subcategory": "Synthesis",
+      "intent": "synthesize the main positions on [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_11b02005462e"
+    },
+    {
+      "discipline": "SEO-AI",
+      "subcategory": "Synthesis",
+      "intent": "explain the schools of thought on [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_e42fd6c77e8f"
+    },
+    {
+      "discipline": "SEO-AI",
+      "subcategory": "Synthesis",
+      "intent": "what evidence does each side use",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_4b4948be7283"
+    },
+    {
+      "discipline": "SEO-AI",
+      "subcategory": "Synthesis",
+      "intent": "what does the research actually show about [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_85ebdf78a174"
+    },
+    {
+      "discipline": "SEO-AI",
+      "subcategory": "Synthesis",
+      "intent": "summarize the debate around [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_0c57ef139c0a"
+    },
+    {
+      "discipline": "SEO-AI",
+      "subcategory": "Synthesis",
+      "intent": "where do experts agree and disagree on [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_f09c42962056"
+    },
+    {
+      "discipline": "SEO-AI",
+      "subcategory": "Synthesis",
+      "intent": "explain the reasoning behind [viewpoint]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_ad1758db3cca"
+    },
+    {
+      "discipline": "SEO-AI",
+      "subcategory": "Synthesis",
+      "intent": "help me understand which [approach] aligns with [goal]",
+      "example": null,
+      "funnel_stage": "MOF",
+      "source_type": "search_intent",
+      "id": "intent_197471201c06"
+    },
+    {
+      "discipline": "SEO-AI",
+      "subcategory": "Synthesis",
+      "intent": "what's the current state of thinking on [X]",
+      "example": null,
+      "funnel_stage": "MOF",
+      "source_type": "search_intent",
+      "id": "intent_339d7754f7cb"
+    },
+    {
+      "discipline": "SEO-AI",
+      "subcategory": "Traditional",
+      "intent": "how to [task]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_c840b5e271b2"
+    },
+    {
+      "discipline": "SEO-AI",
+      "subcategory": "Traditional",
+      "intent": "what is [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_a9ca583eb08b"
+    },
+    {
+      "discipline": "SEO-AI",
+      "subcategory": "Traditional",
+      "intent": "why does [X] happen",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_39ee230b505b"
+    },
+    {
+      "discipline": "SEO-AI",
+      "subcategory": "Traditional",
+      "intent": "how does [X] work",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_441e88152fff"
+    },
+    {
+      "discipline": "SEO-AI",
+      "subcategory": "Traditional",
+      "intent": "when to [action]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_56b99423bf42"
+    },
+    {
+      "discipline": "SEO-AI",
+      "subcategory": "Traditional",
+      "intent": "benefits of [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_b25311439e57"
+    },
+    {
+      "discipline": "SEO-AI",
+      "subcategory": "Traditional",
+      "intent": "examples of [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_3789bcbb1bb1"
+    },
+    {
+      "discipline": "SEO-AI",
+      "subcategory": "Traditional",
+      "intent": "definition of [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_fcab43935b5f"
+    },
+    {
+      "discipline": "SEO-AI",
+      "subcategory": "Traditional",
+      "intent": "statistics on [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_2785bf029df2"
+    },
+    {
+      "discipline": "SEO-AI",
+      "subcategory": "Traditional",
+      "intent": "checklist for [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_2eb5483de8d2"
+    },
+    {
+      "discipline": "SEO-AI",
+      "subcategory": "Generative",
+      "intent": "create [X] for me",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_3e9f716a2411"
+    },
+    {
+      "discipline": "SEO-AI",
+      "subcategory": "Generative",
+      "intent": "write [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_efb3125db47b"
+    },
+    {
+      "discipline": "SEO-AI",
+      "subcategory": "Generative",
+      "intent": "generate [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_eb4791c87152"
+    },
+    {
+      "discipline": "SEO-AI",
+      "subcategory": "Generative",
+      "intent": "build [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_917bfeb3972a"
+    },
+    {
+      "discipline": "SEO-AI",
+      "subcategory": "Generative",
+      "intent": "calculate [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_41f2b3b3f5be"
+    },
+    {
+      "discipline": "SEO-AI",
+      "subcategory": "Generative",
+      "intent": "draft [X]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_670799d8a315"
+    },
+    {
+      "discipline": "SEO-AI",
+      "subcategory": "Generative",
+      "intent": "rewrite [X] to be [goal]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_efc9c9a085a5"
+    },
+    {
+      "discipline": "SEO-AI",
+      "subcategory": "Generative",
+      "intent": "summarize this [content]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_58fd673f33c5"
+    },
+    {
+      "discipline": "SEO-AI",
+      "subcategory": "Generative",
+      "intent": "make a [X] of [Y]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_70a890020477"
+    },
+    {
+      "discipline": "SEO-AI",
+      "subcategory": "Generative",
+      "intent": "optimize [X] for [goal]",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "search_intent",
+      "id": "intent_e0e3f4387be3"
+    },
+    {
+      "discipline": "On-Page SEO",
+      "subcategory": "Intent Matching",
+      "intent": "Match content to search intent",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_f2760a05d322"
+    },
+    {
+      "discipline": "On-Page SEO",
+      "subcategory": "Intent Matching",
+      "intent": "Analyze the SERP to determine the right content format",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_b029f7435dcb"
+    },
+    {
+      "discipline": "On-Page SEO",
+      "subcategory": "Intent Matching",
+      "intent": "Identify primary and secondary intent",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_4b153ed6e3af"
+    },
+    {
+      "discipline": "On-Page SEO",
+      "subcategory": "Keywords",
+      "intent": "Identify target keywords",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_72b2e4cc7b36"
+    },
+    {
+      "discipline": "On-Page SEO",
+      "subcategory": "Keywords",
+      "intent": "Research long-tail keywords",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_cdedfb0795a8"
+    },
+    {
+      "discipline": "On-Page SEO",
+      "subcategory": "Keywords",
+      "intent": "Map keywords to pages",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_7dad1dd1aae5"
+    },
+    {
+      "discipline": "On-Page SEO",
+      "subcategory": "Keywords",
+      "intent": "Place the primary keyword in the first 100 words",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_215c181d1896"
+    },
+    {
+      "discipline": "On-Page SEO",
+      "subcategory": "Keywords",
+      "intent": "Maintain natural keyword usage without stuffing",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_78b9ed4e65ec"
+    },
+    {
+      "discipline": "On-Page SEO",
+      "subcategory": "Keywords",
+      "intent": "Use semantic variants and synonyms",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_edaba61efced"
+    },
+    {
+      "discipline": "On-Page SEO",
+      "subcategory": "Keywords",
+      "intent": "Use secondary long-tail keywords",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_ccc23d7b9df8"
+    },
+    {
+      "discipline": "On-Page SEO",
+      "subcategory": "HTML — Title/Meta",
+      "intent": "Optimize the title tag",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_703e2eddbc34"
+    },
+    {
+      "discipline": "On-Page SEO",
+      "subcategory": "HTML — Title/Meta",
+      "intent": "Place the primary keyword near the beginning of the title tag",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_831cdf11776c"
+    },
+    {
+      "discipline": "On-Page SEO",
+      "subcategory": "HTML — Title/Meta",
+      "intent": "Write a unique meta description",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_5c428d48469f"
+    },
+    {
+      "discipline": "On-Page SEO",
+      "subcategory": "HTML — Title/Meta",
+      "intent": "Use the target keyword naturally in the meta description",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_62ac8f2ff312"
+    },
+    {
+      "discipline": "On-Page SEO",
+      "subcategory": "HTML — Title/Meta",
+      "intent": "Use relevant title modifiers such as best, guide, or 2026",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_609d785c11df"
+    },
+    {
+      "discipline": "On-Page SEO",
+      "subcategory": "Headings",
+      "intent": "Use one clear H1 per page",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_bad56acb260e"
+    },
+    {
+      "discipline": "On-Page SEO",
+      "subcategory": "Headings",
+      "intent": "Structure headings from H1 through H6 logically",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_fa655c80ebc2"
+    },
+    {
+      "discipline": "On-Page SEO",
+      "subcategory": "Headings",
+      "intent": "Use H2–H6 subheadings in a logical hierarchy",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_0bd8de5754a1"
+    },
+    {
+      "discipline": "On-Page SEO",
+      "subcategory": "URL",
+      "intent": "Use a short, descriptive URL slug",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_37cfad89b253"
+    },
+    {
+      "discipline": "On-Page SEO",
+      "subcategory": "URL",
+      "intent": "Configure the canonical tag correctly",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_88fa62f31145"
+    },
+    {
+      "discipline": "On-Page SEO",
+      "subcategory": "URL",
+      "intent": "Configure meta robots directives correctly",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_44a4a473391b"
+    },
+    {
+      "discipline": "On-Page SEO",
+      "subcategory": "URL",
+      "intent": "Add hreflang for multilingual pages",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_ebb3242dfbe8"
+    },
+    {
+      "discipline": "On-Page SEO",
+      "subcategory": "Content",
+      "intent": "Match content depth and length to the topic",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_4e777a8e1455"
+    },
+    {
+      "discipline": "On-Page SEO",
+      "subcategory": "Content",
+      "intent": "Open with a direct answer",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_077dd8e703dd"
+    },
+    {
+      "discipline": "On-Page SEO",
+      "subcategory": "Content",
+      "intent": "Use bullet lists and data tables",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_490da5b0303c"
+    },
+    {
+      "discipline": "On-Page SEO",
+      "subcategory": "Content",
+      "intent": "Add an FAQ section with real user questions",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_ebdeba8470c6"
+    },
+    {
+      "discipline": "On-Page SEO",
+      "subcategory": "Content",
+      "intent": "Start relevant sections with a concise definition",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_56d9a3bc8338"
+    },
+    {
+      "discipline": "On-Page SEO",
+      "subcategory": "Content",
+      "intent": "Use a clear call to action",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_edd65f8726e2"
+    },
+    {
+      "discipline": "On-Page SEO",
+      "subcategory": "Content",
+      "intent": "Refresh content with current data",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_b14d76c7d8b6"
+    },
+    {
+      "discipline": "On-Page SEO",
+      "subcategory": "Content",
+      "intent": "Remove thin or duplicate content",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_98d1e7e9b784"
+    },
+    {
+      "discipline": "On-Page SEO",
+      "subcategory": "Content",
+      "intent": "Improve semantic topic coverage",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_e8475587340e"
+    },
+    {
+      "discipline": "On-Page SEO",
+      "subcategory": "Content",
+      "intent": "Increase topical depth and coverage",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_89361121b1fb"
+    },
+    {
+      "discipline": "On-Page SEO",
+      "subcategory": "Internal Links",
+      "intent": "Add internal links",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_4b9c67688104"
+    },
+    {
+      "discipline": "On-Page SEO",
+      "subcategory": "Internal Links",
+      "intent": "Use descriptive internal anchor text",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_cb8baf1ae2e7"
+    },
+    {
+      "discipline": "On-Page SEO",
+      "subcategory": "Internal Links",
+      "intent": "Build a topical silo structure",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_a8e99b15fbef"
+    },
+    {
+      "discipline": "On-Page SEO",
+      "subcategory": "Internal Links",
+      "intent": "Optimize breadcrumbs",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_74e4d7f5743c"
+    },
+    {
+      "discipline": "On-Page SEO",
+      "subcategory": "External Links",
+      "intent": "Link out to trustworthy sources",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_6b37f1fbd43c"
+    },
+    {
+      "discipline": "On-Page SEO",
+      "subcategory": "External Links",
+      "intent": "Fix broken links and 404s",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_3f2031580d0c"
+    },
+    {
+      "discipline": "On-Page SEO",
+      "subcategory": "Images",
+      "intent": "Optimize image alt text",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_a4322517b45f"
+    },
+    {
+      "discipline": "On-Page SEO",
+      "subcategory": "Images",
+      "intent": "Compress images",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_fcba1a4f2b0a"
+    },
+    {
+      "discipline": "On-Page SEO",
+      "subcategory": "Images",
+      "intent": "Use modern image formats such as WebP or AVIF",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_1629021f4359"
+    },
+    {
+      "discipline": "On-Page SEO",
+      "subcategory": "Images",
+      "intent": "Use descriptive image filenames",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_d27645bc3899"
+    },
+    {
+      "discipline": "On-Page SEO",
+      "subcategory": "Images",
+      "intent": "Set image width and height attributes to reduce layout shift",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_b50d338afc38"
+    },
+    {
+      "discipline": "On-Page SEO",
+      "subcategory": "Images",
+      "intent": "Use lazy loading where appropriate",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_34bb80e45cf6"
+    },
+    {
+      "discipline": "On-Page SEO",
+      "subcategory": "Schema",
+      "intent": "Add Schema.org markup with JSON-LD",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_88d41efd2885"
+    },
+    {
+      "discipline": "On-Page SEO",
+      "subcategory": "Schema",
+      "intent": "Implement FAQPage structured data where appropriate",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_00ea7f36af8a"
+    },
+    {
+      "discipline": "On-Page SEO",
+      "subcategory": "Schema",
+      "intent": "Implement Product or Review structured data where applicable",
+      "example": null,
+      "funnel_stage": "BOF",
+      "source_type": "optimization_activity",
+      "id": "intent_5b02544e8c8e"
+    },
+    {
+      "discipline": "On-Page SEO",
+      "subcategory": "Schema",
+      "intent": "Implement Article or BlogPosting structured data where applicable",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_5b4c59c53b26"
+    },
+    {
+      "discipline": "On-Page SEO",
+      "subcategory": "Schema",
+      "intent": "Implement BreadcrumbList structured data",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_8fd7c5194491"
+    },
+    {
+      "discipline": "On-Page SEO",
+      "subcategory": "Schema",
+      "intent": "Implement Organization structured data",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_82ac08901ffb"
+    },
+    {
+      "discipline": "On-Page SEO",
+      "subcategory": "Schema",
+      "intent": "Validate eligible structured data with Rich Results Test",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_90aac2058c8b"
+    },
+    {
+      "discipline": "On-Page SEO",
+      "subcategory": "UX / Performance",
+      "intent": "Optimize for mobile-first rendering",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_a8fe4bd9a368"
+    },
+    {
+      "discipline": "On-Page SEO",
+      "subcategory": "UX / Performance",
+      "intent": "Improve Core Web Vitals: LCP, INP, and CLS",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_ce11980e17a2"
+    },
+    {
+      "discipline": "On-Page SEO",
+      "subcategory": "UX / Performance",
+      "intent": "Improve page-load performance",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_cab73f6ff44a"
+    },
+    {
+      "discipline": "On-Page SEO",
+      "subcategory": "UX / Performance",
+      "intent": "Improve readability",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_587810a1cc72"
+    },
+    {
+      "discipline": "On-Site SEO",
+      "subcategory": "Architecture",
+      "intent": "Design a coherent site-wide URL structure",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_5d501ed5d530"
+    },
+    {
+      "discipline": "On-Site SEO",
+      "subcategory": "Architecture",
+      "intent": "Optimize global site navigation",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_4fc149692b4a"
+    },
+    {
+      "discipline": "On-Site SEO",
+      "subcategory": "Architecture",
+      "intent": "Design a clear information architecture and topic silos",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_991d2d21316f"
+    },
+    {
+      "discipline": "On-Site SEO",
+      "subcategory": "Architecture",
+      "intent": "Reduce unnecessary crawl depth and click depth",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_1bd60819f453"
+    },
+    {
+      "discipline": "On-Site SEO",
+      "subcategory": "Architecture",
+      "intent": "Define a site-wide content strategy",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_3cbcefe13820"
+    },
+    {
+      "discipline": "On-Site SEO",
+      "subcategory": "Architecture",
+      "intent": "Build hierarchical internal linking across the site",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_aa93df125359"
+    },
+    {
+      "discipline": "Off-Page SEO",
+      "subcategory": "Link Building",
+      "intent": "Guest posting",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_342186b56afd"
+    },
+    {
+      "discipline": "Off-Page SEO",
+      "subcategory": "Link Building",
+      "intent": "Earn editorial links naturally",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_5e771d1f3f72"
+    },
+    {
+      "discipline": "Off-Page SEO",
+      "subcategory": "Link Building",
+      "intent": "Use digital PR to earn media coverage",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_1feccd524aa7"
+    },
+    {
+      "discipline": "Off-Page SEO",
+      "subcategory": "Link Building",
+      "intent": "Broken link building",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_7897a2109d80"
+    },
+    {
+      "discipline": "Off-Page SEO",
+      "subcategory": "Link Building",
+      "intent": "Skyscraper content outreach",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_9cfe042c5a64"
+    },
+    {
+      "discipline": "Off-Page SEO",
+      "subcategory": "Link Building",
+      "intent": "Resource-page link building",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_55aac0eac462"
+    },
+    {
+      "discipline": "Off-Page SEO",
+      "subcategory": "Link Building",
+      "intent": "Journalist and Q&A outreach",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_2366158960b6"
+    },
+    {
+      "discipline": "Off-Page SEO",
+      "subcategory": "Link Building",
+      "intent": "Guest podcasting",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_55010903d9ac"
+    },
+    {
+      "discipline": "Off-Page SEO",
+      "subcategory": "Link Building",
+      "intent": "Infographic outreach",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_1fcb03d0ff44"
+    },
+    {
+      "discipline": "Off-Page SEO",
+      "subcategory": "Link Building",
+      "intent": "Analyze competitor backlinks",
+      "example": null,
+      "funnel_stage": "MOF",
+      "source_type": "optimization_activity",
+      "id": "intent_5e495ffeffe7"
+    },
+    {
+      "discipline": "Off-Page SEO",
+      "subcategory": "Link Building",
+      "intent": "Convert relevant unlinked brand mentions into links",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_9965f8fe52ab"
+    },
+    {
+      "discipline": "Off-Page SEO",
+      "subcategory": "Link Building",
+      "intent": "Reclaim lost or broken backlinks",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_391c8fda49b2"
+    },
+    {
+      "discipline": "Off-Page SEO",
+      "subcategory": "Link Building",
+      "intent": "Earn relevant sponsorship mentions and links",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_323d9ec231cf"
+    },
+    {
+      "discipline": "Off-Page SEO",
+      "subcategory": "Link Building",
+      "intent": "Evaluate reciprocal linking partnerships carefully",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_816361fe4c6c"
+    },
+    {
+      "discipline": "Off-Page SEO",
+      "subcategory": "Link Building",
+      "intent": "Earn podcast appearances and citations",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_12950627aede"
+    },
+    {
+      "discipline": "Off-Page SEO",
+      "subcategory": "Brand Mentions",
+      "intent": "Track unlinked brand mentions",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_465670e24f8b"
+    },
+    {
+      "discipline": "Off-Page SEO",
+      "subcategory": "Brand Mentions",
+      "intent": "Earn mentions in authoritative publications",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_17a7a6391e9e"
+    },
+    {
+      "discipline": "Off-Page SEO",
+      "subcategory": "Brand Mentions",
+      "intent": "Build executive mentions and profiles",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_58f131f2a216"
+    },
+    {
+      "discipline": "Off-Page SEO",
+      "subcategory": "Brand Mentions",
+      "intent": "Earn product or service mentions",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_f273645883b4"
+    },
+    {
+      "discipline": "Off-Page SEO",
+      "subcategory": "Brand Mentions",
+      "intent": "Analyze co-citations",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_59dd36a45663"
+    },
+    {
+      "discipline": "Off-Page SEO",
+      "subcategory": "Brand Mentions",
+      "intent": "Improve brand entity prominence",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_48dc44302468"
+    },
+    {
+      "discipline": "Off-Page SEO",
+      "subcategory": "Brand Mentions",
+      "intent": "Monitor brand sentiment",
+      "example": null,
+      "funnel_stage": "MOF",
+      "source_type": "optimization_activity",
+      "id": "intent_8e4b7f38bed1"
+    },
+    {
+      "discipline": "Off-Page SEO",
+      "subcategory": "Brand Mentions",
+      "intent": "Monitor brand mentions",
+      "example": null,
+      "funnel_stage": "MOF",
+      "source_type": "optimization_activity",
+      "id": "intent_cc730a832d01"
+    },
+    {
+      "discipline": "Off-Page SEO",
+      "subcategory": "Social Signals",
+      "intent": "Optimize social profiles",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_1204795bcfb8"
+    },
+    {
+      "discipline": "Off-Page SEO",
+      "subcategory": "Social Signals",
+      "intent": "Distribute content on social platforms",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_b6678ed0bd13"
+    },
+    {
+      "discipline": "Off-Page SEO",
+      "subcategory": "Social Signals",
+      "intent": "Build meaningful social engagement",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_aaf2486dd44a"
+    },
+    {
+      "discipline": "Off-Page SEO",
+      "subcategory": "Social Signals",
+      "intent": "Measure referral traffic from social platforms",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_3fbe49e8bd40"
+    },
+    {
+      "discipline": "Off-Page SEO",
+      "subcategory": "Social Signals",
+      "intent": "Influencer marketing",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_4da274b717ca"
+    },
+    {
+      "discipline": "Off-Page SEO",
+      "subcategory": "Social Signals",
+      "intent": "Earn and monitor social media mentions",
+      "example": null,
+      "funnel_stage": "MOF",
+      "source_type": "optimization_activity",
+      "id": "intent_db6b5390980e"
+    },
+    {
+      "discipline": "Off-Page SEO",
+      "subcategory": "Local SEO",
+      "intent": "Optimize Google Business Profile",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_fe57a37f80fe"
+    },
+    {
+      "discipline": "Off-Page SEO",
+      "subcategory": "Local SEO",
+      "intent": "Maintain consistent name, address, and phone information",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_2128fca73fca"
+    },
+    {
+      "discipline": "Off-Page SEO",
+      "subcategory": "Local SEO",
+      "intent": "Maintain relevant directory listings",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_59ba05f7a35c"
+    },
+    {
+      "discipline": "Off-Page SEO",
+      "subcategory": "Local SEO",
+      "intent": "Build and maintain local citations",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_ba34fc8ace56"
+    },
+    {
+      "discipline": "Off-Page SEO",
+      "subcategory": "Local SEO",
+      "intent": "Earn and manage Google reviews",
+      "example": null,
+      "funnel_stage": "BOF",
+      "source_type": "optimization_activity",
+      "id": "intent_eb8edfff2854"
+    },
+    {
+      "discipline": "Off-Page SEO",
+      "subcategory": "Local SEO",
+      "intent": "Earn and manage third-party reviews",
+      "example": null,
+      "funnel_stage": "BOF",
+      "source_type": "optimization_activity",
+      "id": "intent_407dab57afd0"
+    },
+    {
+      "discipline": "Off-Page SEO",
+      "subcategory": "Digital PR",
+      "intent": "Use press releases selectively for genuine news",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_35bd58d5670e"
+    },
+    {
+      "discipline": "Off-Page SEO",
+      "subcategory": "Digital PR",
+      "intent": "Publish original data studies",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_1b789bb1a70b"
+    },
+    {
+      "discipline": "Off-Page SEO",
+      "subcategory": "Digital PR",
+      "intent": "Publish survey-based research",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_b9aa51ce1499"
+    },
+    {
+      "discipline": "Off-Page SEO",
+      "subcategory": "Digital PR",
+      "intent": "Earn relevant industry awards and recognition",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_1177d80c21cf"
+    },
+    {
+      "discipline": "Off-Page SEO",
+      "subcategory": "Digital PR",
+      "intent": "Publish thought leadership",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_9676842860c9"
+    },
+    {
+      "discipline": "Off-Page SEO",
+      "subcategory": "Digital PR",
+      "intent": "Contribute to or publish expert roundups",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_b8f0184e911c"
+    },
+    {
+      "discipline": "Off-Page SEO",
+      "subcategory": "Digital PR",
+      "intent": "Conduct journalist outreach",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_3ca1f0b5a9a0"
+    },
+    {
+      "discipline": "Off-Page SEO",
+      "subcategory": "Communities",
+      "intent": "Participate meaningfully in relevant forums and communities",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_6dc0ed359aaf"
+    },
+    {
+      "discipline": "Off-Page SEO",
+      "subcategory": "Communities",
+      "intent": "Answer relevant questions on Q&A platforms",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_75391aaf6c6d"
+    },
+    {
+      "discipline": "Off-Page SEO",
+      "subcategory": "Communities",
+      "intent": "Engage with relevant online communities",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_30961c8231f6"
+    },
+    {
+      "discipline": "Off-Page SEO",
+      "subcategory": "Communities",
+      "intent": "Contribute useful comments where genuinely relevant",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_52c81ba6cabc"
+    },
+    {
+      "discipline": "Off-Page SEO",
+      "subcategory": "Monitoring",
+      "intent": "Audit the backlink profile",
+      "example": null,
+      "funnel_stage": "MOF",
+      "source_type": "optimization_activity",
+      "id": "intent_f0e19adaa5ab"
+    },
+    {
+      "discipline": "Off-Page SEO",
+      "subcategory": "Monitoring",
+      "intent": "Review harmful links and use disavow only when justified",
+      "example": null,
+      "funnel_stage": "BOF",
+      "source_type": "optimization_activity",
+      "id": "intent_45fb0ef0ff07"
+    },
+    {
+      "discipline": "Off-Page SEO",
+      "subcategory": "Monitoring",
+      "intent": "Track third-party domain authority metrics cautiously",
+      "example": null,
+      "funnel_stage": "MOF",
+      "source_type": "optimization_activity",
+      "id": "intent_1ad4984b2cd0"
+    },
+    {
+      "discipline": "Off-Page SEO",
+      "subcategory": "Monitoring",
+      "intent": "Analyze competitor off-page activity",
+      "example": null,
+      "funnel_stage": "MOF",
+      "source_type": "optimization_activity",
+      "id": "intent_53cfdc149707"
+    },
+    {
+      "discipline": "Technical SEO",
+      "subcategory": "Crawl/Index",
+      "intent": "Audit crawlability and indexability",
+      "example": null,
+      "funnel_stage": "MOF",
+      "source_type": "optimization_activity",
+      "id": "intent_0d1ff9811346"
+    },
+    {
+      "discipline": "Technical SEO",
+      "subcategory": "Crawl/Index",
+      "intent": "Configure robots.txt correctly",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_054b7f3f9a77"
+    },
+    {
+      "discipline": "Technical SEO",
+      "subcategory": "Crawl/Index",
+      "intent": "Maintain a valid XML sitemap",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_d46fa27b70a7"
+    },
+    {
+      "discipline": "Technical SEO",
+      "subcategory": "Crawl/Index",
+      "intent": "Manage crawl budget where scale makes it relevant",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_f88fc9697995"
+    },
+    {
+      "discipline": "Technical SEO",
+      "subcategory": "Performance",
+      "intent": "Optimize page speed",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_7e8d17416910"
+    },
+    {
+      "discipline": "Technical SEO",
+      "subcategory": "Performance",
+      "intent": "Use caching and CSS/JS minification appropriately",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_c04369b064bb"
+    },
+    {
+      "discipline": "Technical SEO",
+      "subcategory": "Security",
+      "intent": "Serve the site securely over HTTPS",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_f16aaa6412c6"
+    },
+    {
+      "discipline": "Technical SEO",
+      "subcategory": "Security",
+      "intent": "Validate structured data",
+      "example": null,
+      "funnel_stage": "TOF",
+      "source_type": "optimization_activity",
+      "id": "intent_c8d066aa2f85"
+    }
+  ]
 }
