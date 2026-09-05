@@ -334,6 +334,15 @@ html.dark .cta-action-btn:hover{box-shadow:0 4px 16px rgba(94,180,255,.2);}
 .ld-tag{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--blue);margin-bottom:14px;}
 .ld-title{font-family:'Playfair Display',serif;font-weight:700;font-size:30px;letter-spacing:-.02em;margin-bottom:8px;}
 .ld-url{font-size:13px;color:var(--text);font-family:'Inter',monospace;}
+
+.audit-progress{max-width:620px;margin:22px auto 0;padding:0 20px;}
+.audit-progress-top{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:8px;font-size:12px;line-height:1.4;}
+.audit-progress-stage{font-weight:600;min-width:0;}
+.audit-progress-time{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-variant-numeric:tabular-nums;white-space:nowrap;font-weight:700;}
+.audit-progress-track{height:6px;border-radius:999px;background:var(--bg3);overflow:hidden;border:1px solid var(--border);}
+.audit-progress-fill{height:100%;width:0%;background:var(--blue);border-radius:inherit;transition:width .45s ease;}
+.audit-progress-note{margin-top:7px;font-size:10.5px;line-height:1.45;opacity:.62;font-variant-numeric:tabular-nums;}
+@media(max-width:520px){.audit-progress-top{align-items:flex-start;}.audit-progress-time{font-size:11px;}}
 .mod-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:28px;}
 .mod{background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:20px 18px 16px;box-shadow:var(--sh1);position:relative;overflow:hidden;transition:border-color .3s,box-shadow .3s;}
 .mod.active{border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,81,168,.07),var(--sh1);}
@@ -1757,6 +1766,14 @@ async function unlockChecklist(){
     <div class="ld-tag">Scanning</div>
     <div class="ld-title">Analyzing AI Visibility</div>
     <div class="ld-url" id="ld-url"></div>
+    <div class="audit-progress" id="audit-progress" role="status" aria-live="polite">
+      <div class="audit-progress-top">
+        <span class="audit-progress-stage" id="audit-progress-stage">Starting observation…</span>
+        <strong class="audit-progress-time" id="audit-progress-time">~30 sec remaining</strong>
+      </div>
+      <div class="audit-progress-track" aria-hidden="true"><div class="audit-progress-fill" id="audit-progress-fill"></div></div>
+      <div class="audit-progress-note" id="audit-progress-note">0 sec elapsed · estimated duration 30 sec</div>
+    </div>
   </div>
   <div class="mod-grid fu1">
     <div class="mod" id="m-aeo"><div class="mod-lbl">AEO</div><div class="mod-cnt" id="c-aeo">0 / 34</div><div class="mod-bar" id="b-aeo"></div></div>
@@ -2015,6 +2032,73 @@ function showComingToast(){
 document.getElementById('url-input').addEventListener('keypress',e=>{if(e.key==='Enter')startAudit();});
 function setP(p){document.getElementById('bar').style.width=p+'%';}
 
+let auditProgressTimer=null;
+let auditProgressStarted=0;
+const AUDIT_ESTIMATE_SEC=30;
+
+function auditProgressStage(elapsed){
+  if(elapsed < 4)  return 'Connecting to the site';
+  if(elapsed < 10) return 'Collecting public evidence';
+  if(elapsed < 18) return 'Checking links & sitemap';
+  if(elapsed < 26) return 'Measuring performance signals';
+  return 'Finalizing deterministic report';
+}
+
+function updateAuditProgress(){
+  if(!auditProgressStarted) return;
+  const elapsed=Math.max(0,Math.floor((performance.now()-auditProgressStarted)/1000));
+  const remaining=Math.max(0,AUDIT_ESTIMATE_SEC-elapsed);
+  const stage=document.getElementById('audit-progress-stage');
+  const time=document.getElementById('audit-progress-time');
+  const fill=document.getElementById('audit-progress-fill');
+  const note=document.getElementById('audit-progress-note');
+  if(stage) stage.textContent=auditProgressStage(elapsed);
+  if(time) time.textContent=remaining>0 ? '~'+remaining+' sec remaining' : 'Finalizing…';
+  if(note) note.textContent=elapsed+' sec elapsed · '+(remaining>0?'estimated duration '+AUDIT_ESTIMATE_SEC+' sec':'taking longer than the estimate');
+  if(fill){
+    const pct=remaining>0 ? Math.min(90,Math.round((elapsed/AUDIT_ESTIMATE_SEC)*90)) : 92;
+    fill.style.width=pct+'%';
+  }
+}
+
+function startAuditProgress(){
+  stopAuditProgress(false);
+  auditProgressStarted=performance.now();
+  const stage=document.getElementById('audit-progress-stage');
+  const time=document.getElementById('audit-progress-time');
+  const fill=document.getElementById('audit-progress-fill');
+  const note=document.getElementById('audit-progress-note');
+  if(stage) stage.textContent='Connecting to the site';
+  if(time) time.textContent='~'+AUDIT_ESTIMATE_SEC+' sec remaining';
+  if(fill) fill.style.width='2%';
+  if(note) note.textContent='0 sec elapsed · estimated duration '+AUDIT_ESTIMATE_SEC+' sec';
+  updateAuditProgress();
+  auditProgressTimer=setInterval(updateAuditProgress,1000);
+}
+
+function completeAuditProgress(){
+  if(auditProgressTimer){clearInterval(auditProgressTimer);auditProgressTimer=null;}
+  const elapsed=auditProgressStarted?Math.max(0,Math.round((performance.now()-auditProgressStarted)/1000)):0;
+  const stage=document.getElementById('audit-progress-stage');
+  const time=document.getElementById('audit-progress-time');
+  const fill=document.getElementById('audit-progress-fill');
+  const note=document.getElementById('audit-progress-note');
+  if(stage) stage.textContent='Observation complete';
+  if(time) time.textContent='0 sec';
+  if(fill) fill.style.width='100%';
+  if(note) note.textContent='Completed in '+elapsed+' sec';
+  auditProgressStarted=0;
+}
+
+function stopAuditProgress(reset=true){
+  if(auditProgressTimer){clearInterval(auditProgressTimer);auditProgressTimer=null;}
+  auditProgressStarted=0;
+  if(!reset) return;
+  const fill=document.getElementById('audit-progress-fill');
+  if(fill) fill.style.width='0%';
+}
+
+
 /* ── SIGNAL LIBRARY 167 signals ── */
 const SIG={
 AEO:[
@@ -2212,6 +2296,7 @@ async function startAudit(){
   document.getElementById('input-zone').style.display='none';
   document.getElementById('loading-zone').style.display='block';
   document.getElementById('ld-url').textContent=url;
+  startAuditProgress();
   document.getElementById('results-zone').innerHTML='';
   document.getElementById('results-zone').style.display='none';
   await runAudit(url);
@@ -2315,6 +2400,8 @@ async function runAudit(url){
   log('Generating AI synthesis…','sl-info');await sleep(200);
   const [synth,ap]=await Promise.all([fetchSynth(AUD),fetchAP(AUD)]);
   log('Dashboard ready.','sl-ok');await sleep(150);
+  completeAuditProgress();
+  await sleep(350);
   document.getElementById('loading-zone').style.display='none';
   setP(100);setTimeout(()=>setP(0),700);
   render(AUD,synth,ap);
@@ -3273,6 +3360,7 @@ function setF(f,btn){filt=f;document.querySelectorAll('#vf-a,#vf-f,#vf-w,#vf-p')
 function setS(s,btn){sortBy=s;document.querySelectorAll('#vs-s,#vs-w,#vs-n').forEach(b=>b.classList.remove('on'));btn.classList.add('on');rerender();}
 
 function resetAudit(){
+  stopAuditProgress();
   document.getElementById('results-zone').style.display='none';
   document.getElementById('loading-zone').style.display='none';
   document.getElementById('input-zone').style.display='block';
