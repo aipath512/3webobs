@@ -335,14 +335,27 @@ html.dark .cta-action-btn:hover{box-shadow:0 4px 16px rgba(94,180,255,.2);}
 .ld-title{font-family:'Playfair Display',serif;font-weight:700;font-size:30px;letter-spacing:-.02em;margin-bottom:8px;}
 .ld-url{font-size:13px;color:var(--text);font-family:'Inter',monospace;}
 
-.audit-progress{max-width:620px;margin:22px auto 0;padding:0 20px;}
-.audit-progress-top{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:8px;font-size:12px;line-height:1.4;}
-.audit-progress-stage{font-weight:600;min-width:0;}
-.audit-progress-time{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-variant-numeric:tabular-nums;white-space:nowrap;font-weight:700;}
-.audit-progress-track{height:6px;border-radius:999px;background:var(--bg3);overflow:hidden;border:1px solid var(--border);}
-.audit-progress-fill{height:100%;width:0%;background:var(--blue);border-radius:inherit;transition:width .45s ease;}
-.audit-progress-note{margin-top:7px;font-size:10.5px;line-height:1.45;opacity:.62;font-variant-numeric:tabular-nums;}
-@media(max-width:520px){.audit-progress-top{align-items:flex-start;}.audit-progress-time{font-size:11px;}}
+
+/* METRO AUDIT PROGRESS */
+.audit-progress{max-width:900px;margin:28px auto 0;padding:0 16px;}
+.metro-meta{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:14px;font-size:12px;line-height:1.4;}
+.metro-stage{font-weight:700;}
+.metro-time{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-variant-numeric:tabular-nums;white-space:nowrap;font-weight:700;}
+.metro-wrap{overflow-x:auto;padding:8px 2px 2px;scrollbar-width:thin;}
+.metro-line{display:grid;grid-template-columns:repeat(9,minmax(84px,1fr));min-width:780px;align-items:start;position:relative;}
+.metro-line::before{content:"";position:absolute;top:17px;left:5.5%;right:5.5%;height:4px;background:var(--bg3);border-radius:999px;border:1px solid var(--border);z-index:0;}
+.metro-line::after{content:"";position:absolute;top:17px;left:5.5%;height:4px;width:var(--metro-progress,0%);max-width:89%;background:var(--blue);border-radius:999px;z-index:1;transition:width .45s ease;}
+.metro-stop{position:relative;z-index:2;text-align:center;min-width:0;}
+.metro-dot{width:20px;height:20px;margin:7px auto 8px;border-radius:50%;border:3px solid var(--xlight);background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;transition:all .25s ease;}
+.metro-label{font-size:10px;font-weight:650;letter-spacing:.02em;line-height:1.25;white-space:normal;}
+.metro-stop.done .metro-dot{border-color:var(--blue);background:var(--blue);color:#fff !important;}
+.metro-stop.active .metro-dot{border-color:var(--blue);background:var(--bg);box-shadow:0 0 0 5px var(--blue-bg);}
+.metro-stop.active .metro-label{font-weight:800;}
+.metro-stop.done .metro-dot::before{content:"✓";}
+.metro-stop.active .metro-dot::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--blue);}
+.metro-stop.pending .metro-dot::before{content:"";}
+.metro-note{margin-top:12px;font-size:10.5px;line-height:1.45;opacity:.68;font-variant-numeric:tabular-nums;text-align:center;}
+@media(max-width:680px){.metro-meta{align-items:flex-start;flex-direction:column;gap:4px}.metro-time{font-size:11px}.audit-progress{padding:0 4px}}
 .mod-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:28px;}
 .mod{background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:20px 18px 16px;box-shadow:var(--sh1);position:relative;overflow:hidden;transition:border-color .3s,box-shadow .3s;}
 .mod.active{border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,81,168,.07),var(--sh1);}
@@ -1767,12 +1780,24 @@ async function unlockChecklist(){
     <div class="ld-title">Analyzing AI Visibility</div>
     <div class="ld-url" id="ld-url"></div>
     <div class="audit-progress" id="audit-progress" role="status" aria-live="polite">
-      <div class="audit-progress-top">
-        <span class="audit-progress-stage" id="audit-progress-stage">Starting observation…</span>
-        <strong class="audit-progress-time" id="audit-progress-time">~30 sec remaining</strong>
+      <div class="metro-meta">
+        <span class="metro-stage" id="audit-progress-stage">Starting observation…</span>
+        <strong class="metro-time" id="audit-progress-time">~30 sec remaining</strong>
       </div>
-      <div class="audit-progress-track" aria-hidden="true"><div class="audit-progress-fill" id="audit-progress-fill"></div></div>
-      <div class="audit-progress-note" id="audit-progress-note">0 sec elapsed · estimated duration 30 sec</div>
+      <div class="metro-wrap">
+        <div class="metro-line" id="metro-line" style="--metro-progress:0%">
+          <div class="metro-stop active" data-stop="0"><div class="metro-dot"></div><div class="metro-label">START</div></div>
+          <div class="metro-stop pending" data-stop="1"><div class="metro-dot"></div><div class="metro-label">CONNECT</div></div>
+          <div class="metro-stop pending" data-stop="2"><div class="metro-dot"></div><div class="metro-label">EVIDENCE</div></div>
+          <div class="metro-stop pending" data-stop="3"><div class="metro-dot"></div><div class="metro-label">LINKS</div></div>
+          <div class="metro-stop pending" data-stop="4"><div class="metro-dot"></div><div class="metro-label">SITEMAP</div></div>
+          <div class="metro-stop pending" data-stop="5"><div class="metro-dot"></div><div class="metro-label">PERFORMANCE</div></div>
+          <div class="metro-stop pending" data-stop="6"><div class="metro-dot"></div><div class="metro-label">167 SIGNALS</div></div>
+          <div class="metro-stop pending" data-stop="7"><div class="metro-dot"></div><div class="metro-label">REPORT</div></div>
+          <div class="metro-stop pending" data-stop="8"><div class="metro-dot"></div><div class="metro-label">COMPLETE</div></div>
+        </div>
+      </div>
+      <div class="metro-note" id="audit-progress-note">Estimated route · 0 sec elapsed</div>
     </div>
   </div>
   <div class="mod-grid fu1">
@@ -2036,29 +2061,55 @@ let auditProgressTimer=null;
 let auditProgressStarted=0;
 const AUDIT_ESTIMATE_SEC=30;
 
-function auditProgressStage(elapsed){
-  if(elapsed < 4)  return 'Connecting to the site';
-  if(elapsed < 10) return 'Collecting public evidence';
-  if(elapsed < 18) return 'Checking links & sitemap';
-  if(elapsed < 26) return 'Measuring performance signals';
-  return 'Finalizing deterministic report';
+const METRO_STOPS = [
+  {at:0,  label:'Starting observation'},
+  {at:2,  label:'Connecting to the site'},
+  {at:6,  label:'Collecting public evidence'},
+  {at:11, label:'Checking internal links'},
+  {at:16, label:'Checking sitemap'},
+  {at:21, label:'Measuring performance signals'},
+  {at:26, label:'Evaluating 167 signals'},
+  {at:29, label:'Building deterministic report'},
+  {at:30, label:'Finalizing deterministic report'}
+];
+
+function metroStopIndex(elapsed){
+  let idx=0;
+  for(let i=0;i<METRO_STOPS.length;i++){
+    if(elapsed>=METRO_STOPS[i].at) idx=i;
+    else break;
+  }
+  return idx;
+}
+
+function paintMetro(idx, completed=false){
+  const line=document.getElementById('metro-line');
+  const stops=[...document.querySelectorAll('#metro-line .metro-stop')];
+  if(!line || !stops.length) return;
+  stops.forEach((el,i)=>{
+    el.classList.remove('done','active','pending');
+    if(completed || i<idx) el.classList.add('done');
+    else if(i===idx) el.classList.add('active');
+    else el.classList.add('pending');
+  });
+  const pct=completed ? 89 : Math.max(0,Math.min(89,(idx/(stops.length-1))*89));
+  line.style.setProperty('--metro-progress',pct+'%');
 }
 
 function updateAuditProgress(){
   if(!auditProgressStarted) return;
   const elapsed=Math.max(0,Math.floor((performance.now()-auditProgressStarted)/1000));
   const remaining=Math.max(0,AUDIT_ESTIMATE_SEC-elapsed);
+  const idx=metroStopIndex(elapsed);
   const stage=document.getElementById('audit-progress-stage');
   const time=document.getElementById('audit-progress-time');
-  const fill=document.getElementById('audit-progress-fill');
   const note=document.getElementById('audit-progress-note');
-  if(stage) stage.textContent=auditProgressStage(elapsed);
+  if(stage) stage.textContent=METRO_STOPS[idx].label;
   if(time) time.textContent=remaining>0 ? '~'+remaining+' sec remaining' : 'Finalizing…';
-  if(note) note.textContent=elapsed+' sec elapsed · '+(remaining>0?'estimated duration '+AUDIT_ESTIMATE_SEC+' sec':'taking longer than the estimate');
-  if(fill){
-    const pct=remaining>0 ? Math.min(90,Math.round((elapsed/AUDIT_ESTIMATE_SEC)*90)) : 92;
-    fill.style.width=pct+'%';
-  }
+  if(note) note.textContent=remaining>0
+    ? 'Estimated route · '+elapsed+' sec elapsed'
+    : 'Estimated route exceeded · '+elapsed+' sec elapsed';
+  paintMetro(idx,false);
 }
 
 function startAuditProgress(){
@@ -2066,12 +2117,11 @@ function startAuditProgress(){
   auditProgressStarted=performance.now();
   const stage=document.getElementById('audit-progress-stage');
   const time=document.getElementById('audit-progress-time');
-  const fill=document.getElementById('audit-progress-fill');
   const note=document.getElementById('audit-progress-note');
-  if(stage) stage.textContent='Connecting to the site';
+  if(stage) stage.textContent='Starting observation';
   if(time) time.textContent='~'+AUDIT_ESTIMATE_SEC+' sec remaining';
-  if(fill) fill.style.width='2%';
-  if(note) note.textContent='0 sec elapsed · estimated duration '+AUDIT_ESTIMATE_SEC+' sec';
+  if(note) note.textContent='Estimated route · 0 sec elapsed';
+  paintMetro(0,false);
   updateAuditProgress();
   auditProgressTimer=setInterval(updateAuditProgress,1000);
 }
@@ -2081,21 +2131,18 @@ function completeAuditProgress(){
   const elapsed=auditProgressStarted?Math.max(0,Math.round((performance.now()-auditProgressStarted)/1000)):0;
   const stage=document.getElementById('audit-progress-stage');
   const time=document.getElementById('audit-progress-time');
-  const fill=document.getElementById('audit-progress-fill');
   const note=document.getElementById('audit-progress-note');
   if(stage) stage.textContent='Observation complete';
   if(time) time.textContent='0 sec';
-  if(fill) fill.style.width='100%';
-  if(note) note.textContent='Completed in '+elapsed+' sec';
+  if(note) note.textContent='Terminal reached · completed in '+elapsed+' sec';
+  paintMetro(8,true);
   auditProgressStarted=0;
 }
 
 function stopAuditProgress(reset=true){
   if(auditProgressTimer){clearInterval(auditProgressTimer);auditProgressTimer=null;}
   auditProgressStarted=0;
-  if(!reset) return;
-  const fill=document.getElementById('audit-progress-fill');
-  if(fill) fill.style.width='0%';
+  if(reset) paintMetro(0,false);
 }
 
 
