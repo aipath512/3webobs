@@ -1,0 +1,176 @@
+name: Add audit progress countdown
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/add-audit-progress.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    if: github.event.head_commit.message != 'ui: add audit progress countdown'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Patch current index.html only
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+
+          css = '''
+.audit-progress{max-width:620px;margin:22px auto 0;padding:0 20px;}
+.audit-progress-top{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:8px;font-size:12px;line-height:1.4;}
+.audit-progress-stage{font-weight:600;min-width:0;}
+.audit-progress-time{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-variant-numeric:tabular-nums;white-space:nowrap;font-weight:700;}
+.audit-progress-track{height:6px;border-radius:999px;background:var(--bg3);overflow:hidden;border:1px solid var(--border);}
+.audit-progress-fill{height:100%;width:0%;background:var(--blue);border-radius:inherit;transition:width .45s ease;}
+.audit-progress-note{margin-top:7px;font-size:10.5px;line-height:1.45;opacity:.62;font-variant-numeric:tabular-nums;}
+@media(max-width:520px){.audit-progress-top{align-items:flex-start;}.audit-progress-time{font-size:11px;}}
+'''
+          if '.audit-progress{' not in s:
+              s, n = re.subn(r'(\.ld-url\{[^\n]*\}\n)', lambda m: m.group(1) + css, s, count=1)
+              if n != 1:
+                  raise SystemExit('Could not insert progress CSS')
+
+          marker = '<div class="ld-url" id="ld-url"></div>'
+          markup = marker + '''
+    <div class="audit-progress" id="audit-progress" role="status" aria-live="polite">
+      <div class="audit-progress-top">
+        <span class="audit-progress-stage" id="audit-progress-stage">Starting observation…</span>
+        <strong class="audit-progress-time" id="audit-progress-time">~30 sec remaining</strong>
+      </div>
+      <div class="audit-progress-track" aria-hidden="true"><div class="audit-progress-fill" id="audit-progress-fill"></div></div>
+      <div class="audit-progress-note" id="audit-progress-note">0 sec elapsed · estimated duration 30 sec</div>
+    </div>'''
+          if 'id="audit-progress"' not in s:
+              if marker not in s:
+                  raise SystemExit('Could not find loading URL marker')
+              s = s.replace(marker, markup, 1)
+
+          setp = "function setP(p){document.getElementById('bar').style.width=p+'%';}"
+          timer = setp + '''
+
+let auditProgressTimer=null;
+let auditProgressStarted=0;
+const AUDIT_ESTIMATE_SEC=30;
+
+function auditProgressStage(elapsed){
+  if(elapsed < 4)  return 'Connecting to the site';
+  if(elapsed < 10) return 'Collecting public evidence';
+  if(elapsed < 18) return 'Checking links & sitemap';
+  if(elapsed < 26) return 'Measuring performance signals';
+  return 'Finalizing deterministic report';
+}
+
+function updateAuditProgress(){
+  if(!auditProgressStarted) return;
+  const elapsed=Math.max(0,Math.floor((performance.now()-auditProgressStarted)/1000));
+  const remaining=Math.max(0,AUDIT_ESTIMATE_SEC-elapsed);
+  const stage=document.getElementById('audit-progress-stage');
+  const time=document.getElementById('audit-progress-time');
+  const fill=document.getElementById('audit-progress-fill');
+  const note=document.getElementById('audit-progress-note');
+  if(stage) stage.textContent=auditProgressStage(elapsed);
+  if(time) time.textContent=remaining>0 ? '~'+remaining+' sec remaining' : 'Finalizing…';
+  if(note) note.textContent=elapsed+' sec elapsed · '+(remaining>0?'estimated duration '+AUDIT_ESTIMATE_SEC+' sec':'taking longer than the estimate');
+  if(fill){
+    const pct=remaining>0 ? Math.min(90,Math.round((elapsed/AUDIT_ESTIMATE_SEC)*90)) : 92;
+    fill.style.width=pct+'%';
+  }
+}
+
+function startAuditProgress(){
+  stopAuditProgress(false);
+  auditProgressStarted=performance.now();
+  const stage=document.getElementById('audit-progress-stage');
+  const time=document.getElementById('audit-progress-time');
+  const fill=document.getElementById('audit-progress-fill');
+  const note=document.getElementById('audit-progress-note');
+  if(stage) stage.textContent='Connecting to the site';
+  if(time) time.textContent='~'+AUDIT_ESTIMATE_SEC+' sec remaining';
+  if(fill) fill.style.width='2%';
+  if(note) note.textContent='0 sec elapsed · estimated duration '+AUDIT_ESTIMATE_SEC+' sec';
+  updateAuditProgress();
+  auditProgressTimer=setInterval(updateAuditProgress,1000);
+}
+
+function completeAuditProgress(){
+  if(auditProgressTimer){clearInterval(auditProgressTimer);auditProgressTimer=null;}
+  const elapsed=auditProgressStarted?Math.max(0,Math.round((performance.now()-auditProgressStarted)/1000)):0;
+  const stage=document.getElementById('audit-progress-stage');
+  const time=document.getElementById('audit-progress-time');
+  const fill=document.getElementById('audit-progress-fill');
+  const note=document.getElementById('audit-progress-note');
+  if(stage) stage.textContent='Observation complete';
+  if(time) time.textContent='0 sec';
+  if(fill) fill.style.width='100%';
+  if(note) note.textContent='Completed in '+elapsed+' sec';
+  auditProgressStarted=0;
+}
+
+function stopAuditProgress(reset=true){
+  if(auditProgressTimer){clearInterval(auditProgressTimer);auditProgressTimer=null;}
+  auditProgressStarted=0;
+  if(!reset) return;
+  const fill=document.getElementById('audit-progress-fill');
+  if(fill) fill.style.width='0%';
+}
+'''
+          if 'const AUDIT_ESTIMATE_SEC=30;' not in s:
+              if setp not in s:
+                  raise SystemExit('Could not find setP marker')
+              s = s.replace(setp, timer, 1)
+
+          start_marker = "  document.getElementById('ld-url').textContent=url;\n"
+          if '  startAuditProgress();\n' not in s:
+              if start_marker not in s:
+                  raise SystemExit('Could not find audit start marker')
+              s = s.replace(start_marker, start_marker + '  startAuditProgress();\n', 1)
+
+          finish_marker = "  log('Dashboard ready.','sl-ok');await sleep(150);\n  document.getElementById('loading-zone').style.display='none';"
+          finish_repl = "  log('Dashboard ready.','sl-ok');await sleep(150);\n  completeAuditProgress();\n  await sleep(350);\n  document.getElementById('loading-zone').style.display='none';"
+          if '  completeAuditProgress();\n  await sleep(350);' not in s:
+              if finish_marker not in s:
+                  raise SystemExit('Could not find audit finish marker')
+              s = s.replace(finish_marker, finish_repl, 1)
+
+          reset_marker = "function resetAudit(){\n  document.getElementById('results-zone').style.display='none';"
+          reset_repl = "function resetAudit(){\n  stopAuditProgress();\n  document.getElementById('results-zone').style.display='none';"
+          if reset_repl not in s:
+              if reset_marker not in s:
+                  raise SystemExit('Could not find reset marker')
+              s = s.replace(reset_marker, reset_repl, 1)
+
+          p.write_text(s, encoding='utf-8')
+          print('Patched index.html successfully')
+          PY
+
+      - name: Validate patch
+        shell: bash
+        run: |
+          grep -q 'id="audit-progress"' index.html
+          grep -q 'AUDIT_ESTIMATE_SEC=30' index.html
+          grep -q 'completeAuditProgress' index.html
+          git diff --check
+
+      - name: Commit patch and remove temporary workflow
+        shell: bash
+        run: |
+          git config user.name '3webs-ui-bot'
+          git config user.email 'actions@users.noreply.github.com'
+          git rm .github/workflows/add-audit-progress.yml
+          git add index.html
+          git commit -m 'ui: add audit progress countdown'
+          git push origin HEAD:main
