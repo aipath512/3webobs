@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-05T02:54:17.115Z",
+  "generated": "2026-09-05T07:52:06.618Z",
   "method": "Structural validation against the schema.org vocabulary, performed by this repository. schema.org publishes no API for validator.schema.org, so these are our own checks applying the same rules: does the property exist on the type, does a reference resolve, does the target have the type the property expects. The vocabulary below is a subset covering the types this site uses; a type outside it is reported as unverified rather than valid or invalid.",
   "validator": "https://validator.schema.org/#url=https%3A%2F%2F3webobs.com%2F",
   "totals": {
@@ -63,6 +63,48 @@
     "/data-dictionary": {
       "objects": 30,
       "valid": 30,
+      "warning": 0,
+      "error": 0,
+      "unverified": 0
+    },
+    "/detail-a2a": {
+      "objects": 0,
+      "valid": 0,
+      "warning": 0,
+      "error": 0,
+      "unverified": 0
+    },
+    "/detail-aeo": {
+      "objects": 0,
+      "valid": 0,
+      "warning": 0,
+      "error": 0,
+      "unverified": 0
+    },
+    "/detail-ai-signals": {
+      "objects": 0,
+      "valid": 0,
+      "warning": 0,
+      "error": 0,
+      "unverified": 0
+    },
+    "/detail-aio": {
+      "objects": 0,
+      "valid": 0,
+      "warning": 0,
+      "error": 0,
+      "unverified": 0
+    },
+    "/detail-geo": {
+      "objects": 0,
+      "valid": 0,
+      "warning": 0,
+      "error": 0,
+      "unverified": 0
+    },
+    "/detail-seo": {
+      "objects": 0,
+      "valid": 0,
       "warning": 0,
       "error": 0,
       "unverified": 0
