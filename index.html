@@ -2677,27 +2677,20 @@ function render(d,synth,ap){
       <div class="sh-ts">${gmtStamp(new Date(d.ts))}</div>
       <div class="dim-grid">
         ${[
-          ['AEO','aeo','Answer Engine Optimization'],
-          ['GEO','geo','Generative Engine Optimization'],
-          ['AIO','aio','AI Optimization'],
-          ['SEO','seo','Search Engine Optimization'],
-          ['AI_SIGNALS','ai','Machine Trust Signals'],
-          ['A2A','a2a','Agent-to-Agent Signals']
+          ['AEO','aeo','Answer Engine Optimization','/detail-aeo.html'],
+          ['GEO','geo','Generative Engine Optimization','/detail-geo.html'],
+          ['AIO','aio','AI Optimization','/detail-aio.html'],
+          ['SEO','seo','Search Engine Optimization','/detail-seo.html'],
+          ['AI_SIGNALS','ai','Machine Trust Signals','/detail-ai-signals.html'],
+          ['A2A','a2a','Agent-to-Agent Signals','/detail-a2a.html']
         ].map(function(x){
-          var key=x[0], cls=x[1], label=x[2];
+          var key=x[0], cls=x[1], label=x[2], detailHref=x[3];
           var sc=d.scores[key];
           if(sc===undefined||sc===null) return '';
           var dim = d.dimensions ? d.dimensions[key] : null;
           var strong = sc>=70;
           var cov = dim ? ' &middot; '+Math.round(dim.coverage)+'% coverage' : '';
-          /* Cand exista o observatie anterioara a aceluiasi site, o trecem in
-             link. Pagina de detaliu arata atunci doua carlige per semnal —
-             inainte si dupa — in loc de unul singur. */
-          var prev = d.previousObservation ? '&amp;before=' + encodeURIComponent(d.previousObservation.observationId) : '';
-          var detail = d.observationId
-            ? '<div class="hero-new-audit-row"><a class="dim-more hero-new-audit" href="/signal-detail?obs='+encodeURIComponent(d.observationId)+'&amp;dim='+key+prev+'">'
-              + (prev ? 'Before &amp; after &rarr;' : 'See detail &rarr;') + '</a></div>'
-            : '';
+          var detail = '<div class="hero-new-audit-row"><a class="dim-more hero-new-audit" href="'+detailHref+'">See Detail &rarr;</a></div>';
           return '<div class="dim d-'+cls+'">'
             + '<div class="dim-lbl">'+key.replace('_',' ')+'</div>'
             + '<div class="dim-name">'+label+'</div>'
@@ -2726,8 +2719,7 @@ function render(d,synth,ap){
              site-ului e coerent semantic, nu doar valid ca JSON. E singurul
              strat pe care un motor de cautare si un sistem AI il citesc la fel,
              de unde si numele. */
-          var sch = d.schema;
-          if(!sch) return '';
+          var sch = d.schema || {status:'none', score:null, objects:0, valid:0, warning:0};
           /* Cardul arata acoperirea celor 100 de elemente, nu validitatea
              structurala a grafului. Sunt intrebari diferite: una e "ai
              declarat ce conteaza", cealalta e "e corect ce ai declarat".
@@ -2753,11 +2745,7 @@ function render(d,synth,ap){
             + '<div class="dim-delta" style="background:'+bg+';color:'+color+'">'+mark+'</div>'
             + '<div class="dim-bar"><div class="dim-bar-f" style="width:'+(sch.score||0)+'%;background:'+color+'"></div></div>'
             + '<div class="dim-cov">'+line+'</div>'
-            + (d.observationId
-                ? '<a class="dim-more" href="/schema?obs='+encodeURIComponent(d.observationId)
-                  + (d.previousObservation ? '&amp;before='+encodeURIComponent(d.previousObservation.observationId) : '')
-                  + '">' + (d.previousObservation ? 'Before &amp; after &rarr;' : 'See all 100 &rarr;') + '</a>'
-                : '<a class="dim-more" href="/schema">See all 100 &rarr;</a>')
+            + '<a class="dim-more" href="/schema.html">See Detail &rarr;</a>'
             + '</div>';
         })()}
       </div>
