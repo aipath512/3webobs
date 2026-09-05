@@ -1131,8 +1131,1572 @@ grid-template-columns:repeat(4,1fr);gap:18px 26px;}
 
 <main id="main">
 <div id="input-zone">
-  <div class="hero-new-audit-row"><a class="dim-more hero-new-audit" href="/signal-detail?obs='+encodeURIComponent(d.observationId)+'&amp;dim='+key+prev+'">'
-              + (prev ? 'Before &amp; after &rarr;' : 'See detail &rarr;') + '</a>'
+  <span id="run"></span>
+  <p class="eyebrow">167 atomic signals · Human-Web, Human-AI and A2A Signals</p>
+  <h1 class="hero-h">Human Web, AI Web and Machine Web <br><em>Visibility</em></h1>
+  <p class="hero-s">Enter any URL and receive a full-stack Human-Web, Human-AI and A2A Signals &mdash; Audit with synthesis and action plan.</p>
+  <h2 class="vh">Run an audit</h2>
+
+  <!-- CTA 1 — Run Audit -->
+  <div class="url-wrap">
+    <label for="url-input" class="vh">Website address to audit</label>
+    <input type="url" id="url-input" class="url-in" placeholder="yoursite.com" autocomplete="url" inputmode="url" spellcheck="false" aria-describedby="url-input-hint" />
+    <span id="url-input-hint" class="vh">Enter a domain or full address, for example yoursite.com</span>
+    <button class="url-go" id="go-btn" onclick="startAudit()">Run Audit</button>
+  </div>
+
+  <!-- DIVIDER -->
+  <div class="cta-divider">
+    <div class="cta-divider-line"></div>
+    <span class="cta-divider-text">or go further</span>
+    <div class="cta-divider-line"></div>
+  </div>
+
+  <!-- CTA — doua actiuni, nu una.
+       "Send Report" nu trimite un email de la noi: nu exista furnizor de email
+       legat, si un buton care ar pretinde ca trimite ar fi o promisiune goala.
+       Trimite cu adevarat, dar din clientul omului — mailto sau WhatsApp — si
+       peste un link permanent catre observatie, care exista de cand raportul
+       are un URL stabil. Ce face butonul e exact ce scrie pe el. -->
+  <!-- Ancorarea in timp. Campul arata sesiunea curenta si permite alegerea
+       alteia pentru comparatie. C si spatiu inseamna acelasi lucru, deci
+       "0042 " si "0042C" sunt aceeasi sesiune — normalizarea o face motorul,
+       nu utilizatorul. -->
+  <div class="sess-bar" id="sess-bar" hidden>
+    <span class="sess-lbl">Session</span>
+    <input type="text" id="sess-input" maxlength="5" spellcheck="false"
+           autocomplete="off" aria-label="Session number, four digits then C, H or T">
+    <span class="sess-kind" id="sess-kind"></span>
+    <button type="button" class="sess-cmp" id="sess-cmp" onclick="compareSessions()">Compare</button>
+  </div>
+  <div class="sess-out" id="sess-out" hidden></div>
+
+  <div class="cta-dual">
+
+    <div class="cta-action-row">
+      <div class="cta-action-label">
+        <strong>Send Report</strong>
+        Email it, share the link, or send it to yourself &mdash; kept 90 days.
+      </div>
+      <button type="button" class="cta-action-btn" id="send-report-btn" onclick="toggleShare(event)">
+        Send Report
+        <span style="font-size:15px;line-height:1">&rarr;</span>
+      </button>
+    </div>
+
+    <div class="cta-share" id="share-panel" hidden>
+      <div class="cta-share-url" id="share-url"></div>
+      <div class="cta-share-row">
+        <button type="button" class="cta-share-btn" onclick="shareCopy()">Copy link</button>
+        <a class="cta-share-btn" id="share-mail" href="#">Email it</a>
+        <a class="cta-share-btn" id="share-wa" href="#" target="_blank" rel="noopener">WhatsApp</a>
+        <a class="cta-share-btn" id="share-json" href="#" target="_blank" rel="noopener">Raw JSON</a>
+      </div>
+      <p class="cta-share-note" id="share-note"></p>
+
+      <!-- Captura de email. Nu inlocuieste butoanele de mai sus: alea trimit
+           acum, din clientul omului. Asta retine cererea, ca sa existe cand
+           avem si canalul. Textul spune exact asta, ca nimeni sa nu astepte
+           un email care nu vine. -->
+      <div class="cta-mail">
+        <div class="cta-mail-h">Or have it emailed</div>
+        <div class="cta-mail-row">
+          <input type="email" id="lead-email" placeholder="you@company.com"
+                 autocomplete="email" inputmode="email" aria-label="Your email address">
+          <button type="button" class="cta-share-btn cta-mail-go" id="lead-go" onclick="submitLead()">Save</button>
+        </div>
+        <div class="cta-mail-opts">
+          <label><input type="checkbox" id="want-report" checked> The report</label>
+          <label><input type="checkbox" id="want-plan"> The action plan</label>
+        </div>
+        <p class="cta-share-note" id="lead-note">We send it to that address. The audited site is saved with it, so we know which report you mean.</p>
+      </div>
+    </div>
+
+    <div class="cta-action-row">
+      <div class="cta-action-label">
+        <strong>Run Action Plan</strong>
+        Deploy your AI visibility fix &mdash; step by step.
+      </div>
+      <a href="#pricing" class="cta-action-btn" onclick="handleActionPlan(event)">
+        Action Plan
+        <span style="font-size:15px;line-height:1">&rarr;</span>
+        <span class="cta-soon">AI-READY</span>
+      </a>
+    </div>
+
+  </div>
+
+  <!-- EXAMPLE REPORT — static, labeled sample, not a live audit -->
+  <section aria-labelledby="example-h" style="margin:36px auto 8px;max-width:640px;">
+    <h2 id="example-h" class="sec-h">What a report <em>looks like</em></h2>
+    <p class="sec-s">A real example, not a live scan — so you know what you'll get before you run one.</p>
+    <div style="border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--bg2);text-align:left;">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px;">
+        <div style="font-size:13px;opacity:.6;">Example: a mid-size SaaS marketing site</div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span style="font-size:28px;font-weight:700;">71</span>
+          <span class="grade-b" style="font-size:12px;padding:3px 9px;border:1px solid;border-radius:20px;">B — Adequate</span>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(88px,1fr));gap:8px;margin-bottom:16px;">
+        <div style="text-align:center;padding:8px 4px;border:1px solid var(--border);border-radius:8px;">
+          <div style="font-size:10px;opacity:.55;text-transform:uppercase;letter-spacing:.04em;">SEO</div>
+          <div style="font-size:17px;font-weight:600;">78</div>
+        </div>
+        <div style="text-align:center;padding:8px 4px;border:1px solid var(--border);border-radius:8px;">
+          <div style="font-size:10px;opacity:.55;text-transform:uppercase;letter-spacing:.04em;">AEO</div>
+          <div style="font-size:17px;font-weight:600;">64</div>
+        </div>
+        <div style="text-align:center;padding:8px 4px;border:1px solid var(--border);border-radius:8px;">
+          <div style="font-size:10px;opacity:.55;text-transform:uppercase;letter-spacing:.04em;">GEO</div>
+          <div style="font-size:17px;font-weight:600;">69</div>
+        </div>
+        <div style="text-align:center;padding:8px 4px;border:1px solid var(--border);border-radius:8px;">
+          <div style="font-size:10px;opacity:.55;text-transform:uppercase;letter-spacing:.04em;">AIO</div>
+          <div style="font-size:17px;font-weight:600;">75</div>
+        </div>
+        <div style="text-align:center;padding:8px 4px;border:1px solid var(--border);border-radius:8px;">
+          <div style="font-size:10px;opacity:.55;text-transform:uppercase;letter-spacing:.04em;">A2A</div>
+          <div style="font-size:17px;font-weight:600;">58</div>
+        </div>
+      </div>
+      <div style="font-size:11px;opacity:.5;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;">Three signals from the 167, with evidence</div>
+      <div style="display:flex;flex-direction:column;gap:7px;font-size:13px;">
+        <div style="display:flex;gap:9px;align-items:flex-start;">
+          <span style="color:var(--green);flex-shrink:0;">✓</span>
+          <span><strong>robots.txt AI Crawler Directives</strong> — GPTBot, ClaudeBot and Google-Extended explicitly allowed</span>
+        </div>
+        <div style="display:flex;gap:9px;align-items:flex-start;">
+          <span style="color:var(--red);flex-shrink:0;">✗</span>
+          <span><strong>Agent Card Discoverable</strong> — no /.well-known/agent-card.json found; AI agents cannot discover callable capabilities</span>
+        </div>
+        <div style="display:flex;gap:9px;align-items:flex-start;">
+          <span style="color:var(--gold);flex-shrink:0;">◐</span>
+          <span><strong>FAQ Structured Data</strong> — FAQPage schema present, but questions aren't visible in the page HTML</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="testimonials-h" style="margin:36px auto 8px;max-width:640px;">
+    <h2 id="testimonials-h" class="sec-h">What a real partner <em>says</em></h2>
+    <div style="display:flex;flex-direction:column;gap:14px;text-align:left;">
+      <div style="border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--bg2);">
+        <p style="font-size:14px;line-height:1.6;margin:0 0 10px;">"Before working with AIVENTURE, our AI-visibility score was 3.8 out of 10 &mdash; most AI systems couldn't tell what ECBTax actually does. After the infrastructure build, we're at 8.5, with a real machine-readable layer behind the site, not just a nicer homepage."</p>
+        <div style="font-size:12px;opacity:.6;">Roxana Deak, FCCA, CPA, CCF &middot; CEO &amp; Founder, <a href="https://ecbtax.com" rel="noopener" style="color:inherit;">ECBTax.com</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING BAND -->
+  <section aria-labelledby="pricing-h">
+  <h2 id="pricing-h" class="sec-h">Plans &amp; <em>Pricing</em></h2>
+  <p class="sec-s">One-time diagnostic, or continuous monitoring with regression alerts.</p>
+  <div id="pricing" style="max-width:620px;margin:12px auto 20px;scroll-margin-top:90px;">
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh1);">
+
+      <!-- Plans — generat din pricing.json, sursa unica de pret.
+           Nu edita cifrele aici: editeaza pricing.json si ruleaza
+           node build/generate-pricing.js -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;">
+
+        <!-- Plan 1 -->
+        <div style="padding:20px 18px;border-right:1px solid var(--border);">
+          <div style="font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);margin-bottom:8px;">Reports</div>
+          <div style="font-family:'Playfair Display',serif;font-weight:700;font-size:32px;line-height:1;color:var(--text);">Free<span style="font-size:16px;font-weight:400;color:var(--text);opacity:.6"> &times;3</span></div>
+          <div style="font-size:11px;color:var(--text);opacity:.6;margin-top:4px;margin-bottom:14px;">Per domain, per month &middot; then 19 &euro; each</div>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:6px;">
+            <li style="font-size:11px;display:flex;gap:6px;"><span style="color:var(--blue)">&check;</span> 167 signals, complete</li>
+            <li style="font-size:11px;display:flex;gap:6px;"><span style="color:var(--blue)">&check;</span> Evidence for every signal</li>
+            <li style="font-size:11px;display:flex;gap:6px;"><span style="color:var(--blue)">&check;</span> Score, coverage and confidence</li>
+            <li style="font-size:11px;display:flex;gap:6px;"><span style="color:var(--blue)">&check;</span> Prioritised action plan</li>
+          </ul>
+        </div>
+
+        <!-- Plan 2 -->
+        <div style="padding:20px 18px;position:relative;">
+          <div style="position:absolute;top:12px;right:12px;font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:var(--green-bg);color:var(--green);padding:2px 8px;border-radius:100px;">Recommended</div>
+          <div style="font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--green);margin-bottom:8px;">Monitoring</div>
+          <div style="font-family:'Playfair Display',serif;font-weight:700;font-size:32px;line-height:1;color:var(--text);">29<span style="font-size:16px;font-weight:400;color:var(--text);opacity:.6"> &euro;/mo</span></div>
+          <div style="font-size:11px;color:var(--text);opacity:.6;margin-top:4px;margin-bottom:14px;">Monthly &middot; 49 &euro; weekly &middot; 99 &euro; daily</div>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:6px;">
+            <li style="font-size:11px;display:flex;gap:6px;"><span style="color:var(--green)">&check;</span> Scheduled re-observation</li>
+            <li style="font-size:11px;display:flex;gap:6px;"><span style="color:var(--green)">&check;</span> Delta against the previous run</li>
+            <li style="font-size:11px;display:flex;gap:6px;"><span style="color:var(--green)">&check;</span> Change alerts to a callback URL</li>
+            <li style="font-size:11px;display:flex;gap:6px;"><span style="color:var(--green)">&check;</span> Full report history</li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- CTA row -->
+      <div style="padding:14px 18px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+        <div style="font-size:11px;color:var(--text);opacity:.6;">
+          💬 Order via WhatsApp · No card charged here · Cancel anytime
+        </div>
+        <a class="btn-inv btn-order" href="https://api.whatsapp.com/send/?phone=40737123540&text=Hi%2C%20I%20want%20to%20order%203webs%20monitoring" target="_blank">
+          Order → WhatsApp
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  </section>
+
+  <!-- 167 CRITERIA — parent accordion, folded by default -->
+  <section aria-labelledby="criteria-h">
+  <h2 id="criteria-h" class="sec-h">The <em>Signal</em> Methodology</h2>
+  <p class="sec-s">Nine categories across six dimensions &mdash; AI Signals, AEO, GEO, AIO, SEO and A2A &mdash; each evaluated against publicly observable evidence.</p>
+  <div class="pill-acc" id="pacc-criteria" style="max-width:620px;margin:0 auto 8px;scroll-margin-top:90px;">
+    <span id="criteria" style="display:block;position:relative;top:-90px;visibility:hidden;"></span>
+    <button class="pill-acc-header" onclick="togglePill('criteria')" style="border-radius:var(--rs)">
+      <span class="pill-acc-tag" style="color:var(--blue)">◈</span>
+      <span class="pill-acc-name" style="font-weight:700;font-family:'Playfair Display',serif;font-size:15px;letter-spacing:-.01em;">167 3webs Criteria</span>
+      <span class="pill-acc-count">9 categories</span>
+      <span class="pill-acc-chev" id="pc-criteria">▼</span>
+    </button>
+    <div class="pill-acc-body" id="pb-criteria" style="display:none;padding:0;">
+      <div style="padding:12px 12px 0;">
+        <div style="font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;opacity:.5;text-align:center;margin-bottom:12px;">↓ Tap any category for details</div>
+      </div>
+      <div class="pill-accordions" style="padding:0 12px 12px;gap:5px;">
+
+        <div class="pill-acc" id="pacc-ai">
+          <button class="pill-acc-header" onclick="togglePill('ai')">
+            <span class="pill-acc-tag" style="color:var(--red)">AI Signals</span>
+            <span class="pill-acc-name">Crawler & Trust Layer</span>
+            <span class="pill-acc-count">19 signals</span>
+            <span class="pill-acc-chev" id="pc-ai">▼</span>
+          </button>
+          <div class="pill-acc-body" id="pb-ai" style="display:none">
+            <p class="pill-acc-def"><strong>What it is:</strong> AI Signals are dedicated machine-readable files and permissions that explicitly declare your brand to AI crawlers — separate from SEO or schema work.</p>
+            <p class="pill-acc-def"><strong>Why it matters:</strong> AI crawlers such as GPTBot and ClaudeBot follow robots.txt: they are allowed unless you disallow them, and an explicit rule is what makes your policy unambiguous and auditable. Without proof.json and entities.json, your brand identity cannot be verified by AI systems.</p>
+            <p class="pill-acc-eg"><strong>Examples:</strong> ClaudeBot Allow · GPTBot Allow · Google-Extended Allow · proof.json SHA-256 · Cryptographic IP proof · entities.json · intents.json · governance.json · allow-lane-matrix.json · EU AI Act tag · session.json</p>
+            <p class="pill-acc-eg"><strong>Real impact:</strong> 5thElement.ai scores 88–96 on these signals in our own audit. Most sites we have scanned declare none of them at all. Measured with the 3webs method — not an independent industry ranking.</p>
+            <a class="pill-acc-link" href="#pacc-ai" onclick="scrollToAcc('ai-signals-acc')">→ See your AI Signals score in results</a>
+          </div>
+        </div>
+
+    <div class="pill-acc" id="pacc-aeo">
+      <button class="pill-acc-header" onclick="togglePill('aeo')">
+        <span class="pill-acc-tag" style="color:var(--blue)">AEO</span>
+        <span class="pill-acc-name">Answer Engine Optimization</span>
+        <span class="pill-acc-count">34 signals</span>
+        <span class="pill-acc-chev" id="pc-aeo">▼</span>
+      </button>
+      <div class="pill-acc-body" id="pb-aeo" style="display:none">
+        <p class="pill-acc-def"><strong>What it is:</strong> AEO structures your content so AI assistants — ChatGPT, Gemini, Perplexity, Siri — extract it as a direct answer without the user clicking a link.</p>
+        <p class="pill-acc-def"><strong>Why it matters:</strong> 60%+ of AI responses cite zero external links. If your content isn't AEO-optimised, you're invisible in the answer layer — even if you rank #1 on Google.</p>
+        <p class="pill-acc-eg"><strong>Examples of AEO signals:</strong> FAQ Schema · HowTo Schema · Answer-First paragraphs · Featured Snippet formatting · Question-intent URLs · Speakable Schema · Direct Definition Blocks</p>
+        <p class="pill-acc-eg"><strong>Real impact:</strong> FAQ schema and answer-first structure make a page easier to quote verbatim, because the answer is already isolated from the surrounding page. We publish no citation-rate figure, because we cannot measure one from outside the providers.</p>
+        <a class="pill-acc-link" href="#pacc-aeo" onclick="scrollToAcc('aeo-acc')">→ See your AEO score in results</a>
+      </div>
+    </div>
+
+    <div class="pill-acc" id="pacc-geo">
+      <button class="pill-acc-header" onclick="togglePill('geo')">
+        <span class="pill-acc-tag" style="color:var(--gold)">GEO</span>
+        <span class="pill-acc-name">Generative Engine Optimization</span>
+        <span class="pill-acc-count">28 signals</span>
+        <span class="pill-acc-chev" id="pc-geo">▼</span>
+      </button>
+      <div class="pill-acc-body" id="pb-geo" style="display:none">
+        <p class="pill-acc-def"><strong>What it is:</strong> GEO makes your brand entity discoverable, citable, and trustworthy to the generative AI layer — the infrastructure that LLMs use to decide WHO to mention.</p>
+        <p class="pill-acc-def"><strong>Why it matters:</strong> Google, Claude, Gemini and ChatGPT all resolve brand identity through entity graphs. Without a declared entity, you are a string of text — not a brand. You cannot be cited with confidence.</p>
+        <p class="pill-acc-eg"><strong>Examples of GEO signals:</strong> llms.txt · ai.json · entities.json · JSON-LD entity graph · Organization Schema · sameAs links to Wikipedia/Wikidata · Press mentions · LinkedIn entity verification · proof.json</p>
+        <p class="pill-acc-eg"><strong>Real impact:</strong> 5thElement.ai scores 96/100 on llms.txt. A complete declared entity stack (llms.txt + ai.json + entities.json + agent card) is still rare — we do not publish a global count, because no reliable census exists.</p>
+        <a class="pill-acc-link" href="#pacc-geo" onclick="scrollToAcc('geo-acc')">→ See your GEO score in results</a>
+      </div>
+    </div>
+
+    <div class="pill-acc" id="pacc-aio">
+      <button class="pill-acc-header" onclick="togglePill('aio')">
+        <span class="pill-acc-tag" style="color:var(--green)">AIO</span>
+        <span class="pill-acc-name">AI Optimization</span>
+        <span class="pill-acc-count">31 signals</span>
+        <span class="pill-acc-chev" id="pc-aio">▼</span>
+      </button>
+      <div class="pill-acc-body" id="pb-aio" style="display:none">
+        <p class="pill-acc-def"><strong>What it is:</strong> AIO covers the full stack of signals that determine how AI systems understand, rank, and reproduce your content — from crawler permissions to topical authority to RAG-readiness.</p>
+        <p class="pill-acc-def"><strong>Why it matters:</strong> LLMs don't just read your page — they decide whether your content deserves to be in their training corpus and retrieval layer. AIO is the difference between being a source and being invisible.</p>
+        <p class="pill-acc-eg"><strong>Examples of AIO signals:</strong> Topical Authority depth · Semantic keyword clusters · E-E-A-T score · RAG-ready content format · Corpus inclusion signals · ChatGPT Browse visibility · Gemini grounding eligibility · Claude source indexing</p>
+        <p class="pill-acc-eg"><strong>Real impact:</strong> Chunked, densely cited paragraphs are what retrieval systems index and quote. Any multiplier on citation rates would be unverifiable from outside the provider, so we do not claim one.</p>
+        <a class="pill-acc-link" href="#pacc-aio" onclick="scrollToAcc('aio-acc')">→ See your AIO score in results</a>
+      </div>
+    </div>
+
+    <div class="pill-acc" id="pacc-seo">
+      <button class="pill-acc-header" onclick="togglePill('seo')">
+        <span class="pill-acc-tag" style="color:var(--purple)">SEO</span>
+        <span class="pill-acc-name">Search Engine Optimization</span>
+        <span class="pill-acc-count">42 signals</span>
+        <span class="pill-acc-chev" id="pc-seo">▼</span>
+      </button>
+      <div class="pill-acc-body" id="pb-seo" style="display:none">
+        <p class="pill-acc-def"><strong>What it is:</strong> SEO remains the technical and content foundation. In the AI era, SEO signals are the substrate that AI crawlers use to assess domain authority, content freshness, and technical trustworthiness.</p>
+        <p class="pill-acc-def"><strong>Why it matters:</strong> A site with broken Core Web Vitals, missing meta tags, and toxic backlinks will score poorly on AI discovery too — because AI systems use SEO signals as trust proxies.</p>
+        <p class="pill-acc-eg"><strong>Examples of SEO signals:</strong> Title tags · Meta descriptions · H1–H6 hierarchy · Core Web Vitals (LCP, CLS, INP) · Mobile responsiveness · HTTPS · XML sitemap · Internal link architecture · Backlink authority · Duplicate content · Canonical tags</p>
+        <a class="pill-acc-link" href="#pacc-seo" onclick="scrollToAcc('seo-acc')">→ See your SEO score in results</a>
+      </div>
+    </div>
+
+
+    <div class="pill-acc" id="pacc-onpage">
+      <button class="pill-acc-header" onclick="togglePill('onpage')">
+        <span class="pill-acc-tag" style="color:var(--text)">On-Page</span>
+        <span class="pill-acc-name">Content & markup signals</span>
+        <span class="pill-acc-count">68 signals</span>
+        <span class="pill-acc-chev" id="pc-onpage">▼</span>
+      </button>
+      <div class="pill-acc-body" id="pb-onpage" style="display:none">
+        <p class="pill-acc-def"><strong>What it is:</strong> On-Page signals are everything visible and coded within a single page — title tags, schema markup, heading structure, content quality, and answer formatting.</p>
+        <p class="pill-acc-eg"><strong>Covers signals from:</strong> AEO (FAQ/HowTo schema, answer-first structure) · SEO (title, meta, H1-H6, word count) · AIO (topical depth, RAG format, E-E-A-T) · GEO (OG tags, entity density, named entities)</p>
+      </div>
+    </div>
+
+    <div class="pill-acc" id="pacc-offpage">
+      <button class="pill-acc-header" onclick="togglePill('offpage')">
+        <span class="pill-acc-tag" style="color:var(--text)">Off-Page</span>
+        <span class="pill-acc-name">Authority & citation signals</span>
+        <span class="pill-acc-count">31 signals</span>
+        <span class="pill-acc-chev" id="pc-offpage">▼</span>
+      </button>
+      <div class="pill-acc-body" id="pb-offpage" style="display:none">
+        <p class="pill-acc-def"><strong>What it is:</strong> Off-Page signals come from outside your domain — backlinks, press mentions, AI citations, social proof, and third-party entity verification.</p>
+        <p class="pill-acc-eg"><strong>Covers signals from:</strong> SEO (backlinks, DA, toxic ratio) · AEO (Knowledge Panel, PAA coverage) · GEO (Wikipedia entity, Crunchbase, LinkedIn verification, press AI-indexed) · AIO (Perplexity citations, ChatGPT visibility, Gemini grounding)</p>
+      </div>
+    </div>
+
+    <div class="pill-acc" id="pacc-onsite">
+      <button class="pill-acc-header" onclick="togglePill('onsite')">
+        <span class="pill-acc-tag" style="color:var(--text)">On-Site</span>
+        <span class="pill-acc-name">Technical infrastructure signals</span>
+        <span class="pill-acc-count">66 signals</span>
+        <span class="pill-acc-chev" id="pc-onsite">▼</span>
+      </button>
+      <div class="pill-acc-body" id="pb-onsite" style="display:none">
+        <p class="pill-acc-def"><strong>What it is:</strong> On-Site signals span your entire domain infrastructure — file architecture, crawl configuration, AI governance files, and technical health — not limited to a single page.</p>
+        <p class="pill-acc-eg"><strong>Covers signals from:</strong> GEO (llms.txt, ai.json, entities.json, robots.txt) · SEO (sitemap, canonicals, HTTPS, crawl budget) · AIO (AI crawl permissions, allow-lane-matrix) · AI Signals (proof.json, session.json, governance.json)</p>
+      </div>
+    </div>
+
+    <div class="pill-acc" id="pacc-offsite">
+      <button class="pill-acc-header" onclick="togglePill('offsite')">
+        <span class="pill-acc-tag" style="color:var(--text)">Off-Site</span>
+        <span class="pill-acc-name">External AI ecosystem signals</span>
+        <span class="pill-acc-count">2 signals</span>
+        <span class="pill-acc-chev" id="pc-offsite">▼</span>
+      </button>
+      <div class="pill-acc-body" id="pb-offsite" style="display:none">
+        <p class="pill-acc-def"><strong>What it is:</strong> Off-Site AI signals are your presence in external AI ecosystems — LLM knowledge graphs, vector databases, blockchain IP registries, and AI answer layers that exist independently of your website.</p>
+        <p class="pill-acc-eg"><strong>Covers signals from:</strong> AI Signals (IPFS/Blockchain registration, Gemini grounding verified, AI Knowledge Graph entry, LLM embedding proximity, Cross-AI consistency) · GEO (external entity links quality, Wikipedia/Wikidata anchor)</p>
+      </div>
+    </div>
+
+
+    <!-- Schema.org — nu e o a saptea dimensiune. Semnalele de schema sunt deja
+         in cele 167, distribuite pe AEO, GEO si AIO. Ce e nou aici e ca ne
+         publicam propriul graf verificat, obiect cu obiect. Un card care ar
+         pretinde semnale noi ar crea exact inconsecventa pe care produsul o
+         masoara la altii. -->
+    <div class="pill-acc" id="pacc-schema">
+      <button class="pill-acc-header" onclick="togglePill('schema')">
+        <span class="pill-acc-tag" style="color:var(--green)">Schema.org</span>
+        <span class="pill-acc-name">The layer both webs read</span>
+        <span class="pill-acc-count">66 / 66 valid</span>
+        <span class="pill-acc-chev" id="pc-schema">&#9660;</span>
+      </button>
+      <div class="pill-acc-body" id="pb-schema" style="display:none">
+        <p class="pill-acc-def"><strong>What it is:</strong> Structured data is the one layer a search engine and an AI system read the same way. Googlebot uses it to understand a page; an answer engine uses it to resolve an entity; an agent uses it to find out what a service does. Everything else is read differently by each.</p>
+        <p class="pill-acc-eg"><strong>Why it is easy to miss:</strong> markup can be present, well-formed, and still wrong &mdash; a property placed on a type that does not define it, or a reference pointing at the wrong kind of object. The JSON parses, the page renders, and the meaning is broken. Nothing warns you.</p>
+        <p class="pill-acc-eg"><strong>On this site:</strong> 66 distinct objects across 19 pages, each one checked: 66 valid, 0 warnings, 0 errors. Published in full, object by object, including anything that fails.</p>
+        <p class="pill-acc-eg" style="opacity:.65">Schema signals are already part of the 167, inside AEO, GEO and AIO. This page is not a new dimension &mdash; it is our own graph, opened up.</p>
+        <p style="margin-top:12px;"><a href="/schema" style="font-weight:600;">See every object and its status &rarr;</a></p>
+      </div>
+    </div>
+
+      </div><!-- /pill-accordions inner -->
+    </div><!-- /pb-criteria -->
+  </div><!-- /pacc-criteria -->
+
+  </section>
+
+  <!-- GLOSSARY — folded, bottom of input screen -->
+  <h2 id="glossary" class="sec-h">Reference <em>Glossary</em></h2>
+  <p class="sec-s">Definitions of the terminology used across the report.</p>
+  <div class="pill-acc" id="pacc-glossary" style="margin-top:20px;max-width:620px;margin-left:auto;margin-right:auto;">
+    <button class="pill-acc-header" onclick="togglePill('glossary')" style="border-radius:var(--rs)">
+      <span class="pill-acc-tag" style="color:var(--text)">📖</span>
+      <span class="pill-acc-name" style="font-weight:600">Glossary of Terms</span>
+      <span class="pill-acc-count">35 definitions</span>
+      <span class="pill-acc-chev" id="pc-glossary">▼</span>
+    </button>
+    <div class="pill-acc-body" id="pb-glossary" style="display:none;border-top:1px solid var(--border);padding:16px;">
+      <div id="glossary-inline-grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:4px;"></div>
+    </div>
+  </div>
+
+<!-- LEAD MAGNET — checklist PDF, gated behind email capture via existing /lead endpoint -->
+<section aria-labelledby="checklist-h" style="max-width:640px;margin:8px auto 40px;text-align:center;">
+  <h2 id="checklist-h" class="sec-h">Get the <em>AI Readiness Checklist</em></h2>
+  <p class="sec-s">A free, condensed PDF of the checklist behind the 167-signal engine &mdash; SEO, AEO, GEO, AIO, AI Signals and A2A, in one page you can work through by hand.</p>
+  <div id="checklist-gate" style="border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--bg2);">
+    <div id="checklist-form-row" style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;">
+      <input type="email" id="checklist-email" placeholder="you@company.com" autocomplete="email"
+        style="flex:1;min-width:220px;padding:10px 14px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--fg);font-size:14px;">
+      <!-- .url-go poarta position:absolute, pentru butonul din hero unde e ancorat
+           de .url-wrap. Reutilizata aici, intr-un flex fara position:relative,
+           scotea butonul din rand si il ancora la alt element. Il readucem in
+           flux explicit, pastrand stilul vizual. -->
+      <button id="checklist-btn" onclick="unlockChecklist()" class="url-go"
+        style="position:static;transform:none;padding:10px 20px;flex:0 0 auto;">Get the checklist</button>
+    </div>
+    <div id="checklist-msg" style="font-size:12px;opacity:.55;margin-top:10px;">No spam &mdash; we only use this to send occasional AI-visibility updates. Unsubscribe any time.</div>
+  </div>
+</section>
+<script>
+async function unlockChecklist(){
+  const emailEl = document.getElementById('checklist-email');
+  const email = (emailEl.value || '').trim();
+  const msg = document.getElementById('checklist-msg');
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+    msg.textContent = 'Enter a valid email address.'; msg.style.color = 'var(--red)'; return;
+  }
+  const btn = document.getElementById('checklist-btn');
+  btn.disabled = true; btn.textContent = 'Unlocking…';
+  try{
+    await fetch('/lead', { method:'POST', headers:{'content-type':'application/json'},
+      body: JSON.stringify({ email, url: 'ai-readiness-checklist' }) });
+  }catch(e){ /* still unlock — the download itself doesn't depend on the lead being stored */ }
+  document.getElementById('checklist-form-row').style.display = 'none';
+  msg.style.color = 'var(--green)';
+  msg.innerHTML = '✓ Thanks — <a href="/assets/ai-readiness-checklist.pdf" download style="color:var(--green);text-decoration:underline;">download the checklist (PDF)</a>';
+}
+</script>
+
+<article id="faq" class="faq-wrap" aria-labelledby="faq-h">
+  <h2 id="faq-h" class="sec-h">Frequently Asked <em>Questions</em></h2>
+  <p class="sec-s">Ten questions that come up most often, answered plainly.</p>
+  <div class="faq-list">
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(1)" aria-expanded="false" aria-controls="faq-a-1">
+        <strong class="faq-qt">What exactly does an AI visibility audit measure?</strong>
+        <span class="faq-chev" id="faq-c-1">&#9662;</span>
+      </button>
+      <div class="faq-a" id="faq-a-1"><p>It measures how a website presents itself to AI systems, answer engines and search crawlers. The engine fetches the page, robots.txt, sitemap.xml and declared machine-readable signal files, then evaluates 167 signals across six dimensions: AI Signals, AEO, GEO, AIO, SEO and A2A.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(2)" aria-expanded="false" aria-controls="faq-a-2">
+        <strong class="faq-qt">Is the score generated by an AI model?</strong>
+        <span class="faq-chev" id="faq-c-2">&#9662;</span>
+      </button>
+      <div class="faq-a" id="faq-a-2"><p>No. Every one of the 167 verdicts comes from deterministic rules applied to evidence observed on the site, and the narrative summary is assembled from those same results by fixed templates. No language model is involved at any point, and no audit data is sent to an LLM provider. The rules are deterministic; the inputs are not always identical, because an external measurement can be rate-limited, an endpoint can be slow, or a resource can change between runs. Same site, same observed evidence, same score &mdash; and every report states how much could be observed.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(3)" aria-expanded="false" aria-controls="faq-a-3">
+        <strong class="faq-qt">Why are some signals marked as not applicable instead of failed?</strong>
+        <span class="faq-chev" id="faq-c-3">&#9662;</span>
+      </button>
+      <div class="faq-a" id="faq-a-3"><p>Because a signal that cannot be verified from public sources has not failed — it simply could not be tested. Marking it as failed would invent a verdict. Signals requiring paid external data sources or owner-level access are reported as not applicable, and the report states how many were tested.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(4)" aria-expanded="false" aria-controls="faq-a-4">
+        <strong class="faq-qt">What is the difference between AEO, GEO, AIO and SEO?</strong>
+        <span class="faq-chev" id="faq-c-4">&#9662;</span>
+      </button>
+      <div class="faq-a" id="faq-a-4"><p>SEO is the technical and content foundation used by search engines. AEO structures content so assistants extract direct answers. GEO makes the brand entity discoverable and citable by generative systems. AIO covers how AI systems understand, rank and reproduce content across the full stack.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(5)" aria-expanded="false" aria-controls="faq-a-5">
+        <strong class="faq-qt">Do I need to install anything on my website to be audited?</strong>
+        <span class="faq-chev" id="faq-c-5">&#9662;</span>
+      </button>
+      <div class="faq-a" id="faq-a-5"><p>No. The audit inspects only publicly served resources. Nothing is installed, no tracking code is added, no authentication is attempted, and no private or password-protected area is accessed.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(6)" aria-expanded="false" aria-controls="faq-a-6">
+        <strong class="faq-qt">How much does an audit cost?</strong>
+        <span class="faq-chev" id="faq-c-6">&#9662;</span>
+      </button>
+      <div class="faq-a" id="faq-a-6"><p>The first three reports per domain each calendar month are free. After that each report is EUR 19, excluding VAT. Monitoring one domain costs EUR 29 per month for a monthly interval, EUR 49 for weekly and EUR 99 for daily. Machine access for agents is EUR 0.50 per call on prepaid credit, EUR 0.40 in a 1,000-call pack and EUR 0.30 in a 5,000-call pack, with an enterprise tier on request. It returns raw JSON only, without the PDF, the shareable report URL, the signed report or the retained history that come with the EUR 19 report. Machine access is not open yet: it requires API keys and prepaid credit, both in preparation. Full pricing is published at 3webobs.com/pricing.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(7)" aria-expanded="false" aria-controls="faq-a-7">
+        <strong class="faq-qt">Can AI agents call the audit engine directly?</strong>
+        <span class="faq-chev" id="faq-c-7">&#9662;</span>
+      </button>
+      <div class="faq-a" id="faq-a-7"><p>Yes. The engine exposes a POST endpoint at /audit that accepts a URL and returns a structured JSON report, plus a GET endpoint at /stats for service metadata. Negotiated machine-to-machine access, including rate limits, is agreed in writing.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(8)" aria-expanded="false" aria-controls="faq-a-8">
+        <strong class="faq-qt">Does a good score guarantee that ChatGPT or Gemini will cite my site?</strong>
+        <span class="faq-chev" id="faq-c-8">&#9662;</span>
+      </button>
+      <div class="faq-a" id="faq-a-8"><p>No. Third-party AI systems change their behaviour without notice and no provider guarantees citation. The audit identifies observable technical signals that are within your control; it does not promise a ranking, a citation or a commercial outcome.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(9)" aria-expanded="false" aria-controls="faq-a-9">
+        <strong class="faq-qt">Is this report a legal compliance certificate for the EU AI Act?</strong>
+        <span class="faq-chev" id="faq-c-9">&#9662;</span>
+      </button>
+      <div class="faq-a" id="faq-a-9"><p>No. The report is a technical observation, not a certification and not a legal opinion. It identifies signals that justify further evaluation. For a formal classification under Regulation (EU) 2024/1689, obtain independent legal analysis.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(10)" aria-expanded="false" aria-controls="faq-a-10">
+        <strong class="faq-qt">Who operates this service?</strong>
+        <span class="faq-chev" id="faq-c-10">&#9662;</span>
+      </button>
+      <div class="faq-a" id="faq-a-10"><p>AIVENTURE S.R.L., a company registered in Bucharest, Romania, European Union, operating under the 5thElement.ai brand. Registration details, contact routes and the full legal documentation are published on the site.</p></div>
+    </div>
+  </div>
+</article>
+
+  <!-- CONTACT US — bottom of screen 1 -->
+  <h2 id="contact" class="sec-h">Contact <em>&amp; Legal</em></h2>
+  <p class="sec-s">AIVENTURE S.R.L. &mdash; Bucharest, Romania, European Union.</p>
+  <div style="max-width:620px;margin:20px auto 32px;">
+    <div style="font-family:'Playfair Display',serif;font-weight:700;font-size:17px;letter-spacing:-.01em;text-align:center;margin-bottom:4px;">Contact Us</div>
+    <div style="font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;opacity:.5;text-align:center;margin-bottom:16px;">AIVENTURE S.R.L. · 5thElement.ai</div>
+    <div style="display:flex;flex-direction:column;gap:7px;">
+      <a href="mailto:contact@5thelement.ai" style="display:flex;align-items:center;gap:12px;padding:13px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--rs);text-decoration:none;">
+        <span style="font-size:18px">✉</span>
+        <div><div style="font-size:13px;font-weight:600;">contact@5thelement.ai</div><div style="font-size:11px;opacity:.6">Email · Founder direct</div></div>
+        <span style="margin-left:auto;opacity:.3">→</span>
+      </a>
+      <a href="https://api.whatsapp.com/send/?phone=40737123540" target="_blank" style="display:flex;align-items:center;gap:12px;padding:13px 16px;background:var(--bg2);border:1px solid rgba(37,211,102,.25);border-radius:var(--rs);text-decoration:none;">
+        <span style="font-size:18px">💬</span>
+        <div><div style="font-size:13px;font-weight:600;">WhatsApp · +40 737 123 540</div><div style="font-size:11px;opacity:.6">Quick consultation</div></div>
+        <span style="margin-left:auto;opacity:.3">→</span>
+      </a>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;">
+        <a href="https://5thelement.ai" target="_blank" style="display:flex;align-items:center;gap:10px;padding:11px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--rs);text-decoration:none;"><span style="font-size:16px">🌐</span><div><div style="font-size:12px;font-weight:600;">5thElement.ai</div><div style="font-size:10px;opacity:.6">AI-FIRST</div></div></a>
+        <a href="https://aiventure.ro" target="_blank" style="display:flex;align-items:center;gap:10px;padding:11px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--rs);text-decoration:none;"><span style="font-size:16px">🇷🇴</span><div><div style="font-size:12px;font-weight:600;">AiVenture.ro</div><div style="font-size:10px;opacity:.6">Romanian market</div></div></a>
+        <a href="https://1clic-ia.eu" target="_blank" style="display:flex;align-items:center;gap:10px;padding:11px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--rs);text-decoration:none;"><span style="font-size:16px">⚡</span><div><div style="font-size:12px;font-weight:600;">1Clic-IA.eu</div><div style="font-size:10px;opacity:.6">Europe</div></div></a>
+        <a href="https://www.linkedin.com/in/dan-ionesco-a856082a0" target="_blank" style="display:flex;align-items:center;gap:10px;padding:11px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--rs);text-decoration:none;"><span style="font-size:16px">👤</span><div><div style="font-size:12px;font-weight:600;">Dan Ionesco</div><div style="font-size:10px;opacity:.6">LinkedIn</div></div></a>
+        <a href="https://www.linkedin.com/showcase/5thelement-ai/" target="_blank" style="display:flex;align-items:center;gap:10px;padding:11px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--rs);text-decoration:none;"><span style="font-size:16px">💼</span><div><div style="font-size:12px;font-weight:600;">LinkedIn</div><div style="font-size:10px;opacity:.6">5thElement</div></div></a>
+        <a href="https://x.com/aipath512" target="_blank" style="display:flex;align-items:center;gap:10px;padding:11px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--rs);text-decoration:none;"><span style="font-size:16px">𝕏</span><div><div style="font-size:12px;font-weight:600;">@aipath512</div><div style="font-size:10px;opacity:.6">X / Twitter</div></div></a>
+        <a href="https://www.youtube.com/@AIVenture-q8u" target="_blank" style="display:flex;align-items:center;gap:10px;padding:11px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--rs);text-decoration:none;"><span style="font-size:16px">▶</span><div><div style="font-size:12px;font-weight:600;">YouTube</div><div style="font-size:10px;opacity:.6">AIVenture</div></div></a>
+        <a href="https://medium.com/@aipath512" target="_blank" style="display:flex;align-items:center;gap:10px;padding:11px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--rs);text-decoration:none;"><span style="font-size:16px">✍</span><div><div style="font-size:12px;font-weight:600;">Medium</div><div style="font-size:10px;opacity:.6">@aipath512</div></div></a>
+        <a href="https://www.facebook.com/people/Aiventure/61573220584246/" target="_blank" style="display:flex;align-items:center;gap:10px;padding:11px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--rs);text-decoration:none;"><span style="font-size:16px">📘</span><div><div style="font-size:12px;font-weight:600;">Facebook</div><div style="font-size:10px;opacity:.6">AiVenture</div></div></a>
+        <a href="https://www.crunchbase.com/organization/aiventure-s-r-l" target="_blank" style="display:flex;align-items:center;gap:10px;padding:11px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--rs);text-decoration:none;"><span style="font-size:16px">📊</span><div><div style="font-size:12px;font-weight:600;">Crunchbase</div><div style="font-size:10px;opacity:.6">AiVenture</div></div></a>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--rs);padding:14px 16px;margin-top:2px;">
+        <div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;opacity:.5;margin-bottom:8px;">AIVENTURE S.R.L. · Legal Entity</div>
+        <div style="font-size:11px;line-height:1.9;">
+          📍 București, Sectorul 1 · Drumul Pădurea Pustnicu, Nr. 141C Corp A, Et. 2<br>
+          🧾 CUI: 51415878 · J2025016406000<br>
+          🌐 EUID: ROONRC.J2025016406000<br>
+          ⚙️ CAEN 6210 · Software la comandă<br>
+          📅 Înregistrată: 07.03.2025
+        </div>
+        <div style="margin-top:18px;padding-top:16px;border-top:1px solid var(--border);display:flex;flex-wrap:wrap;gap:6px 14px;font-size:11.5px;">
+          <a href="/terms" style="color:var(--blue)!important;text-decoration:none;">Terms &amp; Conditions</a>
+          <a href="/policy" style="color:var(--blue)!important;text-decoration:none;">Acceptable Use</a>
+          <a href="/gdpr" style="color:var(--blue)!important;text-decoration:none;">GDPR &amp; Privacy</a>
+          <a href="/cookies" style="color:var(--blue)!important;text-decoration:none;">Cookies</a>
+          <a href="/ai-act" style="color:var(--blue)!important;text-decoration:none;">EU AI Act</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div id="loading-zone">
+  <div class="ld-head fu">
+    <div class="ld-tag">Scanning</div>
+    <div class="ld-title">Analyzing AI Visibility</div>
+    <div class="ld-url" id="ld-url"></div>
+    <div class="audit-progress" id="audit-progress" role="status" aria-live="polite">
+      <div class="metro-meta">
+        <div class="metro-copy">
+          <span class="metro-stage" id="audit-progress-stage">Starting observation…</span>
+          <span class="metro-note" id="audit-progress-note">Estimated progress · 0 sec elapsed</span>
+        </div>
+        <strong class="metro-percent" id="audit-progress-percent">2%</strong>
+      </div>
+      <div class="metro-wrap">
+        <div class="metro-line" id="metro-line" style="--metro-progress:2%">
+          <div class="metro-progress-rail" id="metro-progress-rail" aria-hidden="true"></div>
+          <div class="metro-stop active" data-stop="0"><div class="metro-dot"></div><div class="metro-label">START</div></div>
+          <div class="metro-stop pending" data-stop="1"><div class="metro-dot"></div><div class="metro-label">CONNECT</div></div>
+          <div class="metro-stop pending" data-stop="2"><div class="metro-dot"></div><div class="metro-label">EVIDENCE</div></div>
+          <div class="metro-stop pending" data-stop="3"><div class="metro-dot"></div><div class="metro-label">LINKS</div></div>
+          <div class="metro-stop pending" data-stop="4"><div class="metro-dot"></div><div class="metro-label">SITEMAP</div></div>
+          <div class="metro-stop pending" data-stop="5"><div class="metro-dot"></div><div class="metro-label">PERF</div></div>
+          <div class="metro-stop pending" data-stop="6"><div class="metro-dot"></div><div class="metro-label">167 SIGNALS</div></div>
+          <div class="metro-stop pending" data-stop="7"><div class="metro-dot"></div><div class="metro-label">REPORT</div></div>
+          <div class="metro-stop pending" data-stop="8"><div class="metro-dot"></div><div class="metro-label">COMPLETE</div></div>
+        </div>
+      </div>
+      <div class="metro-time" id="audit-progress-time">~30 sec remaining</div>
+    </div>
+  </div>
+  <div class="mod-grid fu1">
+    <div class="mod" id="m-aeo"><div class="mod-lbl">AEO</div><div class="mod-cnt" id="c-aeo">0 / 34</div><div class="mod-bar" id="b-aeo"></div></div>
+    <div class="mod" id="m-geo"><div class="mod-lbl">GEO</div><div class="mod-cnt" id="c-geo">0 / 28</div><div class="mod-bar" id="b-geo"></div></div>
+    <div class="mod" id="m-aio"><div class="mod-lbl">AIO</div><div class="mod-cnt" id="c-aio">0 / 31</div><div class="mod-bar" id="b-aio"></div></div>
+    <div class="mod" id="m-seo"><div class="mod-lbl">SEO</div><div class="mod-cnt" id="c-seo">0 / 42</div><div class="mod-bar" id="b-seo"></div></div>
+    <div class="mod" id="m-ai"><div class="mod-lbl">AI Signals</div><div class="mod-cnt" id="c-ai">0 / 19</div><div class="mod-bar" id="b-ai"></div></div>
+    <div class="mod" id="m-a2a"><div class="mod-lbl">A2A</div><div class="mod-cnt" id="c-a2a">0 / 13</div><div class="mod-bar" id="b-a2a"></div></div>
+    <div class="mod" id="m-tot"><div class="mod-lbl">Total</div><div class="mod-cnt" id="c-tot">0 / 167</div><div class="mod-bar" id="b-tot"></div></div>
+    <div class="mod" id="m-op"><div class="mod-lbl">On-Page</div><div class="mod-cnt" id="c-op">0 / 68</div><div class="mod-bar" id="b-op"></div></div>
+    <div class="mod" id="m-off"><div class="mod-lbl">Off-Page</div><div class="mod-cnt" id="c-off">0 / 31</div><div class="mod-bar" id="b-off"></div></div>
+  </div>
+  <div class="stream fu2" id="stream"></div>
+</div>
+
+
+
+
+
+</div>
+
+</main>
+
+<!-- RESULTS — la nivelul de sus al paginii, in afara lui <main>.
+     Am incercat sa il mut sub campul de input, ca rezultatul sa apara acolo
+     unde omul se uita deja. Nu merge asa: inauntrul lui #input-zone, care e
+     centrat si intr-un container cu latime limitata, inelul si grila de
+     carduri nu se mai aseaza — se randeaza, dar arata taiate.
+     Daca vrem rezultatul mai sus, trebuie mutata SECTIUNEA intreaga, cu
+     propriul container, nu doar div-ul gol intr-un context care nu il
+     poate tine. -->
+<div id="results-zone"></div>
+
+<!-- PORTFOLIO STATS — shared counter across all AIVENTURE sites -->
+<section aria-label="Usage stats" style="max-width:640px;margin:30px auto 8px;text-align:center;padding:18px 22px;border:1px solid var(--border);border-radius:14px;background:var(--bg2);">
+  <div style="display:flex;gap:36px;justify-content:center;flex-wrap:wrap;">
+    <div><div data-aiv-stats="pageviews" style="font-size:22px;font-weight:700;">0</div><div style="font-size:10px;opacity:.55;text-transform:uppercase;letter-spacing:.04em;">Page views</div></div>
+    <div><div data-aiv-stats="unique" style="font-size:22px;font-weight:700;">0</div><div style="font-size:10px;opacity:.55;text-transform:uppercase;letter-spacing:.04em;">Unique visitors</div></div>
+    <div><div data-aiv-stats="audits" style="font-size:22px;font-weight:700;">0</div><div style="font-size:10px;opacity:.55;text-transform:uppercase;letter-spacing:.04em;">Audits run</div></div>
+  </div>
+  <div style="font-size:10px;opacity:.4;margin-top:8px;">Across the AIVENTURE / 5thElement.ai network</div>
+</section>
+<script src="https://gdpr.aiventure.ro/stats.js" data-site="3webobs" data-scope="all" defer></script>
+<script src="https://gdpr.aiventure.ro/gdpr.js" data-site="3webobs" data-lang="auto" data-accent="#0051a8" data-privacy-url="/gdpr.html" defer></script>
+
+<nav class="hub" aria-label="Key pages">
+  <div class="hub-h">Explore</div>
+  <ul class="hub-list">
+    <li><a href="/">Run an audit</a><span>Three free reports per domain each month</span></li>
+    <li><a href="/pricing">Pricing</a><span>What a report and a monitoring plan cost</span></li>
+    <li><a href="/167-signals">The 167 signals</a><span>The full catalogue, with weights</span></li>
+    <li><a href="/glossary">Glossary</a><span>AEO, GEO, AIO, A2A and the three webs</span></li>
+    <li><a href="/data-dictionary">Data dictionary</a><span>Entities, relations and cardinalities</span></li>
+    <li><a href="/detail-aeo">Signal detail by dimension</a><span>AEO, GEO, AIO, SEO, AI Signals and A2A &mdash; each signal marked, before and after</span></li>
+    <li><a href="/schema">Schema.org &mdash; the 100 that matter</a><span>Every element both webs read, marked present, incomplete or missing</span></li>
+    <li><a href="/schema-validity">Schema.org structural validity</a><span>Whether our own graph is correct, object by object</span></li>
+    <li><a href="/agents">For agents</a><span>A2A v1.0, live, with worked examples</span></li>
+    <li><a href="/ai-act">EU AI Act</a><span>Where AI is used here, and where it is not</span></li>
+    <li><a href="/gdpr">GDPR &amp; Privacy</a><span>What data is processed and why</span></li>
+    <li><a href="/cookies">Cookies</a><span>What is set, and how to refuse it</span></li>
+  </ul>
+</nav>
+
+<footer class="quick" aria-labelledby="ql-h">
+<a href="/faq" class="faq-hub-link">FAQ Hub — 70 questions</a>
+
+  <h2 id="ql-h" class="vh">Quick links</h2>
+  <div class="ql-grid">
+
+    <div class="ql-col">
+      <h3 class="ql-h">Contact</h3>
+      <ul class="ql-list">
+        <li><a href="mailto:contact@5thelement.ai">contact@5thelement.ai</a></li>
+        <li><a href="https://api.whatsapp.com/send/?phone=40737123540" rel="noopener">WhatsApp &middot; +40737123540</a></li>
+        <li><a href="/contact">All contact routes &rarr;</a></li>
+      </ul>
+      <h3 class="ql-h">Legal entity</h3>
+      <p class="ql-legal">
+        AIVENTURE S.R.L.<br>
+        Bucure&#537;ti, Sectorul 1<br>
+        Drumul P&#259;durea Pustnicu, Nr. 141C<br>
+        Corp A, Etaj 2 &middot; Romania, EU<br>
+        CUI 51415878 &middot; J2025016406000<br>
+        EUID ROONRC.J2025016406000<br>
+        CAEN 6210 &middot; Registered 07.03.2025
+      </p>
+    </div>
+
+    <div class="ql-col">
+      <h3 class="ql-h">Site</h3>
+      <ul class="ql-list">
+      <li><a href="/">Run an Audit</a></li>
+      <li><a href="/#pricing">Pricing</a></li>
+      <li><a href="/167-signals">The 167 Signals</a></li>
+      <li><a href="/#faq">FAQ</a></li>
+      <li><a href="/self-audit">AI Readiness of 3webobs.com</a></li>
+<li><a href="/schema">Schema.org &mdash; the 100</a></li>
+<li><a href="/schema-validity">Structural validity</a></li>
+      <li><a href="/for-seo-agencies">For SEO Agencies</a></li>
+      <li><a href="/for-ai-teams">For AI Teams</a></li>
+      <li><a href="/for-compliance-consultants">For Compliance Consultants</a></li>
+      <li><a href="/contact">Contact</a></li>
+      </ul>
+      <h3 class="ql-h">Legal &amp; Compliance</h3>
+      <ul class="ql-list">
+      <li><a href="/terms">Terms &amp; Conditions</a></li>
+      <li><a href="/policy">Acceptable Use</a></li>
+      <li><a href="/gdpr">GDPR &amp; Privacy</a></li>
+      <li><a href="/cookies">Cookies</a></li>
+      <li><a href="/ai-act">EU AI Act</a></li>
+      </ul>
+    </div>
+
+    <div class="ql-col">
+      <h3 class="ql-h">Network</h3>
+      <ul class="ql-list">
+      <li><a href="https://5thelement.ai" rel="noopener">5thElement.ai <span class="ql-note">AI-FIRST infrastructure</span></a></li>
+      <li><a href="https://aiventure.ro" rel="noopener">AiVenture.ro <span class="ql-note">Romanian market</span></a></li>
+      <li><a href="https://1clic-ia.eu" rel="noopener">1Clic-IA.eu <span class="ql-note">European market</span></a></li>
+      </ul>
+      <h3 class="ql-h">Official presence</h3>
+      <ul class="ql-list ql-social">
+      <li><a href="https://ro.linkedin.com/in/dan-ionesco-a856082a0" rel="me noopener">LinkedIn — Dan Ionesco</a></li>
+      <li><a href="https://www.linkedin.com/company/107338970" rel="me noopener">LinkedIn — AiVenture</a></li>
+      <li><a href="https://www.linkedin.com/showcase/5thelement-ai/" rel="me noopener">LinkedIn — 5thElement</a></li>
+      <li><a href="https://www.crunchbase.com/organization/aiventure-s-r-l" rel="me noopener">Crunchbase</a></li>
+      <li><a href="https://www.facebook.com/people/Aiventure/61573220584246/" rel="me noopener">Facebook</a></li>
+      <li><a href="https://x.com/aipath512" rel="me noopener">X / Twitter</a></li>
+      <li><a href="https://www.youtube.com/@AIVenture-q8u" rel="me noopener">YouTube</a></li>
+      <li><a href="https://medium.com/@aipath512" rel="me noopener">Medium</a></li>
+      <li><a href="https://api.whatsapp.com/send/?phone=40737123540" rel="me noopener">WhatsApp</a></li>
+      </ul>
+    </div>
+
+  </div>
+  <p class="ql-foot">
+    &copy; 2026 AIVENTURE S.R.L. &middot; 3webs is a trademark of AIVENTURE S.R.L.<br>
+    Reports are technical observations, not certifications or legal opinions.
+  </p>
+</footer>
+<script>
+/* THEME */
+function toggleTheme(){
+  const isDark = document.documentElement.classList.toggle('dark');
+  document.documentElement.style.backgroundColor = isDark ? '#000000' : '#ffffff';
+  document.body.style.backgroundColor = isDark ? '#000000' : '#ffffff';
+  document.body.style.color = isDark ? '#f5f5f7' : '#000000';
+  document.getElementById('ti').textContent = isDark ? '☀' : '☾';
+  document.getElementById('tl').textContent = isDark ? 'Light' : 'Dark';
+}
+
+/* ACTION PLAN CTA — redirects to /ai-ready (coming soon: show toast) */
+/* ---------- ancorare in timp: sesiuni ----------
+   Campul porneste pe sesiunea curenta, iar "C" si spatiu sunt acelasi lucru:
+   normalizarea o face motorul, ca sa nu existe doua chei pentru aceeasi
+   sesiune. Utilizatorul poate scrie "0042", "0042 " sau "0042C" — la fel.
+   Bara apare doar daca motorul chiar raspunde la /session; daca nu, nu
+   afisam un control care nu are ce comanda. */
+let SESSION_NOW = null;
+
+async function initSessions(){
+  try {
+    var r = await fetch('/session');
+    if(!r.ok) return;
+    var j = await r.json();
+    SESSION_NOW = j.current;
+    var bar = document.getElementById('sess-bar');
+    var input = document.getElementById('sess-input');
+    if(!bar || !input) return;
+    input.value = j.current;
+    input.placeholder = j.current;
+    describeSession(j.current);
+    input.addEventListener('input', function(){ describeSession(input.value); });
+    bar.hidden = false;
+  } catch(e){}
+}
+
+function describeSession(raw){
+  var el = document.getElementById('sess-kind');
+  if(!el) return;
+  var m = String(raw || '').trim().match(/^(\d{4})\s*([CHTchi ]?)$/);
+  if(!m){ el.textContent = 'Four digits, then C, H or T'; return; }
+  var kind = (m[2] || 'C').trim().toUpperCase() || 'C';
+  var text = kind === 'H' ? 'frozen reference — never changes'
+           : kind === 'T' ? 'derived from a frozen reference — the one writable copy'
+           : 'current working line';
+  el.textContent = m[1] + kind + ' · ' + text
+    + (SESSION_NOW && (m[1] + kind) === SESSION_NOW ? ' · now' : '');
+}
+
+async function compareSessions(){
+  var out = document.getElementById('sess-out');
+  var chosen = (document.getElementById('sess-input').value || '').trim();
+  if(!/^\d{4}\s*[CHTchit ]?$/.test(chosen)){
+    out.hidden = false;
+    out.textContent = 'A session looks like four digits followed by C, H or T. A trailing space means the same as C.';
+    return;
+  }
+  out.hidden = false;
+  out.textContent = 'Comparing…';
+
+  var target = (REPORT_V2 && REPORT_V2.url) ? '&url=' + encodeURIComponent(REPORT_V2.url) : '';
+  try {
+    var r = await fetch('/session/compare?a=' + encodeURIComponent(chosen)
+      + '&b=' + encodeURIComponent(SESSION_NOW || chosen) + target);
+    var j = await r.json();
+    if(j.error){ out.textContent = j.error; return; }
+
+    var head = '<strong>' + esc(j.a.session) + '</strong> → <strong>' + esc(j.b.session) + '</strong>'
+      + ' <span style="opacity:.5">· ' + j.a.observations + ' and ' + j.b.observations + ' observations</span>';
+
+    if(!j.delta){ out.innerHTML = head + '<br><span style="opacity:.6">' + esc(j.note || '') + '</span>'; return; }
+
+    var rows = Object.keys(j.delta.scores).map(function(k){
+      var v = j.delta.scores[k];
+      var cls = v > 0 ? 'd-up' : v < 0 ? 'd-dn' : 'd-eq';
+      var sign = v > 0 ? '+' : '';
+      return '<span style="display:inline-block;min-width:104px">' + esc(k.replace('_',' '))
+        + ' <span class="' + cls + '">' + sign + v + '</span></span>';
+    }).join('');
+
+    var g = j.delta.global;
+    out.innerHTML = head
+      + '<br><span style="opacity:.6">' + esc(j.delta.url) + '</span>'
+      + '<br><strong style="font-size:15px">Overall <span class="' + (g>0?'d-up':g<0?'d-dn':'d-eq') + '">'
+      + (g>0?'+':'') + g + '</span></strong>'
+      + '<div style="margin-top:8px">' + rows + '</div>';
+  } catch(e){
+    out.textContent = 'The comparison could not be loaded.';
+  }
+}
+
+function esc(x){ return String(x==null?'':x).replace(/[&<>"']/g,function(c){
+  return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+
+document.addEventListener('DOMContentLoaded', initSessions);
+
+/* ---------- Send Report ----------
+   Un raport are de acum un URL permanent, deci se poate trimite ca link, nu
+   ca fisier. Trimiterea propriu-zisa se face din clientul omului: mailto
+   deschide programul lui de email, WhatsApp deschide WhatsApp. Nimic nu
+   pretinde ca livram noi mesajul, pentru ca nu avem furnizor de email legat
+   si nu vreau un buton care minte.
+   Inainte de a rula un audit nu exista nimic de trimis, asa ca butonul duce
+   inapoi la campul de URL in loc sa deschida un panou gol. */
+function reportShareUrl(){
+  if(!REPORT_V2 || !REPORT_V2.observationId) return null;
+  return location.origin + '/signal-detail?obs=' + encodeURIComponent(REPORT_V2.observationId) + '&dim=AEO';
+}
+
+function shareDefaultNote(){
+  return 'The link opens the full report for anyone who has it. Observations are kept for 90 days.';
+}
+
+function toggleShare(event){
+  if(event) event.preventDefault();
+  var panel = document.getElementById('share-panel');
+  var row   = document.querySelector('.cta-share-row');
+  var note  = document.getElementById('share-note');
+  var url   = reportShareUrl();
+
+  if(!url){
+    var input = document.querySelector('#input-zone input[type="text"], #input-zone input');
+    if(input){ input.focus(); input.scrollIntoView({behavior:'smooth', block:'center'}); }
+    panel.hidden = false;
+    document.getElementById('share-url').textContent = '';
+    if(row) row.style.display = 'none';
+    note.textContent = 'Run an audit first — then this becomes a link you can send.';
+    return;
+  }
+
+  if(row) row.style.display = '';
+  if(!panel.hidden){ panel.hidden = true; return; }
+
+  var score = REPORT_V2.global != null ? REPORT_V2.global : '';
+  var site  = REPORT_V2.url || '';
+  var subject = 'AI visibility report' + (site ? ' — ' + site : '');
+  var text = 'AI visibility report' + (site ? ' for ' + site : '')
+           + (score !== '' ? ' — ' + score + '/100 across 167 signals' : '')
+           + '\n' + url
+           + '\n\nEvery signal is listed with its verdict, and the report states how much of it could be observed from outside.';
+
+  document.getElementById('share-url').textContent = url;
+  document.getElementById('share-mail').href = 'mailto:?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(text);
+  document.getElementById('share-wa').href   = 'https://api.whatsapp.com/send?text=' + encodeURIComponent(text);
+  document.getElementById('share-json').href = '/observation?id=' + encodeURIComponent(REPORT_V2.observationId);
+  note.textContent = shareDefaultNote();
+  panel.hidden = false;
+}
+
+/* ---------- captura de email ----------
+   Salveaza adresa impreuna cu observatia la care se refera si cu ce a bifat
+   omul. Fara observationId, un lead e un email pe care nu ai cu ce sa il
+   continui: nu stii ce site, ce scor, ce a cerut.
+   Nu promitem livrare. Endpointul retine cererea; canalul de email nu exista
+   inca, iar mesajul de confirmare spune asta in loc sa lase pe cineva sa
+   astepte degeaba. */
+async function submitLead(){
+  var input = document.getElementById('lead-email');
+  var note  = document.getElementById('lead-note');
+  var btn   = document.getElementById('lead-go');
+  var email = (input.value || '').trim();
+
+  var wants = [];
+  if(document.getElementById('want-report').checked) wants.push('report');
+  if(document.getElementById('want-plan').checked)   wants.push('action_plan');
+
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/.test(email)){
+    note.textContent = 'That does not look like an email address.';
+    input.focus();
+    return;
+  }
+  if(!wants.length){
+    note.textContent = 'Tick at least one — the report, the plan, or both.';
+    return;
+  }
+
+  btn.disabled = true;
+  var original = btn.textContent;
+  btn.textContent = 'Saving…';
+
+  try {
+    var r = await fetch('/lead', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        email: email,
+        url: (REPORT_V2 && REPORT_V2.url) || '',
+        observationId: (REPORT_V2 && REPORT_V2.observationId) || null,
+        score: (REPORT_V2 && REPORT_V2.global != null) ? REPORT_V2.global : null,
+        wants: wants,
+        lang: document.documentElement.lang || 'en'
+      })
+    });
+    var j = await r.json();
+    if(!r.ok){ note.textContent = j.error || 'That could not be saved. Try again in a moment.'; return; }
+
+    var what = wants.length === 2 ? 'The report and the action plan are'
+             : wants[0] === 'report' ? 'The report is' : 'The action plan is';
+    note.innerHTML = j.delivered
+      ? what + ' on the way to ' + email.replace(/[<>&]/g,'') + '. '
+        + 'If it is not there in a minute, check spam &mdash; and the link above works either way.'
+      : 'Saved, but the email could not be sent right now. '
+        + 'The link above still works, and we have your address on file.';
+    input.value = '';
+  } catch(e) {
+    note.textContent = 'Network problem — nothing was saved. Try again in a moment.';
+  } finally {
+    btn.disabled = false;
+    btn.textContent = original;
+  }
+}
+
+function shareCopy(){
+  var url = reportShareUrl();
+  if(!url) return;
+  var note = document.getElementById('share-note');
+  function done(ok){
+    note.textContent = ok ? 'Link copied.' : 'Could not copy automatically — select the address above.';
+    setTimeout(function(){ note.textContent = shareDefaultNote(); }, 2600);
+  }
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(url).then(function(){ done(true); }, function(){ done(false); });
+  } else { done(false); }
+}
+
+function handleActionPlan(e){
+  e.preventDefault();
+  // When AI-READY is live, replace this block with: window.location.href = '/ai-ready';
+  showComingToast();
+}
+function showComingToast(){
+  /* pricing.json marcheaza AI-READY implementation ca InStock, pentru ca este:
+     se livreaza ca proiect, cu oferta. "Coming Soon" contrazicea propriul
+     contract machine-readable si trimitea la nimic un vizitator gata sa ceara. */
+  showToast('→','AI-READY implementation','Quoted per engagement. The pricing section below has the scope; contact us with your domain and we reply with an offer.');
+}
+document.getElementById('url-input').addEventListener('keypress',e=>{if(e.key==='Enter')startAudit();});
+function setP(p){document.getElementById('bar').style.width=p+'%';}
+
+let auditProgressTimer=null;
+let auditProgressStarted=0;
+const AUDIT_ESTIMATE_SEC=30;
+
+const METRO_STOPS = [
+  {pct:0,  label:'Starting observation'},
+  {pct:8,  label:'Connecting to the site'},
+  {pct:22, label:'Collecting public evidence'},
+  {pct:38, label:'Checking internal links'},
+  {pct:52, label:'Checking sitemap'},
+  {pct:66, label:'Measuring performance signals'},
+  {pct:79, label:'Evaluating 167 signals'},
+  {pct:90, label:'Building deterministic report'},
+  {pct:100,label:'Observation complete'}
+];
+
+function estimatedAuditPercent(elapsed){
+  if(elapsed<=0) return 1;
+  if(elapsed>=AUDIT_ESTIMATE_SEC) return 95;
+  // Continuous movement: quick visible start, then gradual approach to 95%.
+  return Math.max(1,Math.min(95,Math.round(1 + 94*(elapsed/AUDIT_ESTIMATE_SEC))));
+}
+
+function metroIndexForPercent(pct){
+  let idx=0;
+  for(let i=0;i<METRO_STOPS.length;i++){
+    if(pct>=METRO_STOPS[i].pct) idx=i;
+    else break;
+  }
+  return Math.min(idx,7); // COMPLETE is reserved for the real response.
+}
+
+function paintMetro(pct, completed=false){
+  const line=document.getElementById('metro-line');
+  const stops=[...document.querySelectorAll('#metro-line .metro-stop')];
+  if(!line || !stops.length) return;
+  const idx=completed ? 8 : metroIndexForPercent(pct);
+  stops.forEach((el,i)=>{
+    el.classList.remove('done','active','pending');
+    if(completed || i<idx) el.classList.add('done');
+    else if(i===idx) el.classList.add('active');
+    else el.classList.add('pending');
+  });
+  const routePct=completed ? 89.2 : Math.max(2,Math.min(84.8,(pct/100)*89.2));
+  line.style.setProperty('--metro-progress',routePct+'%');
+}
+
+function updateAuditProgress(){
+  if(!auditProgressStarted) return;
+  const elapsed=Math.max(0,(performance.now()-auditProgressStarted)/1000);
+  const elapsedInt=Math.floor(elapsed);
+  const remaining=Math.max(0,AUDIT_ESTIMATE_SEC-elapsedInt);
+  const pct=estimatedAuditPercent(elapsed);
+  const idx=metroIndexForPercent(pct);
+  const stage=document.getElementById('audit-progress-stage');
+  const time=document.getElementById('audit-progress-time');
+  const note=document.getElementById('audit-progress-note');
+  const percent=document.getElementById('audit-progress-percent');
+
+  if(stage) stage.textContent=METRO_STOPS[idx].label;
+  if(percent) percent.textContent=pct+'%';
+  if(time) time.textContent=remaining>0 ? '~'+remaining+' sec remaining' : 'Finalizing… · '+elapsedInt+' sec elapsed';
+  if(note) note.textContent=remaining>0
+    ? 'Estimated progress · '+elapsedInt+' sec elapsed'
+    : 'The audit is still running — waiting for the real report';
+  paintMetro(pct,false);
+}
+
+function startAuditProgress(){
+  stopAuditProgress(false);
+  auditProgressStarted=performance.now();
+  const stage=document.getElementById('audit-progress-stage');
+  const time=document.getElementById('audit-progress-time');
+  const note=document.getElementById('audit-progress-note');
+  const percent=document.getElementById('audit-progress-percent');
+  if(stage) stage.textContent='Starting observation';
+  if(time) time.textContent='~'+AUDIT_ESTIMATE_SEC+' sec remaining';
+  if(note) note.textContent='Estimated progress · 0 sec elapsed';
+  if(percent) percent.textContent='1%';
+  paintMetro(1,false);
+  updateAuditProgress();
+  auditProgressTimer=setInterval(updateAuditProgress,250);
+}
+
+function completeAuditProgress(){
+  if(auditProgressTimer){clearInterval(auditProgressTimer);auditProgressTimer=null;}
+  const elapsed=auditProgressStarted?Math.max(0,Math.round((performance.now()-auditProgressStarted)/1000)):0;
+  const stage=document.getElementById('audit-progress-stage');
+  const time=document.getElementById('audit-progress-time');
+  const note=document.getElementById('audit-progress-note');
+  const percent=document.getElementById('audit-progress-percent');
+  if(stage) stage.textContent='Observation complete';
+  if(time) time.textContent='Terminal reached · '+elapsed+' sec';
+  if(note) note.textContent='Real audit response received';
+  if(percent) percent.textContent='100%';
+  paintMetro(100,true);
+  auditProgressStarted=0;
+}
+
+function stopAuditProgress(reset=true){
+  if(auditProgressTimer){clearInterval(auditProgressTimer);auditProgressTimer=null;}
+  auditProgressStarted=0;
+  if(reset){
+    const percent=document.getElementById('audit-progress-percent');
+    if(percent) percent.textContent='1%';
+    paintMetro(1,false);
+  }
+}
+
+
+/* ── SIGNAL LIBRARY 167 signals ── */
+const SIG={
+AEO:[
+  {id:'aeo1',n:'FAQ Schema Markup',c:'ON-PAGE',w:9},
+  {id:'aeo2',n:'HowTo Schema Markup',c:'ON-PAGE',w:8},
+  {id:'aeo3',n:'Q&A Format Content Blocks',c:'ON-PAGE',w:9},
+  {id:'aeo4',n:'Structured Answer Snippets',c:'ON-PAGE',w:10},
+  {id:'aeo5',n:'Speakable Schema (Voice)',c:'ON-PAGE',w:7},
+  {id:'aeo6',n:'Article Schema Presence',c:'ON-PAGE',w:8},
+  {id:'aeo7',n:'Breadcrumb Schema',c:'ON-PAGE',w:7},
+  {id:'aeo8',n:'Table of Contents Anchors',c:'ON-PAGE',w:6},
+  {id:'aeo9',n:'Entity Disambiguation (Wikidata)',c:'OFF-PAGE',w:9},
+  {id:'aeo10',n:'Knowledge Panel Presence',c:'OFF-PAGE',w:10},
+  {id:'aeo11',n:'Direct Answer Formatting',c:'ON-PAGE',w:9},
+  {id:'aeo12',n:'Question-Intent URL Structure',c:'ON-SITE',w:7},
+  {id:'aeo13',n:'PAA Coverage',c:'OFF-PAGE',w:8},
+  {id:'aeo14',n:'Featured Snippet Optimization',c:'ON-PAGE',w:10},
+  {id:'aeo15',n:'Definition Blocks',c:'ON-PAGE',w:7},
+  {id:'aeo16',n:'Step-by-Step Schema',c:'ON-PAGE',w:7},
+  {id:'aeo17',n:'Concise Lead Paragraphs <60w',c:'ON-PAGE',w:8},
+  {id:'aeo18',n:'Voice Search Query Match',c:'ON-PAGE',w:7},
+  {id:'aeo19',n:'Answer-First Content Structure',c:'ON-PAGE',w:9},
+  {id:'aeo20',n:'NLP-Friendly Headings',c:'ON-PAGE',w:8},
+  {id:'aeo21',n:'Conversational Query Coverage',c:'ON-PAGE',w:8},
+  {id:'aeo22',n:'Schema Nesting Depth',c:'ON-PAGE',w:6},
+  {id:'aeo23',n:'Rich Snippet Eligibility',c:'ON-PAGE',w:9},
+  {id:'aeo24',n:'Google SGE Optimization',c:'ON-PAGE',w:10},
+  {id:'aeo25',n:'Context Carryover Signals',c:'ON-PAGE',w:7},
+  {id:'aeo26',n:'Entity Salience Score',c:'ON-PAGE',w:8},
+  {id:'aeo27',n:'Semantic HTML5 Structure',c:'ON-SITE',w:7},
+  {id:'aeo28',n:'ClaimReview Schema',c:'ON-PAGE',w:6},
+  {id:'aeo29',n:'Event Schema Accuracy',c:'ON-PAGE',w:5},
+  {id:'aeo30',n:'Product Schema Completeness',c:'ON-PAGE',w:7},
+  {id:'aeo31',n:'Local Business Schema',c:'ON-PAGE',w:7},
+  {id:'aeo32',n:'Review / Rating Schema',c:'ON-PAGE',w:6},
+  {id:'aeo33',n:'Video Schema Markup',c:'ON-PAGE',w:5},
+  {id:'aeo34',n:'Person / Author Schema',c:'ON-PAGE',w:7},
+],
+GEO:[
+  {id:'geo1',n:'llms.txt Presence & Quality',c:'ON-SITE',w:10},
+  {id:'geo2',n:'ai.txt / AI Directives File',c:'ON-SITE',w:9},
+  {id:'geo3',n:'robots.txt AI Crawler Rules',c:'ON-SITE',w:9},
+  {id:'geo4',n:'Entity Graph JSON-LD',c:'ON-SITE',w:10},
+  {id:'geo5',n:'Organization Schema Completeness',c:'ON-PAGE',w:9},
+  {id:'geo6',n:'sameAs References External',c:'OFF-PAGE',w:8},
+  {id:'geo7',n:'Wikipedia / Wikidata Entry',c:'OFF-PAGE',w:10},
+  {id:'geo8',n:'ai.json Signal File',c:'ON-SITE',w:9},
+  {id:'geo9',n:'intents.json Declaration',c:'ON-SITE',w:8},
+  {id:'geo10',n:'governance.json Presence',c:'ON-SITE',w:7},
+  {id:'geo11',n:'entities.json Registry',c:'ON-SITE',w:9},
+  {id:'geo12',n:'Crunchbase Profile',c:'OFF-PAGE',w:7},
+  {id:'geo13',n:'LinkedIn Entity Verification',c:'OFF-PAGE',w:8},
+  {id:'geo14',n:'Press Mentions AI-indexed',c:'OFF-PAGE',w:8},
+  {id:'geo15',n:'Author EEAT Signals',c:'OFF-PAGE',w:9},
+  {id:'geo16',n:'Brand Entity Consistency',c:'ON-PAGE',w:9},
+  {id:'geo17',n:'Canonical URL Signals',c:'ON-SITE',w:7},
+  {id:'geo18',n:'Hreflang Geo-Targeting',c:'ON-SITE',w:6},
+  {id:'geo19',n:'Local Citations NAP',c:'OFF-PAGE',w:7},
+  {id:'geo20',n:'Google Business Profile',c:'OFF-PAGE',w:8},
+  {id:'geo21',n:'Named Entity Density',c:'ON-PAGE',w:8},
+  {id:'geo22',n:'Geo-Tagged Content',c:'ON-PAGE',w:6},
+  {id:'geo23',n:'OpenGraph Completeness',c:'ON-PAGE',w:7},
+  {id:'geo24',n:'Twitter Card Meta',c:'ON-PAGE',w:6},
+  {id:'geo25',n:'proof.json IP Anchoring',c:'ON-SITE',w:8},
+  {id:'geo26',n:'changelog.json Versioning',c:'ON-SITE',w:6},
+  {id:'geo27',n:'Dataset Schema Corpus',c:'ON-PAGE',w:7},
+  {id:'geo28',n:'External Entity Links Quality',c:'OFF-PAGE',w:8},
+],
+AIO:[
+  {id:'aio1',n:'Topical Authority Depth',c:'ON-PAGE',w:10},
+  {id:'aio2',n:'Semantic Keyword Clusters',c:'ON-PAGE',w:9},
+  {id:'aio3',n:'Content Freshness Signal',c:'ON-PAGE',w:8},
+  {id:'aio4',n:'E-E-A-T Score AI Perception',c:'OFF-PAGE',w:10},
+  {id:'aio5',n:'Expertise Signals in Content',c:'ON-PAGE',w:9},
+  {id:'aio6',n:'Fact Density vs Fluff Ratio',c:'ON-PAGE',w:8},
+  {id:'aio7',n:'Source Citation Quality',c:'ON-PAGE',w:8},
+  {id:'aio8',n:'AI Crawl Permission Explicit',c:'ON-SITE',w:9},
+  {id:'aio9',n:'Content Indexability by LLMs',c:'ON-SITE',w:9},
+  {id:'aio10',n:'Perplexity Source Citation',c:'OFF-PAGE',w:8},
+  {id:'aio11',n:'ChatGPT Browse Visibility',c:'OFF-PAGE',w:10},
+  {id:'aio12',n:'Gemini Grounding Eligibility',c:'OFF-PAGE',w:9},
+  {id:'aio13',n:'Claude Source Indexing',c:'OFF-PAGE',w:9},
+  {id:'aio14',n:'Corpus Inclusion Signal',c:'ON-SITE',w:8},
+  {id:'aio15',n:'Unique Data / Proprietary Stats',c:'ON-PAGE',w:10},
+  {id:'aio16',n:'Definition Ownership',c:'ON-PAGE',w:9},
+  {id:'aio17',n:'Thought Leadership Signal',c:'ON-PAGE',w:8},
+  {id:'aio18',n:'Long-Form Completeness',c:'ON-PAGE',w:7},
+  {id:'aio19',n:'Internal Link Semantic Map',c:'ON-SITE',w:7},
+  {id:'aio20',n:'Concept Cluster Coverage',c:'ON-PAGE',w:8},
+  {id:'aio21',n:'Contrastive Analysis Presence',c:'ON-PAGE',w:7},
+  {id:'aio22',n:'RAG-Ready Content Format',c:'ON-PAGE',w:9},
+  {id:'aio23',n:'Dense Paragraph Summaries',c:'ON-PAGE',w:8},
+  {id:'aio24',n:'Table / List Extractability',c:'ON-PAGE',w:7},
+  {id:'aio25',n:'Chronological Versioning',c:'ON-SITE',w:6},
+  {id:'aio26',n:'AI Summary Block',c:'ON-PAGE',w:8},
+  {id:'aio27',n:'Token-Efficient Headings',c:'ON-PAGE',w:7},
+  {id:'aio28',n:'Inference Trigger Keywords',c:'ON-PAGE',w:8},
+  {id:'aio29',n:'Contradiction Avoidance',c:'ON-PAGE',w:7},
+  {id:'aio30',n:'LLM-Readable Metadata',c:'ON-SITE',w:8},
+  {id:'aio31',n:'Allow-Lane Matrix',c:'ON-SITE',w:7},
+],
+SEO:[
+  {id:'seo1',n:'Title Tag Optimization',c:'ON-PAGE',w:10},
+  {id:'seo2',n:'Meta Description Quality',c:'ON-PAGE',w:8},
+  {id:'seo3',n:'H1–H6 Hierarchy',c:'ON-PAGE',w:9},
+  {id:'seo4',n:'Keyword Density Primary',c:'ON-PAGE',w:8},
+  {id:'seo5',n:'LSI Keyword Coverage',c:'ON-PAGE',w:7},
+  {id:'seo6',n:'URL Slug Structure',c:'ON-SITE',w:7},
+  {id:'seo7',n:'Image Alt Tags',c:'ON-PAGE',w:7},
+  {id:'seo8',n:'Internal Link Architecture',c:'ON-SITE',w:9},
+  {id:'seo9',n:'XML Sitemap Quality',c:'ON-SITE',w:8},
+  {id:'seo10',n:'Core Web Vitals Composite',c:'ON-SITE',w:10},
+  {id:'seo11',n:'Mobile Responsiveness',c:'ON-SITE',w:10},
+  {id:'seo12',n:'HTTPS / SSL',c:'ON-SITE',w:9},
+  {id:'seo13',n:'Backlink Authority DA',c:'OFF-PAGE',w:10},
+  {id:'seo14',n:'Backlink Diversity',c:'OFF-PAGE',w:8},
+  {id:'seo15',n:'Referring Domains Count',c:'OFF-PAGE',w:8},
+  {id:'seo16',n:'Anchor Text Distribution',c:'OFF-PAGE',w:7},
+  {id:'seo17',n:'Brand Mention Velocity',c:'OFF-PAGE',w:8},
+  {id:'seo18',n:'Duplicate Content Check',c:'ON-PAGE',w:9},
+  {id:'seo19',n:'Canonical Tags',c:'ON-SITE',w:8},
+  {id:'seo20',n:'Structured Data Errors',c:'ON-PAGE',w:9},
+  {id:'seo21',n:'Crawl Budget Efficiency',c:'ON-SITE',w:7},
+  {id:'seo22',n:'404 / Broken Links',c:'ON-SITE',w:8},
+  {id:'seo23',n:'Redirect Chain Length',c:'ON-SITE',w:7},
+  {id:'seo24',n:'Content Word Count',c:'ON-PAGE',w:7},
+  {id:'seo25',n:'Outbound Link Quality',c:'ON-PAGE',w:6},
+  {id:'seo26',n:'Social Signals',c:'OFF-PAGE',w:6},
+  {id:'seo27',n:'Bounce Rate Engagement',c:'ON-SITE',w:7},
+  {id:'seo28',n:'Dwell Time Estimation',c:'ON-SITE',w:7},
+  {id:'seo29',n:'Click-Through Rate Organic',c:'OFF-PAGE',w:8},
+  {id:'seo30',n:'Search Console Coverage',c:'OFF-PAGE',w:8},
+  {id:'seo31',n:'Index Coverage Report',c:'OFF-PAGE',w:8},
+  {id:'seo32',n:'Core Web Vitals LCP',c:'ON-SITE',w:9},
+  {id:'seo33',n:'Core Web Vitals CLS',c:'ON-SITE',w:8},
+  {id:'seo34',n:'Core Web Vitals INP',c:'ON-SITE',w:8},
+  {id:'seo35',n:'HTTPS Redirect Chain',c:'ON-SITE',w:7},
+  {id:'seo36',n:'Hreflang Implementation',c:'ON-SITE',w:6},
+  {id:'seo37',n:'Pagination Tags',c:'ON-SITE',w:5},
+  {id:'seo38',n:'Schema Error Count',c:'ON-PAGE',w:9},
+  {id:'seo39',n:'Toxic Backlink Ratio',c:'OFF-PAGE',w:8},
+  {id:'seo40',n:'Domain Age & Authority',c:'OFF-PAGE',w:7},
+  {id:'seo41',n:'Content Freshness Recency',c:'ON-PAGE',w:7},
+  {id:'seo42',n:'Structured Header Flow',c:'ON-PAGE',w:7},
+],
+AI_SIGNALS:[
+  {id:'ai1',n:'ClaudeBot Allow Directive',c:'ON-SITE',w:10},
+  {id:'ai2',n:'GPTBot Allow Directive',c:'ON-SITE',w:10},
+  {id:'ai3',n:'Google-Extended Allow',c:'ON-SITE',w:9},
+  {id:'ai4',n:'PerplexityBot Allow',c:'ON-SITE',w:9},
+  {id:'ai5',n:'Meta-AI Allow CCBot',c:'ON-SITE',w:8},
+  {id:'ai6',n:'proof.json SHA-256 Anchoring',c:'ON-SITE',w:10},
+  {id:'ai7',n:'Cryptographic IP Proof',c:'ON-SITE',w:9},
+  {id:'ai8',n:'IPFS / Blockchain Registration',c:'OFF-SITE',w:8},
+  {id:'ai9',n:'session.json State Declaration',c:'ON-SITE',w:7},
+  {id:'ai10',n:'aliases.json Brand Variants',c:'ON-SITE',w:7},
+  {id:'ai11',n:'policy.json AI Policy',c:'ON-SITE',w:8},
+  {id:'ai12',n:'actions.json AI Use Cases',c:'ON-SITE',w:7},
+  {id:'ai13',n:'Hallucination Prevention Layer',c:'ON-SITE',w:9},
+  {id:'ai14',n:'Entity-Graph Completeness',c:'ON-SITE',w:9},
+  {id:'ai15',n:'AI-Readable Content Density',c:'ON-PAGE',w:8},
+  {id:'ai16',n:'Confidentiality Boundary Tags',c:'ON-SITE',w:7},
+  {id:'ai17',n:'Training Data Consent Signal',c:'ON-SITE',w:8},
+  {id:'ai18',n:'EU AI Act Compliance Tag',c:'ON-SITE',w:9},
+  {id:'ai19',n:'AI Governance Statement',c:'ON-SITE',w:8},
+  {id:'ai20',n:'allow-lane-matrix.json',c:'ON-SITE',w:8},
+  {id:'ai21',n:'Gemini Grounding Verified',c:'OFF-SITE',w:9},
+  {id:'ai22',n:'Perplexity Citation Score',c:'OFF-SITE',w:8},
+  {id:'ai23',n:'AI Knowledge Graph Entry',c:'OFF-SITE',w:9},
+  {id:'ai24',n:'LLM Embedding Proximity',c:'OFF-SITE',w:8},
+  {id:'ai25',n:'Vectorial Brand Representation',c:'OFF-SITE',w:7},
+  {id:'ai26',n:'AI Answer Layer Coverage',c:'OFF-SITE',w:9},
+  {id:'ai27',n:'intents.json Schema v1.1+',c:'ON-SITE',w:8},
+  {id:'ai28',n:'ai-proof.json Verification',c:'ON-SITE',w:8},
+  {id:'ai29',n:'entity-index SSOT',c:'ON-SITE',w:7},
+  {id:'ai30',n:'AI-Ready Score Declaration',c:'ON-SITE',w:7},
+  {id:'ai31',n:'Zero-Hallucination Anchors',c:'ON-SITE',w:8},
+  {id:'ai32',n:'Cross-AI Consistency Score',c:'OFF-SITE',w:9},
+]};
+
+let AUD={},zoom='normal',filt='all',sortBy='score';
+
+function h(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=(h*16777619)>>>0;}return(h%10000)/10000;}
+
+async function startAudit(){
+  let raw=document.getElementById('url-input').value.trim();
+  if(!raw){
+    const f=document.getElementById('url-input');
+    f.style.borderColor='var(--red)';f.style.boxShadow='0 0 0 4px rgba(192,57,43,.1)';
+    setTimeout(()=>{f.style.borderColor='';f.style.boxShadow='';},1100);return;
+  }
+  // Strip any protocol/www the user may have typed — engine handles it
+  let clean=raw.replace(/^(https?:\/\/)?(www\.)?/i,'').replace(/\s+/g,'');
+  let url='https://'+clean;
+  document.getElementById('input-zone').style.display='none';
+  document.getElementById('loading-zone').style.display='block';
+  document.getElementById('loading-zone').scrollIntoView({behavior:'smooth',block:'center'});
+  document.getElementById('ld-url').textContent=url;
+  startAuditProgress();
+  document.getElementById('results-zone').innerHTML='';
+  document.getElementById('results-zone').style.display='none';
+  await runAudit(url);
+}
+
+async function runAudit(url){
+  const st=document.getElementById('stream');
+  let dims=[{k:'AEO',id:'aeo',t:34},{k:'GEO',id:'geo',t:28},{k:'AIO',id:'aio',t:31},{k:'SEO',id:'seo',t:42},{k:'AI_SIGNALS',id:'ai',t:32}];
+  const DIM_ID={AEO:'aeo',GEO:'geo',AIO:'aio',SEO:'seo',AI_SIGNALS:'ai',A2A:'a2a'};
+  let SRC=SIG;   // fallback: registrul local, folosit doar daca worker-ul nu raspunde
+  let gt=0;
+  function log(m,c=''){const d=document.createElement('div');d.className=c;d.textContent=m;st.appendChild(d);st.scrollTop=st.scrollHeight;}
+  function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
+
+  log('Initializing 3WEBS v3.1 — real signal engine…','sl-info');await sleep(200);
+  log('Analyzing domain: '+url,'sl-info');await sleep(300);
+
+  AUD={url,scores:{},signals:{},siteData:{},ts:new Date().toISOString()};
+
+  // ── SINGLE CALL: Claude scores all 167 signals from real domain knowledge ──
+  log('Building synthesis real AI visibility signals…','sl-info');
+  let allScores = null;
+  try {
+    allScores = await scoreAllSignals(url);
+    if(REPORT_V2 && REPORT_V2.signals && Object.keys(REPORT_V2.signals).length){
+      SRC = REPORT_V2.signals;   // nume, categorii si stari reale, direct din motor
+      dims = Object.keys(SRC)
+        .filter(k=>DIM_ID[k])
+        .sort((a,b)=>['AEO','GEO','AIO','SEO','AI_SIGNALS','A2A'].indexOf(a)-['AEO','GEO','AIO','SEO','AI_SIGNALS','A2A'].indexOf(b))
+        .map(k=>({k,id:DIM_ID[k],t:SRC[k].length}));
+    }
+    if(allScores) log('✓ Real signal analysis complete · 167 signals scored','sl-ok');
+    else {
+      log('⚠ Score parsing failed — check browser console for details','sl-fail');
+      log('  Tip: open DevTools → Console to see raw API response','sl-warn');
+    }
+  } catch(e) {
+    log('✗ API call failed: '+e.message,'sl-fail');
+    allScores = null;
+  }
+  await sleep(200);
+
+  // ── POPULATE RESULTS ──
+  for(const dim of dims){
+    const mod=document.getElementById('m-'+dim.id);
+    if(mod) mod.classList.add('active');
+    log('Processing '+dim.k+'…','sl-info');
+    const sigs=SRC[dim.k]||[];
+    AUD.signals[dim.k]=[];let ds=0,dc=0;
+    if(!sigs.length){ AUD.scores[dim.k]=null; if(mod){mod.classList.remove('active');mod.classList.add('done');} continue; }
+
+    for(let i=0;i<sigs.length;i++){
+      await sleep(10+Math.random()*15);
+      const s=sigs[i];
+      let score, status;
+      if(s.status){                       // semnal venit din motor: pastreaza verdictul lui
+        status=s.status;
+        score=(s.score===null||s.score===undefined)?null:Math.min(100,Math.max(0,Math.round(s.score)));
+      } else {                            // fallback pe registrul local
+        score=(allScores&&allScores[dim.k]&&allScores[dim.k][s.id]!==undefined)?allScores[dim.k][s.id]:0;
+        score=Math.min(100,Math.max(0,Math.round(score)));
+        status=score>=75?'pass':score>=45?'warn':'fail';
+      }
+
+      AUD.signals[dim.k].push({...s,score,status});
+      if(status!=='na'&&score!==null){ds+=score;dc++;}
+      gt++;
+      const cEl=document.getElementById('c-'+dim.id), bEl=document.getElementById('b-'+dim.id);
+      if(cEl) cEl.textContent=(i+1)+' / '+dim.t;
+      if(bEl) bEl.style.width=((i+1)/dim.t*100)+'%';
+      document.getElementById('c-tot').textContent=gt+' / 167';
+      document.getElementById('b-tot').style.width=(gt/167*100)+'%';
+      setP(gt/167*100);
+      const op=Math.round(gt*.4),off=Math.round(gt*.32);
+      document.getElementById('c-op').textContent=Math.min(op,67)+' / 67';
+      document.getElementById('b-op').style.width=(Math.min(op,67)/67*100)+'%';
+      document.getElementById('c-off').textContent=Math.min(off,54)+' / 54';
+      document.getElementById('b-off').style.width=(Math.min(off,54)/54*100)+'%';
+      if(i%4===0){const e=status==='pass'?'✓':status==='warn'?'⚠':'✗';log('  '+e+' '+s.n+' · '+score,'sl-'+status);}
+    }
+    AUD.scores[dim.k]=dc?Math.round(ds/dc):null;
+    if(mod){mod.classList.remove('active');mod.classList.add('done');}
+    log(dim.k+' · avg score: '+AUD.scores[dim.k]+'/100','sl-ok');
+    await sleep(80);
+  }
+
+  {
+    if (REPORT_V2 && typeof REPORT_V2.global === 'number') {
+      // sursa unica de adevar: acelasi numar folosit de sinteza AI, planul de actiuni si API-ul /audit.
+      // NU se mai recalculeaza local cu o alta formula de ponderare — asta era cauza divergentei
+      // dintre scorul din dashboard si scorul din sinteza AI.
+      AUD.global = REPORT_V2.global;
+    } else {
+      // fallback: worker-ul nu a raspuns, se lucreaza doar cu registrul local SIG
+      let num=0,den=0;
+      for(const d of dims){ const v=AUD.scores[d.k]; if(typeof v==='number'&&!isNaN(v)){num+=v*d.t;den+=d.t;} }
+      AUD.global=den?Math.round(num/den):0;
+    }
+  }
+
+  log('Generating AI synthesis…','sl-info');await sleep(200);
+  const [synth,ap]=await Promise.all([fetchSynth(AUD),fetchAP(AUD)]);
+  log('Dashboard ready.','sl-ok');await sleep(150);
+  completeAuditProgress();
+  await sleep(350);
+  document.getElementById('loading-zone').style.display='none';
+  setP(100);setTimeout(()=>setP(0),700);
+  render(AUD,synth,ap);
+}
+
+// ── MOTOR REAL: apeluri catre Cloudflare Worker (3webobs.com), zero scoruri inventate ──
+const WORKER_URL = 'https://3webobs.com';
+let REPORT_V2 = null;
+
+async function scoreAllSignals(url){
+  const r = await fetch(WORKER_URL + '/audit', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({url})
+  });
+  if(!r.ok) throw new Error('audit failed: HTTP ' + r.status);
+  const rep = await r.json();
+  if(rep.error) throw new Error(rep.detail || rep.error);
+
+  REPORT_V2 = rep;
+  /* Raportul exista acum, deci Send Report are ce trimite. Daca panoul era
+     deschis cu mesajul "ruleaza intai un audit", il reimprospatam. */
+  try {
+    var sp = document.getElementById('share-panel');
+    if (sp && !sp.hidden) { sp.hidden = true; toggleShare(); }
+  } catch(e){}
+  if (window.aivStats) window.aivStats.ping('audit_complete');
+
+  const out = {};
+  for(const [dim, sigs] of Object.entries(rep.signals)){
+    out[dim] = {};
+    sigs.forEach(s => { out[dim][s.id] = (s.score === null ? 0 : s.score); });
+  }
+  return out;
+}
+
+/* Sinteza e generata de un model pornind de la continutul site-ului AUDITAT.
+   Adica intrarea e controlata integral de o terta parte, care poate fi
+   adversariala: un site isi poate scrie in propriul HTML instructiuni pentru
+   model, iar textul intors ajungea direct in DOM prin innerHTML, cu un CSP
+   care permite unsafe-inline. Executie pe domeniul nostru, in sesiunea
+   vizitatorului.
+   Solutia nu e sa filtram tag-uri periculoase — lista aia e mereu incompleta.
+   Escapam tot, apoi reconstruim NOI singura formatare de care avem nevoie:
+   paragrafe din linii goale. Modelul nu mai poate produce markup, indiferent
+   ce i s-a cerut sa scrie. */
+function escapeSynth(str){
+  return String(str == null ? '' : str).replace(/[&<>"']/g, function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+  });
+}
+function renderSynth(str){
+  const safe = escapeSynth(str).trim();
+  if(!safe) return '';
+  return safe.split(/\n\s*\n/).map(function(par){
+    return '<p>' + par.replace(/\n/g, '<br>') + '</p>';
+  }).join('');
+}
+
+async function fetchSynth(d){
+  try{
+    const r = await fetch(WORKER_URL + '/synth', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({report: REPORT_V2})
+    });
+    if(!r.ok) return fbSynth(d);
+    const j = await r.json();
+    return j.synthesis || fbSynth(d);
+  }catch{ return fbSynth(d); }
+}
+
+async function fetchAP(d){
+  return (REPORT_V2 && REPORT_V2.plan) ? REPORT_V2.plan : null;
+}
+
+
+function fbSynth(d){
+  const s=d.global;
+  if(s>=75)return`${d.url} commands strong AI visibility at ${s}/100, with a well-built signal foundation that major LLMs can interpret and cite. The remaining exposure lies in GEO-layer entity anchoring — a fixable structural absence rather than a fundamental failure. Deploying proof.json with verified SHA-256 hashes and completing the entity graph will elevate this domain into top-tier AI answer-layer sovereignty.`;
+  if(s>=50)return`${d.url} occupies a contested middle ground at ${s}/100 — partially visible to AI discovery systems, yet absent in the decisive answer layers where purchasing decisions form. The core structural failure is the absence of a declared AI signal stack, leaving crawlers unable to resolve entity context with confidence. Closing the missing signal layers is the highest-leverage work available here; the action plan lists them in order of weight.`;
+  return`${d.url} is effectively invisible to AI systems at ${s}/100 — ChatGPT, Gemini, Claude, and Perplexity cannot reliably surface or attribute this brand in generated responses. The damage is structural: no AI governance files, no entity anchoring, no crawler permissions granted. The action plan starts with the crawler permissions and the machine-readable declarations, since nothing downstream can be read without them.`;
+}
+
+
+function legendBand(d){
+  let pass=0,warn=0,fail=0,na=0;
+  for(const dim of Object.keys(d.signals||{}))
+    for(const s of d.signals[dim]){
+      if(s.status==='pass')pass++;
+      else if(s.status==='partial'||s.status==='warn')warn++;
+      else if(s.status==='fail')fail++;
+      else na++;
+    }
+  const scored=pass+warn+fail;
+  const cell=(n,k,desc,inScore)=>`
+    <div class="lg-cell ${inScore?'':'out'}">
+      <div class="lg-n">${n}</div>
+      <div class="lg-k">${k}</div>
+      <div class="lg-d">${desc}</div>
+      <span class="lg-tag ${inScore?'lg-in':'lg-out'}">${inScore?'in score':'excluded'}</span>
+    </div>`;
+  return `
+  <div class="legend-band fu2">
+    <div class="legend-head">
+      <div class="legend-title">How to read this score</div>
+      <div class="legend-formula">${d.global} = average of ${scored} scored signals</div>
+    </div>
+    <div class="legend-row">
+      ${cell(pass,'Pass','Tested. Signal found.',true)}
+      ${cell(warn,'Partial','Tested. Found, outside accepted range.',true)}
+      ${cell(fail,'Fail','Tested. Not found. This is fixable — see Action Plan.',true)}
+      ${cell(na,'N/A','No public test exists. Cannot be measured from a page scan.',false)}
+      ${cell(167-scored-na,'Skipped','Not applicable to this page type.',false)}
+    </div>
+    <div class="legend-note">
+      <strong>Fail counts against the score. N/A does not.</strong>
+      N/A covers signals nobody outside the vendor can measure — whether a model
+      currently cites this brand, backlink data behind a paid API, owner-only analytics.
+      Scoring them as zero would penalise the site for the scanner's limits rather than its own.
+      This scan reads delivered HTML, response headers, robots.txt, declared sitemaps and
+      published signal files. JavaScript is not executed.
+    </div>
+  </div>`;
+}
+
+function render(d,synth,ap){
+  const zone=document.getElementById('results-zone');
+  zone.style.display='block';zone.innerHTML='';
+  const g=getGrade(d.global);
+  const circ=2*Math.PI*82;
+
+  zone.insertAdjacentHTML('beforeend',`
+  <div class="sh-grid fu1 ${g.cls}">
+    <div class="ring-w">
+      <svg viewBox="0 0 190 190">
+        <circle class="r-bg" cx="95" cy="95" r="82"/>
+        <circle class="r-fill" id="rf" cx="95" cy="95" r="82" stroke="${g.stroke}" stroke-dasharray="${circ}" stroke-dashoffset="${circ}"/>
+      </svg>
+      <div class="r-inner">
+        <span class="r-num" id="rn">0</span>
+        <span class="r-lbl">/ 100</span>
+        <span class="r-grade ${g.cls}-badge">${g.label}</span>
+      </div>
+    </div>
+    <div>
+      <div class="sh-label">AI Visibility Composite — 167 Signals</div>
+      <div class="sh-url">${d.url}</div>
+      <div class="sh-ts">${gmtStamp(new Date(d.ts))}</div>
+      <div class="dim-grid">
+        ${[
+          ['AEO','aeo','Answer Engine Optimization'],
+          ['GEO','geo','Generative Engine Optimization'],
+          ['AIO','aio','AI Optimization'],
+          ['SEO','seo','Search Engine Optimization'],
+          ['AI_SIGNALS','ai','Machine Trust Signals'],
+          ['A2A','a2a','Agent-to-Agent Signals']
+        ].map(function(x){
+          var key=x[0], cls=x[1], label=x[2];
+          var sc=d.scores[key];
+          if(sc===undefined||sc===null) return '';
+          var dim = d.dimensions ? d.dimensions[key] : null;
+          var strong = sc>=70;
+          var cov = dim ? ' &middot; '+Math.round(dim.coverage)+'% coverage' : '';
+          /* Cand exista o observatie anterioara a aceluiasi site, o trecem in
+             link. Pagina de detaliu arata atunci doua carlige per semnal —
+             inainte si dupa — in loc de unul singur. */
+          var prev = d.previousObservation ? '&amp;before=' + encodeURIComponent(d.previousObservation.observationId) : '';
+          var detail = d.observationId
+            ? '<div class="hero-new-audit-row"><a class="dim-more hero-new-audit" href="/signal-detail?obs='+encodeURIComponent(d.observationId)+'&amp;dim='+key+prev+'">'
+              + (prev ? 'Before &amp; after &rarr;' : 'See detail &rarr;') + '</a></div>'
             : '';
           return '<div class="dim d-'+cls+'">'
             + '<div class="dim-lbl">'+key.replace('_',' ')+'</div>'
