@@ -2477,8 +2477,13 @@ function render(d,synth,ap){
           var dim = d.dimensions ? d.dimensions[key] : null;
           var strong = sc>=70;
           var cov = dim ? ' &middot; '+Math.round(dim.coverage)+'% coverage' : '';
+          /* Cand exista o observatie anterioara a aceluiasi site, o trecem in
+             link. Pagina de detaliu arata atunci doua carlige per semnal —
+             inainte si dupa — in loc de unul singur. */
+          var prev = d.previousObservation ? '&amp;before=' + encodeURIComponent(d.previousObservation.observationId) : '';
           var detail = d.observationId
-            ? '<a class="dim-more" href="/signal-detail?obs='+encodeURIComponent(d.observationId)+'&amp;dim='+key+'">See detail &rarr;</a>'
+            ? '<a class="dim-more" href="/signal-detail?obs='+encodeURIComponent(d.observationId)+'&amp;dim='+key+prev+'">'
+              + (prev ? 'Before &amp; after &rarr;' : 'See detail &rarr;') + '</a>'
             : '';
           return '<div class="dim d-'+cls+'">'
             + '<div class="dim-lbl">'+key.replace('_',' ')+'</div>'
@@ -2488,6 +2493,16 @@ function render(d,synth,ap){
             +   (strong?'&#9650; Strong':'&#9660; Weak')+'</div>'
             + '<div class="dim-bar"><div class="dim-bar-f" style="width:'+sc+'%"></div></div>'
             + (dim?'<div class="dim-cov">'+dim.tested+'/'+dim.total+' tested'+cov+'</div>':'')
+            + (function(){
+                /* Delta fata de observatia anterioara. Singurul numar care
+                   dovedeste ca o injectie a facut ceva. */
+                if(!d.previousObservation || !d.previousScores) return '';
+                var pb = d.previousScores[key];
+                if(pb == null || sc == null || pb === sc) return '';
+                var dd = sc - pb;
+                return '<div class="dim-cov" style="color:'+(dd>0?'var(--green)':'var(--red)')+';font-weight:600">'
+                  + (dd>0?'&#9650; +':'&#9660; ')+dd+' since last run</div>';
+              })()
             + detail
             + '</div>';
         }).join('')}
@@ -2526,7 +2541,9 @@ function render(d,synth,ap){
             + '<div class="dim-bar"><div class="dim-bar-f" style="width:'+(sch.score||0)+'%;background:'+color+'"></div></div>'
             + '<div class="dim-cov">'+line+'</div>'
             + (d.observationId
-                ? '<a class="dim-more" href="/schema?obs='+encodeURIComponent(d.observationId)+'">See all 100 &rarr;</a>'
+                ? '<a class="dim-more" href="/schema?obs='+encodeURIComponent(d.observationId)
+                  + (d.previousObservation ? '&amp;before='+encodeURIComponent(d.previousObservation.observationId) : '')
+                  + '">' + (d.previousObservation ? 'Before &amp; after &rarr;' : 'See all 100 &rarr;') + '</a>'
                 : '<a class="dim-more" href="/schema">See all 100 &rarr;</a>')
             + '</div>';
         })()}

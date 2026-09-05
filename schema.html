@@ -306,6 +306,16 @@ opacity:.45;margin:22px 0 8px;}
 .s1-row{display:flex;gap:11px;align-items:flex-start;padding:11px 13px;border:1px solid var(--border);
 border-radius:var(--rs);margin-bottom:6px;background:var(--bg);}
 .s1-hook{flex-shrink:0;width:17px;text-align:center;font-size:14px;line-height:1.35;}
+.s1-pair{flex-shrink:0;display:inline-flex;align-items:center;gap:1px;}
+.s1-pair .s1-hook{width:15px;}
+.s1-arrow{opacity:.3;font-size:10px;}
+.s1-delta{display:inline-block;font-size:9px;text-transform:uppercase;letter-spacing:.05em;
+font-weight:700;padding:1px 7px;border-radius:100px;margin-left:7px;}
+.s1-delta.d-up{background:var(--green-bg);color:var(--green);}
+.s1-delta.d-dn{background:var(--red-bg);color:var(--red);}
+.s1-cmp{display:flex;flex-wrap:wrap;gap:14px;align-items:baseline;font-size:12.5px;margin:0 0 18px;}
+.s1-cmp b{font-family:'SF Mono',ui-monospace,Menlo,monospace;}
+.s1-cmp .up{color:var(--green);font-weight:700;} .s1-cmp .dn{color:var(--red);font-weight:700;}
 .h-green{color:var(--green);} .h-yellow{color:var(--gold);} .h-red{color:var(--red);} .h-grey{opacity:.3;}
 .s1-n{font-size:9.5px;opacity:.35;font-family:'SF Mono',ui-monospace,Menlo,monospace;flex-shrink:0;width:22px;}
 .s1-name{font-family:'SF Mono',ui-monospace,Menlo,monospace;font-size:13px;font-weight:600;word-break:break-word;}
@@ -347,6 +357,7 @@ margin-bottom:20px;word-break:break-all;}
     <button data-f="yellow" aria-pressed="false">Incomplete</button>
     <button data-f="green" aria-pressed="false">Present</button>
     <button data-f="grey" aria-pressed="false">Not applicable</button>
+    <button data-f="moved" aria-pressed="false" id="s1-moved" hidden>Changed</button>
   </div>
 
   <div id="s1-list"><p class="sec-s">Loading&hellip;</p></div>
@@ -451,6 +462,21 @@ margin-bottom:20px;word-break:break-all;}
     [].forEach.call(this.querySelectorAll('button'), function(x){ x.setAttribute('aria-pressed', String(x===b)); });
     render(b.dataset.f);
   });
+  if (dataBefore) {
+    var mv = document.getElementById('s1-moved');
+    if (mv) mv.hidden = false;
+    var d = (data.score != null && dataBefore.score != null) ? data.score - dataBefore.score : null;
+    var cmp = document.createElement('div');
+    cmp.className = 's1-cmp';
+    cmp.innerHTML = '<span>before <b>' + (dataBefore.score != null ? dataBefore.score : '—') + '</b></span>'
+      + '<span>after <b>' + (data.score != null ? data.score : '—') + '</b></span>'
+      + (d != null ? '<span class="' + (d>0?'up':d<0?'dn':'') + '">' + (d>0?'+':'') + d + '</span>' : '')
+      + '<span style="opacity:.5">' + dataBefore.green + ' &rarr; ' + data.green + ' present, '
+      + dataBefore.red + ' &rarr; ' + data.red + ' missing</span>';
+    var bar = document.getElementById('s1-bar');
+    bar.parentNode.insertBefore(cmp, bar.nextSibling);
+  }
+
   render('all');
 })();
 </script>

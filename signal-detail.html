@@ -271,6 +271,20 @@ border:1px solid var(--border-md);background:transparent;color:var(--text);curso
 .sd-sig{display:flex;gap:11px;align-items:flex-start;padding:12px 14px;border:1px solid var(--border);
 border-radius:var(--rs);margin-bottom:7px;background:var(--bg);}
 .sd-mark{flex-shrink:0;font-size:14px;line-height:1.4;width:16px;text-align:center;}
+.sd-pair{flex-shrink:0;display:inline-flex;align-items:center;gap:2px;}
+.sd-pair .sd-mark{width:15px;}
+.sd-arrow{opacity:.3;font-size:11px;}
+.sd-delta{display:inline-block;font-size:9px;text-transform:uppercase;letter-spacing:.06em;
+font-weight:700;padding:1px 7px;border-radius:100px;margin-left:8px;vertical-align:middle;}
+.d-fixed{background:var(--green-bg);color:var(--green);}
+.d-broken{background:var(--red-bg);color:var(--red);}
+.d-changed{background:var(--gold-bg);color:var(--gold);}
+.sd-moved{border-color:var(--border-md);}
+.sd-was{font-size:11px;opacity:.45;margin-top:3px;line-height:1.5;font-style:italic;}
+.sd-cmp{display:flex;flex-wrap:wrap;gap:14px;align-items:baseline;margin:0 0 6px;}
+.sd-cmp b{font-family:'SF Mono',ui-monospace,Menlo,monospace;font-size:12px;}
+.sd-cmp .up{color:var(--green);font-weight:700;}
+.sd-cmp .dn{color:var(--red);font-weight:700;}
 .m-pass{color:var(--green);} .m-na{color:var(--gold);} .m-fail{color:var(--red);} .m-partial{color:var(--gold);}
 .sd-n{font-size:13.5px;font-weight:600;}
 .sd-why{font-size:11.5px;opacity:.62;margin-top:4px;line-height:1.6;word-break:break-word;}
@@ -293,6 +307,10 @@ text-decoration:none;color:var(--blue)!important;}
 (async function(){
   var q = new URLSearchParams(location.search);
   var obs = q.get('obs'), dim = (q.get('dim') || 'AEO').toUpperCase();
+  /* Observatia de referinta — starea dinainte. Fara ea pagina arata o
+     fotografie; cu ea arata ce s-a schimbat, si asta e singurul lucru care
+     dovedeste ca injectia a facut ceva. */
+  var before = q.get('before') || q.get('baseline');
   var el = document.getElementById('sd-body');
 
   function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){
@@ -303,11 +321,17 @@ text-decoration:none;color:var(--blue)!important;}
     return;
   }
 
-  var rep;
+  var rep, repBefore = null;
   try {
     var r = await fetch('/observation?id=' + encodeURIComponent(obs));
     if (!r.ok) throw new Error(r.status === 404 ? 'not found' : 'http ' + r.status);
     rep = await r.json();
+    if (before) {
+      try {
+        var rb = await fetch('/observation?id=' + encodeURIComponent(before));
+        if (rb.ok) repBefore = await rb.json();
+      } catch (e2) {}
+    }
   } catch (e) {
     el.innerHTML = '<p class="sec-s">This observation could not be loaded'
       + (String(e.message).indexOf('not found') >= 0 ? ' &mdash; observations are kept for 90 days, and this one may have expired.' : '.')
@@ -342,11 +366,30 @@ text-decoration:none;color:var(--blue)!important;}
 
   document.getElementById('sd-title').innerHTML = dim.replace('_',' ') + ' <em>detail</em>';
 
+  var scoreNow = rep.scores[dim];
+  var scoreBefore = repBefore && repBefore.scores ? repBefore.scores[dim] : null;
+  var diff = (scoreBefore != null && scoreNow != null) ? scoreNow - scoreBefore : null;
+
   el.innerHTML =
-      '<div class="sd-head"><span class="sd-score">' + (rep.scores[dim] != null ? rep.scores[dim] : '&mdash;') + '</span>'
+      '<div class="sd-head"><span class="sd-score">' + (scoreNow != null ? scoreNow : '&mdash;') + '</span>'
     + '<span style="font-size:14px;opacity:.7">' + LABEL[dim] + '</span></div>'
+    + (diff != null
+        ? '<div class="sd-cmp"><span>before <b>' + scoreBefore + '</b></span>'
+          + '<span>after <b>' + scoreNow + '</b></span>'
+          + '<span class="' + (diff > 0 ? 'up' : diff < 0 ? 'dn' : '') + '">'
+          + (diff > 0 ? '+' : '') + diff + '</span></div>'
+        : '')
     + meta
     + '<div class="sd-nav">' + nav + '</div>'
+    + (repBefore
+        ? '<div class="sd-note"><strong>Two marks per signal.</strong> The first is the state before, '
+          + 'the second is the state now. A signal that moved carries a label &mdash; '
+          + '<span class="sd-delta d-fixed">fixed</span> or <span class="sd-delta d-broken">broken</span> &mdash; '
+          + 'and is sorted to the top, because what changed matters more than what stayed still. '
+          + 'Comparing against observation <code>' + esc(before) + '</code>'
+          + (repBefore.session ? ' from session <code>' + esc(repBefore.session) + '</code>' : '')
+          + (repBefore.at || repBefore.ts ? ', ' + esc(String(repBefore.at || repBefore.ts).slice(0,10)) : '') + '.</div>'
+        : '')
     + '<div class="sd-note"><strong>How to read the marks.</strong> '
     + '<span style="color:var(--green)">&#10003;</span> the signal is present and correct. '
     + '<span style="color:var(--gold)">&#9679;</span> not applicable &mdash; it could not be tested from outside, or it does not apply to this page type; it is never counted as a failure. '
@@ -360,6 +403,8 @@ text-decoration:none;color:var(--blue)!important;}
     + '</div>'
     + '<div class="sd-filter" id="sd-filter">'
     +   '<button data-f="all" aria-pressed="true">All</button>'
+    +   (repBefore ? '<button data-f="fixed" aria-pressed="false">Fixed</button>'
+                   + '<button data-f="broken" aria-pressed="false">Broken</button>' : '')
     +   '<button data-f="fail" aria-pressed="false">To fix</button>'
     +   '<button data-f="na" aria-pressed="false">Not applicable</button>'
     +   '<button data-f="pass" aria-pressed="false">Present</button>'
@@ -372,18 +417,58 @@ text-decoration:none;color:var(--blue)!important;}
     return '<span class="sd-mark m-fail">&#10007;</span>';
   }
 
+  /* Indexul starii dinainte, pe id de semnal. Cheia e id-ul, nu numele:
+     numele se pot schimba intre versiuni de catalog, id-urile nu. */
+  var beforeById = {};
+  if (repBefore && repBefore.signals) {
+    Object.keys(repBefore.signals).forEach(function(k){
+      repBefore.signals[k].forEach(function(x){ beforeById[x.id] = x; });
+    });
+  }
+
+  function deltaOf(bSt, aSt){
+    if (!bSt || bSt === aSt) return null;
+    var wasBad = bSt === 'fail' || bSt === 'partial';
+    var isBad  = aSt === 'fail' || aSt === 'partial';
+    if (wasBad && !isBad) return 'fixed';
+    if (!wasBad && isBad) return 'broken';
+    return 'changed';
+  }
+
   function render(f){
     var items = sigs.filter(function(s){
       if (f === 'all') return true;
+      if (f === 'fixed' || f === 'broken') {
+        var b = beforeById[s.id];
+        return b && deltaOf(b.status, s.status) === f;
+      }
       if (f === 'fail') return s.status === 'fail' || s.status === 'partial';
       return s.status === f;
-    }).sort(function(a,b){ return (b.w||0) - (a.w||0); });
+    }).sort(function(a,b){
+      /* Ce s-a schimbat urca sus. Un semnal reparat sau stricat de la ultima
+         observatie e mai relevant decat unul care a stat pe loc. */
+      var da = beforeById[a.id] ? deltaOf(beforeById[a.id].status, a.status) : null;
+      var db = beforeById[b.id] ? deltaOf(beforeById[b.id].status, b.status) : null;
+      if (!!da !== !!db) return da ? -1 : 1;
+      return (b.w||0) - (a.w||0);
+    });
 
     document.getElementById('sd-list').innerHTML = items.length
       ? items.map(function(s){
-          return '<div class="sd-sig">' + markFor(s.status)
-            + '<div><div class="sd-n">' + esc(s.n) + '</div>'
+          var b = beforeById[s.id];
+          var d = b ? deltaOf(b.status, s.status) : null;
+          var pair = b
+            ? '<span class="sd-pair">' + markFor(b.status)
+              + '<span class="sd-arrow">&rarr;</span>' + markFor(s.status) + '</span>'
+            : markFor(s.status);
+          var badge = d
+            ? '<span class="sd-delta d-' + d + '">' + (d === 'fixed' ? 'fixed' : d === 'broken' ? 'broken' : 'changed') + '</span>'
+            : '';
+          return '<div class="sd-sig' + (d ? ' sd-moved' : '') + '">' + pair
+            + '<div><div class="sd-n">' + esc(s.n) + badge + '</div>'
             + '<div class="sd-why">' + esc(s.method || '') + '</div>'
+            + (b && b.method && b.method !== s.method
+                ? '<div class="sd-was">before: ' + esc(b.method) + '</div>' : '')
             + '<div class="sd-w">' + esc(s.c || '') + ' &middot; weight ' + (s.w || 0)
             + (s.score != null ? ' &middot; scored ' + s.score : '') + '</div></div></div>';
         }).join('')

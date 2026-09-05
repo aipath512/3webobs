@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-04T09:39:27.172Z",
+  "generated": "2026-09-05T02:54:17.115Z",
   "method": "Structural validation against the schema.org vocabulary, performed by this repository. schema.org publishes no API for validator.schema.org, so these are our own checks applying the same rules: does the property exist on the type, does a reference resolve, does the target have the type the property expects. The vocabulary below is a subset covering the types this site uses; a type outside it is reported as unverified rather than valid or invalid.",
   "validator": "https://validator.schema.org/#url=https%3A%2F%2F3webobs.com%2F",
   "totals": {

@@ -244,14 +244,26 @@ function acquireSlot() {
   }
   return new Promise(resolve => {
     let settled = false;
-    const done = (token) => { if (!settled) { settled = true; resolve(token); } };
-    fetchQueue.push(() => done(Date.now()));
-    setTimeout(() => {
-      if (!settled) {
-        console.warn(`limiter: waited ${QUEUE_MAX_WAIT_MS}ms for a slot, proceeding without one`);
-        fetchQueue = fetchQueue.filter(fn => fn !== undefined);
-        done(null);
-      }
+    let timer = null;
+    /* clearTimeout nu e o optimizare, e obligatoriu. Un Worker nu poate
+       incheia invocarea cat timp are un timer activ, asa ca un cronometru
+       lasat pornit dupa ce promisiunea s-a rezolvat tine raspunsul in loc
+       exact atatea milisecunde cat era programat. Fara linia asta, orice
+       audit in care macar un fetch a asteptat la coada raspundea in 10
+       secunde in loc de sub o secunda. */
+    const done = (token) => {
+      if (settled) return;
+      settled = true;
+      if (timer !== null) { clearTimeout(timer); timer = null; }
+      resolve(token);
+    };
+    const waiter = () => done(Date.now());
+    fetchQueue.push(waiter);
+    timer = setTimeout(() => {
+      if (settled) return;
+      console.warn(`limiter: waited ${QUEUE_MAX_WAIT_MS}ms for a slot, proceeding without one`);
+      fetchQueue = fetchQueue.filter(fn => fn !== waiter);
+      done(null);
     }, QUEUE_MAX_WAIT_MS);
   });
 }
@@ -2828,7 +2840,14 @@ function sessionParts(id) {
 /* Sesiunea curenta. Daca nu exista niciuna — prima rulare dupa deploy —
    o cream la 0001C in loc sa esuam: un sistem de ancorare care refuza sa
    porneasca pana il initializeaza cineva manual nu ancoreaza nimic. */
+/* Cache pe durata invocarii. Sesiunea curenta se schimba de cateva ori pe
+   luna, dar era citita din KV la fiecare stampila — iar un audit stampileaza
+   de mai multe ori. O citire KV e ieftina, dar nu gratuita, si nu are rost
+   repetata pentru o valoare care nu se poate schimba in timpul unei cereri. */
+let sessionCache = null;
+
 async function getSession(env) {
+  if (sessionCache) return sessionCache;
   if (!env.RATE_KV) return { id: '0001C', n: 1, kind: 'C', openedAt: null, storage: false };
   let raw = null;
   try { raw = await env.RATE_KV.get(SESSION_KEY); } catch {}
@@ -2837,10 +2856,12 @@ async function getSession(env) {
     const fresh = { id: '0001C', n: 1, kind: 'C', openedAt: nowIso, day: nowIso.slice(0, 10),
                     note: 'opened automatically on first use' };
     try { await env.RATE_KV.put(SESSION_KEY, JSON.stringify(fresh)); } catch {}
-    return { ...fresh, storage: true };
+    sessionCache = { ...fresh, storage: true };
+    return sessionCache;
   }
-  try { return { ...JSON.parse(raw), storage: true }; }
-  catch { return { id: '0001C', n: 1, kind: 'C', openedAt: null, storage: true }; }
+  try { sessionCache = { ...JSON.parse(raw), storage: true }; }
+  catch { sessionCache = { id: '0001C', n: 1, kind: 'C', openedAt: null, storage: true }; }
+  return sessionCache;
 }
 
 /* Ce se ataseaza fiecarei inregistrari. Nu doar id-ul: si momentul, pentru
@@ -2902,6 +2923,11 @@ async function advanceSession(env, { kind = 'C', from = null, note = null } = {}
                    openedAt: nowIso, day: nowIso.slice(0, 10),
                    previous: cur.id, previousClosedAt: nowIso, note };
     await env.RATE_KV.put(SESSION_KEY, JSON.stringify(next));
+    /* Invalidarea vine DUPA scriere, nu inainte. Golit la intrare, cache-ul
+       s-ar reumple imediat cu valoarea veche, la citirea de context de mai
+       sus — si urmatoarea stampila ar purta sesiunea din care tocmai am
+       iesit. */
+    sessionCache = { ...next, storage: true };
     await appendSessionLog(env, { ...next, event: 'opened' });
     return next;
   }
@@ -3069,6 +3095,44 @@ async function handleRequest(request, env, ctx, requestId) {
       report.coverage = report.totalSignals
         ? Math.round((report.tested / report.totalSignals) * 1000) / 10
         : null;
+
+      /* Observatia anterioara pentru acelasi site. Fara ea, fiecare raport e
+         o fotografie izolata si nimeni nu poate arata ce a schimbat o
+         injectie. Cautam ultima observatie a aceluiasi URL, dinaintea
+         acesteia, si o punem in raport ca referinta — interfata o foloseste
+         ca sa afiseze doua carlige per semnal, inainte si dupa.
+         Cautarea e plafonata: la un volum mare, o lista completa ar costa
+         mai mult decat valoreaza. */
+      if (env.RATE_KV) {
+        try {
+          const listed = await env.RATE_KV.list({ prefix: 'obs:', limit: 400 });
+          let best = null, bestAt = null;
+          for (const k of listed.keys) {
+            if (k.name === 'obs:' + report.observationId) continue;
+            const raw = await env.RATE_KV.get(k.name);
+            if (!raw) continue;
+            let prev; try { prev = JSON.parse(raw); } catch { continue; }
+            if (prev.url !== report.url) continue;
+            const at = prev.at || prev.observedAt || prev.ts;
+            if (!at || at >= report.observedAt) continue;
+            if (!bestAt || at > bestAt) { bestAt = at; best = prev; }
+          }
+          if (best) {
+            report.previousObservation = {
+              observationId: best.observationId,
+              at: bestAt,
+              session: best.session || null,
+              global: best.global ?? null
+            };
+            /* Scorurile pe dimensiune ale observatiei anterioare. Cardurile
+               le folosesc ca sa arate delta fara sa mai ceara inca un raport. */
+            report.previousScores = best.scores || null;
+            report.delta = (best.global != null && report.global != null)
+              ? Math.round((report.global - best.global) * 10) / 10
+              : null;
+          }
+        } catch {}
+      }
       report.evidence = {
         mainStatus: ev.status,
         finalUrl: ev.finalUrl,
