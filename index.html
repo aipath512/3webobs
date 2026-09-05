@@ -343,6 +343,20 @@ html.dark .cta-action-btn:hover{box-shadow:0 4px 16px rgba(94,180,255,.2);}
   .memory-badge{font-size:9px;padding:4px 8px;letter-spacing:.04em;}
 }
 
+
+.hero-new-audit-row{
+  display:flex;justify-content:flex-end;align-items:center;
+  max-width:940px;margin:0 auto 12px;padding:0 14px;
+}
+.hero-new-audit{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-height:40px;padding:8px 16px;border-radius:999px;
+  font-size:12px;font-weight:700;text-decoration:none;
+}
+@media(max-width:680px){
+  .hero-new-audit-row{justify-content:center;margin-bottom:10px;}
+}
+
 /* LOADING */
 #loading-zone{display:none;padding:18px 0 26px;margin-top:10px;}
 .ld-head{text-align:center;margin-bottom:18px;}
@@ -1073,6 +1087,17 @@ grid-template-columns:repeat(4,1fr);gap:18px 26px;}
 .hub-list span{font-size:11.5px;line-height:1.5;opacity:.55;}
 @media(max-width:860px){.hub-list{grid-template-columns:repeat(2,1fr);}}
 @media(max-width:460px){.hub-list{grid-template-columns:1fr;}}
+
+.schema-mixed-card{
+  text-decoration:none;
+  cursor:pointer;
+}
+.schema-mixed-card .dim-sub{
+  margin-top:4px;
+  font-size:11px;
+  opacity:.72;
+}
+
 </style>
 
 
@@ -1090,7 +1115,7 @@ grid-template-columns:repeat(4,1fr);gap:18px 26px;}
 <header>
   <div class="brand">
     <div class="brand-mark">3<em>webs</em></div>
-      <span class="memory-badge" title="Rolling 4-year Verifiable Digital History™">4 Years Memory System</span>
+      <span class="memory-badge" title="Rolling 3-year Verifiable Digital History™">3 Years Memory System</span>
     <p>3webs Visibility Engine</p>
     <button id="toggle" onclick="toggleTheme()"><span id="ti">☾</span><span id="tl">Dark</span></button>
   </div>
@@ -1106,6 +1131,472 @@ grid-template-columns:repeat(4,1fr);gap:18px 26px;}
 
 <main id="main">
 <div id="input-zone">
+  <div class="hero-new-audit-row"><a class="dim-more hero-new-audit" href="/signal-detail?obs='+encodeURIComponent(d.observationId)+'&amp;dim='+key+prev+'">'
+              + (prev ? 'Before &amp; after &rarr;' : 'See detail &rarr;') + '</a>'
+            : '';
+          return '<div class="dim d-'+cls+'">'
+            + '<div class="dim-lbl">'+key.replace('_',' ')+'</div>'
+            + '<div class="dim-name">'+label+'</div>'
+            + '<div class="dim-val">'+sc+'</div>'
+            + '<div class="dim-delta" style="background:'+(strong?'var(--green-bg)':'var(--red-bg)')+';color:'+(strong?'var(--green)':'var(--red)')+'">'
+            +   (strong?'&#9650; Strong':'&#9660; Weak')+'</div>'
+            + '<div class="dim-bar"><div class="dim-bar-f" style="width:'+sc+'%"></div></div>'
+            + (dim?'<div class="dim-cov">'+dim.tested+'/'+dim.total+' tested'+cov+'</div>':'')
+            + (function(){
+                /* Delta fata de observatia anterioara. Singurul numar care
+                   dovedeste ca o injectie a facut ceva. */
+                if(!d.previousObservation || !d.previousScores) return '';
+                var pb = d.previousScores[key];
+                if(pb == null || sc == null || pb === sc) return '';
+                var dd = sc - pb;
+                return '<div class="dim-cov" style="color:'+(dd>0?'var(--green)':'var(--red)')+';font-weight:600">'
+                  + (dd>0?'&#9650; +':'&#9660; ')+dd+' since last run</div>';
+              })()
+            + detail
+            + '</div>';
+        }).join('')}
+        ${(function(){
+          /* Al saptelea card. Nu e o dimensiune si nu intra in scorul global:
+             semnalele de schema sunt deja in cele 167, distribuite pe AEO, GEO
+             si AIO. Ce arata aici e altceva — daca graful structurat al
+             site-ului e coerent semantic, nu doar valid ca JSON. E singurul
+             strat pe care un motor de cautare si un sistem AI il citesc la fel,
+             de unde si numele. */
+          var sch = d.schema;
+          if(!sch) return '';
+          /* Cardul arata acoperirea celor 100 de elemente, nu validitatea
+             structurala a grafului. Sunt intrebari diferite: una e "ai
+             declarat ce conteaza", cealalta e "e corect ce ai declarat".
+             Cumparatorul o pune pe prima. */
+          var ck = sch.checklist;
+          var st    = ck ? ck.status : sch.status;
+          var color = st==='error'?'var(--red)':st==='warning'?'var(--gold)':st==='valid'?'var(--green)':'var(--light)';
+          var bg    = st==='error'?'var(--red-bg)':st==='warning'?'var(--gold-bg)':st==='valid'?'var(--green-bg)':'var(--bg3)';
+          var mark  = st==='error'?('&#10007; '+(ck?ck.red:0)+' missing')
+                    : st==='warning'?'&#9679; Incomplete'
+                    : st==='valid'?'&#10003; Complete':'&#9679; None found';
+          var val   = (ck && ck.score != null) ? ck.score
+                    : (sch.score==null ? '&mdash;' : sch.score);
+          var line  = ck
+            ? ck.green+' present &middot; '+ck.yellow+' incomplete &middot; '+ck.red+' missing &middot; '+ck.grey+' n/a'
+            : (sch.objects
+                ? sch.objects+' objects &middot; '+sch.valid+' valid, '+sch.warning+' warning'
+                : 'no structured data found on the page');
+          return '<div class="dim d-schema">'
+            + '<div class="dim-lbl" style="color:'+color+'">MIXED SIGNALS</div>'
+            + '<div class="dim-name">Mixed Signals &mdash; Schema.org</div><div class="dim-sub">100 Schema.org signals</div>'
+            + '<div class="dim-val" style="color:'+color+'">'+val+'</div>'
+            + '<div class="dim-delta" style="background:'+bg+';color:'+color+'">'+mark+'</div>'
+            + '<div class="dim-bar"><div class="dim-bar-f" style="width:'+(sch.score||0)+'%;background:'+color+'"></div></div>'
+            + '<div class="dim-cov">'+line+'</div>'
+            + (d.observationId
+                ? '<a class="dim-more" href="/schema?obs='+encodeURIComponent(d.observationId)
+                  + (d.previousObservation ? '&amp;before='+encodeURIComponent(d.previousObservation.observationId) : '')
+                  + '">' + (d.previousObservation ? 'Before &amp; after &rarr;' : 'See all 100 &rarr;') + '</a>'
+                : '<a class="dim-more" href="/schema">See all 100 &rarr;</a>')
+            + '</div>';
+        })()}
+      </div>
+      ${!d.categories?'':`<div class="cat-block">
+        <div class="cat-title">Where the work sits</div>
+        <div class="cat-grid">
+          ${[['ON-PAGE','On-page','What you write on each page'],
+             ['ON-SITE','On-site','Site-wide technical setup'],
+             ['OFF-PAGE','Off-page','External reputation and citations'],
+             ['OFF-SITE','Off-site','Independent third-party verification']]
+            .filter(([k])=>d.categories[k])
+            .map(([k,label,desc])=>{
+              const c=d.categories[k];
+              const col=c.score==null?'var(--fg)':c.score>=70?'var(--green)':c.score>=50?'var(--gold)':'var(--red)';
+              return `<div class="cat-card">
+                <div class="cat-name">${label}</div>
+                <div class="cat-desc">${desc}</div>
+                <div class="cat-val" style="color:${col}">${c.score==null?'—':c.score}</div>
+                <div class="cat-bar"><div class="cat-bar-f" style="width:${c.score||0}%;background:${col}"></div></div>
+                <div class="cat-meta">${c.tested}/${c.total} tested · ${c.pass} pass · ${c.partial} partial · ${c.fail} fail</div>
+              </div>`;
+            }).join('')}
+        </div>
+      </div>`}
+    </div>
+  </div>`);
+
+  requestAnimationFrame(()=>{
+    document.getElementById('rf').style.strokeDashoffset=circ-(d.global/100)*circ;
+    animN('rn',0,d.global,1600);
+  });
+
+  // ── RESULTS: accordion-first, Apple Watch Premium layout ──
+
+  zone.insertAdjacentHTML('beforeend', legendBand(d));
+
+  // 1 — AI SIGNALS BAND (always visible summary)
+  const ais=d.scores.AI_SIGNALS;
+  const crawlerMap={'ClaudeBot':'ai1','GPTBot':'ai2','Gemini':'ai3','Perplexity':'ai4','CCBot':'ai5'};
+  const crawlers=Object.entries(crawlerMap).map(([name,id])=>{
+    const sc=(AUD.signals.AI_SIGNALS||[]).find(s=>s.id===id);
+    const ok=sc&&sc.score>=75;
+    return`<span class="ct ${ok?'ct-ok':'ct-no'}">${ok?'✓':'✗'} ${name}</span>`;
+  }).join('');
+  zone.insertAdjacentHTML('beforeend',`
+  <div class="ai-band fu2">
+    <div>
+      <div class="aib-lbl">AI Signals Layer · 19 Signals</div>
+      <div class="aib-val">${ais}<span> / 100</span></div>
+      <div class="aib-bar"><div class="aib-bar-f" style="width:${ais}%"></div></div>
+    </div>
+    <div>
+      <div style="font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;margin-bottom:9px;text-align:right">Crawler Permissions</div>
+      <div class="crawler-tags">${crawlers}</div>
+    </div>
+  </div>`);
+
+  // 2 — ACCORDION SECTIONS
+  const SECTIONS = [
+    {
+      id:'synth-acc',
+      icon:'⟁',
+      tag:'AI Synthesis',
+      label:'Executive Verdict',
+      color:'var(--blue)',
+      colorBg:'var(--blue-bg)',
+      defaultOpen:true,
+      content: () => `<div class="acc-synth-body">${synth ? renderSynth(synth) : '<em style="opacity:.6">Generating…</em>'}</div>`
+    },
+    {
+      id:'action-acc',
+      icon:'◈',
+      tag:'Action Plan',
+      label:'Path to Dominance',
+      color:'var(--text)',
+      colorBg:'var(--bg3)',
+      defaultOpen:true,
+      content: () => {
+        const plan=ap||defPlan(d);
+        return`<div class="acc-ap-grid">
+          <div class="acc-ap-card acc-ap-c">
+            <div class="acc-ap-p">🔴 Critical — Fix Now</div>
+            <div class="acc-ap-title">${plan.critical.title}</div>
+            <ul class="ac-items">${plan.critical.items.map(i=>`<li class="ac-item">${i}</li>`).join('')}</ul>
+            <div class="ac-ft">Impact: <strong>${plan.critical.impact}</strong></div>
+            <div class="ac-delta">▲ ${plan.critical.delta}</div>
+          </div>
+          <div class="acc-ap-card acc-ap-i">
+            <div class="acc-ap-p">🟡 Important — This Month</div>
+            <div class="acc-ap-title">${plan.important.title}</div>
+            <ul class="ac-items">${plan.important.items.map(i=>`<li class="ac-item">${i}</li>`).join('')}</ul>
+            <div class="ac-ft">Impact: <strong>${plan.important.impact}</strong></div>
+            <div class="ac-delta">▲ ${plan.important.delta}</div>
+          </div>
+          <div class="acc-ap-card acc-ap-o">
+            <div class="acc-ap-p">🔵 Optimize — Q2 Roadmap</div>
+            <div class="acc-ap-title">${plan.optimize.title}</div>
+            <ul class="ac-items">${plan.optimize.items.map(i=>`<li class="ac-item">${i}</li>`).join('')}</ul>
+            <div class="ac-ft">Impact: <strong>${plan.optimize.impact}</strong></div>
+            <div class="ac-delta">▲ ${plan.optimize.delta}</div>
+          </div>
+        </div>`;
+      }
+    },
+    {
+      id:'ai-signals-acc',
+      icon:'⬡',
+      tag:'AI Signals',
+      label:`Crawler & Trust Layer · ${d.scores.AI_SIGNALS}/100`,
+      color:'var(--red)',
+      colorBg:'var(--red-bg)',
+      defaultOpen:false,
+      dim:'AI_SIGNALS'
+    },
+    {
+      id:'a2a-acc',
+      icon:'\u2b21',
+      tag:'A2A',
+      label:`Agent-to-Agent Signals \u00b7 ${d.scores.A2A==null?'\u2014':d.scores.A2A}/100`,
+      color:'var(--purple)',
+      colorBg:'var(--purple-bg)',
+      defaultOpen:false,
+      dim:'A2A'
+    },
+    {
+      id:'aeo-acc',
+      icon:'◎',
+      tag:'AEO',
+      label:`Answer Engine Optimization · ${d.scores.AEO}/100`,
+      color:'var(--blue)',
+      colorBg:'var(--blue-bg)',
+      defaultOpen:false,
+      dim:'AEO'
+    },
+    {
+      id:'geo-acc',
+      icon:'◇',
+      tag:'GEO',
+      label:`Generative Engine Optimization · ${d.scores.GEO}/100`,
+      color:'var(--gold)',
+      colorBg:'var(--gold-bg)',
+      defaultOpen:false,
+      dim:'GEO'
+    },
+    {
+      id:'aio-acc',
+      icon:'○',
+      tag:'AIO',
+      label:`AI Optimization · ${d.scores.AIO}/100`,
+      color:'var(--green)',
+      colorBg:'var(--green-bg)',
+      defaultOpen:false,
+      dim:'AIO'
+    },
+    {
+      id:'seo-acc',
+      icon:'□',
+      tag:'SEO',
+      label:`Search Engine Optimization · ${d.scores.SEO}/100`,
+      color:'var(--purple)',
+      colorBg:'var(--purple-bg)',
+      defaultOpen:false,
+      dim:'SEO'
+    }
+  ];
+
+  for(const sec of SECTIONS){
+    if(sec.dim && !(d.signals[sec.dim]||[]).length) continue;  // fara semnale, fara sectiune
+    const isOpen = sec.defaultOpen;
+    let innerContent = '';
+    if(sec.content){
+      innerContent = sec.content();
+    } else if(sec.dim){
+      const sigs = AUD.signals[sec.dim]||[];
+      const pass=sigs.filter(s=>s.status==='pass').length;
+      const warn=sigs.filter(s=>s.status==='warn').length;
+      const fail=sigs.filter(s=>s.status==='fail').length;
+      innerContent = `
+        <div class="acc-sig-stats">
+          <span class="acc-stat acc-stat-p">✓ ${pass} Pass</span>
+          <span class="acc-stat acc-stat-w">⚠ ${warn} Warn</span>
+          <span class="acc-stat acc-stat-f">✗ ${fail} Fail</span>
+        </div>
+        <div class="acc-ctrls">
+          <button class="cb on" onclick="accFilt(event,'all','${sec.id}','${sec.dim}')">All</button>
+          <button class="cb" onclick="accFilt(event,'fail','${sec.id}','${sec.dim}')">Critical</button>
+          <button class="cb" onclick="accFilt(event,'warn','${sec.id}','${sec.dim}')">Warning</button>
+          <button class="cb" onclick="accFilt(event,'pass','${sec.id}','${sec.dim}')">Pass</button>
+        </div>
+        <div class="sg sg-normal" id="acc-grid-${sec.dim}">${cards(sigs)}</div>`;
+    }
+
+    zone.insertAdjacentHTML('beforeend',`
+    <div class="acc-wrap fu3" id="${sec.id}">
+      <button class="acc-header ${isOpen?'open':''}" onclick="toggleAcc('${sec.id}')">
+        <div class="acc-header-left">
+          <span class="acc-icon" style="background:${sec.colorBg};color:${sec.color}">${sec.icon}</span>
+          <div class="acc-header-text">
+            <span class="acc-tag" style="color:${sec.color}">${sec.tag}</span>
+            <span class="acc-label">${sec.label}</span>
+          </div>
+        </div>
+        <span class="acc-chevron" id="chev-${sec.id}">${isOpen?'▲':'▼'}</span>
+      </button>
+      <div class="acc-body" id="body-${sec.id}" style="display:${isOpen?'block':'none'}">
+        <div class="acc-inner">${innerContent}</div>
+      </div>
+    </div>`);
+  }
+
+  // 3 — AI-READY CTA
+  zone.insertAdjacentHTML('beforeend',`
+  <div class="aiready-cta fu4">
+    <div>
+      <div class="aiready-cta-tag">Next Step</div>
+      <div class="aiready-cta-title">Run your Action Plan</div>
+      <div class="aiready-cta-sub">Deploy the fix — signal by signal, with AI-READY.</div>
+    </div>
+    <a href="#pricing" onclick="handleActionPlan(event)" class="aiready-btn">
+      Action Plan →
+      <span class="aiready-badge">AI-READY</span>
+    </a>
+  </div>`);
+
+  // 4 — SHARE BAR
+  zone.insertAdjacentHTML('beforeend',`
+  <div class="share-bar fu5">
+    <div class="share-label">Share this report</div>
+    <div class="share-btns">
+      <button class="share-btn" onclick="printReport()"><span class="share-ico">🖨</span><span>Print Report</span></button>
+      <button class="share-btn" onclick="openShareModal('email')"><span class="share-ico">✉</span><span>Send by Email</span></button>
+      <button class="share-btn share-btn-wa" onclick="openShareModal('whatsapp')"><span class="share-ico">💬</span><span>Send via WhatsApp</span></button>
+    </div>
+  </div>`);
+
+  // 5 — CONTACT
+  zone.insertAdjacentHTML('beforeend',`
+  <div class="contact-section fu5">
+    <div class="contact-title">Contact & Links</div>
+
+    <div class="contact-grid">
+      <a href="https://5thelement.ai" target="_blank" class="contact-card">
+        <span class="contact-ico">🌐</span>
+        <div><div class="contact-name">5thElement.ai</div><div class="contact-desc">AI-FIRST Architecture · Sacred Stack</div></div>
+        <span class="contact-arrow">→</span>
+      </a>
+      <a href="https://aiventure.ro" target="_blank" class="contact-card">
+        <span class="contact-ico">🇷🇴</span>
+        <div><div class="contact-name">AiVenture.ro</div><div class="contact-desc">AI Consultancy · Romanian Market</div></div>
+        <span class="contact-arrow">→</span>
+      </a>
+      <a href="https://1clic-ia.eu" target="_blank" class="contact-card">
+        <span class="contact-ico">⚡</span>
+        <div><div class="contact-name">1Clic-IA.eu</div><div class="contact-desc">AI Visibility · Marché Européen</div></div>
+        <span class="contact-arrow">→</span>
+      </a>
+      <a href="mailto:contact@5thelement.ai" class="contact-card">
+        <span class="contact-ico">✉</span>
+        <div><div class="contact-name">contact@5thelement.ai</div><div class="contact-desc">Direct contact · Founder</div></div>
+        <span class="contact-arrow">→</span>
+      </a>
+      <a href="https://api.whatsapp.com/send/?phone=40737123540" target="_blank" class="contact-card contact-card-wa">
+        <span class="contact-ico">💬</span>
+        <div><div class="contact-name">WhatsApp +40 737 123 540</div><div class="contact-desc">Quick audit consultation</div></div>
+        <span class="contact-arrow">→</span>
+      </a>
+      <a href="https://www.linkedin.com/in/dan-ionesco-a856082a0" target="_blank" class="contact-card">
+        <span class="contact-ico">👤</span>
+        <div><div class="contact-name">Dan Ionesco</div><div class="contact-desc">Founder · LinkedIn Profile</div></div>
+        <span class="contact-arrow">→</span>
+      </a>
+      <a href="https://www.linkedin.com/company/107338970" target="_blank" class="contact-card">
+        <span class="contact-ico">💼</span>
+        <div><div class="contact-name">LinkedIn Company</div><div class="contact-desc">AiVenture S.R.L. · Company page</div></div>
+        <span class="contact-arrow">→</span>
+      </a>
+      <a href="https://www.linkedin.com/showcase/5thelement-ai/" target="_blank" class="contact-card">
+        <span class="contact-ico">⭐</span>
+        <div><div class="contact-name">LinkedIn Showcase</div><div class="contact-desc">5thElement.ai · Product page</div></div>
+        <span class="contact-arrow">→</span>
+      </a>
+      <a href="https://www.crunchbase.com/organization/aiventure-s-r-l" target="_blank" class="contact-card">
+        <span class="contact-ico">📊</span>
+        <div><div class="contact-name">Crunchbase</div><div class="contact-desc">AiVenture S.R.L. · Investor profile</div></div>
+        <span class="contact-arrow">→</span>
+      </a>
+      <a href="https://www.wikidata.org/wiki/Q43229" target="_blank" class="contact-card">
+        <span class="contact-ico">🔗</span>
+        <div><div class="contact-name">Wikidata Entity</div><div class="contact-desc">Knowledge graph anchor · Q43229</div></div>
+        <span class="contact-arrow">→</span>
+      </a>
+      <a href="https://www.facebook.com/people/Aiventure/61573220584246/" target="_blank" class="contact-card">
+        <span class="contact-ico">📘</span>
+        <div><div class="contact-name">Facebook</div><div class="contact-desc">AiVenture · Social presence</div></div>
+        <span class="contact-arrow">→</span>
+      </a>
+      <a href="https://x.com/aipath512" target="_blank" class="contact-card">
+        <span class="contact-ico">𝕏</span>
+        <div><div class="contact-name">X · @aipath512</div><div class="contact-desc">AI insights · Updates</div></div>
+        <span class="contact-arrow">→</span>
+      </a>
+      <a href="https://www.youtube.com/@AIVenture-q8u" target="_blank" class="contact-card">
+        <span class="contact-ico">▶</span>
+        <div><div class="contact-name">YouTube</div><div class="contact-desc">AIVenture · Video content</div></div>
+        <span class="contact-arrow">→</span>
+      </a>
+      <a href="https://medium.com/@aipath512" target="_blank" class="contact-card">
+        <span class="contact-ico">✍</span>
+        <div><div class="contact-name">Medium · @aipath512</div><div class="contact-desc">Long-form AI articles</div></div>
+        <span class="contact-arrow">→</span>
+      </a>
+    </div>
+
+    <!-- LEGAL ENTITY BLOCK -->
+    <div class="legal-block">
+      <div class="legal-header">
+        <span class="legal-ico">🏢</span>
+        <div>
+          <div class="legal-name">AIVENTURE S.R.L.</div>
+          <div class="legal-sub">Entitate juridică înregistrată · România</div>
+        </div>
+        <span class="legal-badge">✓ Verified</span>
+      </div>
+      <div class="legal-grid">
+        <div class="legal-item">
+          <div class="legal-lbl">📍 Sediu social</div>
+          <div class="legal-val">București, Sectorul 1 · Drumul Pădurea Pustnicu, Nr. 141C Corp A, Et. 2</div>
+        </div>
+        <div class="legal-item">
+          <div class="legal-lbl">🧾 CUI</div>
+          <div class="legal-val">51415878</div>
+        </div>
+        <div class="legal-item">
+          <div class="legal-lbl">🧾 Nr. Reg. Comerțului</div>
+          <div class="legal-val">J2025016406000</div>
+        </div>
+        <div class="legal-item">
+          <div class="legal-lbl">🌐 EUID</div>
+          <div class="legal-val">ROONRC.J2025016406000</div>
+        </div>
+        <div class="legal-item">
+          <div class="legal-lbl">⚙️ CAEN</div>
+          <div class="legal-val">6210 — Software la comandă (client-oriented)</div>
+        </div>
+        <div class="legal-item">
+          <div class="legal-lbl">📅 Înregistrată</div>
+          <div class="legal-val">07.03.2025 · Certificat 10.03.2025</div>
+        </div>
+        <div class="legal-item">
+          <div class="legal-lbl">🔐 Serie / Nr.</div>
+          <div class="legal-val">B · 5203685</div>
+        </div>
+        <div class="legal-item">
+          <div class="legal-lbl">✅ AI Trust Status</div>
+          <div class="legal-val" style="color:var(--green);font-weight:600">CUI + EUID + J complet · Entity graph ready</div>
+        </div>
+      </div>
+    </div>
+  </div>`);
+
+  // 6 — SHARE BAR (before glossary)
+  zone.insertAdjacentHTML('beforeend',`
+  <div class="share-bar fu5">
+    <div class="share-label">Share this report</div>
+    <div class="share-btns">
+      <button class="share-btn" onclick="printReport()">
+        <span class="share-ico">🖨</span>
+        <span>Print Report</span>
+      </button>
+      <button class="share-btn" onclick="openShareModal('email')">
+        <span class="share-ico">✉</span>
+        <span>Send by Email</span>
+      </button>
+      <button class="share-btn share-btn-wa" onclick="openShareModal('whatsapp')">
+        <span class="share-ico">💬</span>
+        <span>Send via WhatsApp</span>
+      </button>
+    </div>
+  </div>`);
+
+  // 7 — GLOSSARY — open by default, last section
+  zone.insertAdjacentHTML('beforeend',`
+  <div class="glossary-section fu5">
+    <button class="acc-header open" onclick="toggleAcc('glossary-acc')" style="border-radius:var(--r) var(--r) 0 0">
+      <div class="acc-header-left">
+        <span class="acc-icon" style="background:var(--bg3);color:var(--text)">📖</span>
+        <div class="acc-header-text">
+          <span class="acc-tag" style="color:var(--text)">Glossary</span>
+          <span class="acc-label">All 167 signal terms explained</span>
+        </div>
+      </div>
+      <span class="acc-chevron" id="chev-glossary-acc">▲</span>
+    </button>
+    <div class="acc-body" id="body-glossary-acc" style="display:block">
+      <div class="acc-inner">
+        <div class="glossary-grid">${buildGlossary()}</div>
+      </div>
+    </div>
+  </div>`);
+
+  // Single New Audit — very last
+  zone.insertAdjacentHTML('beforeend',`<button class="rst" onclick="resetAudit()">← New Audit</button></div>
+
   <span id="run"></span>
   <p class="eyebrow">167 atomic signals · Human-Web, Human-AI and A2A Signals</p>
   <h1 class="hero-h">Human Web, AI Web and Machine Web <br><em>Visibility</em></h1>
@@ -1772,6 +2263,8 @@ async function unlockChecklist(){
 </nav>
 
 <footer class="quick" aria-labelledby="ql-h">
+<a href="/faq" class="faq-hub-link">FAQ Hub — 70 questions</a>
+
   <h2 id="ql-h" class="vh">Quick links</h2>
   <div class="ql-grid">
 
@@ -2668,471 +3161,7 @@ function render(d,synth,ap){
              inainte si dupa — in loc de unul singur. */
           var prev = d.previousObservation ? '&amp;before=' + encodeURIComponent(d.previousObservation.observationId) : '';
           var detail = d.observationId
-            ? '<a class="dim-more" href="/signal-detail?obs='+encodeURIComponent(d.observationId)+'&amp;dim='+key+prev+'">'
-              + (prev ? 'Before &amp; after &rarr;' : 'See detail &rarr;') + '</a>'
-            : '';
-          return '<div class="dim d-'+cls+'">'
-            + '<div class="dim-lbl">'+key.replace('_',' ')+'</div>'
-            + '<div class="dim-name">'+label+'</div>'
-            + '<div class="dim-val">'+sc+'</div>'
-            + '<div class="dim-delta" style="background:'+(strong?'var(--green-bg)':'var(--red-bg)')+';color:'+(strong?'var(--green)':'var(--red)')+'">'
-            +   (strong?'&#9650; Strong':'&#9660; Weak')+'</div>'
-            + '<div class="dim-bar"><div class="dim-bar-f" style="width:'+sc+'%"></div></div>'
-            + (dim?'<div class="dim-cov">'+dim.tested+'/'+dim.total+' tested'+cov+'</div>':'')
-            + (function(){
-                /* Delta fata de observatia anterioara. Singurul numar care
-                   dovedeste ca o injectie a facut ceva. */
-                if(!d.previousObservation || !d.previousScores) return '';
-                var pb = d.previousScores[key];
-                if(pb == null || sc == null || pb === sc) return '';
-                var dd = sc - pb;
-                return '<div class="dim-cov" style="color:'+(dd>0?'var(--green)':'var(--red)')+';font-weight:600">'
-                  + (dd>0?'&#9650; +':'&#9660; ')+dd+' since last run</div>';
-              })()
-            + detail
-            + '</div>';
-        }).join('')}
-        ${(function(){
-          /* Al saptelea card. Nu e o dimensiune si nu intra in scorul global:
-             semnalele de schema sunt deja in cele 167, distribuite pe AEO, GEO
-             si AIO. Ce arata aici e altceva — daca graful structurat al
-             site-ului e coerent semantic, nu doar valid ca JSON. E singurul
-             strat pe care un motor de cautare si un sistem AI il citesc la fel,
-             de unde si numele. */
-          var sch = d.schema;
-          if(!sch) return '';
-          /* Cardul arata acoperirea celor 100 de elemente, nu validitatea
-             structurala a grafului. Sunt intrebari diferite: una e "ai
-             declarat ce conteaza", cealalta e "e corect ce ai declarat".
-             Cumparatorul o pune pe prima. */
-          var ck = sch.checklist;
-          var st    = ck ? ck.status : sch.status;
-          var color = st==='error'?'var(--red)':st==='warning'?'var(--gold)':st==='valid'?'var(--green)':'var(--light)';
-          var bg    = st==='error'?'var(--red-bg)':st==='warning'?'var(--gold-bg)':st==='valid'?'var(--green-bg)':'var(--bg3)';
-          var mark  = st==='error'?('&#10007; '+(ck?ck.red:0)+' missing')
-                    : st==='warning'?'&#9679; Incomplete'
-                    : st==='valid'?'&#10003; Complete':'&#9679; None found';
-          var val   = (ck && ck.score != null) ? ck.score
-                    : (sch.score==null ? '&mdash;' : sch.score);
-          var line  = ck
-            ? ck.green+' present &middot; '+ck.yellow+' incomplete &middot; '+ck.red+' missing &middot; '+ck.grey+' n/a'
-            : (sch.objects
-                ? sch.objects+' objects &middot; '+sch.valid+' valid, '+sch.warning+' warning'
-                : 'no structured data found on the page');
-          return '<div class="dim d-schema">'
-            + '<div class="dim-lbl" style="color:'+color+'">MIXED SIGNALS</div>'
-            + '<div class="dim-name">Schema.org &mdash; 100 elements both webs read</div>'
-            + '<div class="dim-val" style="color:'+color+'">'+val+'</div>'
-            + '<div class="dim-delta" style="background:'+bg+';color:'+color+'">'+mark+'</div>'
-            + '<div class="dim-bar"><div class="dim-bar-f" style="width:'+(sch.score||0)+'%;background:'+color+'"></div></div>'
-            + '<div class="dim-cov">'+line+'</div>'
-            + (d.observationId
-                ? '<a class="dim-more" href="/schema?obs='+encodeURIComponent(d.observationId)
-                  + (d.previousObservation ? '&amp;before='+encodeURIComponent(d.previousObservation.observationId) : '')
-                  + '">' + (d.previousObservation ? 'Before &amp; after &rarr;' : 'See all 100 &rarr;') + '</a>'
-                : '<a class="dim-more" href="/schema">See all 100 &rarr;</a>')
-            + '</div>';
-        })()}
-      </div>
-      ${!d.categories?'':`<div class="cat-block">
-        <div class="cat-title">Where the work sits</div>
-        <div class="cat-grid">
-          ${[['ON-PAGE','On-page','What you write on each page'],
-             ['ON-SITE','On-site','Site-wide technical setup'],
-             ['OFF-PAGE','Off-page','External reputation and citations'],
-             ['OFF-SITE','Off-site','Independent third-party verification']]
-            .filter(([k])=>d.categories[k])
-            .map(([k,label,desc])=>{
-              const c=d.categories[k];
-              const col=c.score==null?'var(--fg)':c.score>=70?'var(--green)':c.score>=50?'var(--gold)':'var(--red)';
-              return `<div class="cat-card">
-                <div class="cat-name">${label}</div>
-                <div class="cat-desc">${desc}</div>
-                <div class="cat-val" style="color:${col}">${c.score==null?'—':c.score}</div>
-                <div class="cat-bar"><div class="cat-bar-f" style="width:${c.score||0}%;background:${col}"></div></div>
-                <div class="cat-meta">${c.tested}/${c.total} tested · ${c.pass} pass · ${c.partial} partial · ${c.fail} fail</div>
-              </div>`;
-            }).join('')}
-        </div>
-      </div>`}
-    </div>
-  </div>`);
-
-  requestAnimationFrame(()=>{
-    document.getElementById('rf').style.strokeDashoffset=circ-(d.global/100)*circ;
-    animN('rn',0,d.global,1600);
-  });
-
-  // ── RESULTS: accordion-first, Apple Watch Premium layout ──
-
-  zone.insertAdjacentHTML('beforeend', legendBand(d));
-
-  // 1 — AI SIGNALS BAND (always visible summary)
-  const ais=d.scores.AI_SIGNALS;
-  const crawlerMap={'ClaudeBot':'ai1','GPTBot':'ai2','Gemini':'ai3','Perplexity':'ai4','CCBot':'ai5'};
-  const crawlers=Object.entries(crawlerMap).map(([name,id])=>{
-    const sc=(AUD.signals.AI_SIGNALS||[]).find(s=>s.id===id);
-    const ok=sc&&sc.score>=75;
-    return`<span class="ct ${ok?'ct-ok':'ct-no'}">${ok?'✓':'✗'} ${name}</span>`;
-  }).join('');
-  zone.insertAdjacentHTML('beforeend',`
-  <div class="ai-band fu2">
-    <div>
-      <div class="aib-lbl">AI Signals Layer · 19 Signals</div>
-      <div class="aib-val">${ais}<span> / 100</span></div>
-      <div class="aib-bar"><div class="aib-bar-f" style="width:${ais}%"></div></div>
-    </div>
-    <div>
-      <div style="font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;margin-bottom:9px;text-align:right">Crawler Permissions</div>
-      <div class="crawler-tags">${crawlers}</div>
-    </div>
-  </div>`);
-
-  // 2 — ACCORDION SECTIONS
-  const SECTIONS = [
-    {
-      id:'synth-acc',
-      icon:'⟁',
-      tag:'AI Synthesis',
-      label:'Executive Verdict',
-      color:'var(--blue)',
-      colorBg:'var(--blue-bg)',
-      defaultOpen:true,
-      content: () => `<div class="acc-synth-body">${synth ? renderSynth(synth) : '<em style="opacity:.6">Generating…</em>'}</div>`
-    },
-    {
-      id:'action-acc',
-      icon:'◈',
-      tag:'Action Plan',
-      label:'Path to Dominance',
-      color:'var(--text)',
-      colorBg:'var(--bg3)',
-      defaultOpen:true,
-      content: () => {
-        const plan=ap||defPlan(d);
-        return`<div class="acc-ap-grid">
-          <div class="acc-ap-card acc-ap-c">
-            <div class="acc-ap-p">🔴 Critical — Fix Now</div>
-            <div class="acc-ap-title">${plan.critical.title}</div>
-            <ul class="ac-items">${plan.critical.items.map(i=>`<li class="ac-item">${i}</li>`).join('')}</ul>
-            <div class="ac-ft">Impact: <strong>${plan.critical.impact}</strong></div>
-            <div class="ac-delta">▲ ${plan.critical.delta}</div>
-          </div>
-          <div class="acc-ap-card acc-ap-i">
-            <div class="acc-ap-p">🟡 Important — This Month</div>
-            <div class="acc-ap-title">${plan.important.title}</div>
-            <ul class="ac-items">${plan.important.items.map(i=>`<li class="ac-item">${i}</li>`).join('')}</ul>
-            <div class="ac-ft">Impact: <strong>${plan.important.impact}</strong></div>
-            <div class="ac-delta">▲ ${plan.important.delta}</div>
-          </div>
-          <div class="acc-ap-card acc-ap-o">
-            <div class="acc-ap-p">🔵 Optimize — Q2 Roadmap</div>
-            <div class="acc-ap-title">${plan.optimize.title}</div>
-            <ul class="ac-items">${plan.optimize.items.map(i=>`<li class="ac-item">${i}</li>`).join('')}</ul>
-            <div class="ac-ft">Impact: <strong>${plan.optimize.impact}</strong></div>
-            <div class="ac-delta">▲ ${plan.optimize.delta}</div>
-          </div>
-        </div>`;
-      }
-    },
-    {
-      id:'ai-signals-acc',
-      icon:'⬡',
-      tag:'AI Signals',
-      label:`Crawler & Trust Layer · ${d.scores.AI_SIGNALS}/100`,
-      color:'var(--red)',
-      colorBg:'var(--red-bg)',
-      defaultOpen:false,
-      dim:'AI_SIGNALS'
-    },
-    {
-      id:'a2a-acc',
-      icon:'\u2b21',
-      tag:'A2A',
-      label:`Agent-to-Agent Signals \u00b7 ${d.scores.A2A==null?'\u2014':d.scores.A2A}/100`,
-      color:'var(--purple)',
-      colorBg:'var(--purple-bg)',
-      defaultOpen:false,
-      dim:'A2A'
-    },
-    {
-      id:'aeo-acc',
-      icon:'◎',
-      tag:'AEO',
-      label:`Answer Engine Optimization · ${d.scores.AEO}/100`,
-      color:'var(--blue)',
-      colorBg:'var(--blue-bg)',
-      defaultOpen:false,
-      dim:'AEO'
-    },
-    {
-      id:'geo-acc',
-      icon:'◇',
-      tag:'GEO',
-      label:`Generative Engine Optimization · ${d.scores.GEO}/100`,
-      color:'var(--gold)',
-      colorBg:'var(--gold-bg)',
-      defaultOpen:false,
-      dim:'GEO'
-    },
-    {
-      id:'aio-acc',
-      icon:'○',
-      tag:'AIO',
-      label:`AI Optimization · ${d.scores.AIO}/100`,
-      color:'var(--green)',
-      colorBg:'var(--green-bg)',
-      defaultOpen:false,
-      dim:'AIO'
-    },
-    {
-      id:'seo-acc',
-      icon:'□',
-      tag:'SEO',
-      label:`Search Engine Optimization · ${d.scores.SEO}/100`,
-      color:'var(--purple)',
-      colorBg:'var(--purple-bg)',
-      defaultOpen:false,
-      dim:'SEO'
-    }
-  ];
-
-  for(const sec of SECTIONS){
-    if(sec.dim && !(d.signals[sec.dim]||[]).length) continue;  // fara semnale, fara sectiune
-    const isOpen = sec.defaultOpen;
-    let innerContent = '';
-    if(sec.content){
-      innerContent = sec.content();
-    } else if(sec.dim){
-      const sigs = AUD.signals[sec.dim]||[];
-      const pass=sigs.filter(s=>s.status==='pass').length;
-      const warn=sigs.filter(s=>s.status==='warn').length;
-      const fail=sigs.filter(s=>s.status==='fail').length;
-      innerContent = `
-        <div class="acc-sig-stats">
-          <span class="acc-stat acc-stat-p">✓ ${pass} Pass</span>
-          <span class="acc-stat acc-stat-w">⚠ ${warn} Warn</span>
-          <span class="acc-stat acc-stat-f">✗ ${fail} Fail</span>
-        </div>
-        <div class="acc-ctrls">
-          <button class="cb on" onclick="accFilt(event,'all','${sec.id}','${sec.dim}')">All</button>
-          <button class="cb" onclick="accFilt(event,'fail','${sec.id}','${sec.dim}')">Critical</button>
-          <button class="cb" onclick="accFilt(event,'warn','${sec.id}','${sec.dim}')">Warning</button>
-          <button class="cb" onclick="accFilt(event,'pass','${sec.id}','${sec.dim}')">Pass</button>
-        </div>
-        <div class="sg sg-normal" id="acc-grid-${sec.dim}">${cards(sigs)}</div>`;
-    }
-
-    zone.insertAdjacentHTML('beforeend',`
-    <div class="acc-wrap fu3" id="${sec.id}">
-      <button class="acc-header ${isOpen?'open':''}" onclick="toggleAcc('${sec.id}')">
-        <div class="acc-header-left">
-          <span class="acc-icon" style="background:${sec.colorBg};color:${sec.color}">${sec.icon}</span>
-          <div class="acc-header-text">
-            <span class="acc-tag" style="color:${sec.color}">${sec.tag}</span>
-            <span class="acc-label">${sec.label}</span>
-          </div>
-        </div>
-        <span class="acc-chevron" id="chev-${sec.id}">${isOpen?'▲':'▼'}</span>
-      </button>
-      <div class="acc-body" id="body-${sec.id}" style="display:${isOpen?'block':'none'}">
-        <div class="acc-inner">${innerContent}</div>
-      </div>
-    </div>`);
-  }
-
-  // 3 — AI-READY CTA
-  zone.insertAdjacentHTML('beforeend',`
-  <div class="aiready-cta fu4">
-    <div>
-      <div class="aiready-cta-tag">Next Step</div>
-      <div class="aiready-cta-title">Run your Action Plan</div>
-      <div class="aiready-cta-sub">Deploy the fix — signal by signal, with AI-READY.</div>
-    </div>
-    <a href="#pricing" onclick="handleActionPlan(event)" class="aiready-btn">
-      Action Plan →
-      <span class="aiready-badge">AI-READY</span>
-    </a>
-  </div>`);
-
-  // 4 — SHARE BAR
-  zone.insertAdjacentHTML('beforeend',`
-  <div class="share-bar fu5">
-    <div class="share-label">Share this report</div>
-    <div class="share-btns">
-      <button class="share-btn" onclick="printReport()"><span class="share-ico">🖨</span><span>Print Report</span></button>
-      <button class="share-btn" onclick="openShareModal('email')"><span class="share-ico">✉</span><span>Send by Email</span></button>
-      <button class="share-btn share-btn-wa" onclick="openShareModal('whatsapp')"><span class="share-ico">💬</span><span>Send via WhatsApp</span></button>
-    </div>
-  </div>`);
-
-  // 5 — CONTACT
-  zone.insertAdjacentHTML('beforeend',`
-  <div class="contact-section fu5">
-    <div class="contact-title">Contact & Links</div>
-
-    <div class="contact-grid">
-      <a href="https://5thelement.ai" target="_blank" class="contact-card">
-        <span class="contact-ico">🌐</span>
-        <div><div class="contact-name">5thElement.ai</div><div class="contact-desc">AI-FIRST Architecture · Sacred Stack</div></div>
-        <span class="contact-arrow">→</span>
-      </a>
-      <a href="https://aiventure.ro" target="_blank" class="contact-card">
-        <span class="contact-ico">🇷🇴</span>
-        <div><div class="contact-name">AiVenture.ro</div><div class="contact-desc">AI Consultancy · Romanian Market</div></div>
-        <span class="contact-arrow">→</span>
-      </a>
-      <a href="https://1clic-ia.eu" target="_blank" class="contact-card">
-        <span class="contact-ico">⚡</span>
-        <div><div class="contact-name">1Clic-IA.eu</div><div class="contact-desc">AI Visibility · Marché Européen</div></div>
-        <span class="contact-arrow">→</span>
-      </a>
-      <a href="mailto:contact@5thelement.ai" class="contact-card">
-        <span class="contact-ico">✉</span>
-        <div><div class="contact-name">contact@5thelement.ai</div><div class="contact-desc">Direct contact · Founder</div></div>
-        <span class="contact-arrow">→</span>
-      </a>
-      <a href="https://api.whatsapp.com/send/?phone=40737123540" target="_blank" class="contact-card contact-card-wa">
-        <span class="contact-ico">💬</span>
-        <div><div class="contact-name">WhatsApp +40 737 123 540</div><div class="contact-desc">Quick audit consultation</div></div>
-        <span class="contact-arrow">→</span>
-      </a>
-      <a href="https://www.linkedin.com/in/dan-ionesco-a856082a0" target="_blank" class="contact-card">
-        <span class="contact-ico">👤</span>
-        <div><div class="contact-name">Dan Ionesco</div><div class="contact-desc">Founder · LinkedIn Profile</div></div>
-        <span class="contact-arrow">→</span>
-      </a>
-      <a href="https://www.linkedin.com/company/107338970" target="_blank" class="contact-card">
-        <span class="contact-ico">💼</span>
-        <div><div class="contact-name">LinkedIn Company</div><div class="contact-desc">AiVenture S.R.L. · Company page</div></div>
-        <span class="contact-arrow">→</span>
-      </a>
-      <a href="https://www.linkedin.com/showcase/5thelement-ai/" target="_blank" class="contact-card">
-        <span class="contact-ico">⭐</span>
-        <div><div class="contact-name">LinkedIn Showcase</div><div class="contact-desc">5thElement.ai · Product page</div></div>
-        <span class="contact-arrow">→</span>
-      </a>
-      <a href="https://www.crunchbase.com/organization/aiventure-s-r-l" target="_blank" class="contact-card">
-        <span class="contact-ico">📊</span>
-        <div><div class="contact-name">Crunchbase</div><div class="contact-desc">AiVenture S.R.L. · Investor profile</div></div>
-        <span class="contact-arrow">→</span>
-      </a>
-      <a href="https://www.wikidata.org/wiki/Q43229" target="_blank" class="contact-card">
-        <span class="contact-ico">🔗</span>
-        <div><div class="contact-name">Wikidata Entity</div><div class="contact-desc">Knowledge graph anchor · Q43229</div></div>
-        <span class="contact-arrow">→</span>
-      </a>
-      <a href="https://www.facebook.com/people/Aiventure/61573220584246/" target="_blank" class="contact-card">
-        <span class="contact-ico">📘</span>
-        <div><div class="contact-name">Facebook</div><div class="contact-desc">AiVenture · Social presence</div></div>
-        <span class="contact-arrow">→</span>
-      </a>
-      <a href="https://x.com/aipath512" target="_blank" class="contact-card">
-        <span class="contact-ico">𝕏</span>
-        <div><div class="contact-name">X · @aipath512</div><div class="contact-desc">AI insights · Updates</div></div>
-        <span class="contact-arrow">→</span>
-      </a>
-      <a href="https://www.youtube.com/@AIVenture-q8u" target="_blank" class="contact-card">
-        <span class="contact-ico">▶</span>
-        <div><div class="contact-name">YouTube</div><div class="contact-desc">AIVenture · Video content</div></div>
-        <span class="contact-arrow">→</span>
-      </a>
-      <a href="https://medium.com/@aipath512" target="_blank" class="contact-card">
-        <span class="contact-ico">✍</span>
-        <div><div class="contact-name">Medium · @aipath512</div><div class="contact-desc">Long-form AI articles</div></div>
-        <span class="contact-arrow">→</span>
-      </a>
-    </div>
-
-    <!-- LEGAL ENTITY BLOCK -->
-    <div class="legal-block">
-      <div class="legal-header">
-        <span class="legal-ico">🏢</span>
-        <div>
-          <div class="legal-name">AIVENTURE S.R.L.</div>
-          <div class="legal-sub">Entitate juridică înregistrată · România</div>
-        </div>
-        <span class="legal-badge">✓ Verified</span>
-      </div>
-      <div class="legal-grid">
-        <div class="legal-item">
-          <div class="legal-lbl">📍 Sediu social</div>
-          <div class="legal-val">București, Sectorul 1 · Drumul Pădurea Pustnicu, Nr. 141C Corp A, Et. 2</div>
-        </div>
-        <div class="legal-item">
-          <div class="legal-lbl">🧾 CUI</div>
-          <div class="legal-val">51415878</div>
-        </div>
-        <div class="legal-item">
-          <div class="legal-lbl">🧾 Nr. Reg. Comerțului</div>
-          <div class="legal-val">J2025016406000</div>
-        </div>
-        <div class="legal-item">
-          <div class="legal-lbl">🌐 EUID</div>
-          <div class="legal-val">ROONRC.J2025016406000</div>
-        </div>
-        <div class="legal-item">
-          <div class="legal-lbl">⚙️ CAEN</div>
-          <div class="legal-val">6210 — Software la comandă (client-oriented)</div>
-        </div>
-        <div class="legal-item">
-          <div class="legal-lbl">📅 Înregistrată</div>
-          <div class="legal-val">07.03.2025 · Certificat 10.03.2025</div>
-        </div>
-        <div class="legal-item">
-          <div class="legal-lbl">🔐 Serie / Nr.</div>
-          <div class="legal-val">B · 5203685</div>
-        </div>
-        <div class="legal-item">
-          <div class="legal-lbl">✅ AI Trust Status</div>
-          <div class="legal-val" style="color:var(--green);font-weight:600">CUI + EUID + J complet · Entity graph ready</div>
-        </div>
-      </div>
-    </div>
-  </div>`);
-
-  // 6 — SHARE BAR (before glossary)
-  zone.insertAdjacentHTML('beforeend',`
-  <div class="share-bar fu5">
-    <div class="share-label">Share this report</div>
-    <div class="share-btns">
-      <button class="share-btn" onclick="printReport()">
-        <span class="share-ico">🖨</span>
-        <span>Print Report</span>
-      </button>
-      <button class="share-btn" onclick="openShareModal('email')">
-        <span class="share-ico">✉</span>
-        <span>Send by Email</span>
-      </button>
-      <button class="share-btn share-btn-wa" onclick="openShareModal('whatsapp')">
-        <span class="share-ico">💬</span>
-        <span>Send via WhatsApp</span>
-      </button>
-    </div>
-  </div>`);
-
-  // 7 — GLOSSARY — open by default, last section
-  zone.insertAdjacentHTML('beforeend',`
-  <div class="glossary-section fu5">
-    <button class="acc-header open" onclick="toggleAcc('glossary-acc')" style="border-radius:var(--r) var(--r) 0 0">
-      <div class="acc-header-left">
-        <span class="acc-icon" style="background:var(--bg3);color:var(--text)">📖</span>
-        <div class="acc-header-text">
-          <span class="acc-tag" style="color:var(--text)">Glossary</span>
-          <span class="acc-label">All 167 signal terms explained</span>
-        </div>
-      </div>
-      <span class="acc-chevron" id="chev-glossary-acc">▲</span>
-    </button>
-    <div class="acc-body" id="body-glossary-acc" style="display:block">
-      <div class="acc-inner">
-        <div class="glossary-grid">${buildGlossary()}</div>
-      </div>
-    </div>
-  </div>`);
-
-  // Single New Audit — very last
-  zone.insertAdjacentHTML('beforeend',`<button class="rst" onclick="resetAudit()">← New Audit</button>`);
+            ? '`);
 }
 
 /* ── SHARE MODAL ── */
