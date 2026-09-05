@@ -328,6 +328,21 @@ html.dark .cta-action-btn:hover{box-shadow:0 4px 16px rgba(94,180,255,.2);}
 .pill{font-size:11px;font-weight:500;letter-spacing:.05em;padding:5px 13px;border-radius:100px;background:var(--bg2);border:1px solid var(--border);color:var(--text);transition:background .35s,border .35s;}
 .pill b{color:var(--text);font-weight:600;}
 
+
+.memory-badge{
+  display:inline-flex;align-items:center;
+  padding:5px 10px;border-radius:999px;
+  border:1px solid var(--border);
+  background:var(--bg2);
+  color:var(--text);
+  font-size:10px;font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;
+  white-space:nowrap;
+}
+@media(max-width:760px){
+  .memory-badge{font-size:9px;padding:4px 8px;letter-spacing:.04em;}
+}
+
 /* LOADING */
 #loading-zone{display:none;padding:18px 0 26px;margin-top:10px;}
 .ld-head{text-align:center;margin-bottom:18px;}
@@ -1075,6 +1090,7 @@ grid-template-columns:repeat(4,1fr);gap:18px 26px;}
 <header>
   <div class="brand">
     <div class="brand-mark">3<em>webs</em></div>
+      <span class="memory-badge" title="Rolling 4-year Verifiable Digital History™">4 Years Memory System</span>
     <p>3webs Visibility Engine</p>
     <button id="toggle" onclick="toggleTheme()"><span id="ti">☾</span><span id="tl">Dark</span></button>
   </div>
