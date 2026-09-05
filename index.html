@@ -337,25 +337,31 @@ html.dark .cta-action-btn:hover{box-shadow:0 4px 16px rgba(94,180,255,.2);}
 
 
 /* METRO AUDIT PROGRESS */
-.audit-progress{max-width:900px;margin:28px auto 0;padding:0 16px;}
-.metro-meta{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:14px;font-size:12px;line-height:1.4;}
-.metro-stage{font-weight:700;}
-.metro-time{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-variant-numeric:tabular-nums;white-space:nowrap;font-weight:700;}
-.metro-wrap{overflow-x:auto;padding:8px 2px 2px;scrollbar-width:thin;}
-.metro-line{display:grid;grid-template-columns:repeat(9,minmax(84px,1fr));min-width:780px;align-items:start;position:relative;}
-.metro-line::before{content:"";position:absolute;top:17px;left:5.5%;right:5.5%;height:4px;background:var(--bg3);border-radius:999px;border:1px solid var(--border);z-index:0;}
-.metro-line::after{content:"";position:absolute;top:17px;left:5.5%;height:4px;width:var(--metro-progress,0%);max-width:89%;background:var(--blue);border-radius:999px;z-index:1;transition:width .45s ease;}
+.audit-progress{max-width:940px;margin:26px auto 0;padding:0 14px;}
+.metro-meta{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:13px;}
+.metro-copy{min-width:0;}
+.metro-stage{display:block;font-size:13px;font-weight:800;line-height:1.3;}
+.metro-note{display:block;margin-top:3px;font-size:10.5px;line-height:1.4;opacity:.68;font-variant-numeric:tabular-nums;}
+.metro-percent{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:28px;line-height:1;font-weight:900;font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--blue)!important;}
+.metro-wrap{overflow-x:auto;padding:6px 4px 5px;scrollbar-width:thin;}
+.metro-line{display:grid;grid-template-columns:repeat(9,minmax(86px,1fr));min-width:790px;align-items:start;position:relative;padding-top:1px;}
+.metro-line::before{content:"";position:absolute;top:17px;left:5.4%;right:5.4%;height:8px;background:var(--bg3);border:1px solid var(--border-md);border-radius:999px;z-index:0;}
+.metro-progress-rail{position:absolute;top:17px;left:5.4%;height:8px;width:var(--metro-progress,2%);max-width:89.2%;border-radius:999px;background:var(--blue);z-index:1;transition:width .65s linear;overflow:hidden;}
+.metro-progress-rail::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(115deg,transparent 0 12px,rgba(255,255,255,.38) 12px 21px);animation:metroFlow .8s linear infinite;}
+@keyframes metroFlow{from{transform:translateX(-22px)}to{transform:translateX(22px)}}
 .metro-stop{position:relative;z-index:2;text-align:center;min-width:0;}
-.metro-dot{width:20px;height:20px;margin:7px auto 8px;border-radius:50%;border:3px solid var(--xlight);background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;transition:all .25s ease;}
-.metro-label{font-size:10px;font-weight:650;letter-spacing:.02em;line-height:1.25;white-space:normal;}
-.metro-stop.done .metro-dot{border-color:var(--blue);background:var(--blue);color:#fff !important;}
-.metro-stop.active .metro-dot{border-color:var(--blue);background:var(--bg);box-shadow:0 0 0 5px var(--blue-bg);}
-.metro-stop.active .metro-label{font-weight:800;}
+.metro-dot{width:22px;height:22px;margin:6px auto 8px;border-radius:50%;border:3px solid var(--xlight);background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;transition:border-color .2s,background .2s,box-shadow .2s,transform .2s;}
+.metro-label{font-size:10px;font-weight:700;letter-spacing:.015em;line-height:1.2;white-space:normal;}
+.metro-stop.done .metro-dot{border-color:var(--blue);background:var(--blue);color:#fff!important;}
 .metro-stop.done .metro-dot::before{content:"✓";}
-.metro-stop.active .metro-dot::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--blue);}
+.metro-stop.active .metro-dot{border-color:var(--blue);background:var(--bg);box-shadow:0 0 0 5px var(--blue-bg);transform:scale(1.12);}
+.metro-stop.active .metro-dot::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--blue);animation:metroPulse .8s ease-in-out infinite alternate;}
+.metro-stop.active .metro-label{font-weight:900;}
 .metro-stop.pending .metro-dot::before{content:"";}
-.metro-note{margin-top:12px;font-size:10.5px;line-height:1.45;opacity:.68;font-variant-numeric:tabular-nums;text-align:center;}
-@media(max-width:680px){.metro-meta{align-items:flex-start;flex-direction:column;gap:4px}.metro-time{font-size:11px}.audit-progress{padding:0 4px}}
+@keyframes metroPulse{from{opacity:.35;transform:scale(.65)}to{opacity:1;transform:scale(1.15)}}
+.metro-time{margin-top:12px;text-align:center;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;font-weight:750;font-variant-numeric:tabular-nums;}
+@media(prefers-reduced-motion:reduce){.metro-progress-rail::after,.metro-stop.active .metro-dot::before{animation:none}.metro-progress-rail{transition:none}}
+@media(max-width:680px){.metro-meta{align-items:flex-start}.metro-percent{font-size:24px}.audit-progress{padding:0 2px}}
 .mod-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:28px;}
 .mod{background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:20px 18px 16px;box-shadow:var(--sh1);position:relative;overflow:hidden;transition:border-color .3s,box-shadow .3s;}
 .mod.active{border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,81,168,.07),var(--sh1);}
@@ -1781,11 +1787,15 @@ async function unlockChecklist(){
     <div class="ld-url" id="ld-url"></div>
     <div class="audit-progress" id="audit-progress" role="status" aria-live="polite">
       <div class="metro-meta">
-        <span class="metro-stage" id="audit-progress-stage">Starting observation…</span>
-        <strong class="metro-time" id="audit-progress-time">~30 sec remaining</strong>
+        <div class="metro-copy">
+          <span class="metro-stage" id="audit-progress-stage">Starting observation…</span>
+          <span class="metro-note" id="audit-progress-note">Estimated progress · 0 sec elapsed</span>
+        </div>
+        <strong class="metro-percent" id="audit-progress-percent">2%</strong>
       </div>
       <div class="metro-wrap">
-        <div class="metro-line" id="metro-line" style="--metro-progress:0%">
+        <div class="metro-line" id="metro-line" style="--metro-progress:2%">
+          <div class="metro-progress-rail" id="metro-progress-rail" aria-hidden="true"></div>
           <div class="metro-stop active" data-stop="0"><div class="metro-dot"></div><div class="metro-label">START</div></div>
           <div class="metro-stop pending" data-stop="1"><div class="metro-dot"></div><div class="metro-label">CONNECT</div></div>
           <div class="metro-stop pending" data-stop="2"><div class="metro-dot"></div><div class="metro-label">EVIDENCE</div></div>
@@ -1797,7 +1807,7 @@ async function unlockChecklist(){
           <div class="metro-stop pending" data-stop="8"><div class="metro-dot"></div><div class="metro-label">COMPLETE</div></div>
         </div>
       </div>
-      <div class="metro-note" id="audit-progress-note">Estimated route · 0 sec elapsed</div>
+      <div class="metro-time" id="audit-progress-time">~30 sec remaining</div>
     </div>
   </div>
   <div class="mod-grid fu1">
@@ -2062,54 +2072,67 @@ let auditProgressStarted=0;
 const AUDIT_ESTIMATE_SEC=30;
 
 const METRO_STOPS = [
-  {at:0,  label:'Starting observation'},
-  {at:2,  label:'Connecting to the site'},
-  {at:6,  label:'Collecting public evidence'},
-  {at:11, label:'Checking internal links'},
-  {at:16, label:'Checking sitemap'},
-  {at:21, label:'Measuring performance signals'},
-  {at:26, label:'Evaluating 167 signals'},
-  {at:29, label:'Building deterministic report'},
-  {at:30, label:'Finalizing deterministic report'}
+  {pct:0,  label:'Starting observation'},
+  {pct:8,  label:'Connecting to the site'},
+  {pct:22, label:'Collecting public evidence'},
+  {pct:38, label:'Checking internal links'},
+  {pct:52, label:'Checking sitemap'},
+  {pct:66, label:'Measuring performance signals'},
+  {pct:79, label:'Evaluating 167 signals'},
+  {pct:90, label:'Building deterministic report'},
+  {pct:100,label:'Observation complete'}
 ];
 
-function metroStopIndex(elapsed){
-  let idx=0;
-  for(let i=0;i<METRO_STOPS.length;i++){
-    if(elapsed>=METRO_STOPS[i].at) idx=i;
-    else break;
-  }
-  return idx;
+function estimatedAuditPercent(elapsed){
+  if(elapsed<=0) return 2;
+  if(elapsed>=AUDIT_ESTIMATE_SEC) return 95;
+  // Continuous movement: quick visible start, then gradual approach to 95%.
+  return Math.max(2,Math.min(95,Math.round(2 + 93*(elapsed/AUDIT_ESTIMATE_SEC))));
 }
 
-function paintMetro(idx, completed=false){
+function metroIndexForPercent(pct){
+  let idx=0;
+  for(let i=0;i<METRO_STOPS.length;i++){
+    if(pct>=METRO_STOPS[i].pct) idx=i;
+    else break;
+  }
+  return Math.min(idx,7); // COMPLETE is reserved for the real response.
+}
+
+function paintMetro(pct, completed=false){
   const line=document.getElementById('metro-line');
   const stops=[...document.querySelectorAll('#metro-line .metro-stop')];
   if(!line || !stops.length) return;
+  const idx=completed ? 8 : metroIndexForPercent(pct);
   stops.forEach((el,i)=>{
     el.classList.remove('done','active','pending');
     if(completed || i<idx) el.classList.add('done');
     else if(i===idx) el.classList.add('active');
     else el.classList.add('pending');
   });
-  const pct=completed ? 89 : Math.max(0,Math.min(89,(idx/(stops.length-1))*89));
-  line.style.setProperty('--metro-progress',pct+'%');
+  const routePct=completed ? 89.2 : Math.max(2,Math.min(84.8,(pct/100)*89.2));
+  line.style.setProperty('--metro-progress',routePct+'%');
 }
 
 function updateAuditProgress(){
   if(!auditProgressStarted) return;
-  const elapsed=Math.max(0,Math.floor((performance.now()-auditProgressStarted)/1000));
-  const remaining=Math.max(0,AUDIT_ESTIMATE_SEC-elapsed);
-  const idx=metroStopIndex(elapsed);
+  const elapsed=Math.max(0,(performance.now()-auditProgressStarted)/1000);
+  const elapsedInt=Math.floor(elapsed);
+  const remaining=Math.max(0,AUDIT_ESTIMATE_SEC-elapsedInt);
+  const pct=estimatedAuditPercent(elapsed);
+  const idx=metroIndexForPercent(pct);
   const stage=document.getElementById('audit-progress-stage');
   const time=document.getElementById('audit-progress-time');
   const note=document.getElementById('audit-progress-note');
+  const percent=document.getElementById('audit-progress-percent');
+
   if(stage) stage.textContent=METRO_STOPS[idx].label;
-  if(time) time.textContent=remaining>0 ? '~'+remaining+' sec remaining' : 'Finalizing…';
+  if(percent) percent.textContent=pct+'%';
+  if(time) time.textContent=remaining>0 ? '~'+remaining+' sec remaining' : 'Finalizing… · '+elapsedInt+' sec elapsed';
   if(note) note.textContent=remaining>0
-    ? 'Estimated route · '+elapsed+' sec elapsed'
-    : 'Estimated route exceeded · '+elapsed+' sec elapsed';
-  paintMetro(idx,false);
+    ? 'Estimated progress · '+elapsedInt+' sec elapsed'
+    : 'The audit is still running — waiting for the real report';
+  paintMetro(pct,false);
 }
 
 function startAuditProgress(){
@@ -2118,12 +2141,14 @@ function startAuditProgress(){
   const stage=document.getElementById('audit-progress-stage');
   const time=document.getElementById('audit-progress-time');
   const note=document.getElementById('audit-progress-note');
+  const percent=document.getElementById('audit-progress-percent');
   if(stage) stage.textContent='Starting observation';
   if(time) time.textContent='~'+AUDIT_ESTIMATE_SEC+' sec remaining';
-  if(note) note.textContent='Estimated route · 0 sec elapsed';
-  paintMetro(0,false);
+  if(note) note.textContent='Estimated progress · 0 sec elapsed';
+  if(percent) percent.textContent='2%';
+  paintMetro(2,false);
   updateAuditProgress();
-  auditProgressTimer=setInterval(updateAuditProgress,1000);
+  auditProgressTimer=setInterval(updateAuditProgress,500);
 }
 
 function completeAuditProgress(){
@@ -2132,17 +2157,23 @@ function completeAuditProgress(){
   const stage=document.getElementById('audit-progress-stage');
   const time=document.getElementById('audit-progress-time');
   const note=document.getElementById('audit-progress-note');
+  const percent=document.getElementById('audit-progress-percent');
   if(stage) stage.textContent='Observation complete';
-  if(time) time.textContent='0 sec';
-  if(note) note.textContent='Terminal reached · completed in '+elapsed+' sec';
-  paintMetro(8,true);
+  if(time) time.textContent='Terminal reached · '+elapsed+' sec';
+  if(note) note.textContent='Real audit response received';
+  if(percent) percent.textContent='100%';
+  paintMetro(100,true);
   auditProgressStarted=0;
 }
 
 function stopAuditProgress(reset=true){
   if(auditProgressTimer){clearInterval(auditProgressTimer);auditProgressTimer=null;}
   auditProgressStarted=0;
-  if(reset) paintMetro(0,false);
+  if(reset){
+    const percent=document.getElementById('audit-progress-percent');
+    if(percent) percent.textContent='2%';
+    paintMetro(2,false);
+  }
 }
 
 
