@@ -1,11 +1,11 @@
 {
-  "generated": "2026-09-05T07:52:06.618Z",
+  "generated": "2026-09-05T22:59:31.861Z",
   "method": "Structural validation against the schema.org vocabulary, performed by this repository. schema.org publishes no API for validator.schema.org, so these are our own checks applying the same rules: does the property exist on the type, does a reference resolve, does the target have the type the property expects. The vocabulary below is a subset covering the types this site uses; a type outside it is reported as unverified rather than valid or invalid.",
   "validator": "https://validator.schema.org/#url=https%3A%2F%2F3webobs.com%2F",
   "totals": {
-    "distinctObjects": 69,
-    "totalOccurrences": 549,
-    "valid": 69,
+    "distinctObjects": 81,
+    "totalOccurrences": 573,
+    "valid": 81,
     "warning": 0,
     "error": 0,
     "unverified": 0
@@ -68,43 +68,43 @@
       "unverified": 0
     },
     "/detail-a2a": {
-      "objects": 0,
-      "valid": 0,
+      "objects": 4,
+      "valid": 4,
       "warning": 0,
       "error": 0,
       "unverified": 0
     },
     "/detail-aeo": {
-      "objects": 0,
-      "valid": 0,
+      "objects": 4,
+      "valid": 4,
       "warning": 0,
       "error": 0,
       "unverified": 0
     },
     "/detail-ai-signals": {
-      "objects": 0,
-      "valid": 0,
+      "objects": 4,
+      "valid": 4,
       "warning": 0,
       "error": 0,
       "unverified": 0
     },
     "/detail-aio": {
-      "objects": 0,
-      "valid": 0,
+      "objects": 4,
+      "valid": 4,
       "warning": 0,
       "error": 0,
       "unverified": 0
     },
     "/detail-geo": {
-      "objects": 0,
-      "valid": 0,
+      "objects": 4,
+      "valid": 4,
       "warning": 0,
       "error": 0,
       "unverified": 0
     },
     "/detail-seo": {
-      "objects": 0,
-      "valid": 0,
+      "objects": 4,
+      "valid": 4,
       "warning": 0,
       "error": 0,
       "unverified": 0
@@ -343,6 +343,72 @@
       "issues": [],
       "pages": [
         "/data-dictionary"
+      ],
+      "occurrences": 1
+    },
+    {
+      "type": "BreadcrumbList",
+      "id": "https://3webobs.com/detail-a2a#breadcrumb",
+      "propertyCount": 1,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/detail-a2a"
+      ],
+      "occurrences": 1
+    },
+    {
+      "type": "BreadcrumbList",
+      "id": "https://3webobs.com/detail-aeo#breadcrumb",
+      "propertyCount": 1,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/detail-aeo"
+      ],
+      "occurrences": 1
+    },
+    {
+      "type": "BreadcrumbList",
+      "id": "https://3webobs.com/detail-ai-signals#breadcrumb",
+      "propertyCount": 1,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/detail-ai-signals"
+      ],
+      "occurrences": 1
+    },
+    {
+      "type": "BreadcrumbList",
+      "id": "https://3webobs.com/detail-aio#breadcrumb",
+      "propertyCount": 1,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/detail-aio"
+      ],
+      "occurrences": 1
+    },
+    {
+      "type": "BreadcrumbList",
+      "id": "https://3webobs.com/detail-geo#breadcrumb",
+      "propertyCount": 1,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/detail-geo"
+      ],
+      "occurrences": 1
+    },
+    {
+      "type": "BreadcrumbList",
+      "id": "https://3webobs.com/detail-seo#breadcrumb",
+      "propertyCount": 1,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/detail-seo"
       ],
       "occurrences": 1
     },
@@ -940,6 +1006,12 @@
         "/contact",
         "/cookies",
         "/data-dictionary",
+        "/detail-a2a",
+        "/detail-aeo",
+        "/detail-ai-signals",
+        "/detail-aio",
+        "/detail-geo",
+        "/detail-seo",
         "/for-ai-teams",
         "/for-compliance-consultants",
         "/for-seo-agencies",
@@ -953,7 +1025,7 @@
         "/self-audit",
         "/terms"
       ],
-      "occurrences": 20
+      "occurrences": 26
     },
     {
       "type": "Person",
@@ -1292,6 +1364,72 @@
     },
     {
       "type": "WebPage",
+      "id": "https://3webobs.com/detail-a2a#webpage",
+      "propertyCount": 7,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/detail-a2a"
+      ],
+      "occurrences": 1
+    },
+    {
+      "type": "WebPage",
+      "id": "https://3webobs.com/detail-aeo#webpage",
+      "propertyCount": 7,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/detail-aeo"
+      ],
+      "occurrences": 1
+    },
+    {
+      "type": "WebPage",
+      "id": "https://3webobs.com/detail-ai-signals#webpage",
+      "propertyCount": 7,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/detail-ai-signals"
+      ],
+      "occurrences": 1
+    },
+    {
+      "type": "WebPage",
+      "id": "https://3webobs.com/detail-aio#webpage",
+      "propertyCount": 7,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/detail-aio"
+      ],
+      "occurrences": 1
+    },
+    {
+      "type": "WebPage",
+      "id": "https://3webobs.com/detail-geo#webpage",
+      "propertyCount": 7,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/detail-geo"
+      ],
+      "occurrences": 1
+    },
+    {
+      "type": "WebPage",
+      "id": "https://3webobs.com/detail-seo#webpage",
+      "propertyCount": 7,
+      "status": "valid",
+      "issues": [],
+      "pages": [
+        "/detail-seo"
+      ],
+      "occurrences": 1
+    },
+    {
+      "type": "WebPage",
       "id": "https://3webobs.com/for-ai-teams#webpage",
       "propertyCount": 13,
       "status": "valid",
@@ -1426,6 +1564,12 @@
         "/contact",
         "/cookies",
         "/data-dictionary",
+        "/detail-a2a",
+        "/detail-aeo",
+        "/detail-ai-signals",
+        "/detail-aio",
+        "/detail-geo",
+        "/detail-seo",
         "/for-ai-teams",
         "/for-compliance-consultants",
         "/for-seo-agencies",
@@ -1439,7 +1583,7 @@
         "/self-audit",
         "/terms"
       ],
-      "occurrences": 20
+      "occurrences": 26
     }
   ]
 }

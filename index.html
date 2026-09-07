@@ -328,69 +328,12 @@ html.dark .cta-action-btn:hover{box-shadow:0 4px 16px rgba(94,180,255,.2);}
 .pill{font-size:11px;font-weight:500;letter-spacing:.05em;padding:5px 13px;border-radius:100px;background:var(--bg2);border:1px solid var(--border);color:var(--text);transition:background .35s,border .35s;}
 .pill b{color:var(--text);font-weight:600;}
 
-
-.memory-badge{
-  display:inline-flex;align-items:center;
-  padding:5px 10px;border-radius:999px;
-  border:1px solid var(--border);
-  background:var(--bg2);
-  color:var(--text);
-  font-size:10px;font-weight:700;
-  letter-spacing:.06em;text-transform:uppercase;
-  white-space:nowrap;
-}
-@media(max-width:760px){
-  .memory-badge{font-size:9px;padding:4px 8px;letter-spacing:.04em;}
-}
-
-
-.hero-new-audit-row{
-  display:flex;justify-content:flex-end;align-items:center;
-  max-width:940px;margin:0 auto 12px;padding:0 14px;
-}
-.hero-new-audit{
-  display:inline-flex;align-items:center;justify-content:center;
-  min-height:40px;padding:8px 16px;border-radius:999px;
-  font-size:12px;font-weight:700;text-decoration:none;
-}
-@media(max-width:680px){
-  .hero-new-audit-row{justify-content:center;margin-bottom:10px;}
-}
-
 /* LOADING */
-#loading-zone{display:none;padding:18px 0 26px;margin-top:10px;}
-.ld-head{text-align:center;margin-bottom:18px;}
+#loading-zone{display:none;padding:80px 0;}
+.ld-head{text-align:center;margin-bottom:48px;}
 .ld-tag{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--blue);margin-bottom:14px;}
 .ld-title{font-family:'Playfair Display',serif;font-weight:700;font-size:30px;letter-spacing:-.02em;margin-bottom:8px;}
 .ld-url{font-size:13px;color:var(--text);font-family:'Inter',monospace;}
-
-
-/* METRO AUDIT PROGRESS */
-.audit-progress{max-width:940px;margin:26px auto 0;padding:0 14px;}
-.metro-meta{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:13px;}
-.metro-copy{min-width:0;}
-.metro-stage{display:block;font-size:13px;font-weight:800;line-height:1.3;}
-.metro-note{display:block;margin-top:3px;font-size:10.5px;line-height:1.4;opacity:.68;font-variant-numeric:tabular-nums;}
-.metro-percent{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:46px;line-height:1;font-weight:900;font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--blue)!important;min-width:110px;text-align:right;}
-.metro-wrap{overflow-x:auto;padding:6px 4px 5px;scrollbar-width:thin;}
-.metro-line{display:grid;grid-template-columns:repeat(9,minmax(86px,1fr));min-width:790px;align-items:start;position:relative;padding-top:1px;}
-.metro-line::before{content:"";position:absolute;top:17px;left:5.4%;right:5.4%;height:8px;background:var(--bg3);border:1px solid var(--border-md);border-radius:999px;z-index:0;}
-.metro-progress-rail{position:absolute;top:17px;left:5.4%;height:8px;width:var(--metro-progress,2%);max-width:89.2%;border-radius:999px;background:var(--blue);z-index:1;transition:width .65s linear;overflow:hidden;}
-.metro-progress-rail::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(115deg,transparent 0 12px,rgba(255,255,255,.58) 12px 21px);animation:metroFlow .45s linear infinite;}
-@keyframes metroFlow{from{transform:translateX(-22px)}to{transform:translateX(22px)}}
-.metro-stop{position:relative;z-index:2;text-align:center;min-width:0;}
-.metro-dot{width:22px;height:22px;margin:6px auto 8px;border-radius:50%;border:3px solid var(--xlight);background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;transition:border-color .2s,background .2s,box-shadow .2s,transform .2s;}
-.metro-label{font-size:10px;font-weight:700;letter-spacing:.015em;line-height:1.2;white-space:normal;}
-.metro-stop.done .metro-dot{border-color:var(--blue);background:var(--blue);color:#fff!important;}
-.metro-stop.done .metro-dot::before{content:"✓";}
-.metro-stop.active .metro-dot{border-color:var(--blue);background:var(--bg);box-shadow:0 0 0 5px var(--blue-bg);transform:scale(1.12);}
-.metro-stop.active .metro-dot::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--blue);animation:metroPulse .8s ease-in-out infinite alternate;}
-.metro-stop.active .metro-label{font-weight:900;}
-.metro-stop.pending .metro-dot::before{content:"";}
-@keyframes metroPulse{from{opacity:.35;transform:scale(.65)}to{opacity:1;transform:scale(1.15)}}
-.metro-time{margin-top:12px;text-align:center;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;font-weight:750;font-variant-numeric:tabular-nums;}
-@media(prefers-reduced-motion:reduce){.metro-progress-rail::after,.metro-stop.active .metro-dot::before{animation:none}.metro-progress-rail{transition:none}}
-@media(max-width:680px){.metro-meta{align-items:flex-start}.metro-percent{font-size:24px}.audit-progress{padding:0 2px}}
 .mod-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:28px;}
 .mod{background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:20px 18px 16px;box-shadow:var(--sh1);position:relative;overflow:hidden;transition:border-color .3s,box-shadow .3s;}
 .mod.active{border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,81,168,.07),var(--sh1);}
@@ -1087,17 +1030,6 @@ grid-template-columns:repeat(4,1fr);gap:18px 26px;}
 .hub-list span{font-size:11.5px;line-height:1.5;opacity:.55;}
 @media(max-width:860px){.hub-list{grid-template-columns:repeat(2,1fr);}}
 @media(max-width:460px){.hub-list{grid-template-columns:1fr;}}
-
-.schema-mixed-card{
-  text-decoration:none;
-  cursor:pointer;
-}
-.schema-mixed-card .dim-sub{
-  margin-top:4px;
-  font-size:11px;
-  opacity:.72;
-}
-
 </style>
 
 
@@ -1115,12 +1047,11 @@ grid-template-columns:repeat(4,1fr);gap:18px 26px;}
 <header>
   <div class="brand">
     <div class="brand-mark">3<em>webs</em></div>
-      <span class="memory-badge" title="Rolling 3-year Verifiable Digital History™">3 Years Memory System</span>
     <p>3webs Visibility Engine</p>
     <button id="toggle" onclick="toggleTheme()"><span id="ti">☾</span><span id="tl">Dark</span></button>
   </div>
   <div style="display:flex;align-items:center;gap:14px;">
-    <div class="hd-meta">V 3.3 · <span class="hd-sess" data-session-badge title="Operating session">0001C</span> · AI-FIRST<br><span style="opacity:.5;font-size:9px">Human-Web · Human-AI · A2A</span><br><span class="hd-clock" id="gmt-clock">—</span></div>
+    <div class="hd-meta">V 3.6 · <span class="hd-sess" data-session-badge title="Operating session">0001C</span> · AI-FIRST<br><span style="opacity:.5;font-size:9px">Human-Web · Human-AI · A2A</span><br><span class="hd-clock" id="gmt-clock">—</span></div>
     <button id="menu-btn" onclick="openMenu()" aria-label="Menu">
     <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
   </button>
@@ -1703,57 +1634,6 @@ async function unlockChecklist(){
   </div>
 
 </div>
-
-<div id="loading-zone">
-  <div class="ld-head fu">
-    <div class="ld-tag">Scanning</div>
-    <div class="ld-title">Analyzing AI Visibility</div>
-    <div class="ld-url" id="ld-url"></div>
-    <div class="audit-progress" id="audit-progress" role="status" aria-live="polite">
-      <div class="metro-meta">
-        <div class="metro-copy">
-          <span class="metro-stage" id="audit-progress-stage">Starting observation…</span>
-          <span class="metro-note" id="audit-progress-note">Estimated progress · 0 sec elapsed</span>
-        </div>
-        <strong class="metro-percent" id="audit-progress-percent">2%</strong>
-      </div>
-      <div class="metro-wrap">
-        <div class="metro-line" id="metro-line" style="--metro-progress:2%">
-          <div class="metro-progress-rail" id="metro-progress-rail" aria-hidden="true"></div>
-          <div class="metro-stop active" data-stop="0"><div class="metro-dot"></div><div class="metro-label">START</div></div>
-          <div class="metro-stop pending" data-stop="1"><div class="metro-dot"></div><div class="metro-label">CONNECT</div></div>
-          <div class="metro-stop pending" data-stop="2"><div class="metro-dot"></div><div class="metro-label">EVIDENCE</div></div>
-          <div class="metro-stop pending" data-stop="3"><div class="metro-dot"></div><div class="metro-label">LINKS</div></div>
-          <div class="metro-stop pending" data-stop="4"><div class="metro-dot"></div><div class="metro-label">SITEMAP</div></div>
-          <div class="metro-stop pending" data-stop="5"><div class="metro-dot"></div><div class="metro-label">PERF</div></div>
-          <div class="metro-stop pending" data-stop="6"><div class="metro-dot"></div><div class="metro-label">167 SIGNALS</div></div>
-          <div class="metro-stop pending" data-stop="7"><div class="metro-dot"></div><div class="metro-label">REPORT</div></div>
-          <div class="metro-stop pending" data-stop="8"><div class="metro-dot"></div><div class="metro-label">COMPLETE</div></div>
-        </div>
-      </div>
-      <div class="metro-time" id="audit-progress-time">~30 sec remaining</div>
-    </div>
-  </div>
-  <div class="mod-grid fu1">
-    <div class="mod" id="m-aeo"><div class="mod-lbl">AEO</div><div class="mod-cnt" id="c-aeo">0 / 34</div><div class="mod-bar" id="b-aeo"></div></div>
-    <div class="mod" id="m-geo"><div class="mod-lbl">GEO</div><div class="mod-cnt" id="c-geo">0 / 28</div><div class="mod-bar" id="b-geo"></div></div>
-    <div class="mod" id="m-aio"><div class="mod-lbl">AIO</div><div class="mod-cnt" id="c-aio">0 / 31</div><div class="mod-bar" id="b-aio"></div></div>
-    <div class="mod" id="m-seo"><div class="mod-lbl">SEO</div><div class="mod-cnt" id="c-seo">0 / 42</div><div class="mod-bar" id="b-seo"></div></div>
-    <div class="mod" id="m-ai"><div class="mod-lbl">AI Signals</div><div class="mod-cnt" id="c-ai">0 / 19</div><div class="mod-bar" id="b-ai"></div></div>
-    <div class="mod" id="m-a2a"><div class="mod-lbl">A2A</div><div class="mod-cnt" id="c-a2a">0 / 13</div><div class="mod-bar" id="b-a2a"></div></div>
-    <div class="mod" id="m-tot"><div class="mod-lbl">Total</div><div class="mod-cnt" id="c-tot">0 / 167</div><div class="mod-bar" id="b-tot"></div></div>
-    <div class="mod" id="m-op"><div class="mod-lbl">On-Page</div><div class="mod-cnt" id="c-op">0 / 68</div><div class="mod-bar" id="b-op"></div></div>
-    <div class="mod" id="m-off"><div class="mod-lbl">Off-Page</div><div class="mod-cnt" id="c-off">0 / 31</div><div class="mod-bar" id="b-off"></div></div>
-  </div>
-  <div class="stream fu2" id="stream"></div>
-</div>
-
-
-
-
-
-</div>
-
 </main>
 
 <!-- RESULTS — la nivelul de sus al paginii, in afara lui <main>.
@@ -1797,8 +1677,6 @@ async function unlockChecklist(){
 </nav>
 
 <footer class="quick" aria-labelledby="ql-h">
-<a href="/faq" class="faq-hub-link">FAQ Hub — 70 questions</a>
-
   <h2 id="ql-h" class="vh">Quick links</h2>
   <div class="ql-grid">
 
@@ -1873,6 +1751,30 @@ async function unlockChecklist(){
     Reports are technical observations, not certifications or legal opinions.
   </p>
 </footer>
+
+<div id="loading-zone">
+  <div class="ld-head fu">
+    <div class="ld-tag">Scanning</div>
+    <div class="ld-title">Analyzing AI Visibility</div>
+    <div class="ld-url" id="ld-url"></div>
+  </div>
+  <div class="mod-grid fu1">
+    <div class="mod" id="m-aeo"><div class="mod-lbl">AEO</div><div class="mod-cnt" id="c-aeo">0 / 34</div><div class="mod-bar" id="b-aeo"></div></div>
+    <div class="mod" id="m-geo"><div class="mod-lbl">GEO</div><div class="mod-cnt" id="c-geo">0 / 28</div><div class="mod-bar" id="b-geo"></div></div>
+    <div class="mod" id="m-aio"><div class="mod-lbl">AIO</div><div class="mod-cnt" id="c-aio">0 / 31</div><div class="mod-bar" id="b-aio"></div></div>
+    <div class="mod" id="m-seo"><div class="mod-lbl">SEO</div><div class="mod-cnt" id="c-seo">0 / 42</div><div class="mod-bar" id="b-seo"></div></div>
+    <div class="mod" id="m-ai"><div class="mod-lbl">AI Signals</div><div class="mod-cnt" id="c-ai">0 / 19</div><div class="mod-bar" id="b-ai"></div></div>
+    <div class="mod" id="m-a2a"><div class="mod-lbl">A2A</div><div class="mod-cnt" id="c-a2a">0 / 13</div><div class="mod-bar" id="b-a2a"></div></div>
+    <div class="mod" id="m-tot"><div class="mod-lbl">Total</div><div class="mod-cnt" id="c-tot">0 / 167</div><div class="mod-bar" id="b-tot"></div></div>
+    <div class="mod" id="m-op"><div class="mod-lbl">On-Page</div><div class="mod-cnt" id="c-op">0 / 68</div><div class="mod-bar" id="b-op"></div></div>
+    <div class="mod" id="m-off"><div class="mod-lbl">Off-Page</div><div class="mod-cnt" id="c-off">0 / 31</div><div class="mod-bar" id="b-off"></div></div>
+  </div>
+  <div class="stream fu2" id="stream"></div>
+</div>
+
+
+</div>
+
 <script>
 /* THEME */
 function toggleTheme(){
@@ -2113,116 +2015,6 @@ function showComingToast(){
 document.getElementById('url-input').addEventListener('keypress',e=>{if(e.key==='Enter')startAudit();});
 function setP(p){document.getElementById('bar').style.width=p+'%';}
 
-let auditProgressTimer=null;
-let auditProgressStarted=0;
-const AUDIT_ESTIMATE_SEC=30;
-
-const METRO_STOPS = [
-  {pct:0,  label:'Starting observation'},
-  {pct:8,  label:'Connecting to the site'},
-  {pct:22, label:'Collecting public evidence'},
-  {pct:38, label:'Checking internal links'},
-  {pct:52, label:'Checking sitemap'},
-  {pct:66, label:'Measuring performance signals'},
-  {pct:79, label:'Evaluating 167 signals'},
-  {pct:90, label:'Building deterministic report'},
-  {pct:100,label:'Observation complete'}
-];
-
-function estimatedAuditPercent(elapsed){
-  if(elapsed<=0) return 1;
-  if(elapsed>=AUDIT_ESTIMATE_SEC) return 95;
-  // Continuous movement: quick visible start, then gradual approach to 95%.
-  return Math.max(1,Math.min(95,Math.round(1 + 94*(elapsed/AUDIT_ESTIMATE_SEC))));
-}
-
-function metroIndexForPercent(pct){
-  let idx=0;
-  for(let i=0;i<METRO_STOPS.length;i++){
-    if(pct>=METRO_STOPS[i].pct) idx=i;
-    else break;
-  }
-  return Math.min(idx,7); // COMPLETE is reserved for the real response.
-}
-
-function paintMetro(pct, completed=false){
-  const line=document.getElementById('metro-line');
-  const stops=[...document.querySelectorAll('#metro-line .metro-stop')];
-  if(!line || !stops.length) return;
-  const idx=completed ? 8 : metroIndexForPercent(pct);
-  stops.forEach((el,i)=>{
-    el.classList.remove('done','active','pending');
-    if(completed || i<idx) el.classList.add('done');
-    else if(i===idx) el.classList.add('active');
-    else el.classList.add('pending');
-  });
-  const routePct=completed ? 89.2 : Math.max(2,Math.min(84.8,(pct/100)*89.2));
-  line.style.setProperty('--metro-progress',routePct+'%');
-}
-
-function updateAuditProgress(){
-  if(!auditProgressStarted) return;
-  const elapsed=Math.max(0,(performance.now()-auditProgressStarted)/1000);
-  const elapsedInt=Math.floor(elapsed);
-  const remaining=Math.max(0,AUDIT_ESTIMATE_SEC-elapsedInt);
-  const pct=estimatedAuditPercent(elapsed);
-  const idx=metroIndexForPercent(pct);
-  const stage=document.getElementById('audit-progress-stage');
-  const time=document.getElementById('audit-progress-time');
-  const note=document.getElementById('audit-progress-note');
-  const percent=document.getElementById('audit-progress-percent');
-
-  if(stage) stage.textContent=METRO_STOPS[idx].label;
-  if(percent) percent.textContent=pct+'%';
-  if(time) time.textContent=remaining>0 ? '~'+remaining+' sec remaining' : 'Finalizing… · '+elapsedInt+' sec elapsed';
-  if(note) note.textContent=remaining>0
-    ? 'Estimated progress · '+elapsedInt+' sec elapsed'
-    : 'The audit is still running — waiting for the real report';
-  paintMetro(pct,false);
-}
-
-function startAuditProgress(){
-  stopAuditProgress(false);
-  auditProgressStarted=performance.now();
-  const stage=document.getElementById('audit-progress-stage');
-  const time=document.getElementById('audit-progress-time');
-  const note=document.getElementById('audit-progress-note');
-  const percent=document.getElementById('audit-progress-percent');
-  if(stage) stage.textContent='Starting observation';
-  if(time) time.textContent='~'+AUDIT_ESTIMATE_SEC+' sec remaining';
-  if(note) note.textContent='Estimated progress · 0 sec elapsed';
-  if(percent) percent.textContent='1%';
-  paintMetro(1,false);
-  updateAuditProgress();
-  auditProgressTimer=setInterval(updateAuditProgress,250);
-}
-
-function completeAuditProgress(){
-  if(auditProgressTimer){clearInterval(auditProgressTimer);auditProgressTimer=null;}
-  const elapsed=auditProgressStarted?Math.max(0,Math.round((performance.now()-auditProgressStarted)/1000)):0;
-  const stage=document.getElementById('audit-progress-stage');
-  const time=document.getElementById('audit-progress-time');
-  const note=document.getElementById('audit-progress-note');
-  const percent=document.getElementById('audit-progress-percent');
-  if(stage) stage.textContent='Observation complete';
-  if(time) time.textContent='Terminal reached · '+elapsed+' sec';
-  if(note) note.textContent='Real audit response received';
-  if(percent) percent.textContent='100%';
-  paintMetro(100,true);
-  auditProgressStarted=0;
-}
-
-function stopAuditProgress(reset=true){
-  if(auditProgressTimer){clearInterval(auditProgressTimer);auditProgressTimer=null;}
-  auditProgressStarted=0;
-  if(reset){
-    const percent=document.getElementById('audit-progress-percent');
-    if(percent) percent.textContent='1%';
-    paintMetro(1,false);
-  }
-}
-
-
 /* ── SIGNAL LIBRARY 167 signals ── */
 const SIG={
 AEO:[
@@ -2419,9 +2211,7 @@ async function startAudit(){
   let url='https://'+clean;
   document.getElementById('input-zone').style.display='none';
   document.getElementById('loading-zone').style.display='block';
-  document.getElementById('loading-zone').scrollIntoView({behavior:'smooth',block:'center'});
   document.getElementById('ld-url').textContent=url;
-  startAuditProgress();
   document.getElementById('results-zone').innerHTML='';
   document.getElementById('results-zone').style.display='none';
   await runAudit(url);
@@ -2525,8 +2315,6 @@ async function runAudit(url){
   log('Generating AI synthesis…','sl-info');await sleep(200);
   const [synth,ap]=await Promise.all([fetchSynth(AUD),fetchAP(AUD)]);
   log('Dashboard ready.','sl-ok');await sleep(150);
-  completeAuditProgress();
-  await sleep(350);
   document.getElementById('loading-zone').style.display='none';
   setP(100);setTimeout(()=>setP(0),700);
   render(AUD,synth,ap);
@@ -2677,20 +2465,27 @@ function render(d,synth,ap){
       <div class="sh-ts">${gmtStamp(new Date(d.ts))}</div>
       <div class="dim-grid">
         ${[
-          ['AEO','aeo','Answer Engine Optimization','/detail-aeo.html'],
-          ['GEO','geo','Generative Engine Optimization','/detail-geo.html'],
-          ['AIO','aio','AI Optimization','/detail-aio.html'],
-          ['SEO','seo','Search Engine Optimization','/detail-seo.html'],
-          ['AI_SIGNALS','ai','Machine Trust Signals','/detail-ai-signals.html'],
-          ['A2A','a2a','Agent-to-Agent Signals','/detail-a2a.html']
+          ['AEO','aeo','Answer Engine Optimization'],
+          ['GEO','geo','Generative Engine Optimization'],
+          ['AIO','aio','AI Optimization'],
+          ['SEO','seo','Search Engine Optimization'],
+          ['AI_SIGNALS','ai','Machine Trust Signals'],
+          ['A2A','a2a','Agent-to-Agent Signals']
         ].map(function(x){
-          var key=x[0], cls=x[1], label=x[2], detailHref=x[3];
+          var key=x[0], cls=x[1], label=x[2];
           var sc=d.scores[key];
           if(sc===undefined||sc===null) return '';
           var dim = d.dimensions ? d.dimensions[key] : null;
           var strong = sc>=70;
           var cov = dim ? ' &middot; '+Math.round(dim.coverage)+'% coverage' : '';
-          var detail = '<div class="hero-new-audit-row"><a class="dim-more hero-new-audit" href="'+detailHref+'">See Detail &rarr;</a></div>';
+          /* Cand exista o observatie anterioara a aceluiasi site, o trecem in
+             link. Pagina de detaliu arata atunci doua carlige per semnal —
+             inainte si dupa — in loc de unul singur. */
+          var prev = d.previousObservation ? '&amp;before=' + encodeURIComponent(d.previousObservation.observationId) : '';
+          var detail = d.observationId
+            ? '<a class="dim-more" href="/signal-detail?obs='+encodeURIComponent(d.observationId)+'&amp;dim='+key+prev+'">'
+              + (prev ? 'Before &amp; after &rarr;' : 'See detail &rarr;') + '</a>'
+            : '';
           return '<div class="dim d-'+cls+'">'
             + '<div class="dim-lbl">'+key.replace('_',' ')+'</div>'
             + '<div class="dim-name">'+label+'</div>'
@@ -2719,7 +2514,8 @@ function render(d,synth,ap){
              site-ului e coerent semantic, nu doar valid ca JSON. E singurul
              strat pe care un motor de cautare si un sistem AI il citesc la fel,
              de unde si numele. */
-          var sch = d.schema || {status:'none', score:null, objects:0, valid:0, warning:0};
+          var sch = d.schema;
+          if(!sch) return '';
           /* Cardul arata acoperirea celor 100 de elemente, nu validitatea
              structurala a grafului. Sunt intrebari diferite: una e "ai
              declarat ce conteaza", cealalta e "e corect ce ai declarat".
@@ -2740,12 +2536,16 @@ function render(d,synth,ap){
                 : 'no structured data found on the page');
           return '<div class="dim d-schema">'
             + '<div class="dim-lbl" style="color:'+color+'">MIXED SIGNALS</div>'
-            + '<div class="dim-name">Mixed Signals &mdash; Schema.org</div><div class="dim-sub">100 Schema.org signals</div>'
+            + '<div class="dim-name">Schema.org &mdash; 100 elements both webs read</div>'
             + '<div class="dim-val" style="color:'+color+'">'+val+'</div>'
             + '<div class="dim-delta" style="background:'+bg+';color:'+color+'">'+mark+'</div>'
             + '<div class="dim-bar"><div class="dim-bar-f" style="width:'+(sch.score||0)+'%;background:'+color+'"></div></div>'
             + '<div class="dim-cov">'+line+'</div>'
-            + '<a class="dim-more" href="/schema.html">See Detail &rarr;</a>'
+            + (d.observationId
+                ? '<a class="dim-more" href="/schema?obs='+encodeURIComponent(d.observationId)
+                  + (d.previousObservation ? '&amp;before='+encodeURIComponent(d.previousObservation.observationId) : '')
+                  + '">' + (d.previousObservation ? 'Before &amp; after &rarr;' : 'See all 100 &rarr;') + '</a>'
+                : '<a class="dim-more" href="/schema">See all 100 &rarr;</a>')
             + '</div>';
         })()}
       </div>
@@ -3473,7 +3273,6 @@ function setF(f,btn){filt=f;document.querySelectorAll('#vf-a,#vf-f,#vf-w,#vf-p')
 function setS(s,btn){sortBy=s;document.querySelectorAll('#vs-s,#vs-w,#vs-n').forEach(b=>b.classList.remove('on'));btn.classList.add('on');rerender();}
 
 function resetAudit(){
-  stopAuditProgress();
   document.getElementById('results-zone').style.display='none';
   document.getElementById('loading-zone').style.display='none';
   document.getElementById('input-zone').style.display='block';

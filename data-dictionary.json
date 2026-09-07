@@ -3,29 +3,101 @@
     "schema": "https://schema.org/"
   },
   "name": "3webs data dictionary",
-  "description": "Entity-relation-entity dictionary for 3webobs.com. Generated from the structured-data graph that is actually served on the site, not maintained by hand. Every relation is listed from both ends, with cardinality.",
+  "description": "Every entity published on this site, the relations between them, their cardinalities and where each is declared. Generated from the JSON-LD actually served, not maintained by hand.",
   "url": "https://3webobs.com/data-dictionary",
-  "generated": "2026-08-31",
-  "generator": "derived from the live JSON-LD @graph and the rendered internal links",
+  "generated": "2026-09-05T22:59:31.996Z",
+  "generator": "build/generate-data-dictionary.js",
+  "method": "Entities are merged by @id across pages: the same @id declared on several pages is one entity, not several. Cardinality is observed, not declared — a property carrying one target everywhere it appears is 1..1; a property carrying more than one in any single declaration is 1..N. An inverse is reported as declared only when the reverse relation exists in the graph; otherwise it is inferred from the schema.org pair.",
   "counts": {
-    "entities": 72,
-    "relations": 142,
-    "pages": 18,
-    "pageLinks": 215
+    "entities": 103,
+    "relations": 169,
+    "pages": 27,
+    "jsonLdBlocks": 26,
+    "unparsedBlocks": 0,
+    "danglingReferences": 0,
+    "isolatedEntities": 7
   },
   "cardinalityNotation": {
-    "1..1": "exactly one target",
-    "1..N": "one or more targets"
+    "1..1": "exactly one target in every declaration observed",
+    "1..N": "more than one target in at least one declaration"
+  },
+  "integrity": {
+    "dangling": [],
+    "isolated": [
+      "https://3webobs.com/#dimensions",
+      "https://3webobs.com/#faq",
+      "https://3webobs.com/#howto",
+      "https://3webobs.com/#machine-web",
+      "https://3webobs.com/#nav",
+      "https://3webobs.com/#occupation",
+      "https://3webobs.com/#three-webs"
+    ]
   },
   "entities": [
+    {
+      "id": "https://3webobs.com/#ai-act",
+      "type": "Legislation",
+      "label": "Regulation (EU) 2024/1689 — Artificial Intelligence Act",
+      "pages": [
+        "/",
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
+      "outbound": [],
+      "inbound": [
+        {
+          "property": "about",
+          "source": "https://3webobs.com/ai-act#techarticle",
+          "sourceType": "TechArticle",
+          "inverseProperty": "subjectOf",
+          "inverseDeclared": false
+        }
+      ]
+    },
     {
       "id": "https://3webobs.com/#api",
       "type": "WebAPI + APIReference",
       "label": "3webs HTTP and A2A API",
+      "pages": [
+        "/",
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
       "outbound": [
         {
           "property": "provider",
           "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
           "cardinality": "1..1",
           "inverseProperty": null,
           "inverseDeclared": false
@@ -35,16 +107,16 @@
         {
           "property": "about",
           "source": "https://3webobs.com/agents#techarticle",
-          "cardinality": "1..1",
+          "sourceType": "TechArticle + APIReference",
           "inverseProperty": "subjectOf",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "hasPart",
           "source": "https://3webobs.com/#website",
-          "cardinality": "1..N",
+          "sourceType": "WebSite",
           "inverseProperty": "isPartOf",
-          "inverseDeclared": true
+          "inverseDeclared": false
         }
       ]
     },
@@ -52,10 +124,31 @@
       "id": "https://3webobs.com/#app",
       "type": "SoftwareApplication + WebApplication",
       "label": "3webs Engine",
+      "pages": [
+        "/",
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
       "outbound": [
         {
           "property": "author",
           "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
           "cardinality": "1..1",
           "inverseProperty": null,
           "inverseDeclared": false
@@ -63,6 +156,7 @@
         {
           "property": "isBasedOn",
           "target": "https://3webobs.com/#source",
+          "targetType": "SoftwareSourceCode",
           "cardinality": "1..1",
           "inverseProperty": null,
           "inverseDeclared": false
@@ -70,13 +164,15 @@
         {
           "property": "offers",
           "target": "https://3webobs.com/#offer-free",
+          "targetType": "Offer",
           "cardinality": "1..1",
-          "inverseProperty": null,
+          "inverseProperty": "itemOffered",
           "inverseDeclared": false
         },
         {
           "property": "publisher",
           "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
           "cardinality": "1..1",
           "inverseProperty": null,
           "inverseDeclared": false
@@ -84,23 +180,16 @@
       ],
       "inbound": [
         {
-          "property": "creator",
+          "property": "isBasedOn",
           "source": "https://3webobs.com/#report",
-          "cardinality": "1..1",
+          "sourceType": "DigitalDocument",
           "inverseProperty": null,
           "inverseDeclared": false
         },
         {
-          "property": "creator",
+          "property": "isBasedOn",
           "source": "https://3webobs.com/#sample-report",
-          "cardinality": "1..1",
-          "inverseProperty": null,
-          "inverseDeclared": false
-        },
-        {
-          "property": "targetProduct",
-          "source": "https://3webobs.com/#source",
-          "cardinality": "1..1",
+          "sourceType": "DigitalDocument",
           "inverseProperty": null,
           "inverseDeclared": false
         }
@@ -110,10 +199,31 @@
       "id": "https://3webobs.com/#brand",
       "type": "Brand",
       "label": "3webs",
+      "pages": [
+        "/",
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
       "outbound": [
         {
           "property": "logo",
           "target": "https://3webobs.com/#logo",
+          "targetType": "ImageObject",
           "cardinality": "1..1",
           "inverseProperty": null,
           "inverseDeclared": false
@@ -123,29 +233,14 @@
         {
           "property": "brand",
           "source": "https://3webobs.com/#organization",
-          "cardinality": "1..1",
+          "sourceType": "Organization + Corporation",
           "inverseProperty": null,
           "inverseDeclared": false
         },
         {
           "property": "brand",
           "source": "https://3webobs.com/#service",
-          "cardinality": "1..1",
-          "inverseProperty": null,
-          "inverseDeclared": false
-        }
-      ]
-    },
-    {
-      "id": "https://3webobs.com/#breadcrumb",
-      "type": "BreadcrumbList",
-      "label": "breadcrumb",
-      "outbound": [],
-      "inbound": [
-        {
-          "property": "breadcrumb",
-          "source": "https://3webobs.com/#webpage",
-          "cardinality": "1..1",
+          "sourceType": "Service",
           "inverseProperty": null,
           "inverseDeclared": false
         }
@@ -155,13 +250,34 @@
       "id": "https://3webobs.com/#business",
       "type": "OnlineBusiness",
       "label": "3webs",
+      "pages": [
+        "/",
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
       "outbound": [
         {
           "property": "parentOrganization",
           "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
           "cardinality": "1..1",
           "inverseProperty": "subOrganization",
-          "inverseDeclared": true
+          "inverseDeclared": false
         }
       ],
       "inbound": []
@@ -170,12 +286,97 @@
       "id": "https://3webobs.com/#catalog",
       "type": "OfferCatalog",
       "label": "3webs plans",
-      "outbound": [],
+      "pages": [
+        "/",
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
+      "outbound": [
+        {
+          "property": "itemListElement",
+          "target": "https://3webobs.com/#offer-api",
+          "targetType": "Offer",
+          "cardinality": "1..N",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        },
+        {
+          "property": "itemListElement",
+          "target": "https://3webobs.com/#offer-daily",
+          "targetType": "Offer",
+          "cardinality": "1..N",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        },
+        {
+          "property": "itemListElement",
+          "target": "https://3webobs.com/#offer-free",
+          "targetType": "Offer",
+          "cardinality": "1..N",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        },
+        {
+          "property": "itemListElement",
+          "target": "https://3webobs.com/#offer-monthly",
+          "targetType": "Offer",
+          "cardinality": "1..N",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        },
+        {
+          "property": "itemListElement",
+          "target": "https://3webobs.com/#offer-pack1000",
+          "targetType": "Offer",
+          "cardinality": "1..N",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        },
+        {
+          "property": "itemListElement",
+          "target": "https://3webobs.com/#offer-pack5000",
+          "targetType": "Offer",
+          "cardinality": "1..N",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        },
+        {
+          "property": "itemListElement",
+          "target": "https://3webobs.com/#offer-report",
+          "targetType": "Offer",
+          "cardinality": "1..N",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        },
+        {
+          "property": "itemListElement",
+          "target": "https://3webobs.com/#offer-weekly",
+          "targetType": "Offer",
+          "cardinality": "1..N",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        }
+      ],
       "inbound": [
         {
           "property": "hasOfferCatalog",
           "source": "https://3webobs.com/#service",
-          "cardinality": "1..1",
+          "sourceType": "Service",
           "inverseProperty": null,
           "inverseDeclared": false
         }
@@ -185,17 +386,39 @@
       "id": "https://3webobs.com/#data-dictionary",
       "type": "Dataset + DataCatalog",
       "label": "3webs data dictionary",
+      "pages": [
+        "/",
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
       "outbound": [
         {
           "property": "about",
           "target": "https://3webobs.com/#website",
+          "targetType": "WebSite",
           "cardinality": "1..1",
           "inverseProperty": "subjectOf",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "creator",
           "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
           "cardinality": "1..1",
           "inverseProperty": null,
           "inverseDeclared": false
@@ -207,13 +430,53 @@
       "id": "https://3webobs.com/#dimensions",
       "type": "ItemList",
       "label": "The five audit dimensions",
+      "pages": [
+        "/",
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
       "outbound": [],
       "inbound": []
     },
     {
       "id": "https://3webobs.com/#faq",
       "type": "FAQPage",
-      "label": "faq",
+      "label": null,
+      "pages": [
+        "/",
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
       "outbound": [],
       "inbound": []
     },
@@ -221,63 +484,54 @@
       "id": "https://3webobs.com/#founder",
       "type": "Person",
       "label": "Dan Ionesco",
-      "outbound": [
-        {
-          "property": "affiliation",
-          "target": "https://3webobs.com/#organization",
-          "cardinality": "1..1",
-          "inverseProperty": null,
-          "inverseDeclared": false
-        },
-        {
-          "property": "hasOccupation",
-          "target": "https://3webobs.com/#occupation",
-          "cardinality": "1..1",
-          "inverseProperty": null,
-          "inverseDeclared": false
-        },
-        {
-          "property": "worksFor",
-          "target": "https://3webobs.com/#organization",
-          "cardinality": "1..1",
-          "inverseProperty": null,
-          "inverseDeclared": false
-        }
+      "pages": [
+        "/",
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
       ],
+      "outbound": [],
       "inbound": [
         {
           "property": "author",
           "source": "https://3webobs.com/agents#techarticle",
-          "cardinality": "1..1",
+          "sourceType": "TechArticle + APIReference",
           "inverseProperty": null,
           "inverseDeclared": false
         },
         {
           "property": "author",
           "source": "https://3webobs.com/ai-act#techarticle",
-          "cardinality": "1..1",
-          "inverseProperty": null,
-          "inverseDeclared": false
-        },
-        {
-          "property": "employee",
-          "source": "https://3webobs.com/#organization",
-          "cardinality": "1..1",
+          "sourceType": "TechArticle",
           "inverseProperty": null,
           "inverseDeclared": false
         },
         {
           "property": "founder",
           "source": "https://3webobs.com/#organization",
-          "cardinality": "1..1",
+          "sourceType": "Organization + Corporation",
           "inverseProperty": null,
           "inverseDeclared": false
         },
         {
           "property": "mainEntity",
           "source": "https://3webobs.com/#profilepage",
-          "cardinality": "1..1",
-          "inverseProperty": null,
+          "sourceType": "ProfilePage",
+          "inverseProperty": "mainEntityOfPage",
           "inverseDeclared": false
         }
       ]
@@ -286,14 +540,131 @@
       "id": "https://3webobs.com/#glossary",
       "type": "DefinedTermSet",
       "label": "3webs Glossary",
-      "outbound": [],
+      "pages": [
+        "/",
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
+      "outbound": [
+        {
+          "property": "hasDefinedTerm",
+          "target": "https://3webobs.com/glossary#term-a2a",
+          "targetType": "DefinedTerm",
+          "cardinality": "1..N",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        },
+        {
+          "property": "hasDefinedTerm",
+          "target": "https://3webobs.com/glossary#term-adi",
+          "targetType": "DefinedTerm",
+          "cardinality": "1..N",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        },
+        {
+          "property": "hasDefinedTerm",
+          "target": "https://3webobs.com/glossary#term-aeo",
+          "targetType": "DefinedTerm",
+          "cardinality": "1..N",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        },
+        {
+          "property": "hasDefinedTerm",
+          "target": "https://3webobs.com/glossary#term-agent-card",
+          "targetType": "DefinedTerm",
+          "cardinality": "1..N",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        },
+        {
+          "property": "hasDefinedTerm",
+          "target": "https://3webobs.com/glossary#term-ai-web",
+          "targetType": "DefinedTerm",
+          "cardinality": "1..N",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        },
+        {
+          "property": "hasDefinedTerm",
+          "target": "https://3webobs.com/glossary#term-aio",
+          "targetType": "DefinedTerm",
+          "cardinality": "1..N",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        },
+        {
+          "property": "hasDefinedTerm",
+          "target": "https://3webobs.com/glossary#term-geo",
+          "targetType": "DefinedTerm",
+          "cardinality": "1..N",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        },
+        {
+          "property": "hasDefinedTerm",
+          "target": "https://3webobs.com/glossary#term-human-web",
+          "targetType": "DefinedTerm",
+          "cardinality": "1..N",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        },
+        {
+          "property": "hasDefinedTerm",
+          "target": "https://3webobs.com/glossary#term-llms-txt",
+          "targetType": "DefinedTerm",
+          "cardinality": "1..N",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        },
+        {
+          "property": "hasDefinedTerm",
+          "target": "https://3webobs.com/glossary#term-machine-web",
+          "targetType": "DefinedTerm",
+          "cardinality": "1..N",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        },
+        {
+          "property": "hasDefinedTerm",
+          "target": "https://3webobs.com/glossary#term-not-applicable",
+          "targetType": "DefinedTerm",
+          "cardinality": "1..N",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        },
+        {
+          "property": "hasDefinedTerm",
+          "target": "https://3webobs.com/glossary#term-proof-manifest",
+          "targetType": "DefinedTerm",
+          "cardinality": "1..N",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        }
+      ],
       "inbound": [
         {
           "property": "hasPart",
           "source": "https://3webobs.com/#website",
-          "cardinality": "1..N",
+          "sourceType": "WebSite",
           "inverseProperty": "isPartOf",
-          "inverseDeclared": true
+          "inverseDeclared": false
         }
       ]
     },
@@ -301,13 +672,102 @@
       "id": "https://3webobs.com/#howto",
       "type": "HowTo",
       "label": "How to run an AI visibility audit",
+      "pages": [
+        "/",
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
       "outbound": [],
       "inbound": []
+    },
+    {
+      "id": "https://3webobs.com/#logo",
+      "type": "ImageObject",
+      "label": null,
+      "pages": [
+        "/",
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
+      "outbound": [],
+      "inbound": [
+        {
+          "property": "image",
+          "source": "https://3webobs.com/#organization",
+          "sourceType": "Organization + Corporation",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        },
+        {
+          "property": "logo",
+          "source": "https://3webobs.com/#brand",
+          "sourceType": "Brand",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        },
+        {
+          "property": "logo",
+          "source": "https://3webobs.com/#organization",
+          "sourceType": "Organization + Corporation",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        }
+      ]
     },
     {
       "id": "https://3webobs.com/#machine-web",
       "type": "Thing",
       "label": "The Machine Web",
+      "pages": [
+        "/",
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
       "outbound": [],
       "inbound": []
     },
@@ -315,17 +775,31 @@
       "id": "https://3webobs.com/#methodology",
       "type": "CreativeWork",
       "label": "The 167-Signal Methodology",
+      "pages": [
+        "/",
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
       "outbound": [
-        {
-          "property": "copyrightHolder",
-          "target": "https://3webobs.com/#organization",
-          "cardinality": "1..1",
-          "inverseProperty": null,
-          "inverseDeclared": false
-        },
         {
           "property": "creator",
           "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
           "cardinality": "1..1",
           "inverseProperty": null,
           "inverseDeclared": false
@@ -336,7 +810,27 @@
     {
       "id": "https://3webobs.com/#nav",
       "type": "SiteNavigationElement",
-      "label": "Run an audit …",
+      "label": "Run an audit",
+      "pages": [
+        "/",
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
       "outbound": [],
       "inbound": []
     },
@@ -344,66 +838,164 @@
       "id": "https://3webobs.com/#occupation",
       "type": "Occupation",
       "label": "AI Delivery Infrastructure architect",
+      "pages": [
+        "/",
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
       "outbound": [],
+      "inbound": []
+    },
+    {
+      "id": "https://3webobs.com/#offer-api",
+      "type": "Offer",
+      "label": "Machine access — per call",
+      "pages": [
+        "/",
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
+      "outbound": [
+        {
+          "property": "itemOffered",
+          "target": "https://3webobs.com/#service",
+          "targetType": "Service",
+          "cardinality": "1..1",
+          "inverseProperty": "offers",
+          "inverseDeclared": false
+        }
+      ],
       "inbound": [
         {
-          "property": "hasOccupation",
-          "source": "https://3webobs.com/#founder",
-          "cardinality": "1..1",
+          "property": "itemListElement",
+          "source": "https://3webobs.com/#catalog",
+          "sourceType": "OfferCatalog",
           "inverseProperty": null,
           "inverseDeclared": false
         }
       ]
     },
     {
-      "id": "https://3webobs.com/#offer-api",
-      "type": "Offer",
-      "label": "API access — pay as you go",
-      "outbound": [
-        {
-          "property": "itemOffered",
-          "target": "https://3webobs.com/#service",
-          "cardinality": "1..1",
-          "inverseProperty": null,
-          "inverseDeclared": false
-        }
-      ],
-      "inbound": []
-    },
-    {
       "id": "https://3webobs.com/#offer-daily",
       "type": "Offer",
       "label": "Monitoring — daily interval",
-      "outbound": [
-        {
-          "property": "itemOffered",
-          "target": "https://3webobs.com/#service",
-          "cardinality": "1..1",
-          "inverseProperty": null,
-          "inverseDeclared": false
-        }
+      "pages": [
+        "/",
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
       ],
-      "inbound": []
-    },
-    {
-      "id": "https://3webobs.com/#offer-free",
-      "type": "Offer",
-      "label": "Free tier — 3 reports per domain per month",
       "outbound": [
         {
           "property": "itemOffered",
           "target": "https://3webobs.com/#service",
+          "targetType": "Service",
           "cardinality": "1..1",
-          "inverseProperty": null,
+          "inverseProperty": "offers",
           "inverseDeclared": false
         }
       ],
       "inbound": [
         {
+          "property": "itemListElement",
+          "source": "https://3webobs.com/#catalog",
+          "sourceType": "OfferCatalog",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        }
+      ]
+    },
+    {
+      "id": "https://3webobs.com/#offer-free",
+      "type": "Offer",
+      "label": "Free tier — 3 reports per domain per month",
+      "pages": [
+        "/",
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
+      "outbound": [
+        {
+          "property": "itemOffered",
+          "target": "https://3webobs.com/#service",
+          "targetType": "Service",
+          "cardinality": "1..1",
+          "inverseProperty": "offers",
+          "inverseDeclared": false
+        }
+      ],
+      "inbound": [
+        {
+          "property": "itemListElement",
+          "source": "https://3webobs.com/#catalog",
+          "sourceType": "OfferCatalog",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        },
+        {
           "property": "offers",
           "source": "https://3webobs.com/#app",
-          "cardinality": "1..1",
-          "inverseProperty": null,
+          "sourceType": "SoftwareApplication + WebApplication",
+          "inverseProperty": "itemOffered",
           "inverseDeclared": false
         }
       ]
@@ -412,92 +1004,259 @@
       "id": "https://3webobs.com/#offer-monthly",
       "type": "Offer",
       "label": "Monitoring — monthly interval",
+      "pages": [
+        "/",
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
       "outbound": [
         {
           "property": "itemOffered",
           "target": "https://3webobs.com/#service",
+          "targetType": "Service",
           "cardinality": "1..1",
-          "inverseProperty": null,
+          "inverseProperty": "offers",
           "inverseDeclared": false
         }
       ],
-      "inbound": []
+      "inbound": [
+        {
+          "property": "itemListElement",
+          "source": "https://3webobs.com/#catalog",
+          "sourceType": "OfferCatalog",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        }
+      ]
     },
     {
-      "id": "https://3webobs.com/#offer-pack100",
+      "id": "https://3webobs.com/#offer-pack1000",
       "type": "Offer",
-      "label": "API pack — 100 calls",
+      "label": "Machine access — 1,000 call credit pack",
+      "pages": [
+        "/",
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
       "outbound": [
         {
           "property": "itemOffered",
           "target": "https://3webobs.com/#service",
+          "targetType": "Service",
           "cardinality": "1..1",
-          "inverseProperty": null,
+          "inverseProperty": "offers",
           "inverseDeclared": false
         }
       ],
-      "inbound": []
+      "inbound": [
+        {
+          "property": "itemListElement",
+          "source": "https://3webobs.com/#catalog",
+          "sourceType": "OfferCatalog",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        }
+      ]
     },
     {
-      "id": "https://3webobs.com/#offer-pack500",
+      "id": "https://3webobs.com/#offer-pack5000",
       "type": "Offer",
-      "label": "API pack — 500 calls",
+      "label": "Machine access — 5,000 call credit pack",
+      "pages": [
+        "/",
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
       "outbound": [
         {
           "property": "itemOffered",
           "target": "https://3webobs.com/#service",
+          "targetType": "Service",
           "cardinality": "1..1",
-          "inverseProperty": null,
+          "inverseProperty": "offers",
           "inverseDeclared": false
         }
       ],
-      "inbound": []
+      "inbound": [
+        {
+          "property": "itemListElement",
+          "source": "https://3webobs.com/#catalog",
+          "sourceType": "OfferCatalog",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        }
+      ]
     },
     {
       "id": "https://3webobs.com/#offer-report",
       "type": "Offer",
       "label": "Additional report",
+      "pages": [
+        "/",
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
       "outbound": [
         {
           "property": "itemOffered",
           "target": "https://3webobs.com/#service",
+          "targetType": "Service",
           "cardinality": "1..1",
-          "inverseProperty": null,
+          "inverseProperty": "offers",
           "inverseDeclared": false
         }
       ],
-      "inbound": []
+      "inbound": [
+        {
+          "property": "itemListElement",
+          "source": "https://3webobs.com/#catalog",
+          "sourceType": "OfferCatalog",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        }
+      ]
     },
     {
       "id": "https://3webobs.com/#offer-weekly",
       "type": "Offer",
       "label": "Monitoring — weekly interval",
+      "pages": [
+        "/",
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
       "outbound": [
         {
           "property": "itemOffered",
           "target": "https://3webobs.com/#service",
+          "targetType": "Service",
           "cardinality": "1..1",
-          "inverseProperty": null,
+          "inverseProperty": "offers",
           "inverseDeclared": false
         }
       ],
-      "inbound": []
+      "inbound": [
+        {
+          "property": "itemListElement",
+          "source": "https://3webobs.com/#catalog",
+          "sourceType": "OfferCatalog",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        }
+      ]
     },
     {
       "id": "https://3webobs.com/#organization",
       "type": "Organization + Corporation",
       "label": "AIVENTURE S.R.L.",
+      "pages": [
+        "/",
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/detail-a2a",
+        "/detail-aeo",
+        "/detail-ai-signals",
+        "/detail-aio",
+        "/detail-geo",
+        "/detail-seo",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/policy",
+        "/pricing",
+        "/schema",
+        "/schema-validity",
+        "/self-audit",
+        "/terms"
+      ],
       "outbound": [
         {
           "property": "brand",
           "target": "https://3webobs.com/#brand",
-          "cardinality": "1..1",
-          "inverseProperty": null,
-          "inverseDeclared": false
-        },
-        {
-          "property": "employee",
-          "target": "https://3webobs.com/#founder",
+          "targetType": "Brand",
           "cardinality": "1..1",
           "inverseProperty": null,
           "inverseDeclared": false
@@ -505,6 +1264,7 @@
         {
           "property": "founder",
           "target": "https://3webobs.com/#founder",
+          "targetType": "Person",
           "cardinality": "1..1",
           "inverseProperty": null,
           "inverseDeclared": false
@@ -512,6 +1272,15 @@
         {
           "property": "image",
           "target": "https://3webobs.com/#logo",
+          "targetType": "ImageObject",
+          "cardinality": "1..1",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        },
+        {
+          "property": "logo",
+          "target": "https://3webobs.com/#logo",
+          "targetType": "ImageObject",
           "cardinality": "1..1",
           "inverseProperty": null,
           "inverseDeclared": false
@@ -521,385 +1290,455 @@
         {
           "property": "about",
           "source": "https://3webobs.com/#webpage",
-          "cardinality": "1..1",
+          "sourceType": "WebPage",
           "inverseProperty": "subjectOf",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "about",
           "source": "https://3webobs.com/167-signals#webpage",
-          "cardinality": "1..1",
+          "sourceType": "CollectionPage",
           "inverseProperty": "subjectOf",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "about",
           "source": "https://3webobs.com/404#webpage",
-          "cardinality": "1..1",
+          "sourceType": "WebPage",
           "inverseProperty": "subjectOf",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "about",
           "source": "https://3webobs.com/a2a-secrets#webpage",
-          "cardinality": "1..1",
+          "sourceType": "WebPage",
           "inverseProperty": "subjectOf",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "about",
           "source": "https://3webobs.com/agents#webpage",
-          "cardinality": "1..1",
+          "sourceType": "WebPage",
           "inverseProperty": "subjectOf",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "about",
           "source": "https://3webobs.com/ai-act#webpage",
-          "cardinality": "1..1",
+          "sourceType": "WebPage",
           "inverseProperty": "subjectOf",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "about",
           "source": "https://3webobs.com/contact#webpage",
-          "cardinality": "1..1",
+          "sourceType": "ContactPage",
           "inverseProperty": "subjectOf",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "about",
           "source": "https://3webobs.com/cookies#webpage",
-          "cardinality": "1..1",
+          "sourceType": "WebPage",
           "inverseProperty": "subjectOf",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "about",
           "source": "https://3webobs.com/data-dictionary#webpage",
-          "cardinality": "1..1",
+          "sourceType": "CollectionPage",
           "inverseProperty": "subjectOf",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "about",
           "source": "https://3webobs.com/for-ai-teams#webpage",
-          "cardinality": "1..1",
+          "sourceType": "WebPage",
           "inverseProperty": "subjectOf",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "about",
           "source": "https://3webobs.com/for-compliance-consultants#webpage",
-          "cardinality": "1..1",
+          "sourceType": "WebPage",
           "inverseProperty": "subjectOf",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "about",
           "source": "https://3webobs.com/for-seo-agencies#webpage",
-          "cardinality": "1..1",
+          "sourceType": "WebPage",
           "inverseProperty": "subjectOf",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "about",
           "source": "https://3webobs.com/gdpr#webpage",
-          "cardinality": "1..1",
+          "sourceType": "WebPage",
           "inverseProperty": "subjectOf",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "about",
           "source": "https://3webobs.com/glossary#webpage",
-          "cardinality": "1..1",
+          "sourceType": "CollectionPage",
           "inverseProperty": "subjectOf",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "about",
           "source": "https://3webobs.com/policy#webpage",
-          "cardinality": "1..1",
+          "sourceType": "WebPage",
           "inverseProperty": "subjectOf",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "about",
           "source": "https://3webobs.com/pricing#webpage",
-          "cardinality": "1..1",
+          "sourceType": "WebPage",
           "inverseProperty": "subjectOf",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "about",
           "source": "https://3webobs.com/self-audit#webpage",
-          "cardinality": "1..1",
+          "sourceType": "WebPage",
           "inverseProperty": "subjectOf",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "about",
           "source": "https://3webobs.com/terms#webpage",
-          "cardinality": "1..1",
+          "sourceType": "WebPage",
           "inverseProperty": "subjectOf",
-          "inverseDeclared": true
-        },
-        {
-          "property": "affiliation",
-          "source": "https://3webobs.com/#founder",
-          "cardinality": "1..1",
-          "inverseProperty": null,
           "inverseDeclared": false
         },
         {
           "property": "author",
           "source": "https://3webobs.com/#app",
-          "cardinality": "1..1",
+          "sourceType": "SoftwareApplication + WebApplication",
           "inverseProperty": null,
           "inverseDeclared": false
         },
         {
           "property": "author",
           "source": "https://3webobs.com/#source",
-          "cardinality": "1..1",
-          "inverseProperty": null,
-          "inverseDeclared": false
-        },
-        {
-          "property": "copyrightHolder",
-          "source": "https://3webobs.com/#methodology",
-          "cardinality": "1..1",
-          "inverseProperty": null,
-          "inverseDeclared": false
-        },
-        {
-          "property": "copyrightHolder",
-          "source": "https://3webobs.com/#website",
-          "cardinality": "1..1",
+          "sourceType": "SoftwareSourceCode",
           "inverseProperty": null,
           "inverseDeclared": false
         },
         {
           "property": "creator",
           "source": "https://3webobs.com/#data-dictionary",
-          "cardinality": "1..1",
+          "sourceType": "Dataset + DataCatalog",
           "inverseProperty": null,
           "inverseDeclared": false
         },
         {
           "property": "creator",
           "source": "https://3webobs.com/#methodology",
-          "cardinality": "1..1",
+          "sourceType": "CreativeWork",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        },
+        {
+          "property": "creator",
+          "source": "https://3webobs.com/#report",
+          "sourceType": "DigitalDocument",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        },
+        {
+          "property": "creator",
+          "source": "https://3webobs.com/#sample-report",
+          "sourceType": "DigitalDocument",
           "inverseProperty": null,
           "inverseDeclared": false
         },
         {
           "property": "creator",
           "source": "https://3webobs.com/#signal-registry",
-          "cardinality": "1..1",
+          "sourceType": "Dataset + DataCatalog",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        },
+        {
+          "property": "creator",
+          "source": "https://3webobs.com/schema-validity#dataset",
+          "sourceType": "Dataset",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        },
+        {
+          "property": "creator",
+          "source": "https://3webobs.com/schema#dataset",
+          "sourceType": "Dataset",
           "inverseProperty": null,
           "inverseDeclared": false
         },
         {
           "property": "mainEntity",
           "source": "https://3webobs.com/contact#aboutpage",
-          "cardinality": "1..1",
-          "inverseProperty": null,
+          "sourceType": "AboutPage",
+          "inverseProperty": "mainEntityOfPage",
           "inverseDeclared": false
         },
         {
           "property": "mainEntity",
           "source": "https://3webobs.com/contact#contactpage",
-          "cardinality": "1..1",
-          "inverseProperty": null,
+          "sourceType": "ContactPage",
+          "inverseProperty": "mainEntityOfPage",
           "inverseDeclared": false
         },
         {
           "property": "parentOrganization",
           "source": "https://3webobs.com/#business",
-          "cardinality": "1..1",
+          "sourceType": "OnlineBusiness",
           "inverseProperty": "subOrganization",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "provider",
           "source": "https://3webobs.com/#api",
-          "cardinality": "1..1",
+          "sourceType": "WebAPI + APIReference",
           "inverseProperty": null,
           "inverseDeclared": false
         },
         {
           "property": "provider",
           "source": "https://3webobs.com/#service",
-          "cardinality": "1..1",
+          "sourceType": "Service",
           "inverseProperty": null,
           "inverseDeclared": false
         },
         {
           "property": "publisher",
           "source": "https://3webobs.com/#app",
-          "cardinality": "1..1",
+          "sourceType": "SoftwareApplication + WebApplication",
           "inverseProperty": null,
           "inverseDeclared": false
         },
         {
           "property": "publisher",
           "source": "https://3webobs.com/#sample-report",
-          "cardinality": "1..1",
+          "sourceType": "DigitalDocument",
           "inverseProperty": null,
           "inverseDeclared": false
         },
         {
           "property": "publisher",
           "source": "https://3webobs.com/#webpage",
-          "cardinality": "1..1",
+          "sourceType": "WebPage",
           "inverseProperty": null,
           "inverseDeclared": false
         },
         {
           "property": "publisher",
           "source": "https://3webobs.com/#website",
-          "cardinality": "1..1",
+          "sourceType": "WebSite",
           "inverseProperty": null,
           "inverseDeclared": false
         },
         {
           "property": "publisher",
           "source": "https://3webobs.com/167-signals#webpage",
-          "cardinality": "1..1",
+          "sourceType": "CollectionPage",
           "inverseProperty": null,
           "inverseDeclared": false
         },
         {
           "property": "publisher",
           "source": "https://3webobs.com/404#webpage",
-          "cardinality": "1..1",
+          "sourceType": "WebPage",
           "inverseProperty": null,
           "inverseDeclared": false
         },
         {
           "property": "publisher",
           "source": "https://3webobs.com/a2a-secrets#webpage",
-          "cardinality": "1..1",
+          "sourceType": "WebPage",
           "inverseProperty": null,
           "inverseDeclared": false
         },
         {
           "property": "publisher",
           "source": "https://3webobs.com/agents#techarticle",
-          "cardinality": "1..1",
+          "sourceType": "TechArticle + APIReference",
           "inverseProperty": null,
           "inverseDeclared": false
         },
         {
           "property": "publisher",
           "source": "https://3webobs.com/agents#webpage",
-          "cardinality": "1..1",
+          "sourceType": "WebPage",
           "inverseProperty": null,
           "inverseDeclared": false
         },
         {
           "property": "publisher",
           "source": "https://3webobs.com/ai-act#techarticle",
-          "cardinality": "1..1",
+          "sourceType": "TechArticle",
           "inverseProperty": null,
           "inverseDeclared": false
         },
         {
           "property": "publisher",
           "source": "https://3webobs.com/ai-act#webpage",
-          "cardinality": "1..1",
+          "sourceType": "WebPage",
           "inverseProperty": null,
           "inverseDeclared": false
         },
         {
           "property": "publisher",
           "source": "https://3webobs.com/contact#webpage",
-          "cardinality": "1..1",
+          "sourceType": "ContactPage",
           "inverseProperty": null,
           "inverseDeclared": false
         },
         {
           "property": "publisher",
           "source": "https://3webobs.com/cookies#webpage",
-          "cardinality": "1..1",
+          "sourceType": "WebPage",
           "inverseProperty": null,
           "inverseDeclared": false
         },
         {
           "property": "publisher",
           "source": "https://3webobs.com/data-dictionary#webpage",
-          "cardinality": "1..1",
+          "sourceType": "CollectionPage",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        },
+        {
+          "property": "publisher",
+          "source": "https://3webobs.com/detail-a2a#webpage",
+          "sourceType": "WebPage",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        },
+        {
+          "property": "publisher",
+          "source": "https://3webobs.com/detail-aeo#webpage",
+          "sourceType": "WebPage",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        },
+        {
+          "property": "publisher",
+          "source": "https://3webobs.com/detail-ai-signals#webpage",
+          "sourceType": "WebPage",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        },
+        {
+          "property": "publisher",
+          "source": "https://3webobs.com/detail-aio#webpage",
+          "sourceType": "WebPage",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        },
+        {
+          "property": "publisher",
+          "source": "https://3webobs.com/detail-geo#webpage",
+          "sourceType": "WebPage",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        },
+        {
+          "property": "publisher",
+          "source": "https://3webobs.com/detail-seo#webpage",
+          "sourceType": "WebPage",
           "inverseProperty": null,
           "inverseDeclared": false
         },
         {
           "property": "publisher",
           "source": "https://3webobs.com/for-ai-teams#webpage",
-          "cardinality": "1..1",
+          "sourceType": "WebPage",
           "inverseProperty": null,
           "inverseDeclared": false
         },
         {
           "property": "publisher",
           "source": "https://3webobs.com/for-compliance-consultants#webpage",
-          "cardinality": "1..1",
+          "sourceType": "WebPage",
           "inverseProperty": null,
           "inverseDeclared": false
         },
         {
           "property": "publisher",
           "source": "https://3webobs.com/for-seo-agencies#webpage",
-          "cardinality": "1..1",
+          "sourceType": "WebPage",
           "inverseProperty": null,
           "inverseDeclared": false
         },
         {
           "property": "publisher",
           "source": "https://3webobs.com/gdpr#webpage",
-          "cardinality": "1..1",
+          "sourceType": "WebPage",
           "inverseProperty": null,
           "inverseDeclared": false
         },
         {
           "property": "publisher",
           "source": "https://3webobs.com/glossary#webpage",
-          "cardinality": "1..1",
+          "sourceType": "CollectionPage",
           "inverseProperty": null,
           "inverseDeclared": false
         },
         {
           "property": "publisher",
           "source": "https://3webobs.com/policy#webpage",
-          "cardinality": "1..1",
+          "sourceType": "WebPage",
           "inverseProperty": null,
           "inverseDeclared": false
         },
         {
           "property": "publisher",
           "source": "https://3webobs.com/pricing#webpage",
-          "cardinality": "1..1",
+          "sourceType": "WebPage",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        },
+        {
+          "property": "publisher",
+          "source": "https://3webobs.com/schema-validity#dataset",
+          "sourceType": "Dataset",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        },
+        {
+          "property": "publisher",
+          "source": "https://3webobs.com/schema-validity#webpage",
+          "sourceType": "WebPage",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        },
+        {
+          "property": "publisher",
+          "source": "https://3webobs.com/schema#dataset",
+          "sourceType": "Dataset",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        },
+        {
+          "property": "publisher",
+          "source": "https://3webobs.com/schema#webpage",
+          "sourceType": "WebPage",
           "inverseProperty": null,
           "inverseDeclared": false
         },
         {
           "property": "publisher",
           "source": "https://3webobs.com/self-audit#webpage",
-          "cardinality": "1..1",
+          "sourceType": "WebPage",
           "inverseProperty": null,
           "inverseDeclared": false
         },
         {
           "property": "publisher",
           "source": "https://3webobs.com/terms#webpage",
-          "cardinality": "1..1",
-          "inverseProperty": null,
-          "inverseDeclared": false
-        },
-        {
-          "property": "worksFor",
-          "source": "https://3webobs.com/#founder",
-          "cardinality": "1..1",
+          "sourceType": "WebPage",
           "inverseProperty": null,
           "inverseDeclared": false
         }
@@ -909,19 +1748,41 @@
       "id": "https://3webobs.com/#profilepage",
       "type": "ProfilePage",
       "label": "Dan Ionesco — Founder",
+      "pages": [
+        "/",
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
       "outbound": [
         {
           "property": "isPartOf",
           "target": "https://3webobs.com/#website",
+          "targetType": "WebSite",
           "cardinality": "1..1",
           "inverseProperty": "hasPart",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "mainEntity",
           "target": "https://3webobs.com/#founder",
+          "targetType": "Person",
           "cardinality": "1..1",
-          "inverseProperty": null,
+          "inverseProperty": "mainEntityOfPage",
           "inverseDeclared": false
         }
       ],
@@ -931,10 +1792,39 @@
       "id": "https://3webobs.com/#report",
       "type": "DigitalDocument",
       "label": "3webs Report",
+      "pages": [
+        "/",
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
       "outbound": [
         {
           "property": "creator",
+          "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
+          "cardinality": "1..1",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        },
+        {
+          "property": "isBasedOn",
           "target": "https://3webobs.com/#app",
+          "targetType": "SoftwareApplication + WebApplication",
           "cardinality": "1..1",
           "inverseProperty": null,
           "inverseDeclared": false
@@ -946,17 +1836,47 @@
       "id": "https://3webobs.com/#sample-report",
       "type": "DigitalDocument",
       "label": "3webs Sample Report",
+      "pages": [
+        "/",
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
       "outbound": [
         {
           "property": "about",
           "target": "https://3webobs.com/#service",
+          "targetType": "Service",
           "cardinality": "1..1",
           "inverseProperty": "subjectOf",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "creator",
+          "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
+          "cardinality": "1..1",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        },
+        {
+          "property": "isBasedOn",
           "target": "https://3webobs.com/#app",
+          "targetType": "SoftwareApplication + WebApplication",
           "cardinality": "1..1",
           "inverseProperty": null,
           "inverseDeclared": false
@@ -964,6 +1884,7 @@
         {
           "property": "publisher",
           "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
           "cardinality": "1..1",
           "inverseProperty": null,
           "inverseDeclared": false
@@ -975,10 +1896,31 @@
       "id": "https://3webobs.com/#service",
       "type": "Service",
       "label": "Three-Web Visibility Observation",
+      "pages": [
+        "/",
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
       "outbound": [
         {
           "property": "brand",
           "target": "https://3webobs.com/#brand",
+          "targetType": "Brand",
           "cardinality": "1..1",
           "inverseProperty": null,
           "inverseDeclared": false
@@ -986,6 +1928,7 @@
         {
           "property": "hasOfferCatalog",
           "target": "https://3webobs.com/#catalog",
+          "targetType": "OfferCatalog",
           "cardinality": "1..1",
           "inverseProperty": null,
           "inverseDeclared": false
@@ -993,6 +1936,7 @@
         {
           "property": "provider",
           "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
           "cardinality": "1..1",
           "inverseProperty": null,
           "inverseDeclared": false
@@ -1002,71 +1946,64 @@
         {
           "property": "about",
           "source": "https://3webobs.com/#sample-report",
-          "cardinality": "1..1",
+          "sourceType": "DigitalDocument",
           "inverseProperty": "subjectOf",
-          "inverseDeclared": true
-        },
-        {
-          "property": "hasPart",
-          "source": "https://3webobs.com/#website",
-          "cardinality": "1..N",
-          "inverseProperty": "isPartOf",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "itemOffered",
           "source": "https://3webobs.com/#offer-api",
-          "cardinality": "1..1",
-          "inverseProperty": null,
+          "sourceType": "Offer",
+          "inverseProperty": "offers",
           "inverseDeclared": false
         },
         {
           "property": "itemOffered",
           "source": "https://3webobs.com/#offer-daily",
-          "cardinality": "1..1",
-          "inverseProperty": null,
+          "sourceType": "Offer",
+          "inverseProperty": "offers",
           "inverseDeclared": false
         },
         {
           "property": "itemOffered",
           "source": "https://3webobs.com/#offer-free",
-          "cardinality": "1..1",
-          "inverseProperty": null,
+          "sourceType": "Offer",
+          "inverseProperty": "offers",
           "inverseDeclared": false
         },
         {
           "property": "itemOffered",
           "source": "https://3webobs.com/#offer-monthly",
-          "cardinality": "1..1",
-          "inverseProperty": null,
+          "sourceType": "Offer",
+          "inverseProperty": "offers",
           "inverseDeclared": false
         },
         {
           "property": "itemOffered",
-          "source": "https://3webobs.com/#offer-pack100",
-          "cardinality": "1..1",
-          "inverseProperty": null,
+          "source": "https://3webobs.com/#offer-pack1000",
+          "sourceType": "Offer",
+          "inverseProperty": "offers",
           "inverseDeclared": false
         },
         {
           "property": "itemOffered",
-          "source": "https://3webobs.com/#offer-pack500",
-          "cardinality": "1..1",
-          "inverseProperty": null,
+          "source": "https://3webobs.com/#offer-pack5000",
+          "sourceType": "Offer",
+          "inverseProperty": "offers",
           "inverseDeclared": false
         },
         {
           "property": "itemOffered",
           "source": "https://3webobs.com/#offer-report",
-          "cardinality": "1..1",
-          "inverseProperty": null,
+          "sourceType": "Offer",
+          "inverseProperty": "offers",
           "inverseDeclared": false
         },
         {
           "property": "itemOffered",
           "source": "https://3webobs.com/#offer-weekly",
-          "cardinality": "1..1",
-          "inverseProperty": null,
+          "sourceType": "Offer",
+          "inverseProperty": "offers",
           "inverseDeclared": false
         }
       ]
@@ -1075,10 +2012,31 @@
       "id": "https://3webobs.com/#signal-registry",
       "type": "Dataset + DataCatalog",
       "label": "3webs Signal Registry",
+      "pages": [
+        "/",
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
       "outbound": [
         {
           "property": "creator",
           "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
           "cardinality": "1..1",
           "inverseProperty": null,
           "inverseDeclared": false
@@ -1090,17 +2048,31 @@
       "id": "https://3webobs.com/#source",
       "type": "SoftwareSourceCode",
       "label": "3webs engine source",
+      "pages": [
+        "/",
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
       "outbound": [
         {
           "property": "author",
           "target": "https://3webobs.com/#organization",
-          "cardinality": "1..1",
-          "inverseProperty": null,
-          "inverseDeclared": false
-        },
-        {
-          "property": "targetProduct",
-          "target": "https://3webobs.com/#app",
+          "targetType": "Organization + Corporation",
           "cardinality": "1..1",
           "inverseProperty": null,
           "inverseDeclared": false
@@ -1110,7 +2082,7 @@
         {
           "property": "isBasedOn",
           "source": "https://3webobs.com/#app",
-          "cardinality": "1..1",
+          "sourceType": "SoftwareApplication + WebApplication",
           "inverseProperty": null,
           "inverseDeclared": false
         }
@@ -1120,45 +2092,57 @@
       "id": "https://3webobs.com/#three-webs",
       "type": "ItemList",
       "label": "The three webs",
+      "pages": [
+        "/",
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
       "outbound": [],
       "inbound": []
     },
     {
       "id": "https://3webobs.com/#webpage",
       "type": "WebPage",
-      "label": "Home / audit",
+      "label": "AI visibility audit across the human, AI and machine webs",
+      "pages": [
+        "/"
+      ],
       "outbound": [
         {
           "property": "about",
           "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
           "cardinality": "1..1",
           "inverseProperty": "subjectOf",
-          "inverseDeclared": true
-        },
-        {
-          "property": "breadcrumb",
-          "target": "https://3webobs.com/#breadcrumb",
-          "cardinality": "1..1",
-          "inverseProperty": null,
           "inverseDeclared": false
         },
         {
           "property": "isPartOf",
           "target": "https://3webobs.com/#website",
+          "targetType": "WebSite",
           "cardinality": "1..1",
           "inverseProperty": "hasPart",
-          "inverseDeclared": true
-        },
-        {
-          "property": "primaryImageOfPage",
-          "target": "https://3webobs.com/#logo",
-          "cardinality": "1..1",
-          "inverseProperty": null,
           "inverseDeclared": false
         },
         {
           "property": "publisher",
           "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
           "cardinality": "1..1",
           "inverseProperty": null,
           "inverseDeclared": false
@@ -1170,38 +2154,55 @@
       "id": "https://3webobs.com/#website",
       "type": "WebSite",
       "label": "3webs",
+      "pages": [
+        "/",
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/detail-a2a",
+        "/detail-aeo",
+        "/detail-ai-signals",
+        "/detail-aio",
+        "/detail-geo",
+        "/detail-seo",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/policy",
+        "/pricing",
+        "/schema",
+        "/schema-validity",
+        "/self-audit",
+        "/terms"
+      ],
       "outbound": [
         {
-          "property": "copyrightHolder",
-          "target": "https://3webobs.com/#organization",
-          "cardinality": "1..1",
-          "inverseProperty": null,
+          "property": "hasPart",
+          "target": "https://3webobs.com/#api",
+          "targetType": "WebAPI + APIReference",
+          "cardinality": "1..N",
+          "inverseProperty": "isPartOf",
           "inverseDeclared": false
         },
         {
           "property": "hasPart",
-          "target": "https://3webobs.com/#api",
-          "cardinality": "1..N",
-          "inverseProperty": "isPartOf",
-          "inverseDeclared": true
-        },
-        {
-          "property": "hasPart",
           "target": "https://3webobs.com/#glossary",
+          "targetType": "DefinedTermSet",
           "cardinality": "1..N",
           "inverseProperty": "isPartOf",
-          "inverseDeclared": true
-        },
-        {
-          "property": "hasPart",
-          "target": "https://3webobs.com/#service",
-          "cardinality": "1..N",
-          "inverseProperty": "isPartOf",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "publisher",
           "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
           "cardinality": "1..1",
           "inverseProperty": null,
           "inverseDeclared": false
@@ -1211,169 +2212,228 @@
         {
           "property": "about",
           "source": "https://3webobs.com/#data-dictionary",
-          "cardinality": "1..1",
+          "sourceType": "Dataset + DataCatalog",
           "inverseProperty": "subjectOf",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "isPartOf",
           "source": "https://3webobs.com/#profilepage",
-          "cardinality": "1..1",
+          "sourceType": "ProfilePage",
           "inverseProperty": "hasPart",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "isPartOf",
           "source": "https://3webobs.com/#webpage",
-          "cardinality": "1..1",
+          "sourceType": "WebPage",
           "inverseProperty": "hasPart",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "isPartOf",
           "source": "https://3webobs.com/167-signals#webpage",
-          "cardinality": "1..1",
+          "sourceType": "CollectionPage",
           "inverseProperty": "hasPart",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "isPartOf",
           "source": "https://3webobs.com/404#webpage",
-          "cardinality": "1..1",
+          "sourceType": "WebPage",
           "inverseProperty": "hasPart",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "isPartOf",
           "source": "https://3webobs.com/a2a-secrets#webpage",
-          "cardinality": "1..1",
+          "sourceType": "WebPage",
           "inverseProperty": "hasPart",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "isPartOf",
           "source": "https://3webobs.com/agents#webpage",
-          "cardinality": "1..1",
+          "sourceType": "WebPage",
           "inverseProperty": "hasPart",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "isPartOf",
           "source": "https://3webobs.com/ai-act#webpage",
-          "cardinality": "1..1",
+          "sourceType": "WebPage",
           "inverseProperty": "hasPart",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "isPartOf",
           "source": "https://3webobs.com/contact#aboutpage",
-          "cardinality": "1..1",
+          "sourceType": "AboutPage",
           "inverseProperty": "hasPart",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "isPartOf",
           "source": "https://3webobs.com/contact#contactpage",
-          "cardinality": "1..1",
+          "sourceType": "ContactPage",
           "inverseProperty": "hasPart",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "isPartOf",
           "source": "https://3webobs.com/contact#webpage",
-          "cardinality": "1..1",
+          "sourceType": "ContactPage",
           "inverseProperty": "hasPart",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "isPartOf",
           "source": "https://3webobs.com/cookies#webpage",
-          "cardinality": "1..1",
+          "sourceType": "WebPage",
           "inverseProperty": "hasPart",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "isPartOf",
           "source": "https://3webobs.com/data-dictionary#webpage",
-          "cardinality": "1..1",
+          "sourceType": "CollectionPage",
           "inverseProperty": "hasPart",
-          "inverseDeclared": true
+          "inverseDeclared": false
+        },
+        {
+          "property": "isPartOf",
+          "source": "https://3webobs.com/detail-a2a#webpage",
+          "sourceType": "WebPage",
+          "inverseProperty": "hasPart",
+          "inverseDeclared": false
+        },
+        {
+          "property": "isPartOf",
+          "source": "https://3webobs.com/detail-aeo#webpage",
+          "sourceType": "WebPage",
+          "inverseProperty": "hasPart",
+          "inverseDeclared": false
+        },
+        {
+          "property": "isPartOf",
+          "source": "https://3webobs.com/detail-ai-signals#webpage",
+          "sourceType": "WebPage",
+          "inverseProperty": "hasPart",
+          "inverseDeclared": false
+        },
+        {
+          "property": "isPartOf",
+          "source": "https://3webobs.com/detail-aio#webpage",
+          "sourceType": "WebPage",
+          "inverseProperty": "hasPart",
+          "inverseDeclared": false
+        },
+        {
+          "property": "isPartOf",
+          "source": "https://3webobs.com/detail-geo#webpage",
+          "sourceType": "WebPage",
+          "inverseProperty": "hasPart",
+          "inverseDeclared": false
+        },
+        {
+          "property": "isPartOf",
+          "source": "https://3webobs.com/detail-seo#webpage",
+          "sourceType": "WebPage",
+          "inverseProperty": "hasPart",
+          "inverseDeclared": false
         },
         {
           "property": "isPartOf",
           "source": "https://3webobs.com/for-ai-teams#webpage",
-          "cardinality": "1..1",
+          "sourceType": "WebPage",
           "inverseProperty": "hasPart",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "isPartOf",
           "source": "https://3webobs.com/for-compliance-consultants#webpage",
-          "cardinality": "1..1",
+          "sourceType": "WebPage",
           "inverseProperty": "hasPart",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "isPartOf",
           "source": "https://3webobs.com/for-seo-agencies#webpage",
-          "cardinality": "1..1",
+          "sourceType": "WebPage",
           "inverseProperty": "hasPart",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "isPartOf",
           "source": "https://3webobs.com/gdpr#webpage",
-          "cardinality": "1..1",
+          "sourceType": "WebPage",
           "inverseProperty": "hasPart",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "isPartOf",
           "source": "https://3webobs.com/glossary#webpage",
-          "cardinality": "1..1",
+          "sourceType": "CollectionPage",
           "inverseProperty": "hasPart",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "isPartOf",
           "source": "https://3webobs.com/policy#webpage",
-          "cardinality": "1..1",
+          "sourceType": "WebPage",
           "inverseProperty": "hasPart",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "isPartOf",
           "source": "https://3webobs.com/pricing#webpage",
-          "cardinality": "1..1",
+          "sourceType": "WebPage",
           "inverseProperty": "hasPart",
-          "inverseDeclared": true
+          "inverseDeclared": false
+        },
+        {
+          "property": "isPartOf",
+          "source": "https://3webobs.com/schema-validity#webpage",
+          "sourceType": "WebPage",
+          "inverseProperty": "hasPart",
+          "inverseDeclared": false
+        },
+        {
+          "property": "isPartOf",
+          "source": "https://3webobs.com/schema#webpage",
+          "sourceType": "WebPage",
+          "inverseProperty": "hasPart",
+          "inverseDeclared": false
         },
         {
           "property": "isPartOf",
           "source": "https://3webobs.com/self-audit#webpage",
-          "cardinality": "1..1",
+          "sourceType": "WebPage",
           "inverseProperty": "hasPart",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "isPartOf",
           "source": "https://3webobs.com/terms#webpage",
-          "cardinality": "1..1",
+          "sourceType": "WebPage",
           "inverseProperty": "hasPart",
-          "inverseDeclared": true
+          "inverseDeclared": false
         }
       ]
     },
     {
       "id": "https://3webobs.com/167-signals#breadcrumb",
       "type": "BreadcrumbList",
-      "label": "breadcrumb",
+      "label": null,
+      "pages": [
+        "/167-signals"
+      ],
       "outbound": [],
       "inbound": [
         {
           "property": "breadcrumb",
           "source": "https://3webobs.com/167-signals#webpage",
-          "cardinality": "1..1",
+          "sourceType": "CollectionPage",
           "inverseProperty": null,
           "inverseDeclared": false
         }
@@ -1381,19 +2441,24 @@
     },
     {
       "id": "https://3webobs.com/167-signals#webpage",
-      "type": "WebPage",
-      "label": "The 167 signals",
+      "type": "CollectionPage",
+      "label": "The 167 signals — full catalogue",
+      "pages": [
+        "/167-signals"
+      ],
       "outbound": [
         {
           "property": "about",
           "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
           "cardinality": "1..1",
           "inverseProperty": "subjectOf",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "breadcrumb",
           "target": "https://3webobs.com/167-signals#breadcrumb",
+          "targetType": "BreadcrumbList",
           "cardinality": "1..1",
           "inverseProperty": null,
           "inverseDeclared": false
@@ -1401,20 +2466,15 @@
         {
           "property": "isPartOf",
           "target": "https://3webobs.com/#website",
+          "targetType": "WebSite",
           "cardinality": "1..1",
           "inverseProperty": "hasPart",
-          "inverseDeclared": true
-        },
-        {
-          "property": "primaryImageOfPage",
-          "target": "https://3webobs.com/#logo",
-          "cardinality": "1..1",
-          "inverseProperty": null,
           "inverseDeclared": false
         },
         {
           "property": "publisher",
           "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
           "cardinality": "1..1",
           "inverseProperty": null,
           "inverseDeclared": false
@@ -1425,13 +2485,16 @@
     {
       "id": "https://3webobs.com/404#breadcrumb",
       "type": "BreadcrumbList",
-      "label": "breadcrumb",
+      "label": null,
+      "pages": [
+        "/404"
+      ],
       "outbound": [],
       "inbound": [
         {
           "property": "breadcrumb",
           "source": "https://3webobs.com/404#webpage",
-          "cardinality": "1..1",
+          "sourceType": "WebPage",
           "inverseProperty": null,
           "inverseDeclared": false
         }
@@ -1440,18 +2503,23 @@
     {
       "id": "https://3webobs.com/404#webpage",
       "type": "WebPage",
-      "label": "Not found",
+      "label": "Page not found",
+      "pages": [
+        "/404"
+      ],
       "outbound": [
         {
           "property": "about",
           "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
           "cardinality": "1..1",
           "inverseProperty": "subjectOf",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "breadcrumb",
           "target": "https://3webobs.com/404#breadcrumb",
+          "targetType": "BreadcrumbList",
           "cardinality": "1..1",
           "inverseProperty": null,
           "inverseDeclared": false
@@ -1459,20 +2527,15 @@
         {
           "property": "isPartOf",
           "target": "https://3webobs.com/#website",
+          "targetType": "WebSite",
           "cardinality": "1..1",
           "inverseProperty": "hasPart",
-          "inverseDeclared": true
-        },
-        {
-          "property": "primaryImageOfPage",
-          "target": "https://3webobs.com/#logo",
-          "cardinality": "1..1",
-          "inverseProperty": null,
           "inverseDeclared": false
         },
         {
           "property": "publisher",
           "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
           "cardinality": "1..1",
           "inverseProperty": null,
           "inverseDeclared": false
@@ -1483,13 +2546,16 @@
     {
       "id": "https://3webobs.com/a2a-secrets#breadcrumb",
       "type": "BreadcrumbList",
-      "label": "breadcrumb",
+      "label": null,
+      "pages": [
+        "/a2a-secrets"
+      ],
       "outbound": [],
       "inbound": [
         {
           "property": "breadcrumb",
           "source": "https://3webobs.com/a2a-secrets#webpage",
-          "cardinality": "1..1",
+          "sourceType": "WebPage",
           "inverseProperty": null,
           "inverseDeclared": false
         }
@@ -1498,18 +2564,23 @@
     {
       "id": "https://3webobs.com/a2a-secrets#webpage",
       "type": "WebPage",
-      "label": "A2A secrets",
+      "label": "What your company already knows how to do",
+      "pages": [
+        "/a2a-secrets"
+      ],
       "outbound": [
         {
           "property": "about",
           "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
           "cardinality": "1..1",
           "inverseProperty": "subjectOf",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "breadcrumb",
           "target": "https://3webobs.com/a2a-secrets#breadcrumb",
+          "targetType": "BreadcrumbList",
           "cardinality": "1..1",
           "inverseProperty": null,
           "inverseDeclared": false
@@ -1517,20 +2588,15 @@
         {
           "property": "isPartOf",
           "target": "https://3webobs.com/#website",
+          "targetType": "WebSite",
           "cardinality": "1..1",
           "inverseProperty": "hasPart",
-          "inverseDeclared": true
-        },
-        {
-          "property": "primaryImageOfPage",
-          "target": "https://3webobs.com/#logo",
-          "cardinality": "1..1",
-          "inverseProperty": null,
           "inverseDeclared": false
         },
         {
           "property": "publisher",
           "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
           "cardinality": "1..1",
           "inverseProperty": null,
           "inverseDeclared": false
@@ -1541,13 +2607,16 @@
     {
       "id": "https://3webobs.com/agents#breadcrumb",
       "type": "BreadcrumbList",
-      "label": "breadcrumb",
+      "label": null,
+      "pages": [
+        "/agents"
+      ],
       "outbound": [],
       "inbound": [
         {
           "property": "breadcrumb",
           "source": "https://3webobs.com/agents#webpage",
-          "cardinality": "1..1",
+          "sourceType": "WebPage",
           "inverseProperty": null,
           "inverseDeclared": false
         }
@@ -1556,18 +2625,40 @@
     {
       "id": "https://3webobs.com/agents#techarticle",
       "type": "TechArticle + APIReference",
-      "label": "techarticle",
+      "label": "Agent-to-Agent on our own domain — a live case study",
+      "pages": [
+        "/",
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
       "outbound": [
         {
           "property": "about",
           "target": "https://3webobs.com/#api",
+          "targetType": "WebAPI + APIReference",
           "cardinality": "1..1",
           "inverseProperty": "subjectOf",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "author",
           "target": "https://3webobs.com/#founder",
+          "targetType": "Person",
           "cardinality": "1..1",
           "inverseProperty": null,
           "inverseDeclared": false
@@ -1575,6 +2666,7 @@
         {
           "property": "publisher",
           "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
           "cardinality": "1..1",
           "inverseProperty": null,
           "inverseDeclared": false
@@ -1585,18 +2677,23 @@
     {
       "id": "https://3webobs.com/agents#webpage",
       "type": "WebPage",
-      "label": "For agents",
+      "label": "Agent-to-Agent — a live case study",
+      "pages": [
+        "/agents"
+      ],
       "outbound": [
         {
           "property": "about",
           "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
           "cardinality": "1..1",
           "inverseProperty": "subjectOf",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "breadcrumb",
           "target": "https://3webobs.com/agents#breadcrumb",
+          "targetType": "BreadcrumbList",
           "cardinality": "1..1",
           "inverseProperty": null,
           "inverseDeclared": false
@@ -1604,20 +2701,15 @@
         {
           "property": "isPartOf",
           "target": "https://3webobs.com/#website",
+          "targetType": "WebSite",
           "cardinality": "1..1",
           "inverseProperty": "hasPart",
-          "inverseDeclared": true
-        },
-        {
-          "property": "primaryImageOfPage",
-          "target": "https://3webobs.com/#logo",
-          "cardinality": "1..1",
-          "inverseProperty": null,
           "inverseDeclared": false
         },
         {
           "property": "publisher",
           "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
           "cardinality": "1..1",
           "inverseProperty": null,
           "inverseDeclared": false
@@ -1628,13 +2720,16 @@
     {
       "id": "https://3webobs.com/ai-act#breadcrumb",
       "type": "BreadcrumbList",
-      "label": "breadcrumb",
+      "label": null,
+      "pages": [
+        "/ai-act"
+      ],
       "outbound": [],
       "inbound": [
         {
           "property": "breadcrumb",
           "source": "https://3webobs.com/ai-act#webpage",
-          "cardinality": "1..1",
+          "sourceType": "WebPage",
           "inverseProperty": null,
           "inverseDeclared": false
         }
@@ -1643,11 +2738,40 @@
     {
       "id": "https://3webobs.com/ai-act#techarticle",
       "type": "TechArticle",
-      "label": "techarticle",
+      "label": "EU AI Act Transparency Statement",
+      "pages": [
+        "/",
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
       "outbound": [
+        {
+          "property": "about",
+          "target": "https://3webobs.com/#ai-act",
+          "targetType": "Legislation",
+          "cardinality": "1..1",
+          "inverseProperty": "subjectOf",
+          "inverseDeclared": false
+        },
         {
           "property": "author",
           "target": "https://3webobs.com/#founder",
+          "targetType": "Person",
           "cardinality": "1..1",
           "inverseProperty": null,
           "inverseDeclared": false
@@ -1655,6 +2779,7 @@
         {
           "property": "publisher",
           "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
           "cardinality": "1..1",
           "inverseProperty": null,
           "inverseDeclared": false
@@ -1665,18 +2790,23 @@
     {
       "id": "https://3webobs.com/ai-act#webpage",
       "type": "WebPage",
-      "label": "EU AI Act",
+      "label": "EU AI Act Transparency Statement",
+      "pages": [
+        "/ai-act"
+      ],
       "outbound": [
         {
           "property": "about",
           "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
           "cardinality": "1..1",
           "inverseProperty": "subjectOf",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "breadcrumb",
           "target": "https://3webobs.com/ai-act#breadcrumb",
+          "targetType": "BreadcrumbList",
           "cardinality": "1..1",
           "inverseProperty": null,
           "inverseDeclared": false
@@ -1684,20 +2814,15 @@
         {
           "property": "isPartOf",
           "target": "https://3webobs.com/#website",
+          "targetType": "WebSite",
           "cardinality": "1..1",
           "inverseProperty": "hasPart",
-          "inverseDeclared": true
-        },
-        {
-          "property": "primaryImageOfPage",
-          "target": "https://3webobs.com/#logo",
-          "cardinality": "1..1",
-          "inverseProperty": null,
           "inverseDeclared": false
         },
         {
           "property": "publisher",
           "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
           "cardinality": "1..1",
           "inverseProperty": null,
           "inverseDeclared": false
@@ -1709,19 +2834,41 @@
       "id": "https://3webobs.com/contact#aboutpage",
       "type": "AboutPage",
       "label": "About AIVENTURE S.R.L.",
+      "pages": [
+        "/",
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
       "outbound": [
         {
           "property": "isPartOf",
           "target": "https://3webobs.com/#website",
+          "targetType": "WebSite",
           "cardinality": "1..1",
           "inverseProperty": "hasPart",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "mainEntity",
           "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
           "cardinality": "1..1",
-          "inverseProperty": null,
+          "inverseProperty": "mainEntityOfPage",
           "inverseDeclared": false
         }
       ],
@@ -1730,13 +2877,16 @@
     {
       "id": "https://3webobs.com/contact#breadcrumb",
       "type": "BreadcrumbList",
-      "label": "breadcrumb",
+      "label": null,
+      "pages": [
+        "/contact"
+      ],
       "outbound": [],
       "inbound": [
         {
           "property": "breadcrumb",
           "source": "https://3webobs.com/contact#webpage",
-          "cardinality": "1..1",
+          "sourceType": "ContactPage",
           "inverseProperty": null,
           "inverseDeclared": false
         }
@@ -1746,19 +2896,41 @@
       "id": "https://3webobs.com/contact#contactpage",
       "type": "ContactPage",
       "label": "Contact",
+      "pages": [
+        "/",
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
       "outbound": [
         {
           "property": "isPartOf",
           "target": "https://3webobs.com/#website",
+          "targetType": "WebSite",
           "cardinality": "1..1",
           "inverseProperty": "hasPart",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "mainEntity",
           "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
           "cardinality": "1..1",
-          "inverseProperty": null,
+          "inverseProperty": "mainEntityOfPage",
           "inverseDeclared": false
         }
       ],
@@ -1766,19 +2938,24 @@
     },
     {
       "id": "https://3webobs.com/contact#webpage",
-      "type": "WebPage",
+      "type": "ContactPage",
       "label": "Contact",
+      "pages": [
+        "/contact"
+      ],
       "outbound": [
         {
           "property": "about",
           "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
           "cardinality": "1..1",
           "inverseProperty": "subjectOf",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "breadcrumb",
           "target": "https://3webobs.com/contact#breadcrumb",
+          "targetType": "BreadcrumbList",
           "cardinality": "1..1",
           "inverseProperty": null,
           "inverseDeclared": false
@@ -1786,20 +2963,15 @@
         {
           "property": "isPartOf",
           "target": "https://3webobs.com/#website",
+          "targetType": "WebSite",
           "cardinality": "1..1",
           "inverseProperty": "hasPart",
-          "inverseDeclared": true
-        },
-        {
-          "property": "primaryImageOfPage",
-          "target": "https://3webobs.com/#logo",
-          "cardinality": "1..1",
-          "inverseProperty": null,
           "inverseDeclared": false
         },
         {
           "property": "publisher",
           "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
           "cardinality": "1..1",
           "inverseProperty": null,
           "inverseDeclared": false
@@ -1810,13 +2982,16 @@
     {
       "id": "https://3webobs.com/cookies#breadcrumb",
       "type": "BreadcrumbList",
-      "label": "breadcrumb",
+      "label": null,
+      "pages": [
+        "/cookies"
+      ],
       "outbound": [],
       "inbound": [
         {
           "property": "breadcrumb",
           "source": "https://3webobs.com/cookies#webpage",
-          "cardinality": "1..1",
+          "sourceType": "WebPage",
           "inverseProperty": null,
           "inverseDeclared": false
         }
@@ -1825,18 +3000,23 @@
     {
       "id": "https://3webobs.com/cookies#webpage",
       "type": "WebPage",
-      "label": "Cookies",
+      "label": "Cookie Policy",
+      "pages": [
+        "/cookies"
+      ],
       "outbound": [
         {
           "property": "about",
           "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
           "cardinality": "1..1",
           "inverseProperty": "subjectOf",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "breadcrumb",
           "target": "https://3webobs.com/cookies#breadcrumb",
+          "targetType": "BreadcrumbList",
           "cardinality": "1..1",
           "inverseProperty": null,
           "inverseDeclared": false
@@ -1844,20 +3024,15 @@
         {
           "property": "isPartOf",
           "target": "https://3webobs.com/#website",
+          "targetType": "WebSite",
           "cardinality": "1..1",
           "inverseProperty": "hasPart",
-          "inverseDeclared": true
-        },
-        {
-          "property": "primaryImageOfPage",
-          "target": "https://3webobs.com/#logo",
-          "cardinality": "1..1",
-          "inverseProperty": null,
           "inverseDeclared": false
         },
         {
           "property": "publisher",
           "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
           "cardinality": "1..1",
           "inverseProperty": null,
           "inverseDeclared": false
@@ -1868,13 +3043,16 @@
     {
       "id": "https://3webobs.com/data-dictionary#breadcrumb",
       "type": "BreadcrumbList",
-      "label": "breadcrumb",
+      "label": null,
+      "pages": [
+        "/data-dictionary"
+      ],
       "outbound": [],
       "inbound": [
         {
           "property": "breadcrumb",
           "source": "https://3webobs.com/data-dictionary#webpage",
-          "cardinality": "1..1",
+          "sourceType": "CollectionPage",
           "inverseProperty": null,
           "inverseDeclared": false
         }
@@ -1882,19 +3060,24 @@
     },
     {
       "id": "https://3webobs.com/data-dictionary#webpage",
-      "type": "WebPage",
-      "label": "Data dictionary",
+      "type": "CollectionPage",
+      "label": "The data dictionary",
+      "pages": [
+        "/data-dictionary"
+      ],
       "outbound": [
         {
           "property": "about",
           "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
           "cardinality": "1..1",
           "inverseProperty": "subjectOf",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "breadcrumb",
           "target": "https://3webobs.com/data-dictionary#breadcrumb",
+          "targetType": "BreadcrumbList",
           "cardinality": "1..1",
           "inverseProperty": null,
           "inverseDeclared": false
@@ -1902,20 +3085,333 @@
         {
           "property": "isPartOf",
           "target": "https://3webobs.com/#website",
+          "targetType": "WebSite",
           "cardinality": "1..1",
           "inverseProperty": "hasPart",
-          "inverseDeclared": true
-        },
-        {
-          "property": "primaryImageOfPage",
-          "target": "https://3webobs.com/#logo",
-          "cardinality": "1..1",
-          "inverseProperty": null,
           "inverseDeclared": false
         },
         {
           "property": "publisher",
           "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
+          "cardinality": "1..1",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        }
+      ],
+      "inbound": []
+    },
+    {
+      "id": "https://3webobs.com/detail-a2a#breadcrumb",
+      "type": "BreadcrumbList",
+      "label": null,
+      "pages": [
+        "/detail-a2a"
+      ],
+      "outbound": [],
+      "inbound": [
+        {
+          "property": "breadcrumb",
+          "source": "https://3webobs.com/detail-a2a#webpage",
+          "sourceType": "WebPage",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        }
+      ]
+    },
+    {
+      "id": "https://3webobs.com/detail-a2a#webpage",
+      "type": "WebPage",
+      "label": "A2A — Agent-to-Agent",
+      "pages": [
+        "/detail-a2a"
+      ],
+      "outbound": [
+        {
+          "property": "breadcrumb",
+          "target": "https://3webobs.com/detail-a2a#breadcrumb",
+          "targetType": "BreadcrumbList",
+          "cardinality": "1..1",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        },
+        {
+          "property": "isPartOf",
+          "target": "https://3webobs.com/#website",
+          "targetType": "WebSite",
+          "cardinality": "1..1",
+          "inverseProperty": "hasPart",
+          "inverseDeclared": false
+        },
+        {
+          "property": "publisher",
+          "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
+          "cardinality": "1..1",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        }
+      ],
+      "inbound": []
+    },
+    {
+      "id": "https://3webobs.com/detail-aeo#breadcrumb",
+      "type": "BreadcrumbList",
+      "label": null,
+      "pages": [
+        "/detail-aeo"
+      ],
+      "outbound": [],
+      "inbound": [
+        {
+          "property": "breadcrumb",
+          "source": "https://3webobs.com/detail-aeo#webpage",
+          "sourceType": "WebPage",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        }
+      ]
+    },
+    {
+      "id": "https://3webobs.com/detail-aeo#webpage",
+      "type": "WebPage",
+      "label": "AEO — Answer Engine Optimization",
+      "pages": [
+        "/detail-aeo"
+      ],
+      "outbound": [
+        {
+          "property": "breadcrumb",
+          "target": "https://3webobs.com/detail-aeo#breadcrumb",
+          "targetType": "BreadcrumbList",
+          "cardinality": "1..1",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        },
+        {
+          "property": "isPartOf",
+          "target": "https://3webobs.com/#website",
+          "targetType": "WebSite",
+          "cardinality": "1..1",
+          "inverseProperty": "hasPart",
+          "inverseDeclared": false
+        },
+        {
+          "property": "publisher",
+          "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
+          "cardinality": "1..1",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        }
+      ],
+      "inbound": []
+    },
+    {
+      "id": "https://3webobs.com/detail-ai-signals#breadcrumb",
+      "type": "BreadcrumbList",
+      "label": null,
+      "pages": [
+        "/detail-ai-signals"
+      ],
+      "outbound": [],
+      "inbound": [
+        {
+          "property": "breadcrumb",
+          "source": "https://3webobs.com/detail-ai-signals#webpage",
+          "sourceType": "WebPage",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        }
+      ]
+    },
+    {
+      "id": "https://3webobs.com/detail-ai-signals#webpage",
+      "type": "WebPage",
+      "label": "AI Signals — the crawler and trust layer",
+      "pages": [
+        "/detail-ai-signals"
+      ],
+      "outbound": [
+        {
+          "property": "breadcrumb",
+          "target": "https://3webobs.com/detail-ai-signals#breadcrumb",
+          "targetType": "BreadcrumbList",
+          "cardinality": "1..1",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        },
+        {
+          "property": "isPartOf",
+          "target": "https://3webobs.com/#website",
+          "targetType": "WebSite",
+          "cardinality": "1..1",
+          "inverseProperty": "hasPart",
+          "inverseDeclared": false
+        },
+        {
+          "property": "publisher",
+          "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
+          "cardinality": "1..1",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        }
+      ],
+      "inbound": []
+    },
+    {
+      "id": "https://3webobs.com/detail-aio#breadcrumb",
+      "type": "BreadcrumbList",
+      "label": null,
+      "pages": [
+        "/detail-aio"
+      ],
+      "outbound": [],
+      "inbound": [
+        {
+          "property": "breadcrumb",
+          "source": "https://3webobs.com/detail-aio#webpage",
+          "sourceType": "WebPage",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        }
+      ]
+    },
+    {
+      "id": "https://3webobs.com/detail-aio#webpage",
+      "type": "WebPage",
+      "label": "AIO — AI Optimization",
+      "pages": [
+        "/detail-aio"
+      ],
+      "outbound": [
+        {
+          "property": "breadcrumb",
+          "target": "https://3webobs.com/detail-aio#breadcrumb",
+          "targetType": "BreadcrumbList",
+          "cardinality": "1..1",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        },
+        {
+          "property": "isPartOf",
+          "target": "https://3webobs.com/#website",
+          "targetType": "WebSite",
+          "cardinality": "1..1",
+          "inverseProperty": "hasPart",
+          "inverseDeclared": false
+        },
+        {
+          "property": "publisher",
+          "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
+          "cardinality": "1..1",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        }
+      ],
+      "inbound": []
+    },
+    {
+      "id": "https://3webobs.com/detail-geo#breadcrumb",
+      "type": "BreadcrumbList",
+      "label": null,
+      "pages": [
+        "/detail-geo"
+      ],
+      "outbound": [],
+      "inbound": [
+        {
+          "property": "breadcrumb",
+          "source": "https://3webobs.com/detail-geo#webpage",
+          "sourceType": "WebPage",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        }
+      ]
+    },
+    {
+      "id": "https://3webobs.com/detail-geo#webpage",
+      "type": "WebPage",
+      "label": "GEO — Generative Engine Optimization",
+      "pages": [
+        "/detail-geo"
+      ],
+      "outbound": [
+        {
+          "property": "breadcrumb",
+          "target": "https://3webobs.com/detail-geo#breadcrumb",
+          "targetType": "BreadcrumbList",
+          "cardinality": "1..1",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        },
+        {
+          "property": "isPartOf",
+          "target": "https://3webobs.com/#website",
+          "targetType": "WebSite",
+          "cardinality": "1..1",
+          "inverseProperty": "hasPart",
+          "inverseDeclared": false
+        },
+        {
+          "property": "publisher",
+          "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
+          "cardinality": "1..1",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        }
+      ],
+      "inbound": []
+    },
+    {
+      "id": "https://3webobs.com/detail-seo#breadcrumb",
+      "type": "BreadcrumbList",
+      "label": null,
+      "pages": [
+        "/detail-seo"
+      ],
+      "outbound": [],
+      "inbound": [
+        {
+          "property": "breadcrumb",
+          "source": "https://3webobs.com/detail-seo#webpage",
+          "sourceType": "WebPage",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        }
+      ]
+    },
+    {
+      "id": "https://3webobs.com/detail-seo#webpage",
+      "type": "WebPage",
+      "label": "SEO — Search Engine Optimization",
+      "pages": [
+        "/detail-seo"
+      ],
+      "outbound": [
+        {
+          "property": "breadcrumb",
+          "target": "https://3webobs.com/detail-seo#breadcrumb",
+          "targetType": "BreadcrumbList",
+          "cardinality": "1..1",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        },
+        {
+          "property": "isPartOf",
+          "target": "https://3webobs.com/#website",
+          "targetType": "WebSite",
+          "cardinality": "1..1",
+          "inverseProperty": "hasPart",
+          "inverseDeclared": false
+        },
+        {
+          "property": "publisher",
+          "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
           "cardinality": "1..1",
           "inverseProperty": null,
           "inverseDeclared": false
@@ -1926,13 +3422,16 @@
     {
       "id": "https://3webobs.com/for-ai-teams#breadcrumb",
       "type": "BreadcrumbList",
-      "label": "breadcrumb",
+      "label": null,
+      "pages": [
+        "/for-ai-teams"
+      ],
       "outbound": [],
       "inbound": [
         {
           "property": "breadcrumb",
           "source": "https://3webobs.com/for-ai-teams#webpage",
-          "cardinality": "1..1",
+          "sourceType": "WebPage",
           "inverseProperty": null,
           "inverseDeclared": false
         }
@@ -1941,18 +3440,23 @@
     {
       "id": "https://3webobs.com/for-ai-teams#webpage",
       "type": "WebPage",
-      "label": "For AI teams",
+      "label": "3webs for AI teams",
+      "pages": [
+        "/for-ai-teams"
+      ],
       "outbound": [
         {
           "property": "about",
           "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
           "cardinality": "1..1",
           "inverseProperty": "subjectOf",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "breadcrumb",
           "target": "https://3webobs.com/for-ai-teams#breadcrumb",
+          "targetType": "BreadcrumbList",
           "cardinality": "1..1",
           "inverseProperty": null,
           "inverseDeclared": false
@@ -1960,20 +3464,15 @@
         {
           "property": "isPartOf",
           "target": "https://3webobs.com/#website",
+          "targetType": "WebSite",
           "cardinality": "1..1",
           "inverseProperty": "hasPart",
-          "inverseDeclared": true
-        },
-        {
-          "property": "primaryImageOfPage",
-          "target": "https://3webobs.com/#logo",
-          "cardinality": "1..1",
-          "inverseProperty": null,
           "inverseDeclared": false
         },
         {
           "property": "publisher",
           "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
           "cardinality": "1..1",
           "inverseProperty": null,
           "inverseDeclared": false
@@ -1984,13 +3483,16 @@
     {
       "id": "https://3webobs.com/for-compliance-consultants#breadcrumb",
       "type": "BreadcrumbList",
-      "label": "breadcrumb",
+      "label": null,
+      "pages": [
+        "/for-compliance-consultants"
+      ],
       "outbound": [],
       "inbound": [
         {
           "property": "breadcrumb",
           "source": "https://3webobs.com/for-compliance-consultants#webpage",
-          "cardinality": "1..1",
+          "sourceType": "WebPage",
           "inverseProperty": null,
           "inverseDeclared": false
         }
@@ -1999,18 +3501,23 @@
     {
       "id": "https://3webobs.com/for-compliance-consultants#webpage",
       "type": "WebPage",
-      "label": "For compliance consultants",
+      "label": "3webs for compliance consultants",
+      "pages": [
+        "/for-compliance-consultants"
+      ],
       "outbound": [
         {
           "property": "about",
           "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
           "cardinality": "1..1",
           "inverseProperty": "subjectOf",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "breadcrumb",
           "target": "https://3webobs.com/for-compliance-consultants#breadcrumb",
+          "targetType": "BreadcrumbList",
           "cardinality": "1..1",
           "inverseProperty": null,
           "inverseDeclared": false
@@ -2018,20 +3525,15 @@
         {
           "property": "isPartOf",
           "target": "https://3webobs.com/#website",
+          "targetType": "WebSite",
           "cardinality": "1..1",
           "inverseProperty": "hasPart",
-          "inverseDeclared": true
-        },
-        {
-          "property": "primaryImageOfPage",
-          "target": "https://3webobs.com/#logo",
-          "cardinality": "1..1",
-          "inverseProperty": null,
           "inverseDeclared": false
         },
         {
           "property": "publisher",
           "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
           "cardinality": "1..1",
           "inverseProperty": null,
           "inverseDeclared": false
@@ -2042,13 +3544,16 @@
     {
       "id": "https://3webobs.com/for-seo-agencies#breadcrumb",
       "type": "BreadcrumbList",
-      "label": "breadcrumb",
+      "label": null,
+      "pages": [
+        "/for-seo-agencies"
+      ],
       "outbound": [],
       "inbound": [
         {
           "property": "breadcrumb",
           "source": "https://3webobs.com/for-seo-agencies#webpage",
-          "cardinality": "1..1",
+          "sourceType": "WebPage",
           "inverseProperty": null,
           "inverseDeclared": false
         }
@@ -2057,18 +3562,23 @@
     {
       "id": "https://3webobs.com/for-seo-agencies#webpage",
       "type": "WebPage",
-      "label": "For SEO agencies",
+      "label": "3webs for SEO agencies",
+      "pages": [
+        "/for-seo-agencies"
+      ],
       "outbound": [
         {
           "property": "about",
           "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
           "cardinality": "1..1",
           "inverseProperty": "subjectOf",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "breadcrumb",
           "target": "https://3webobs.com/for-seo-agencies#breadcrumb",
+          "targetType": "BreadcrumbList",
           "cardinality": "1..1",
           "inverseProperty": null,
           "inverseDeclared": false
@@ -2076,20 +3586,15 @@
         {
           "property": "isPartOf",
           "target": "https://3webobs.com/#website",
+          "targetType": "WebSite",
           "cardinality": "1..1",
           "inverseProperty": "hasPart",
-          "inverseDeclared": true
-        },
-        {
-          "property": "primaryImageOfPage",
-          "target": "https://3webobs.com/#logo",
-          "cardinality": "1..1",
-          "inverseProperty": null,
           "inverseDeclared": false
         },
         {
           "property": "publisher",
           "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
           "cardinality": "1..1",
           "inverseProperty": null,
           "inverseDeclared": false
@@ -2100,13 +3605,16 @@
     {
       "id": "https://3webobs.com/gdpr#breadcrumb",
       "type": "BreadcrumbList",
-      "label": "breadcrumb",
+      "label": null,
+      "pages": [
+        "/gdpr"
+      ],
       "outbound": [],
       "inbound": [
         {
           "property": "breadcrumb",
           "source": "https://3webobs.com/gdpr#webpage",
-          "cardinality": "1..1",
+          "sourceType": "WebPage",
           "inverseProperty": null,
           "inverseDeclared": false
         }
@@ -2115,18 +3623,23 @@
     {
       "id": "https://3webobs.com/gdpr#webpage",
       "type": "WebPage",
-      "label": "GDPR",
+      "label": "GDPR & Privacy Notice",
+      "pages": [
+        "/gdpr"
+      ],
       "outbound": [
         {
           "property": "about",
           "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
           "cardinality": "1..1",
           "inverseProperty": "subjectOf",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "breadcrumb",
           "target": "https://3webobs.com/gdpr#breadcrumb",
+          "targetType": "BreadcrumbList",
           "cardinality": "1..1",
           "inverseProperty": null,
           "inverseDeclared": false
@@ -2134,20 +3647,15 @@
         {
           "property": "isPartOf",
           "target": "https://3webobs.com/#website",
+          "targetType": "WebSite",
           "cardinality": "1..1",
           "inverseProperty": "hasPart",
-          "inverseDeclared": true
-        },
-        {
-          "property": "primaryImageOfPage",
-          "target": "https://3webobs.com/#logo",
-          "cardinality": "1..1",
-          "inverseProperty": null,
           "inverseDeclared": false
         },
         {
           "property": "publisher",
           "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
           "cardinality": "1..1",
           "inverseProperty": null,
           "inverseDeclared": false
@@ -2158,13 +3666,436 @@
     {
       "id": "https://3webobs.com/glossary#breadcrumb",
       "type": "BreadcrumbList",
-      "label": "breadcrumb",
+      "label": null,
+      "pages": [
+        "/glossary"
+      ],
       "outbound": [],
       "inbound": [
         {
           "property": "breadcrumb",
           "source": "https://3webobs.com/glossary#webpage",
-          "cardinality": "1..1",
+          "sourceType": "CollectionPage",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        }
+      ]
+    },
+    {
+      "id": "https://3webobs.com/glossary#term-a2a",
+      "type": "DefinedTerm",
+      "label": "A2A",
+      "pages": [
+        "/",
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
+      "outbound": [],
+      "inbound": [
+        {
+          "property": "hasDefinedTerm",
+          "source": "https://3webobs.com/#glossary",
+          "sourceType": "DefinedTermSet",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        }
+      ]
+    },
+    {
+      "id": "https://3webobs.com/glossary#term-adi",
+      "type": "DefinedTerm",
+      "label": "ADI",
+      "pages": [
+        "/",
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
+      "outbound": [],
+      "inbound": [
+        {
+          "property": "hasDefinedTerm",
+          "source": "https://3webobs.com/#glossary",
+          "sourceType": "DefinedTermSet",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        }
+      ]
+    },
+    {
+      "id": "https://3webobs.com/glossary#term-aeo",
+      "type": "DefinedTerm",
+      "label": "AEO",
+      "pages": [
+        "/",
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
+      "outbound": [],
+      "inbound": [
+        {
+          "property": "hasDefinedTerm",
+          "source": "https://3webobs.com/#glossary",
+          "sourceType": "DefinedTermSet",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        }
+      ]
+    },
+    {
+      "id": "https://3webobs.com/glossary#term-agent-card",
+      "type": "DefinedTerm",
+      "label": "Agent card",
+      "pages": [
+        "/",
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
+      "outbound": [],
+      "inbound": [
+        {
+          "property": "hasDefinedTerm",
+          "source": "https://3webobs.com/#glossary",
+          "sourceType": "DefinedTermSet",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        }
+      ]
+    },
+    {
+      "id": "https://3webobs.com/glossary#term-ai-web",
+      "type": "DefinedTerm",
+      "label": "AI web",
+      "pages": [
+        "/",
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
+      "outbound": [],
+      "inbound": [
+        {
+          "property": "hasDefinedTerm",
+          "source": "https://3webobs.com/#glossary",
+          "sourceType": "DefinedTermSet",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        }
+      ]
+    },
+    {
+      "id": "https://3webobs.com/glossary#term-aio",
+      "type": "DefinedTerm",
+      "label": "AIO",
+      "pages": [
+        "/",
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
+      "outbound": [],
+      "inbound": [
+        {
+          "property": "hasDefinedTerm",
+          "source": "https://3webobs.com/#glossary",
+          "sourceType": "DefinedTermSet",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        }
+      ]
+    },
+    {
+      "id": "https://3webobs.com/glossary#term-geo",
+      "type": "DefinedTerm",
+      "label": "GEO",
+      "pages": [
+        "/",
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
+      "outbound": [],
+      "inbound": [
+        {
+          "property": "hasDefinedTerm",
+          "source": "https://3webobs.com/#glossary",
+          "sourceType": "DefinedTermSet",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        }
+      ]
+    },
+    {
+      "id": "https://3webobs.com/glossary#term-human-web",
+      "type": "DefinedTerm",
+      "label": "Human web",
+      "pages": [
+        "/",
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
+      "outbound": [],
+      "inbound": [
+        {
+          "property": "hasDefinedTerm",
+          "source": "https://3webobs.com/#glossary",
+          "sourceType": "DefinedTermSet",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        }
+      ]
+    },
+    {
+      "id": "https://3webobs.com/glossary#term-llms-txt",
+      "type": "DefinedTerm",
+      "label": "llms.txt",
+      "pages": [
+        "/",
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
+      "outbound": [],
+      "inbound": [
+        {
+          "property": "hasDefinedTerm",
+          "source": "https://3webobs.com/#glossary",
+          "sourceType": "DefinedTermSet",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        }
+      ]
+    },
+    {
+      "id": "https://3webobs.com/glossary#term-machine-web",
+      "type": "DefinedTerm",
+      "label": "Machine web",
+      "pages": [
+        "/",
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
+      "outbound": [],
+      "inbound": [
+        {
+          "property": "hasDefinedTerm",
+          "source": "https://3webobs.com/#glossary",
+          "sourceType": "DefinedTermSet",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        }
+      ]
+    },
+    {
+      "id": "https://3webobs.com/glossary#term-not-applicable",
+      "type": "DefinedTerm",
+      "label": "Not applicable",
+      "pages": [
+        "/",
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
+      "outbound": [],
+      "inbound": [
+        {
+          "property": "hasDefinedTerm",
+          "source": "https://3webobs.com/#glossary",
+          "sourceType": "DefinedTermSet",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        }
+      ]
+    },
+    {
+      "id": "https://3webobs.com/glossary#term-proof-manifest",
+      "type": "DefinedTerm",
+      "label": "Proof manifest",
+      "pages": [
+        "/",
+        "/167-signals",
+        "/404",
+        "/a2a-secrets",
+        "/agents",
+        "/ai-act",
+        "/contact",
+        "/cookies",
+        "/data-dictionary",
+        "/for-ai-teams",
+        "/for-compliance-consultants",
+        "/for-seo-agencies",
+        "/gdpr",
+        "/glossary",
+        "/policy",
+        "/pricing",
+        "/self-audit",
+        "/terms"
+      ],
+      "outbound": [],
+      "inbound": [
+        {
+          "property": "hasDefinedTerm",
+          "source": "https://3webobs.com/#glossary",
+          "sourceType": "DefinedTermSet",
           "inverseProperty": null,
           "inverseDeclared": false
         }
@@ -2172,19 +4103,24 @@
     },
     {
       "id": "https://3webobs.com/glossary#webpage",
-      "type": "WebPage",
-      "label": "Glossary",
+      "type": "CollectionPage",
+      "label": "Glossary — the vocabulary behind the score",
+      "pages": [
+        "/glossary"
+      ],
       "outbound": [
         {
           "property": "about",
           "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
           "cardinality": "1..1",
           "inverseProperty": "subjectOf",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "breadcrumb",
           "target": "https://3webobs.com/glossary#breadcrumb",
+          "targetType": "BreadcrumbList",
           "cardinality": "1..1",
           "inverseProperty": null,
           "inverseDeclared": false
@@ -2192,20 +4128,15 @@
         {
           "property": "isPartOf",
           "target": "https://3webobs.com/#website",
+          "targetType": "WebSite",
           "cardinality": "1..1",
           "inverseProperty": "hasPart",
-          "inverseDeclared": true
-        },
-        {
-          "property": "primaryImageOfPage",
-          "target": "https://3webobs.com/#logo",
-          "cardinality": "1..1",
-          "inverseProperty": null,
           "inverseDeclared": false
         },
         {
           "property": "publisher",
           "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
           "cardinality": "1..1",
           "inverseProperty": null,
           "inverseDeclared": false
@@ -2216,13 +4147,16 @@
     {
       "id": "https://3webobs.com/policy#breadcrumb",
       "type": "BreadcrumbList",
-      "label": "breadcrumb",
+      "label": null,
+      "pages": [
+        "/policy"
+      ],
       "outbound": [],
       "inbound": [
         {
           "property": "breadcrumb",
           "source": "https://3webobs.com/policy#webpage",
-          "cardinality": "1..1",
+          "sourceType": "WebPage",
           "inverseProperty": null,
           "inverseDeclared": false
         }
@@ -2231,18 +4165,23 @@
     {
       "id": "https://3webobs.com/policy#webpage",
       "type": "WebPage",
-      "label": "Acceptable use",
+      "label": "Acceptable Use Policy",
+      "pages": [
+        "/policy"
+      ],
       "outbound": [
         {
           "property": "about",
           "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
           "cardinality": "1..1",
           "inverseProperty": "subjectOf",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "breadcrumb",
           "target": "https://3webobs.com/policy#breadcrumb",
+          "targetType": "BreadcrumbList",
           "cardinality": "1..1",
           "inverseProperty": null,
           "inverseDeclared": false
@@ -2250,20 +4189,15 @@
         {
           "property": "isPartOf",
           "target": "https://3webobs.com/#website",
+          "targetType": "WebSite",
           "cardinality": "1..1",
           "inverseProperty": "hasPart",
-          "inverseDeclared": true
-        },
-        {
-          "property": "primaryImageOfPage",
-          "target": "https://3webobs.com/#logo",
-          "cardinality": "1..1",
-          "inverseProperty": null,
           "inverseDeclared": false
         },
         {
           "property": "publisher",
           "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
           "cardinality": "1..1",
           "inverseProperty": null,
           "inverseDeclared": false
@@ -2274,13 +4208,16 @@
     {
       "id": "https://3webobs.com/pricing#breadcrumb",
       "type": "BreadcrumbList",
-      "label": "breadcrumb",
+      "label": null,
+      "pages": [
+        "/pricing"
+      ],
       "outbound": [],
       "inbound": [
         {
           "property": "breadcrumb",
           "source": "https://3webobs.com/pricing#webpage",
-          "cardinality": "1..1",
+          "sourceType": "WebPage",
           "inverseProperty": null,
           "inverseDeclared": false
         }
@@ -2290,17 +4227,22 @@
       "id": "https://3webobs.com/pricing#webpage",
       "type": "WebPage",
       "label": "Pricing",
+      "pages": [
+        "/pricing"
+      ],
       "outbound": [
         {
           "property": "about",
           "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
           "cardinality": "1..1",
           "inverseProperty": "subjectOf",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "breadcrumb",
           "target": "https://3webobs.com/pricing#breadcrumb",
+          "targetType": "BreadcrumbList",
           "cardinality": "1..1",
           "inverseProperty": null,
           "inverseDeclared": false
@@ -2308,13 +4250,52 @@
         {
           "property": "isPartOf",
           "target": "https://3webobs.com/#website",
+          "targetType": "WebSite",
           "cardinality": "1..1",
           "inverseProperty": "hasPart",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
-          "property": "primaryImageOfPage",
-          "target": "https://3webobs.com/#logo",
+          "property": "publisher",
+          "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
+          "cardinality": "1..1",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        }
+      ],
+      "inbound": []
+    },
+    {
+      "id": "https://3webobs.com/schema#breadcrumb",
+      "type": "BreadcrumbList",
+      "label": null,
+      "pages": [
+        "/schema"
+      ],
+      "outbound": [],
+      "inbound": [
+        {
+          "property": "breadcrumb",
+          "source": "https://3webobs.com/schema#webpage",
+          "sourceType": "WebPage",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        }
+      ]
+    },
+    {
+      "id": "https://3webobs.com/schema#dataset",
+      "type": "Dataset",
+      "label": "3webs schema.org validation report",
+      "pages": [
+        "/schema"
+      ],
+      "outbound": [
+        {
+          "property": "creator",
+          "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
           "cardinality": "1..1",
           "inverseProperty": null,
           "inverseDeclared": false
@@ -2322,6 +4303,154 @@
         {
           "property": "publisher",
           "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
+          "cardinality": "1..1",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        }
+      ],
+      "inbound": [
+        {
+          "property": "about",
+          "source": "https://3webobs.com/schema#webpage",
+          "sourceType": "WebPage",
+          "inverseProperty": "subjectOf",
+          "inverseDeclared": false
+        }
+      ]
+    },
+    {
+      "id": "https://3webobs.com/schema#webpage",
+      "type": "WebPage",
+      "label": "Schema.org validity",
+      "pages": [
+        "/schema"
+      ],
+      "outbound": [
+        {
+          "property": "about",
+          "target": "https://3webobs.com/schema#dataset",
+          "targetType": "Dataset",
+          "cardinality": "1..1",
+          "inverseProperty": "subjectOf",
+          "inverseDeclared": false
+        },
+        {
+          "property": "breadcrumb",
+          "target": "https://3webobs.com/schema#breadcrumb",
+          "targetType": "BreadcrumbList",
+          "cardinality": "1..1",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        },
+        {
+          "property": "isPartOf",
+          "target": "https://3webobs.com/#website",
+          "targetType": "WebSite",
+          "cardinality": "1..1",
+          "inverseProperty": "hasPart",
+          "inverseDeclared": false
+        },
+        {
+          "property": "publisher",
+          "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
+          "cardinality": "1..1",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        }
+      ],
+      "inbound": []
+    },
+    {
+      "id": "https://3webobs.com/schema-validity#breadcrumb",
+      "type": "BreadcrumbList",
+      "label": null,
+      "pages": [
+        "/schema-validity"
+      ],
+      "outbound": [],
+      "inbound": [
+        {
+          "property": "breadcrumb",
+          "source": "https://3webobs.com/schema-validity#webpage",
+          "sourceType": "WebPage",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        }
+      ]
+    },
+    {
+      "id": "https://3webobs.com/schema-validity#dataset",
+      "type": "Dataset",
+      "label": "3webs schema.org validation report",
+      "pages": [
+        "/schema-validity"
+      ],
+      "outbound": [
+        {
+          "property": "creator",
+          "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
+          "cardinality": "1..1",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        },
+        {
+          "property": "publisher",
+          "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
+          "cardinality": "1..1",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        }
+      ],
+      "inbound": [
+        {
+          "property": "about",
+          "source": "https://3webobs.com/schema-validity#webpage",
+          "sourceType": "WebPage",
+          "inverseProperty": "subjectOf",
+          "inverseDeclared": false
+        }
+      ]
+    },
+    {
+      "id": "https://3webobs.com/schema-validity#webpage",
+      "type": "WebPage",
+      "label": "Schema.org validity",
+      "pages": [
+        "/schema-validity"
+      ],
+      "outbound": [
+        {
+          "property": "about",
+          "target": "https://3webobs.com/schema-validity#dataset",
+          "targetType": "Dataset",
+          "cardinality": "1..1",
+          "inverseProperty": "subjectOf",
+          "inverseDeclared": false
+        },
+        {
+          "property": "breadcrumb",
+          "target": "https://3webobs.com/schema-validity#breadcrumb",
+          "targetType": "BreadcrumbList",
+          "cardinality": "1..1",
+          "inverseProperty": null,
+          "inverseDeclared": false
+        },
+        {
+          "property": "isPartOf",
+          "target": "https://3webobs.com/#website",
+          "targetType": "WebSite",
+          "cardinality": "1..1",
+          "inverseProperty": "hasPart",
+          "inverseDeclared": false
+        },
+        {
+          "property": "publisher",
+          "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
           "cardinality": "1..1",
           "inverseProperty": null,
           "inverseDeclared": false
@@ -2332,13 +4461,16 @@
     {
       "id": "https://3webobs.com/self-audit#breadcrumb",
       "type": "BreadcrumbList",
-      "label": "breadcrumb",
+      "label": null,
+      "pages": [
+        "/self-audit"
+      ],
       "outbound": [],
       "inbound": [
         {
           "property": "breadcrumb",
           "source": "https://3webobs.com/self-audit#webpage",
-          "cardinality": "1..1",
+          "sourceType": "WebPage",
           "inverseProperty": null,
           "inverseDeclared": false
         }
@@ -2347,18 +4479,23 @@
     {
       "id": "https://3webobs.com/self-audit#webpage",
       "type": "WebPage",
-      "label": "Self audit",
+      "label": "How 3webs scores on its own engine",
+      "pages": [
+        "/self-audit"
+      ],
       "outbound": [
         {
           "property": "about",
           "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
           "cardinality": "1..1",
           "inverseProperty": "subjectOf",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "breadcrumb",
           "target": "https://3webobs.com/self-audit#breadcrumb",
+          "targetType": "BreadcrumbList",
           "cardinality": "1..1",
           "inverseProperty": null,
           "inverseDeclared": false
@@ -2366,20 +4503,15 @@
         {
           "property": "isPartOf",
           "target": "https://3webobs.com/#website",
+          "targetType": "WebSite",
           "cardinality": "1..1",
           "inverseProperty": "hasPart",
-          "inverseDeclared": true
-        },
-        {
-          "property": "primaryImageOfPage",
-          "target": "https://3webobs.com/#logo",
-          "cardinality": "1..1",
-          "inverseProperty": null,
           "inverseDeclared": false
         },
         {
           "property": "publisher",
           "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
           "cardinality": "1..1",
           "inverseProperty": null,
           "inverseDeclared": false
@@ -2390,13 +4522,16 @@
     {
       "id": "https://3webobs.com/terms#breadcrumb",
       "type": "BreadcrumbList",
-      "label": "breadcrumb",
+      "label": null,
+      "pages": [
+        "/terms"
+      ],
       "outbound": [],
       "inbound": [
         {
           "property": "breadcrumb",
           "source": "https://3webobs.com/terms#webpage",
-          "cardinality": "1..1",
+          "sourceType": "WebPage",
           "inverseProperty": null,
           "inverseDeclared": false
         }
@@ -2405,18 +4540,23 @@
     {
       "id": "https://3webobs.com/terms#webpage",
       "type": "WebPage",
-      "label": "Terms",
+      "label": "Terms & Conditions",
+      "pages": [
+        "/terms"
+      ],
       "outbound": [
         {
           "property": "about",
           "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
           "cardinality": "1..1",
           "inverseProperty": "subjectOf",
-          "inverseDeclared": true
+          "inverseDeclared": false
         },
         {
           "property": "breadcrumb",
           "target": "https://3webobs.com/terms#breadcrumb",
+          "targetType": "BreadcrumbList",
           "cardinality": "1..1",
           "inverseProperty": null,
           "inverseDeclared": false
@@ -2424,20 +4564,15 @@
         {
           "property": "isPartOf",
           "target": "https://3webobs.com/#website",
+          "targetType": "WebSite",
           "cardinality": "1..1",
           "inverseProperty": "hasPart",
-          "inverseDeclared": true
-        },
-        {
-          "property": "primaryImageOfPage",
-          "target": "https://3webobs.com/#logo",
-          "cardinality": "1..1",
-          "inverseProperty": null,
           "inverseDeclared": false
         },
         {
           "property": "publisher",
           "target": "https://3webobs.com/#organization",
+          "targetType": "Organization + Corporation",
           "cardinality": "1..1",
           "inverseProperty": null,
           "inverseDeclared": false
@@ -2445,961 +4580,5 @@
       ],
       "inbound": []
     }
-  ],
-  "pageGraph": {
-    "nodes": [
-      {
-        "path": "/",
-        "title": "Home / audit",
-        "file": "index.html"
-      },
-      {
-        "path": "/167-signals",
-        "title": "The 167 signals",
-        "file": "167-signals.html"
-      },
-      {
-        "path": "/404",
-        "title": "Not found",
-        "file": "404.html"
-      },
-      {
-        "path": "/a2a-secrets",
-        "title": "A2A secrets",
-        "file": "a2a-secrets.html"
-      },
-      {
-        "path": "/agents",
-        "title": "For agents",
-        "file": "agents.html"
-      },
-      {
-        "path": "/ai-act",
-        "title": "EU AI Act",
-        "file": "ai-act.html"
-      },
-      {
-        "path": "/contact",
-        "title": "Contact",
-        "file": "contact.html"
-      },
-      {
-        "path": "/cookies",
-        "title": "Cookies",
-        "file": "cookies.html"
-      },
-      {
-        "path": "/data-dictionary",
-        "title": "Data dictionary",
-        "file": "data-dictionary.html"
-      },
-      {
-        "path": "/for-ai-teams",
-        "title": "For AI teams",
-        "file": "for-ai-teams.html"
-      },
-      {
-        "path": "/for-compliance-consultants",
-        "title": "For compliance consultants",
-        "file": "for-compliance-consultants.html"
-      },
-      {
-        "path": "/for-seo-agencies",
-        "title": "For SEO agencies",
-        "file": "for-seo-agencies.html"
-      },
-      {
-        "path": "/gdpr",
-        "title": "GDPR",
-        "file": "gdpr.html"
-      },
-      {
-        "path": "/glossary",
-        "title": "Glossary",
-        "file": "glossary.html"
-      },
-      {
-        "path": "/policy",
-        "title": "Acceptable use",
-        "file": "policy.html"
-      },
-      {
-        "path": "/pricing",
-        "title": "Pricing",
-        "file": "pricing.html"
-      },
-      {
-        "path": "/self-audit",
-        "title": "Self audit",
-        "file": "self-audit.html"
-      },
-      {
-        "path": "/terms",
-        "title": "Terms",
-        "file": "terms.html"
-      }
-    ],
-    "edges": [
-      {
-        "from": "/",
-        "to": "/167-signals"
-      },
-      {
-        "from": "/",
-        "to": "/agents"
-      },
-      {
-        "from": "/",
-        "to": "/ai-act"
-      },
-      {
-        "from": "/",
-        "to": "/contact"
-      },
-      {
-        "from": "/",
-        "to": "/cookies"
-      },
-      {
-        "from": "/",
-        "to": "/data-dictionary"
-      },
-      {
-        "from": "/",
-        "to": "/for-ai-teams"
-      },
-      {
-        "from": "/",
-        "to": "/for-compliance-consultants"
-      },
-      {
-        "from": "/",
-        "to": "/for-seo-agencies"
-      },
-      {
-        "from": "/",
-        "to": "/gdpr"
-      },
-      {
-        "from": "/",
-        "to": "/glossary"
-      },
-      {
-        "from": "/",
-        "to": "/policy"
-      },
-      {
-        "from": "/",
-        "to": "/pricing"
-      },
-      {
-        "from": "/",
-        "to": "/self-audit"
-      },
-      {
-        "from": "/",
-        "to": "/terms"
-      },
-      {
-        "from": "/167-signals",
-        "to": "/"
-      },
-      {
-        "from": "/167-signals",
-        "to": "/agents"
-      },
-      {
-        "from": "/167-signals",
-        "to": "/ai-act"
-      },
-      {
-        "from": "/167-signals",
-        "to": "/contact"
-      },
-      {
-        "from": "/167-signals",
-        "to": "/cookies"
-      },
-      {
-        "from": "/167-signals",
-        "to": "/data-dictionary"
-      },
-      {
-        "from": "/167-signals",
-        "to": "/gdpr"
-      },
-      {
-        "from": "/167-signals",
-        "to": "/glossary"
-      },
-      {
-        "from": "/167-signals",
-        "to": "/policy"
-      },
-      {
-        "from": "/167-signals",
-        "to": "/pricing"
-      },
-      {
-        "from": "/167-signals",
-        "to": "/terms"
-      },
-      {
-        "from": "/404",
-        "to": "/"
-      },
-      {
-        "from": "/404",
-        "to": "/167-signals"
-      },
-      {
-        "from": "/404",
-        "to": "/agents"
-      },
-      {
-        "from": "/404",
-        "to": "/ai-act"
-      },
-      {
-        "from": "/404",
-        "to": "/cookies"
-      },
-      {
-        "from": "/404",
-        "to": "/data-dictionary"
-      },
-      {
-        "from": "/404",
-        "to": "/gdpr"
-      },
-      {
-        "from": "/404",
-        "to": "/glossary"
-      },
-      {
-        "from": "/404",
-        "to": "/pricing"
-      },
-      {
-        "from": "/a2a-secrets",
-        "to": "/"
-      },
-      {
-        "from": "/a2a-secrets",
-        "to": "/167-signals"
-      },
-      {
-        "from": "/a2a-secrets",
-        "to": "/agents"
-      },
-      {
-        "from": "/a2a-secrets",
-        "to": "/ai-act"
-      },
-      {
-        "from": "/a2a-secrets",
-        "to": "/contact"
-      },
-      {
-        "from": "/a2a-secrets",
-        "to": "/cookies"
-      },
-      {
-        "from": "/a2a-secrets",
-        "to": "/data-dictionary"
-      },
-      {
-        "from": "/a2a-secrets",
-        "to": "/gdpr"
-      },
-      {
-        "from": "/a2a-secrets",
-        "to": "/glossary"
-      },
-      {
-        "from": "/a2a-secrets",
-        "to": "/policy"
-      },
-      {
-        "from": "/a2a-secrets",
-        "to": "/pricing"
-      },
-      {
-        "from": "/a2a-secrets",
-        "to": "/terms"
-      },
-      {
-        "from": "/agents",
-        "to": "/"
-      },
-      {
-        "from": "/agents",
-        "to": "/167-signals"
-      },
-      {
-        "from": "/agents",
-        "to": "/ai-act"
-      },
-      {
-        "from": "/agents",
-        "to": "/contact"
-      },
-      {
-        "from": "/agents",
-        "to": "/cookies"
-      },
-      {
-        "from": "/agents",
-        "to": "/data-dictionary"
-      },
-      {
-        "from": "/agents",
-        "to": "/gdpr"
-      },
-      {
-        "from": "/agents",
-        "to": "/glossary"
-      },
-      {
-        "from": "/agents",
-        "to": "/policy"
-      },
-      {
-        "from": "/agents",
-        "to": "/pricing"
-      },
-      {
-        "from": "/agents",
-        "to": "/terms"
-      },
-      {
-        "from": "/ai-act",
-        "to": "/"
-      },
-      {
-        "from": "/ai-act",
-        "to": "/167-signals"
-      },
-      {
-        "from": "/ai-act",
-        "to": "/agents"
-      },
-      {
-        "from": "/ai-act",
-        "to": "/contact"
-      },
-      {
-        "from": "/ai-act",
-        "to": "/cookies"
-      },
-      {
-        "from": "/ai-act",
-        "to": "/data-dictionary"
-      },
-      {
-        "from": "/ai-act",
-        "to": "/gdpr"
-      },
-      {
-        "from": "/ai-act",
-        "to": "/glossary"
-      },
-      {
-        "from": "/ai-act",
-        "to": "/policy"
-      },
-      {
-        "from": "/ai-act",
-        "to": "/pricing"
-      },
-      {
-        "from": "/ai-act",
-        "to": "/terms"
-      },
-      {
-        "from": "/contact",
-        "to": "/"
-      },
-      {
-        "from": "/contact",
-        "to": "/167-signals"
-      },
-      {
-        "from": "/contact",
-        "to": "/agents"
-      },
-      {
-        "from": "/contact",
-        "to": "/ai-act"
-      },
-      {
-        "from": "/contact",
-        "to": "/cookies"
-      },
-      {
-        "from": "/contact",
-        "to": "/data-dictionary"
-      },
-      {
-        "from": "/contact",
-        "to": "/gdpr"
-      },
-      {
-        "from": "/contact",
-        "to": "/glossary"
-      },
-      {
-        "from": "/contact",
-        "to": "/policy"
-      },
-      {
-        "from": "/contact",
-        "to": "/pricing"
-      },
-      {
-        "from": "/contact",
-        "to": "/terms"
-      },
-      {
-        "from": "/cookies",
-        "to": "/"
-      },
-      {
-        "from": "/cookies",
-        "to": "/167-signals"
-      },
-      {
-        "from": "/cookies",
-        "to": "/agents"
-      },
-      {
-        "from": "/cookies",
-        "to": "/ai-act"
-      },
-      {
-        "from": "/cookies",
-        "to": "/contact"
-      },
-      {
-        "from": "/cookies",
-        "to": "/data-dictionary"
-      },
-      {
-        "from": "/cookies",
-        "to": "/gdpr"
-      },
-      {
-        "from": "/cookies",
-        "to": "/glossary"
-      },
-      {
-        "from": "/cookies",
-        "to": "/policy"
-      },
-      {
-        "from": "/cookies",
-        "to": "/pricing"
-      },
-      {
-        "from": "/cookies",
-        "to": "/terms"
-      },
-      {
-        "from": "/data-dictionary",
-        "to": "/"
-      },
-      {
-        "from": "/data-dictionary",
-        "to": "/167-signals"
-      },
-      {
-        "from": "/data-dictionary",
-        "to": "/404"
-      },
-      {
-        "from": "/data-dictionary",
-        "to": "/a2a-secrets"
-      },
-      {
-        "from": "/data-dictionary",
-        "to": "/agents"
-      },
-      {
-        "from": "/data-dictionary",
-        "to": "/ai-act"
-      },
-      {
-        "from": "/data-dictionary",
-        "to": "/contact"
-      },
-      {
-        "from": "/data-dictionary",
-        "to": "/cookies"
-      },
-      {
-        "from": "/data-dictionary",
-        "to": "/for-ai-teams"
-      },
-      {
-        "from": "/data-dictionary",
-        "to": "/for-compliance-consultants"
-      },
-      {
-        "from": "/data-dictionary",
-        "to": "/for-seo-agencies"
-      },
-      {
-        "from": "/data-dictionary",
-        "to": "/gdpr"
-      },
-      {
-        "from": "/data-dictionary",
-        "to": "/glossary"
-      },
-      {
-        "from": "/data-dictionary",
-        "to": "/policy"
-      },
-      {
-        "from": "/data-dictionary",
-        "to": "/pricing"
-      },
-      {
-        "from": "/data-dictionary",
-        "to": "/self-audit"
-      },
-      {
-        "from": "/data-dictionary",
-        "to": "/terms"
-      },
-      {
-        "from": "/for-ai-teams",
-        "to": "/"
-      },
-      {
-        "from": "/for-ai-teams",
-        "to": "/167-signals"
-      },
-      {
-        "from": "/for-ai-teams",
-        "to": "/agents"
-      },
-      {
-        "from": "/for-ai-teams",
-        "to": "/ai-act"
-      },
-      {
-        "from": "/for-ai-teams",
-        "to": "/contact"
-      },
-      {
-        "from": "/for-ai-teams",
-        "to": "/cookies"
-      },
-      {
-        "from": "/for-ai-teams",
-        "to": "/data-dictionary"
-      },
-      {
-        "from": "/for-ai-teams",
-        "to": "/for-compliance-consultants"
-      },
-      {
-        "from": "/for-ai-teams",
-        "to": "/for-seo-agencies"
-      },
-      {
-        "from": "/for-ai-teams",
-        "to": "/gdpr"
-      },
-      {
-        "from": "/for-ai-teams",
-        "to": "/glossary"
-      },
-      {
-        "from": "/for-ai-teams",
-        "to": "/policy"
-      },
-      {
-        "from": "/for-ai-teams",
-        "to": "/pricing"
-      },
-      {
-        "from": "/for-ai-teams",
-        "to": "/self-audit"
-      },
-      {
-        "from": "/for-ai-teams",
-        "to": "/terms"
-      },
-      {
-        "from": "/for-compliance-consultants",
-        "to": "/"
-      },
-      {
-        "from": "/for-compliance-consultants",
-        "to": "/167-signals"
-      },
-      {
-        "from": "/for-compliance-consultants",
-        "to": "/agents"
-      },
-      {
-        "from": "/for-compliance-consultants",
-        "to": "/ai-act"
-      },
-      {
-        "from": "/for-compliance-consultants",
-        "to": "/contact"
-      },
-      {
-        "from": "/for-compliance-consultants",
-        "to": "/cookies"
-      },
-      {
-        "from": "/for-compliance-consultants",
-        "to": "/data-dictionary"
-      },
-      {
-        "from": "/for-compliance-consultants",
-        "to": "/for-ai-teams"
-      },
-      {
-        "from": "/for-compliance-consultants",
-        "to": "/for-seo-agencies"
-      },
-      {
-        "from": "/for-compliance-consultants",
-        "to": "/gdpr"
-      },
-      {
-        "from": "/for-compliance-consultants",
-        "to": "/glossary"
-      },
-      {
-        "from": "/for-compliance-consultants",
-        "to": "/policy"
-      },
-      {
-        "from": "/for-compliance-consultants",
-        "to": "/pricing"
-      },
-      {
-        "from": "/for-compliance-consultants",
-        "to": "/terms"
-      },
-      {
-        "from": "/for-seo-agencies",
-        "to": "/"
-      },
-      {
-        "from": "/for-seo-agencies",
-        "to": "/167-signals"
-      },
-      {
-        "from": "/for-seo-agencies",
-        "to": "/agents"
-      },
-      {
-        "from": "/for-seo-agencies",
-        "to": "/ai-act"
-      },
-      {
-        "from": "/for-seo-agencies",
-        "to": "/contact"
-      },
-      {
-        "from": "/for-seo-agencies",
-        "to": "/cookies"
-      },
-      {
-        "from": "/for-seo-agencies",
-        "to": "/data-dictionary"
-      },
-      {
-        "from": "/for-seo-agencies",
-        "to": "/for-ai-teams"
-      },
-      {
-        "from": "/for-seo-agencies",
-        "to": "/for-compliance-consultants"
-      },
-      {
-        "from": "/for-seo-agencies",
-        "to": "/gdpr"
-      },
-      {
-        "from": "/for-seo-agencies",
-        "to": "/glossary"
-      },
-      {
-        "from": "/for-seo-agencies",
-        "to": "/policy"
-      },
-      {
-        "from": "/for-seo-agencies",
-        "to": "/pricing"
-      },
-      {
-        "from": "/for-seo-agencies",
-        "to": "/terms"
-      },
-      {
-        "from": "/gdpr",
-        "to": "/"
-      },
-      {
-        "from": "/gdpr",
-        "to": "/167-signals"
-      },
-      {
-        "from": "/gdpr",
-        "to": "/agents"
-      },
-      {
-        "from": "/gdpr",
-        "to": "/ai-act"
-      },
-      {
-        "from": "/gdpr",
-        "to": "/contact"
-      },
-      {
-        "from": "/gdpr",
-        "to": "/cookies"
-      },
-      {
-        "from": "/gdpr",
-        "to": "/data-dictionary"
-      },
-      {
-        "from": "/gdpr",
-        "to": "/glossary"
-      },
-      {
-        "from": "/gdpr",
-        "to": "/policy"
-      },
-      {
-        "from": "/gdpr",
-        "to": "/pricing"
-      },
-      {
-        "from": "/gdpr",
-        "to": "/terms"
-      },
-      {
-        "from": "/glossary",
-        "to": "/"
-      },
-      {
-        "from": "/glossary",
-        "to": "/167-signals"
-      },
-      {
-        "from": "/glossary",
-        "to": "/agents"
-      },
-      {
-        "from": "/glossary",
-        "to": "/ai-act"
-      },
-      {
-        "from": "/glossary",
-        "to": "/contact"
-      },
-      {
-        "from": "/glossary",
-        "to": "/cookies"
-      },
-      {
-        "from": "/glossary",
-        "to": "/data-dictionary"
-      },
-      {
-        "from": "/glossary",
-        "to": "/gdpr"
-      },
-      {
-        "from": "/glossary",
-        "to": "/policy"
-      },
-      {
-        "from": "/glossary",
-        "to": "/pricing"
-      },
-      {
-        "from": "/glossary",
-        "to": "/terms"
-      },
-      {
-        "from": "/policy",
-        "to": "/"
-      },
-      {
-        "from": "/policy",
-        "to": "/167-signals"
-      },
-      {
-        "from": "/policy",
-        "to": "/agents"
-      },
-      {
-        "from": "/policy",
-        "to": "/ai-act"
-      },
-      {
-        "from": "/policy",
-        "to": "/contact"
-      },
-      {
-        "from": "/policy",
-        "to": "/cookies"
-      },
-      {
-        "from": "/policy",
-        "to": "/data-dictionary"
-      },
-      {
-        "from": "/policy",
-        "to": "/gdpr"
-      },
-      {
-        "from": "/policy",
-        "to": "/glossary"
-      },
-      {
-        "from": "/policy",
-        "to": "/pricing"
-      },
-      {
-        "from": "/policy",
-        "to": "/terms"
-      },
-      {
-        "from": "/pricing",
-        "to": "/"
-      },
-      {
-        "from": "/pricing",
-        "to": "/167-signals"
-      },
-      {
-        "from": "/pricing",
-        "to": "/agents"
-      },
-      {
-        "from": "/pricing",
-        "to": "/ai-act"
-      },
-      {
-        "from": "/pricing",
-        "to": "/contact"
-      },
-      {
-        "from": "/pricing",
-        "to": "/cookies"
-      },
-      {
-        "from": "/pricing",
-        "to": "/data-dictionary"
-      },
-      {
-        "from": "/pricing",
-        "to": "/gdpr"
-      },
-      {
-        "from": "/pricing",
-        "to": "/glossary"
-      },
-      {
-        "from": "/pricing",
-        "to": "/policy"
-      },
-      {
-        "from": "/pricing",
-        "to": "/terms"
-      },
-      {
-        "from": "/self-audit",
-        "to": "/"
-      },
-      {
-        "from": "/self-audit",
-        "to": "/167-signals"
-      },
-      {
-        "from": "/self-audit",
-        "to": "/agents"
-      },
-      {
-        "from": "/self-audit",
-        "to": "/ai-act"
-      },
-      {
-        "from": "/self-audit",
-        "to": "/cookies"
-      },
-      {
-        "from": "/self-audit",
-        "to": "/data-dictionary"
-      },
-      {
-        "from": "/self-audit",
-        "to": "/gdpr"
-      },
-      {
-        "from": "/self-audit",
-        "to": "/glossary"
-      },
-      {
-        "from": "/self-audit",
-        "to": "/pricing"
-      },
-      {
-        "from": "/terms",
-        "to": "/"
-      },
-      {
-        "from": "/terms",
-        "to": "/167-signals"
-      },
-      {
-        "from": "/terms",
-        "to": "/agents"
-      },
-      {
-        "from": "/terms",
-        "to": "/ai-act"
-      },
-      {
-        "from": "/terms",
-        "to": "/contact"
-      },
-      {
-        "from": "/terms",
-        "to": "/cookies"
-      },
-      {
-        "from": "/terms",
-        "to": "/data-dictionary"
-      },
-      {
-        "from": "/terms",
-        "to": "/gdpr"
-      },
-      {
-        "from": "/terms",
-        "to": "/glossary"
-      },
-      {
-        "from": "/terms",
-        "to": "/policy"
-      },
-      {
-        "from": "/terms",
-        "to": "/pricing"
-      }
-    ]
-  }
+  ]
 }
