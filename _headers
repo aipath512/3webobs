@@ -7,6 +7,7 @@
   Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://gdpr.aiventure.ro; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://gdpr.aiventure.ro; font-src 'self' data:; frame-ancestors 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests
 
 /*.json
+  Content-Type: application/json; charset=utf-8
   Access-Control-Allow-Origin: *
   Cache-Control: public, max-age=300
 
@@ -15,5 +16,4 @@
 # "Access-Control-Allow-Origin: *, *", care nu e un header CORS valid si e
 # respins de clientii stricti — exact agentii pentru care exista fisierul.
 /.well-known/agent-card.json
-  Content-Type: application/json; charset=utf-8
   Cache-Control: public, max-age=300
