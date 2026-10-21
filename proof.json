@@ -1,7 +1,7 @@
 {
   "$schema": "https://5thelement.ai/schemas/proof.json",
   "version": "1.1",
-  "generated_at": "2026-10-16T05:44:53.390Z",
+  "generated_at": "2026-10-21T06:37:37.629Z",
   "issuer": {
     "legal_name": "AIVENTURE S.R.L.",
     "cui": "51415878",
@@ -23,7 +23,7 @@
       "trailing_newline": false
     }
   },
-  "aggregate_sha256": "3b328d244a791b0f90e186254a9fa31f5de9f0810e02239224bd86c1e3b56142",
+  "aggregate_sha256": "ced8a3da75a44d6c8e765411f85e6384f3c183b5584251e89a96b960f9263a96",
   "file_count": 23,
   "files": [
     {
@@ -155,8 +155,8 @@
     {
       "path": "/site.webmanifest",
       "url": "https://3webobs.com/site.webmanifest",
-      "bytes": 552,
-      "sha256": "1f26a8613ff0c0343588f81ad195c6c0bde7fd9847453a70a2646547beb6a7bc"
+      "bytes": 815,
+      "sha256": "9475371226547619180385e3e4e6d7fa2c6b2101c76ec5e42a90c693fe4f2e7c"
     },
     {
       "path": "/sitemap.xml",
