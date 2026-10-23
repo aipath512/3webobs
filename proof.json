@@ -1,7 +1,7 @@
 {
   "$schema": "https://5thelement.ai/schemas/proof.json",
   "version": "1.1",
-  "generated_at": "2026-10-21T06:37:37.629Z",
+  "generated_at": "2026-10-23T03:17:38.319Z",
   "issuer": {
     "legal_name": "AIVENTURE S.R.L.",
     "cui": "51415878",
@@ -23,14 +23,14 @@
       "trailing_newline": false
     }
   },
-  "aggregate_sha256": "ced8a3da75a44d6c8e765411f85e6384f3c183b5584251e89a96b960f9263a96",
+  "aggregate_sha256": "1a4242bd4f4a38bcb03352c7220215d73f8bfbcaf94d45e9f5468b368af10733",
   "file_count": 23,
   "files": [
     {
       "path": "/.well-known/agent-card.json",
       "url": "https://3webobs.com/.well-known/agent-card.json",
-      "bytes": 6258,
-      "sha256": "38c0f53f4b06748dfc994f77086a4841d39035c2e4ad265ddeb3d62bc1a8e6ef"
+      "bytes": 6283,
+      "sha256": "721336b3a015b66bf298f2621dab97178247ca7649720072a747e0a0d2de78c6"
     },
     {
       "path": "/.well-known/security.txt",
@@ -102,13 +102,13 @@
       "path": "/entities.json",
       "url": "https://3webobs.com/entities.json",
       "bytes": 6365,
-      "sha256": "56e808dcd382df630a8830071da6bc14aa65be8e4abc8d1d44863468ffacd3ba"
+      "sha256": "c672c05773c00de9500f745d459fef15dfb069de874c66a73ba0a441a8291a0b"
     },
     {
       "path": "/governance.json",
       "url": "https://3webobs.com/governance.json",
-      "bytes": 7959,
-      "sha256": "72824ecf4dc1c8efa6a2cb69dfd460466056e3373528729825ad9aadeef29193"
+      "bytes": 8104,
+      "sha256": "699cbb558c72421c353b1231ae34fbc230902b027c352689446aba8f741274e1"
     },
     {
       "path": "/humans.txt",
