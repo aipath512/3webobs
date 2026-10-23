@@ -3072,7 +3072,7 @@ async function handleRequest(request, env, ctx, requestId) {
       const ev = await gatherEvidence(target, {
         invokeDeclaredCapability: body.invokeDeclaredCapability === true || isSelfAudit
       });
-      if (!ev.mainOk) return json({ error: 'unreachable', detail: `nu am putut accesa ${target.href}`, status: ev.status }, 200);
+      if (!ev.mainOk) return json({ error: 'unreachable', detail: `nu am putut accesa ${target.href}`, upstreamStatus: ev.status }, 502);
 
       const psi = body.pagespeed === false ? null : await fetchPageSpeed(target.href, env);
       const evalResult = evaluate(ev, psi);
@@ -3283,7 +3283,7 @@ async function handleRequest(request, env, ctx, requestId) {
     if (url.pathname === '/stats') {
       let count = 0;
       if (env.RATE_KV) { try { count = Number(await env.RATE_KV.get('audit_count') || 0); } catch {} }
-      return json({ audits: count, version: '3.6.0', engine: 'evidence-based', signals: 167, external_sources: ['PageSpeed Insights (free)'], brand: '3webs', network: '5thElement.ai', a2a: '/a2a', agent_card: '/.well-known/agent-card.json' });
+      return json({ audits: count, version: ENGINE_VERSION, engine: 'evidence-based', signals: 167, external_sources: ['PageSpeed Insights (free)'], brand: '3webs', network: '5thElement.ai', a2a: '/a2a', agent_card: '/.well-known/agent-card.json' });
     }
 
 
@@ -3457,8 +3457,10 @@ async function handleRequest(request, env, ctx, requestId) {
       if (!stored) return json({ status: 'baseline_not_found',
         detail: 'No stored observation with id ' + baseline + '. Run /audit or obs_one_shot first and retain its observationId.' }, 200);
       const before = JSON.parse(stored);
-      const ev = await gatherEvidence(target);
-      if (!ev.mainOk) return json({ status: 'unreachable' }, 200);
+      const selfHost = url.hostname.replace(/^www\./, '');
+      const isSelfAudit = target.hostname.replace(/^www\./, '') === selfHost;
+      const ev = await gatherEvidence(target, { invokeDeclaredCapability: isSelfAudit });
+      if (!ev.mainOk) return json({ status: 'unreachable' }, 502);
       const after = evaluate(ev, await fetchPageSpeed(target.href, env));
       const changed = [];
       for (const d of Object.keys(after.signals)) {
@@ -3477,11 +3479,20 @@ async function handleRequest(request, env, ctx, requestId) {
       catch { return json({ jsonrpc: '2.0', id: null,
         error: { code: -32700, message: 'Parse error' } }, 200); }
 
-      const id = rpc.id ?? null;
+      const id = rpc && typeof rpc === 'object' && !Array.isArray(rpc) ? (rpc.id ?? null) : null;
       const rpcErr = (code, message, data) => json({ jsonrpc: '2.0', id,
         error: data ? { code, message, data } : { code, message } }, 200);
+      const errorInfo = (reason, metadata = {}) => [{
+        '@type': 'type.googleapis.com/google.rpc.ErrorInfo',
+        reason,
+        domain: 'a2a-protocol.org',
+        metadata: Object.fromEntries(Object.entries(metadata).map(([k, v]) => [k, String(v)]))
+      }];
 
-      if (rpc.jsonrpc !== '2.0') return rpcErr(-32600, 'Invalid Request: jsonrpc must be "2.0"');
+      if (!rpc || typeof rpc !== 'object' || Array.isArray(rpc) || rpc.jsonrpc !== '2.0' ||
+          typeof rpc.method !== 'string' || !rpc.method.trim()) {
+        return rpcErr(-32600, 'Invalid Request: jsonrpc must be "2.0" and method must be a non-empty string');
+      }
 
       /* ---------- negociere de versiune A2A ----------
          Specificatia v1.0 (sectiunea 3.6): clientul trimite antetul A2A-Version;
@@ -3497,7 +3508,7 @@ async function handleRequest(request, env, ctx, requestId) {
       const wireVersion = verRaw === '' ? '0.3' : verRaw.split('.').slice(0, 2).join('.');
       if (!['0.3', '1.0'].includes(wireVersion)) {
         return rpcErr(-32009, 'VersionNotSupportedError: this interface implements A2A 1.0 and 0.3',
-          { requested: verRaw, supported: ['1.0', '0.3'] });
+          errorInfo('VERSION_NOT_SUPPORTED', { requestedVersion: verRaw, supportedVersions: '1.0,0.3' }));
       }
       const isV1 = wireVersion === '1.0';
 
@@ -3525,7 +3536,7 @@ async function handleRequest(request, env, ctx, requestId) {
         if (!env.RATE_KV) return rpcErr(-32603, 'Internal error: task storage unavailable');
         let sub = null;
         try { sub = JSON.parse(await env.RATE_KV.get('sub:' + taskId)); } catch {}
-        if (!sub) return rpcErr(-32001, 'Task not found', { id: taskId });
+        if (!sub) return rpcErr(-32001, 'Task not found', errorInfo('TASK_NOT_FOUND', { taskId }));
         /* TaskState: v1.0 foloseste enumul TASK_STATE_*, v0.3 sirurile scurte. */
         const stateOf = (s) => {
           const short = s === 'active' ? 'working' : s === 'cancelled' ? 'canceled'

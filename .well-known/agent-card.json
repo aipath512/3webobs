@@ -1,7 +1,7 @@
 {
   "name": "3webs OBS",
   "description": "Observes how a domain appears across the three webs — the human web, the AI web and the machine web — and returns evidence-based findings. One-shot or permanent observation.",
-  "version": "3.0.0",
+  "version": "3.6.1",
   "supportedInterfaces": [
     {
       "url": "https://3webobs.com/a2a",
@@ -40,7 +40,7 @@
           "honest_gaps": "Signals that cannot be verified are returned as not_applicable, never as failures.",
           "eu_ai_act": {
             "regulation": "Regulation (EU) 2024/1689",
-            "role": "deployer",
+            "role": "deterministic_diagnostic_service",
             "disclosure": "https://3webobs.com/ai-act.html"
           },
           "terms": "https://3webobs.com/terms.html",

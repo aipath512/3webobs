@@ -38,7 +38,7 @@
       "short_name": "EU AI Act",
       "jurisdiction": "European Union",
       "relevance": "AI transparency and governance obligations may apply depending on the AI systems, role and use case involved.",
-      "declared_service_role": "deployer",
+      "declared_service_role": "deterministic diagnostic service; no general-purpose AI model is deployed in the audit-report pipeline",
       "disclosure": "https://3webobs.com/ai-act.html"
     },
     {
@@ -71,8 +71,9 @@
       "evidence_based": true
     },
     "narrative_summary": {
-      "language_model_may_be_used": true,
-      "purpose": "Synthesis and explanation of already-observed evidence.",
+      "language_model_may_be_used": false,
+      "method": "deterministic templates applied to already-observed evidence",
+      "purpose": "Synthesis and explanation of already-observed evidence without an external model call.",
       "affects_deterministic_signal_score": false,
       "disclosure": "https://3webobs.com/ai-act.html"
     },
@@ -144,7 +145,6 @@
     "personal_data_sold": false,
     "processor_categories": [
       "Infrastructure and security provider",
-      "AI model provider where narrative synthesis is used",
       "Payment provider where payment functionality is used",
       "Email delivery provider where email functionality is used"
     ],

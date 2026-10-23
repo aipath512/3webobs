@@ -5,14 +5,14 @@
   "name": "3webs data dictionary",
   "description": "Every entity published on this site, the relations between them, their cardinalities and where each is declared. Generated from the JSON-LD actually served, not maintained by hand.",
   "url": "https://3webobs.com/data-dictionary",
-  "generated": "2026-09-05T22:59:31.996Z",
+  "generated": "2026-10-23T03:14:00.934Z",
   "generator": "build/generate-data-dictionary.js",
   "method": "Entities are merged by @id across pages: the same @id declared on several pages is one entity, not several. Cardinality is observed, not declared — a property carrying one target everywhere it appears is 1..1; a property carrying more than one in any single declaration is 1..N. An inverse is reported as declared only when the reverse relation exists in the graph; otherwise it is inferred from the schema.org pair.",
   "counts": {
     "entities": 103,
     "relations": 169,
-    "pages": 27,
-    "jsonLdBlocks": 26,
+    "pages": 28,
+    "jsonLdBlocks": 27,
     "unparsedBlocks": 0,
     "danglingReferences": 0,
     "isolatedEntities": 7
@@ -429,7 +429,7 @@
     {
       "id": "https://3webobs.com/#dimensions",
       "type": "ItemList",
-      "label": "The five audit dimensions",
+      "label": "The six audit dimensions",
       "pages": [
         "/",
         "/167-signals",
@@ -1749,7 +1749,6 @@
       "type": "ProfilePage",
       "label": "Dan Ionesco — Founder",
       "pages": [
-        "/",
         "/167-signals",
         "/404",
         "/a2a-secrets",
@@ -2835,7 +2834,6 @@
       "type": "AboutPage",
       "label": "About AIVENTURE S.R.L.",
       "pages": [
-        "/",
         "/167-signals",
         "/404",
         "/a2a-secrets",
@@ -2897,7 +2895,6 @@
       "type": "ContactPage",
       "label": "Contact",
       "pages": [
-        "/",
         "/167-signals",
         "/404",
         "/a2a-secrets",
