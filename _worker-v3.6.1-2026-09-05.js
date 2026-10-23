@@ -3072,7 +3072,7 @@ async function handleRequest(request, env, ctx, requestId) {
       const ev = await gatherEvidence(target, {
         invokeDeclaredCapability: body.invokeDeclaredCapability === true || isSelfAudit
       });
-      if (!ev.mainOk) return json({ error: 'unreachable', detail: `nu am putut accesa ${target.href}`, upstreamStatus: ev.status }, 502);
+      if (!ev.mainOk) return json({ error: 'unreachable', detail: `nu am putut accesa ${target.href}`, upstreamStatus: ev.status }, 424);
 
       const psi = body.pagespeed === false ? null : await fetchPageSpeed(target.href, env);
       const evalResult = evaluate(ev, psi);
@@ -3460,7 +3460,7 @@ async function handleRequest(request, env, ctx, requestId) {
       const selfHost = url.hostname.replace(/^www\./, '');
       const isSelfAudit = target.hostname.replace(/^www\./, '') === selfHost;
       const ev = await gatherEvidence(target, { invokeDeclaredCapability: isSelfAudit });
-      if (!ev.mainOk) return json({ status: 'unreachable' }, 502);
+      if (!ev.mainOk) return json({ status: 'unreachable' }, 424);
       const after = evaluate(ev, await fetchPageSpeed(target.href, env));
       const changed = [];
       for (const d of Object.keys(after.signals)) {

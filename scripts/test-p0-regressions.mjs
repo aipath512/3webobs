@@ -49,7 +49,7 @@ console.log('\n[Fallback and DOM integrity]');
   check('report URL is escaped before HTML insertion', html.includes('<div class="sh-url">${esc(d.url)}</div>'));
   check('share recipient is escaped before HTML insertion', html.includes('Report copied to clipboard · To: ${esc(val)}'));
   check('unavailable state explicitly creates no score', html.includes('No score, signal verdict, synthesis or action plan has been created'));
-  check('/audit uses a real gateway error', /upstreamStatus: ev\.status \}, 502\)/.test(source));
+  check('/audit uses a real dependency error', /upstreamStatus: ev\.status \}, 424\)/.test(source));
 }
 
 console.log('\n[AI declaration consistency]');
@@ -69,6 +69,7 @@ console.log('\n[Public contracts]');
   const agents = fs.readFileSync(new URL('../agents.html', import.meta.url), 'utf8');
   const homepage = fs.readFileSync(new URL('../index.html', import.meta.url), 'utf8');
   check('A2A documentation uses result.message', /"result": \{\s*"message": \{/.test(agents));
+  check('A2A Python example reads result.message', agents.includes('["result"]["message"]["parts"]'));
   check('A2A documentation publishes -32009', agents.includes('-32009 VersionNotSupportedError') && !agents.includes('-32003 VersionNotSupportedError'));
   check('JSON-LD publishes all six dimensions', homepage.includes('"name":"The six audit dimensions"') &&
     homepage.includes('"name":"A2A","description":"13 signals'));

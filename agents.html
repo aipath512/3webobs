@@ -559,7 +559,7 @@ r = requests.post(
         }},
     },
 )
-report = r.json()["result"]["parts"][0]["data"]
+report = r.json()["result"]["message"]["parts"][0]["data"]
 print(report["global"], report["three_webs"], report["observationId"])</code></pre>
   </div>
 
