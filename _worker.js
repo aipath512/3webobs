@@ -2650,7 +2650,7 @@ async function runScheduledObservations(env) {
   return summary;
 }
 
-export default {
+const __siteWorker = {
   async scheduled(event, env, ctx) {
     ctx.waitUntil(runScheduledObservations(env));
   },
@@ -3816,3 +3816,56 @@ async function handleRequest(request, env, ctx, requestId) {
     return env.ASSETS ? env.ASSETS.fetch(request) : new Response('3webs OBS engine — 3webobs.com', { headers: CORS });
   }
 }
+
+
+// ---- AiVenture: subsolul comun al rețelei (v1.0, 2026-11-01, sesiunea 0008C) ----
+// Adaugă înainte de </body> subsolul comun: linkurile legale + rândul EU AI Act (insigna și cele 10 module).
+// Sursa unică: Worker-ul aiventure-legal, citit prin aiventure.ro/legal/strip.html?host=<domeniu>, păstrat 5 minute.
+// Fail-open: orice eroare lasă pagina neatinsă. Nu se adaugă de două ori (verifică #aiventure-legal-strip).
+const AIV_STRIP_SRC = "https://aiventure.ro/legal/strip.html?host=";
+const AIV_STRIP_TTL = 5 * 60 * 1000;
+let aivStripCache = { at: 0, host: "", html: null };
+
+async function aivLoadStrip(host) {
+  const now = Date.now();
+  if (aivStripCache.html && aivStripCache.host === host && now - aivStripCache.at < AIV_STRIP_TTL) return aivStripCache.html;
+  try {
+    const res = await fetch(AIV_STRIP_SRC + encodeURIComponent(host), { cf: { cacheTtl: 300 } });
+    if (!res.ok) return aivStripCache.html;
+    const html = await res.text();
+    if (!html.includes('id="aiventure-legal-strip"')) return aivStripCache.html;
+    aivStripCache = { at: now, host, html };
+    return html;
+  } catch (e) {
+    return aivStripCache.html;
+  }
+}
+
+async function aiventureStripWrap(request, response) {
+  try {
+    if (request.method !== "GET" || !response.ok) return response;
+    if (!(response.headers.get("content-type") || "").toLowerCase().includes("text/html")) return response;
+    const host = new URL(request.url).hostname.toLowerCase().replace(/^www\./, "");
+    const strip = await aivLoadStrip(host);
+    if (!strip) return response;
+    let present = false;
+    const headers = new Headers(response.headers);
+    headers.delete("content-length");
+    headers.delete("etag");
+    return new HTMLRewriter()
+      .on("#aiventure-legal-strip", { element() { present = true; } })
+      .on("body", { element(el) { el.onEndTag((end) => { if (!present) end.before(strip, { html: true }); }); } })
+      .transform(new Response(response.body, { status: response.status, statusText: response.statusText, headers }));
+  } catch (e) {
+    return response;
+  }
+}
+
+// Exportul final: Worker-ul site-ului, apoi subsolul comun AiVenture adăugat pe paginile HTML.
+export default {
+  scheduled: (event, env, ctx) => __siteWorker.scheduled(event, env, ctx),
+  async fetch(request, env, ctx) {
+    const response = await __siteWorker.fetch(request, env, ctx);
+    return aiventureStripWrap(request, response);
+  }
+};
