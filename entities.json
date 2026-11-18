@@ -3,7 +3,7 @@
   "version": "1.1",
   "generated": "2026-08-25",
   "primary_entity": {
-    "id": "https://3webobs.com/#organization",
+    "id": "https://5thelement.ai/#organization",
     "type": [
       "Organization",
       "Corporation"
@@ -62,7 +62,7 @@
         "3webs Visibility Engine"
       ],
       "url": "https://3webobs.com/",
-      "owner": "https://3webobs.com/#organization",
+      "owner": "https://5thelement.ai/#organization",
       "description": "3webs observes how a public domain appears across the Human Web, AI Web and Machine Web and reports observable evidence."
     }
   ],
@@ -75,7 +75,7 @@
         "Dan Ionescu"
       ],
       "role": "Founder & CEO",
-      "works_for": "https://3webobs.com/#organization",
+      "works_for": "https://5thelement.ai/#organization",
       "same_as": [
         "https://ro.linkedin.com/in/dan-ionesco-a856082a0",
         "https://x.com/aipath512",
@@ -92,7 +92,7 @@
         "AI Visibility Observation"
       ],
       "url": "https://3webobs.com/",
-      "provider": "https://3webobs.com/#organization",
+      "provider": "https://5thelement.ai/#organization",
       "brand": "https://3webobs.com/#brand",
       "description": "Point-in-time and longitudinal observation of publicly accessible web evidence across the Human Web, AI Web and Machine Web."
     }
@@ -104,8 +104,8 @@
       "name": "3webs Visibility Engine",
       "version": "3.6.1",
       "url": "https://3webobs.com/",
-      "author": "https://3webobs.com/#organization",
-      "publisher": "https://3webobs.com/#organization",
+      "author": "https://5thelement.ai/#organization",
+      "publisher": "https://5thelement.ai/#organization",
       "application_category": "WebApplication",
       "description": "Evidence-based observation engine evaluating 167 signals across AI Signals, AEO, GEO, AIO and SEO."
     }
@@ -145,17 +145,17 @@
   ],
   "relationships": [
     {
-      "subject": "https://3webobs.com/#organization",
+      "subject": "https://5thelement.ai/#organization",
       "predicate": "owns",
       "object": "https://3webobs.com/#brand"
     },
     {
-      "subject": "https://3webobs.com/#organization",
+      "subject": "https://5thelement.ai/#organization",
       "predicate": "operates",
       "object": "https://3webobs.com/#service"
     },
     {
-      "subject": "https://3webobs.com/#organization",
+      "subject": "https://5thelement.ai/#organization",
       "predicate": "develops",
       "object": "https://3webobs.com/#software"
     },
